@@ -1,0 +1,4577 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://u-gotme.deepocean.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="Edge 810 - 3930792578" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://u-gotme.deepocean.net http://www.deepocean.net/u-gotme/u-gotme.xsd">
+  <trk>
+    <name>Track</name>
+    <desc>Edge 810 - 3930792578 logged track</desc>
+    <trkseg>
+      <trkpt lat="52.2219704836607" lon="6.910844212397933">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:39:02Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22196436487138" lon="6.910843458026648">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:39:12Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221949277445674" lon="6.910848151892424">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:39:13Z</time>
+        <extensions>
+          <u-gotMe:speed>1.19</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22190594300628" lon="6.910888804122806">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:39:17Z</time>
+        <extensions>
+          <u-gotMe:speed>1.023</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22189571708441" lon="6.91089391708374">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:39:18Z</time>
+        <extensions>
+          <u-gotMe:speed>1.063</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22182053141296" lon="6.910932390019298">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:39:25Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22181474789977" lon="6.910934317857027">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:39:32Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2217992413789" lon="6.9109533447772264">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:39:40Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221802677959204" lon="6.910947225987911">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:39:47Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221801755949855" lon="6.910941693931818">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:39:52Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22179907374084" lon="6.910946303978562">
+        <ele>36.0</ele>
+        <time>2016-10-15T15:40:00Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22179907374084" lon="6.910946303978562">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:40:20Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221798822283745" lon="6.91094764508307">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:40:43Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>23</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221798822283745" lon="6.91094764508307">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:41:03Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221841821447015" lon="6.91092518158257">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:41:10Z</time>
+        <extensions>
+          <u-gotMe:speed>1.37</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22193838097155" lon="6.91087044775486">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:41:17Z</time>
+        <extensions>
+          <u-gotMe:speed>1.416</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22206243313849" lon="6.910792328417301">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:41:26Z</time>
+        <extensions>
+          <u-gotMe:speed>1.447</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22208313643932" lon="6.910787047818303">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:41:31Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22206343896687" lon="6.910797776654363">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:41:39Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22204499877989" lon="6.910801297053695">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:41:49Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222157903015614" lon="6.910719322040677">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:41:57Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22219151444733" lon="6.910695182159543">
+        <ele>34.799999999999955</ele>
+        <time>2016-10-15T15:41:59Z</time>
+        <extensions>
+          <u-gotMe:speed>0.932</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22221397794783" lon="6.910702558234334">
+        <ele>34.799999999999955</ele>
+        <time>2016-10-15T15:42:02Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22221590578556" lon="6.91074195317924">
+        <ele>34.799999999999955</ele>
+        <time>2016-10-15T15:42:10Z</time>
+        <extensions>
+          <u-gotMe:speed>1.6</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22225395962596" lon="6.910913027822971">
+        <ele>34.799999999999955</ele>
+        <time>2016-10-15T15:42:13Z</time>
+        <extensions>
+          <u-gotMe:speed>4.895</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222332833334804" lon="6.911342767998576">
+        <ele>36.0</ele>
+        <time>2016-10-15T15:42:18Z</time>
+        <extensions>
+          <u-gotMe:speed>6.125</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22236250527203" lon="6.911518704146147">
+        <ele>36.200000000000045</ele>
+        <time>2016-10-15T15:42:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.002</u-gotMe:speed>
+          <u-gotMe:temp>22</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222397457808256" lon="6.911791618913412">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:42:24Z</time>
+        <extensions>
+          <u-gotMe:speed>2.762</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222411623224616" lon="6.912000495940447">
+        <ele>35.799999999999955</ele>
+        <time>2016-10-15T15:42:28Z</time>
+        <extensions>
+          <u-gotMe:speed>4.61</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2224314045161" lon="6.912073250859976">
+        <ele>36.0</ele>
+        <time>2016-10-15T15:42:29Z</time>
+        <extensions>
+          <u-gotMe:speed>5.442</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222530310973525" lon="6.9125383626669645">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T15:42:34Z</time>
+        <extensions>
+          <u-gotMe:speed>6.959</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22265210002661" lon="6.9131518341600895">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:42:40Z</time>
+        <extensions>
+          <u-gotMe:speed>7.325</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22267028875649" lon="6.913254009559751">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:42:41Z</time>
+        <extensions>
+          <u-gotMe:speed>7.265</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2227422054857" lon="6.913977535441518">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:42:48Z</time>
+        <extensions>
+          <u-gotMe:speed>6.772</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222759975120425" lon="6.91476627252996">
+        <ele>37.200000000000045</ele>
+        <time>2016-10-15T15:42:56Z</time>
+        <extensions>
+          <u-gotMe:speed>6.791</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222813284024596" lon="6.915308078750968">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:43:02Z</time>
+        <extensions>
+          <u-gotMe:speed>5.39</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222846057266" lon="6.915372032672167">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:43:03Z</time>
+        <extensions>
+          <u-gotMe:speed>5.7</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222926104441285" lon="6.915449816733599">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:43:05Z</time>
+        <extensions>
+          <u-gotMe:speed>5.393</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22302408888936" lon="6.915472447872162">
+        <ele>37.200000000000045</ele>
+        <time>2016-10-15T15:43:07Z</time>
+        <extensions>
+          <u-gotMe:speed>5.692</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22313925623894" lon="6.915473956614733">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:43:09Z</time>
+        <extensions>
+          <u-gotMe:speed>6.541</u-gotMe:speed>
+          <u-gotMe:temp>21</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.223574528470635" lon="6.9154407642781734">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:43:15Z</time>
+        <extensions>
+          <u-gotMe:speed>7.825</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22409864887595" lon="6.915368931367993">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T15:43:22Z</time>
+        <extensions>
+          <u-gotMe:speed>8.061</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22417098470032" lon="6.915332218632102">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T15:43:23Z</time>
+        <extensions>
+          <u-gotMe:speed>7.995</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224303586408496" lon="6.915241023525596">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T15:43:25Z</time>
+        <extensions>
+          <u-gotMe:speed>7.61</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224369049072266" lon="6.915198192000389">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:43:26Z</time>
+        <extensions>
+          <u-gotMe:speed>7.635</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22480893135071" lon="6.914983531460166">
+        <ele>38.0</ele>
+        <time>2016-10-15T15:43:33Z</time>
+        <extensions>
+          <u-gotMe:speed>6.696</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225098023191094" lon="6.914984621107578">
+        <ele>37.799999999999955</ele>
+        <time>2016-10-15T15:43:38Z</time>
+        <extensions>
+          <u-gotMe:speed>4.656</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225128784775734" lon="6.9150148797780275">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:43:39Z</time>
+        <extensions>
+          <u-gotMe:speed>3.961</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225155271589756" lon="6.915152091532946">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:43:42Z</time>
+        <extensions>
+          <u-gotMe:speed>3.097</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225140603259206" lon="6.915468340739608">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:43:47Z</time>
+        <extensions>
+          <u-gotMe:speed>4.903</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225112691521645" lon="6.915791714563966">
+        <ele>38.0</ele>
+        <time>2016-10-15T15:43:51Z</time>
+        <extensions>
+          <u-gotMe:speed>6.008</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22510137595236" lon="6.915891794487834">
+        <ele>38.200000000000045</ele>
+        <time>2016-10-15T15:43:52Z</time>
+        <extensions>
+          <u-gotMe:speed>6.65</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225081929937005" lon="6.9160951394587755">
+        <ele>38.39999999999998</ele>
+        <time>2016-10-15T15:43:54Z</time>
+        <extensions>
+          <u-gotMe:speed>6.727</u-gotMe:speed>
+          <u-gotMe:temp>20</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22506063990295" lon="6.916680783033371">
+        <ele>38.39999999999998</ele>
+        <time>2016-10-15T15:43:59Z</time>
+        <extensions>
+          <u-gotMe:speed>7.17</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22502359189093" lon="6.917536994442344">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:44:07Z</time>
+        <extensions>
+          <u-gotMe:speed>6.769</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22501336596906" lon="6.918197656050324">
+        <ele>38.799999999999955</ele>
+        <time>2016-10-15T15:44:13Z</time>
+        <extensions>
+          <u-gotMe:speed>6.793</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225005151703954" lon="6.918304022401571">
+        <ele>38.799999999999955</ele>
+        <time>2016-10-15T15:44:14Z</time>
+        <extensions>
+          <u-gotMe:speed>6.773</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224972965195775" lon="6.919136010110378">
+        <ele>39.0</ele>
+        <time>2016-10-15T15:44:22Z</time>
+        <extensions>
+          <u-gotMe:speed>6.61</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22495360299945" lon="6.91997260786593">
+        <ele>39.39999999999998</ele>
+        <time>2016-10-15T15:44:30Z</time>
+        <extensions>
+          <u-gotMe:speed>6.195</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22492141649127" lon="6.92055213265121">
+        <ele>39.60000000000002</ele>
+        <time>2016-10-15T15:44:36Z</time>
+        <extensions>
+          <u-gotMe:speed>6.395</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224847404286265" lon="6.9211256224662066">
+        <ele>39.799999999999955</ele>
+        <time>2016-10-15T15:44:42Z</time>
+        <extensions>
+          <u-gotMe:speed>6.0</u-gotMe:speed>
+          <u-gotMe:temp>19</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22477079369128" lon="6.921933302655816">
+        <ele>40.200000000000045</ele>
+        <time>2016-10-15T15:44:50Z</time>
+        <extensions>
+          <u-gotMe:speed>6.516</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22468647174537" lon="6.922614583745599">
+        <ele>40.60000000000002</ele>
+        <time>2016-10-15T15:44:56Z</time>
+        <extensions>
+          <u-gotMe:speed>6.978</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22467255778611" lon="6.9228479359298944">
+        <ele>40.200000000000045</ele>
+        <time>2016-10-15T15:44:58Z</time>
+        <extensions>
+          <u-gotMe:speed>6.955</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22465177066624" lon="6.923058154061437">
+        <ele>40.200000000000045</ele>
+        <time>2016-10-15T15:45:00Z</time>
+        <extensions>
+          <u-gotMe:speed>6.396</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22460189834237" lon="6.923567187041044">
+        <ele>40.60000000000002</ele>
+        <time>2016-10-15T15:45:05Z</time>
+        <extensions>
+          <u-gotMe:speed>6.361</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22449720837176" lon="6.924381908029318">
+        <ele>40.60000000000002</ele>
+        <time>2016-10-15T15:45:13Z</time>
+        <extensions>
+          <u-gotMe:speed>6.79</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22444691695273" lon="6.925073247402906">
+        <ele>40.39999999999998</ele>
+        <time>2016-10-15T15:45:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.125</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22439126111567" lon="6.925930380821228">
+        <ele>40.60000000000002</ele>
+        <time>2016-10-15T15:45:29Z</time>
+        <extensions>
+          <u-gotMe:speed>6.553</u-gotMe:speed>
+          <u-gotMe:temp>18</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224294282495975" lon="6.926800590008497">
+        <ele>40.39999999999998</ele>
+        <time>2016-10-15T15:45:37Z</time>
+        <extensions>
+          <u-gotMe:speed>6.593</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22426913678646" lon="6.927012484520674">
+        <ele>40.39999999999998</ele>
+        <time>2016-10-15T15:45:39Z</time>
+        <extensions>
+          <u-gotMe:speed>6.357</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224164782091975" lon="6.927756546065211">
+        <ele>40.0</ele>
+        <time>2016-10-15T15:45:46Z</time>
+        <extensions>
+          <u-gotMe:speed>6.31</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224061600863934" lon="6.928380997851491">
+        <ele>39.200000000000045</ele>
+        <time>2016-10-15T15:45:52Z</time>
+        <extensions>
+          <u-gotMe:speed>4.917</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224063612520695" lon="6.9284518249332905">
+        <ele>38.799999999999955</ele>
+        <time>2016-10-15T15:45:53Z</time>
+        <extensions>
+          <u-gotMe:speed>3.391</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22401994280517" lon="6.928524579852819">
+        <ele>38.39999999999998</ele>
+        <time>2016-10-15T15:45:56Z</time>
+        <extensions>
+          <u-gotMe:speed>2.545</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2239906899631" lon="6.928527848795056">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:45:57Z</time>
+        <extensions>
+          <u-gotMe:speed>2.722</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.223848616704345" lon="6.9284989312291145">
+        <ele>38.799999999999955</ele>
+        <time>2016-10-15T15:46:00Z</time>
+        <extensions>
+          <u-gotMe:speed>5.538</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22352004610002" lon="6.928432295098901">
+        <ele>39.799999999999955</ele>
+        <time>2016-10-15T15:46:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.175</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22295711748302" lon="6.928243115544319">
+        <ele>39.39999999999998</ele>
+        <time>2016-10-15T15:46:13Z</time>
+        <extensions>
+          <u-gotMe:speed>7.619</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222890481352806" lon="6.928213946521282">
+        <ele>39.60000000000002</ele>
+        <time>2016-10-15T15:46:14Z</time>
+        <extensions>
+          <u-gotMe:speed>7.675</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22235647030175" lon="6.927956789731979">
+        <ele>39.200000000000045</ele>
+        <time>2016-10-15T15:46:22Z</time>
+        <extensions>
+          <u-gotMe:speed>7.378</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22203887999058" lon="6.927803819999099">
+        <ele>39.0</ele>
+        <time>2016-10-15T15:46:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.054</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221883311867714" lon="6.927724108099937">
+        <ele>38.200000000000045</ele>
+        <time>2016-10-15T15:46:30Z</time>
+        <extensions>
+          <u-gotMe:speed>4.915</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22182262688875" lon="6.927698124200106">
+        <ele>37.60000000000002</ele>
+        <time>2016-10-15T15:46:32Z</time>
+        <extensions>
+          <u-gotMe:speed>3.067</u-gotMe:speed>
+          <u-gotMe:temp>17</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2217683121562" lon="6.927726371213794">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:46:34Z</time>
+        <extensions>
+          <u-gotMe:speed>3.736</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22173838876188" lon="6.927767358720303">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:46:35Z</time>
+        <extensions>
+          <u-gotMe:speed>4.538</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22165348008275" lon="6.927995681762695">
+        <ele>38.0</ele>
+        <time>2016-10-15T15:46:38Z</time>
+        <extensions>
+          <u-gotMe:speed>6.619</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22161542624235" lon="6.928201289847493">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:46:40Z</time>
+        <extensions>
+          <u-gotMe:speed>7.483</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221557507291436" lon="6.928527010604739">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:46:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.594</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221398167312145" lon="6.929432759061456">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:46:51Z</time>
+        <extensions>
+          <u-gotMe:speed>7.922</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22133337520063" lon="6.929978923872113">
+        <ele>38.200000000000045</ele>
+        <time>2016-10-15T15:46:56Z</time>
+        <extensions>
+          <u-gotMe:speed>7.404</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22130169160664" lon="6.930206324905157">
+        <ele>38.0</ele>
+        <time>2016-10-15T15:46:58Z</time>
+        <extensions>
+          <u-gotMe:speed>7.932</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22115953452885" lon="6.931124646216631">
+        <ele>37.799999999999955</ele>
+        <time>2016-10-15T15:47:06Z</time>
+        <extensions>
+          <u-gotMe:speed>7.882</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22111938521266" lon="6.931356238201261">
+        <ele>37.799999999999955</ele>
+        <time>2016-10-15T15:47:08Z</time>
+        <extensions>
+          <u-gotMe:speed>7.599</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2210032120347" lon="6.932058976963162">
+        <ele>37.200000000000045</ele>
+        <time>2016-10-15T15:47:14Z</time>
+        <extensions>
+          <u-gotMe:speed>8.095</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220935905352235" lon="6.9324147049337626">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:47:17Z</time>
+        <extensions>
+          <u-gotMe:speed>8.055</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22074203193188" lon="6.933348113670945">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T15:47:25Z</time>
+        <extensions>
+          <u-gotMe:speed>8.03</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2205578815192" lon="6.9342889823019505">
+        <ele>36.0</ele>
+        <time>2016-10-15T15:47:33Z</time>
+        <extensions>
+          <u-gotMe:speed>8.07</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22053265199065" lon="6.934406496584415">
+        <ele>36.200000000000045</ele>
+        <time>2016-10-15T15:47:34Z</time>
+        <extensions>
+          <u-gotMe:speed>7.933</u-gotMe:speed>
+          <u-gotMe:temp>16</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22033995203674" lon="6.935293050482869">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:47:42Z</time>
+        <extensions>
+          <u-gotMe:speed>7.337</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220253283157945" lon="6.935958741232753">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T15:47:48Z</time>
+        <extensions>
+          <u-gotMe:speed>7.855</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22018966451287" lon="6.936889216303825">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:47:56Z</time>
+        <extensions>
+          <u-gotMe:speed>7.828</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22016644664109" lon="6.93724125623703">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:47:59Z</time>
+        <extensions>
+          <u-gotMe:speed>7.974</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22015731036663" lon="6.93736145272851">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:48:00Z</time>
+        <extensions>
+          <u-gotMe:speed>8.106</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22013384103775" lon="6.937709553167224">
+        <ele>34.60000000000002</ele>
+        <time>2016-10-15T15:48:03Z</time>
+        <extensions>
+          <u-gotMe:speed>7.636</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22010064870119" lon="6.938162259757519">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T15:48:07Z</time>
+        <extensions>
+          <u-gotMe:speed>7.705</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22006653435528" lon="6.938835494220257">
+        <ele>33.799999999999955</ele>
+        <time>2016-10-15T15:48:13Z</time>
+        <extensions>
+          <u-gotMe:speed>7.234</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22007818520069" lon="6.938940016552806">
+        <ele>33.60000000000002</ele>
+        <time>2016-10-15T15:48:14Z</time>
+        <extensions>
+          <u-gotMe:speed>7.227</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22015965729952" lon="6.939413929358125">
+        <ele>33.0</ele>
+        <time>2016-10-15T15:48:19Z</time>
+        <extensions>
+          <u-gotMe:speed>6.152</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22018849104643" lon="6.939491797238588">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T15:48:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.22</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22021095454693" lon="6.939580226317048">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T15:48:21Z</time>
+        <extensions>
+          <u-gotMe:speed>6.29</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22020517103374" lon="6.9397656340152025">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T15:48:23Z</time>
+        <extensions>
+          <u-gotMe:speed>6.768</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2201072704047" lon="6.940016588196158">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T15:48:26Z</time>
+        <extensions>
+          <u-gotMe:speed>7.087</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22007332369685" lon="6.940109794959426">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T15:48:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.424</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21998983994126" lon="6.940411543473601">
+        <ele>33.0</ele>
+        <time>2016-10-15T15:48:30Z</time>
+        <extensions>
+          <u-gotMe:speed>7.686</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21985581330955" lon="6.941156778484583">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T15:48:37Z</time>
+        <extensions>
+          <u-gotMe:speed>7.808</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21982220187783" lon="6.941864714026451">
+        <ele>31.799999999999955</ele>
+        <time>2016-10-15T15:48:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.531</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21977794542909" lon="6.94267775863409">
+        <ele>31.0</ele>
+        <time>2016-10-15T15:48:50Z</time>
+        <extensions>
+          <u-gotMe:speed>7.989</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21974718384445" lon="6.943028289824724">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T15:48:53Z</time>
+        <extensions>
+          <u-gotMe:speed>7.955</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.219701586291194" lon="6.943765142932534">
+        <ele>30.0</ele>
+        <time>2016-10-15T15:48:59Z</time>
+        <extensions>
+          <u-gotMe:speed>8.242</u-gotMe:speed>
+          <u-gotMe:temp>15</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21965783275664" lon="6.944476263597608">
+        <ele>29.399999999999977</ele>
+        <time>2016-10-15T15:49:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.544</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21964903175831" lon="6.944702574983239">
+        <ele>28.799999999999955</ele>
+        <time>2016-10-15T15:49:07Z</time>
+        <extensions>
+          <u-gotMe:speed>7.761</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.219638135284185" lon="6.944932155311108">
+        <ele>28.399999999999977</ele>
+        <time>2016-10-15T15:49:09Z</time>
+        <extensions>
+          <u-gotMe:speed>7.767</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21959471702576" lon="6.945559708401561">
+        <ele>27.799999999999955</ele>
+        <time>2016-10-15T15:49:15Z</time>
+        <extensions>
+          <u-gotMe:speed>6.588</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.219573678448796" lon="6.945728519931436">
+        <ele>27.200000000000045</ele>
+        <time>2016-10-15T15:49:17Z</time>
+        <extensions>
+          <u-gotMe:speed>5.767</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21955247223377" lon="6.945912418887019">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:20Z</time>
+        <extensions>
+          <u-gotMe:speed>3.222</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21956848166883" lon="6.946040159091353">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:49:23Z</time>
+        <extensions>
+          <u-gotMe:speed>2.957</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.21959094516933" lon="6.946063209325075">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:49:24Z</time>
+        <extensions>
+          <u-gotMe:speed>2.949</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.219733353704214" lon="6.946072345599532">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.478</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220037281513214" lon="6.946124145761132">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T15:49:32Z</time>
+        <extensions>
+          <u-gotMe:speed>6.847</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2204402834177" lon="6.946214670315385">
+        <ele>27.0</ele>
+        <time>2016-10-15T15:49:38Z</time>
+        <extensions>
+          <u-gotMe:speed>7.352</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22057305276394" lon="6.946242079138756">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T15:49:40Z</time>
+        <extensions>
+          <u-gotMe:speed>7.137</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220671540126204" lon="6.946296561509371">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T15:49:42Z</time>
+        <extensions>
+          <u-gotMe:speed>5.527</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220703391358256" lon="6.946358671411872">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:43Z</time>
+        <extensions>
+          <u-gotMe:speed>5.49</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220722334459424" lon="6.94643335416913">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:44Z</time>
+        <extensions>
+          <u-gotMe:speed>5.497</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220725351944566" lon="6.946523040533066">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:45Z</time>
+        <extensions>
+          <u-gotMe:speed>6.087</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220720490440726" lon="6.946620689705014">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:46Z</time>
+        <extensions>
+          <u-gotMe:speed>6.553</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2207011282444" lon="6.946824034675956">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T15:49:48Z</time>
+        <extensions>
+          <u-gotMe:speed>7.026</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22065418958664" lon="6.947149001061916">
+        <ele>27.0</ele>
+        <time>2016-10-15T15:49:51Z</time>
+        <extensions>
+          <u-gotMe:speed>7.716</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220602221786976" lon="6.9478389993309975">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:49:57Z</time>
+        <extensions>
+          <u-gotMe:speed>7.836</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22052586264908" lon="6.948754973709583">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T15:50:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.62</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22050826065242" lon="6.948980111628771">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T15:50:07Z</time>
+        <extensions>
+          <u-gotMe:speed>7.679</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220445815473795" lon="6.949878400191665">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:50:15Z</time>
+        <extensions>
+          <u-gotMe:speed>7.731</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22043676301837" lon="6.949989963322878">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T15:50:16Z</time>
+        <extensions>
+          <u-gotMe:speed>7.587</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220387728884816" lon="6.950631933286786">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:50:22Z</time>
+        <extensions>
+          <u-gotMe:speed>6.759</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2203713003546" lon="6.9508264772593975">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T15:50:24Z</time>
+        <extensions>
+          <u-gotMe:speed>6.45</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220376916229725" lon="6.951082460582256">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T15:50:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.093</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22041379660368" lon="6.951133757829666">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T15:50:28Z</time>
+        <extensions>
+          <u-gotMe:speed>4.952</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220585625618696" lon="6.9511916767805815">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T15:50:31Z</time>
+        <extensions>
+          <u-gotMe:speed>6.58</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220982341095805" lon="6.951196203008294">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:37Z</time>
+        <extensions>
+          <u-gotMe:speed>7.286</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22112860530615" lon="6.951204752549529">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:39Z</time>
+        <extensions>
+          <u-gotMe:speed>7.722</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221264224499464" lon="6.951237441971898">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T15:50:41Z</time>
+        <extensions>
+          <u-gotMe:speed>7.515</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221473352983594" lon="6.951280273497105">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:44Z</time>
+        <extensions>
+          <u-gotMe:speed>7.192</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22168080508709" lon="6.951296869665384">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T15:50:47Z</time>
+        <extensions>
+          <u-gotMe:speed>7.341</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22174911759794" lon="6.951313046738505">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T15:50:48Z</time>
+        <extensions>
+          <u-gotMe:speed>7.449</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22219872288406" lon="6.951447324827313">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:55Z</time>
+        <extensions>
+          <u-gotMe:speed>6.622</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22225630655885" lon="6.951456377282739">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:56Z</time>
+        <extensions>
+          <u-gotMe:speed>6.493</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22235169261694" lon="6.951361997053027">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:50:58Z</time>
+        <extensions>
+          <u-gotMe:speed>6.254</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22239603288472" lon="6.95107382722199">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:51:01Z</time>
+        <extensions>
+          <u-gotMe:speed>6.923</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222402738407254" lon="6.950971987098455">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:51:02Z</time>
+        <extensions>
+          <u-gotMe:speed>7.002</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22247742116451" lon="6.950149135664105">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:51:10Z</time>
+        <extensions>
+          <u-gotMe:speed>7.27</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22258202731609" lon="6.949178511276841">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:51:19Z</time>
+        <extensions>
+          <u-gotMe:speed>7.421</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22263039089739" lon="6.948972148820758">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:51:21Z</time>
+        <extensions>
+          <u-gotMe:speed>7.564</u-gotMe:speed>
+          <u-gotMe:temp>14</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2226766590029" lon="6.94889310747385">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:51:22Z</time>
+        <extensions>
+          <u-gotMe:speed>7.408</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22280607558787" lon="6.948841139674187">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:51:24Z</time>
+        <extensions>
+          <u-gotMe:speed>7.483</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22301034256816" lon="6.948907356709242">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:51:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.491</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.223148476332426" lon="6.948946164920926">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:51:29Z</time>
+        <extensions>
+          <u-gotMe:speed>7.601</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22356656566262" lon="6.949047083035111">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T15:51:35Z</time>
+        <extensions>
+          <u-gotMe:speed>7.84</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2241048514843" lon="6.949159316718578">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:51:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.54</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22448790445924" lon="6.949269454926252">
+        <ele>25.200000000000045</ele>
+        <time>2016-10-15T15:51:50Z</time>
+        <extensions>
+          <u-gotMe:speed>2.635</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224498549476266" lon="6.949276831001043">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T15:51:51Z</time>
+        <extensions>
+          <u-gotMe:speed>1.493</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22450081259012" lon="6.949287811294198">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T15:51:52Z</time>
+        <extensions>
+          <u-gotMe:speed>0.923</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22452218644321" lon="6.949327792972326">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T15:51:54Z</time>
+        <extensions>
+          <u-gotMe:speed>1.98</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22457440569997" lon="6.9492599833756685">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T15:51:56Z</time>
+        <extensions>
+          <u-gotMe:speed>3.998</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22460583783686" lon="6.949037024751306">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:51:59Z</time>
+        <extensions>
+          <u-gotMe:speed>5.724</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22465696744621" lon="6.948550790548325">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:52:04Z</time>
+        <extensions>
+          <u-gotMe:speed>7.021</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2246677801013" lon="6.948447022587061">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:52:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.096</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22469326108694" lon="6.948249461129308">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:52:07Z</time>
+        <extensions>
+          <u-gotMe:speed>6.681</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22470533102751" lon="6.9481458608061075">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T15:52:09Z</time>
+        <extensions>
+          <u-gotMe:speed>2.602</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.224698793143034" lon="6.948131779208779">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:52:10Z</time>
+        <extensions>
+          <u-gotMe:speed>1.258</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22468018531799" lon="6.948168156668544">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T15:52:12Z</time>
+        <extensions>
+          <u-gotMe:speed>1.698</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22468647174537" lon="6.948343338444829">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:52:16Z</time>
+        <extensions>
+          <u-gotMe:speed>3.424</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22481194883585" lon="6.9484015088528395">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:52:19Z</time>
+        <extensions>
+          <u-gotMe:speed>5.603</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22486760467291" lon="6.94841324351728">
+        <ele>25.200000000000045</ele>
+        <time>2016-10-15T15:52:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.178</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22513104788959" lon="6.948469486087561">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:52:24Z</time>
+        <extensions>
+          <u-gotMe:speed>7.399</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22569338977337" lon="6.948623629286885">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T15:52:32Z</time>
+        <extensions>
+          <u-gotMe:speed>7.788</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225766479969025" lon="6.9486303348094225">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T15:52:33Z</time>
+        <extensions>
+          <u-gotMe:speed>7.723</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226025899872184" lon="6.9486176781356335">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:52:37Z</time>
+        <extensions>
+          <u-gotMe:speed>6.515</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22606143914163" lon="6.948547353968024">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:52:38Z</time>
+        <extensions>
+          <u-gotMe:speed>6.1</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226095804944634" lon="6.948257088661194">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T15:52:41Z</time>
+        <extensions>
+          <u-gotMe:speed>6.756</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226175433024764" lon="6.947506405413151">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T15:52:49Z</time>
+        <extensions>
+          <u-gotMe:speed>5.143</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22627484239638" lon="6.947445385158062">
+        <ele>25.0</ele>
+        <time>2016-10-15T15:52:52Z</time>
+        <extensions>
+          <u-gotMe:speed>4.487</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226419262588024" lon="6.947499448433518">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T15:52:55Z</time>
+        <extensions>
+          <u-gotMe:speed>5.545</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22652889788151" lon="6.9475477281957865">
+        <ele>26.0</ele>
+        <time>2016-10-15T15:52:57Z</time>
+        <extensions>
+          <u-gotMe:speed>6.194</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22694740630686" lon="6.9476681761443615">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T15:53:03Z</time>
+        <extensions>
+          <u-gotMe:speed>7.397</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22750337794423" lon="6.947789546102285">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T15:53:11Z</time>
+        <extensions>
+          <u-gotMe:speed>7.356</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22807217389345" lon="6.94794905371964">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T15:53:19Z</time>
+        <extensions>
+          <u-gotMe:speed>7.862</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22814685665071" lon="6.947965482249856">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T15:53:20Z</time>
+        <extensions>
+          <u-gotMe:speed>7.939</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22836193628609" lon="6.948012504726648">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T15:53:23Z</time>
+        <extensions>
+          <u-gotMe:speed>7.729</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22884867340326" lon="6.94812155328691">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T15:53:30Z</time>
+        <extensions>
+          <u-gotMe:speed>7.849</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.229402884840965" lon="6.948269158601761">
+        <ele>27.399999999999977</ele>
+        <time>2016-10-15T15:53:38Z</time>
+        <extensions>
+          <u-gotMe:speed>7.567</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22964151762426" lon="6.948299668729305">
+        <ele>27.0</ele>
+        <time>2016-10-15T15:53:42Z</time>
+        <extensions>
+          <u-gotMe:speed>6.101</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22969524562359" lon="6.94826178252697">
+        <ele>27.0</ele>
+        <time>2016-10-15T15:53:43Z</time>
+        <extensions>
+          <u-gotMe:speed>6.346</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22975241020322" lon="6.948107304051518">
+        <ele>27.200000000000045</ele>
+        <time>2016-10-15T15:53:45Z</time>
+        <extensions>
+          <u-gotMe:speed>5.954</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.229776633903384" lon="6.9480145163834095">
+        <ele>27.399999999999977</ele>
+        <time>2016-10-15T15:53:46Z</time>
+        <extensions>
+          <u-gotMe:speed>6.427</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.229824578389525" lon="6.947698015719652">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T15:53:49Z</time>
+        <extensions>
+          <u-gotMe:speed>7.162</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22982985898852" lon="6.947586620226502">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T15:53:50Z</time>
+        <extensions>
+          <u-gotMe:speed>7.297</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22987059503794" lon="6.946615157648921">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T15:53:58Z</time>
+        <extensions>
+          <u-gotMe:speed>7.5</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22990144044161" lon="6.946069160476327">
+        <ele>28.0</ele>
+        <time>2016-10-15T15:54:03Z</time>
+        <extensions>
+          <u-gotMe:speed>7.212</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.229917952790856" lon="6.945857098326087">
+        <ele>28.200000000000045</ele>
+        <time>2016-10-15T15:54:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.08</u-gotMe:speed>
+          <u-gotMe:temp>13</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22998358309269" lon="6.944975825026631">
+        <ele>28.600000000000023</ele>
+        <time>2016-10-15T15:54:13Z</time>
+        <extensions>
+          <u-gotMe:speed>7.085</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23000026308" lon="6.944756051525474">
+        <ele>28.799999999999955</ele>
+        <time>2016-10-15T15:54:15Z</time>
+        <extensions>
+          <u-gotMe:speed>7.243</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23001568578184" lon="6.944530913606286">
+        <ele>29.0</ele>
+        <time>2016-10-15T15:54:17Z</time>
+        <extensions>
+          <u-gotMe:speed>7.517</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23006681539118" lon="6.9437456130981445">
+        <ele>28.399999999999977</ele>
+        <time>2016-10-15T15:54:24Z</time>
+        <extensions>
+          <u-gotMe:speed>7.195</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23011316731572" lon="6.942818658426404">
+        <ele>29.0</ele>
+        <time>2016-10-15T15:54:32Z</time>
+        <extensions>
+          <u-gotMe:speed>7.385</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230147533118725" lon="6.942045763134956">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T15:54:39Z</time>
+        <extensions>
+          <u-gotMe:speed>6.871</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230188520625234" lon="6.941181169822812">
+        <ele>29.600000000000023</ele>
+        <time>2016-10-15T15:54:47Z</time>
+        <extensions>
+          <u-gotMe:speed>6.836</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230226658284664" lon="6.94065042771399">
+        <ele>30.0</ele>
+        <time>2016-10-15T15:54:52Z</time>
+        <extensions>
+          <u-gotMe:speed>6.642</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23025415092707" lon="6.940261172130704">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T15:54:56Z</time>
+        <extensions>
+          <u-gotMe:speed>6.295</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2302920371294" lon="6.939391968771815">
+        <ele>31.0</ele>
+        <time>2016-10-15T15:55:05Z</time>
+        <extensions>
+          <u-gotMe:speed>5.866</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2303025983274" lon="6.9392988458275795">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T15:55:06Z</time>
+        <extensions>
+          <u-gotMe:speed>5.851</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23034811206162" lon="6.9387375097721815">
+        <ele>31.799999999999955</ele>
+        <time>2016-10-15T15:55:12Z</time>
+        <extensions>
+          <u-gotMe:speed>5.812</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23037493415177" lon="6.938398126512766">
+        <ele>32.200000000000045</ele>
+        <time>2016-10-15T15:55:16Z</time>
+        <extensions>
+          <u-gotMe:speed>5.362</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23037736490369" lon="6.938207019120455">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T15:55:18Z</time>
+        <extensions>
+          <u-gotMe:speed>5.949</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230414832010865" lon="6.937795300036669">
+        <ele>33.200000000000045</ele>
+        <time>2016-10-15T15:55:22Z</time>
+        <extensions>
+          <u-gotMe:speed>6.298</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23041784949601" lon="6.937691951170564">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T15:55:23Z</time>
+        <extensions>
+          <u-gotMe:speed>6.306</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230422124266624" lon="6.9374967366456985">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T15:55:25Z</time>
+        <extensions>
+          <u-gotMe:speed>6.031</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23046185448766" lon="6.936582187190652">
+        <ele>34.200000000000045</ele>
+        <time>2016-10-15T15:55:34Z</time>
+        <extensions>
+          <u-gotMe:speed>6.159</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23046587780118" lon="6.9364777486771345">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T15:55:35Z</time>
+        <extensions>
+          <u-gotMe:speed>6.266</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23049269989133" lon="6.935679959133267">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:55:43Z</time>
+        <extensions>
+          <u-gotMe:speed>6.254</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23052631132305" lon="6.935195149853826">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:55:48Z</time>
+        <extensions>
+          <u-gotMe:speed>5.29</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2305719088763" lon="6.93504192866385">
+        <ele>34.799999999999955</ele>
+        <time>2016-10-15T15:55:50Z</time>
+        <extensions>
+          <u-gotMe:speed>4.256</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23071155138314" lon="6.934822574257851">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:55:55Z</time>
+        <extensions>
+          <u-gotMe:speed>3.922</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23085672594607" lon="6.9347890466451645">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:55:58Z</time>
+        <extensions>
+          <u-gotMe:speed>4.853</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23091070540249" lon="6.934774965047836">
+        <ele>35.200000000000045</ele>
+        <time>2016-10-15T15:55:59Z</time>
+        <extensions>
+          <u-gotMe:speed>4.343</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2309553809464" lon="6.934766415506601">
+        <ele>34.60000000000002</ele>
+        <time>2016-10-15T15:56:02Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23097750917077" lon="6.934745712205768">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T15:56:12Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23102327436209" lon="6.934720817953348">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T15:56:23Z</time>
+        <extensions>
+          <u-gotMe:speed>1.683</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23121547140181" lon="6.934662228450179">
+        <ele>35.0</ele>
+        <time>2016-10-15T15:56:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.373</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23127221688628" lon="6.934648482128978">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T15:56:28Z</time>
+        <extensions>
+          <u-gotMe:speed>5.645</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2315613925457" lon="6.934595424681902">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T15:56:33Z</time>
+        <extensions>
+          <u-gotMe:speed>6.134</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23162048496306" lon="6.934587545692921">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:56:34Z</time>
+        <extensions>
+          <u-gotMe:speed>6.392</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23213002085686" lon="6.934516215696931">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:56:42Z</time>
+        <extensions>
+          <u-gotMe:speed>6.9</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232368821278214" lon="6.9344547763466835">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:56:46Z</time>
+        <extensions>
+          <u-gotMe:speed>6.301</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232456244528294" lon="6.934353690594435">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T15:56:48Z</time>
+        <extensions>
+          <u-gotMe:speed>5.514</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23250041715801" lon="6.9340516068041325">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:56:51Z</time>
+        <extensions>
+          <u-gotMe:speed>7.503</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23250553011894" lon="6.933924285694957">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:56:52Z</time>
+        <extensions>
+          <u-gotMe:speed>7.81</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23251022398472" lon="6.933314502239227">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T15:56:57Z</time>
+        <extensions>
+          <u-gotMe:speed>7.513</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23252246156335" lon="6.932387882843614">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T15:57:05Z</time>
+        <extensions>
+          <u-gotMe:speed>7.222</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2325561568141" lon="6.9315223675221205">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:57:13Z</time>
+        <extensions>
+          <u-gotMe:speed>6.486</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23252790980041" lon="6.930817114189267">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:57:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.969</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232488514855504" lon="6.930102221667767">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:57:26Z</time>
+        <extensions>
+          <u-gotMe:speed>7.873</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2324039414525" lon="6.929128244519234">
+        <ele>37.60000000000002</ele>
+        <time>2016-10-15T15:57:34Z</time>
+        <extensions>
+          <u-gotMe:speed>8.024</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232379633933306" lon="6.928891371935606">
+        <ele>37.60000000000002</ele>
+        <time>2016-10-15T15:57:36Z</time>
+        <extensions>
+          <u-gotMe:speed>7.711</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23232640884817" lon="6.928302627056837">
+        <ele>37.799999999999955</ele>
+        <time>2016-10-15T15:57:41Z</time>
+        <extensions>
+          <u-gotMe:speed>7.161</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232304364442825" lon="6.927687143906951">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:57:47Z</time>
+        <extensions>
+          <u-gotMe:speed>6.399</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23232800140977" lon="6.927242819219828">
+        <ele>37.200000000000045</ele>
+        <time>2016-10-15T15:57:52Z</time>
+        <extensions>
+          <u-gotMe:speed>4.527</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23234694451094" lon="6.927200239151716">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:57:53Z</time>
+        <extensions>
+          <u-gotMe:speed>3.456</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23241500556469" lon="6.9271983951330185">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T15:57:55Z</time>
+        <extensions>
+          <u-gotMe:speed>4.146</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23252581432462" lon="6.92728154361248">
+        <ele>37.0</ele>
+        <time>2016-10-15T15:57:58Z</time>
+        <extensions>
+          <u-gotMe:speed>4.915</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232615081593394" lon="6.927360333502293">
+        <ele>37.39999999999998</ele>
+        <time>2016-10-15T15:58:00Z</time>
+        <extensions>
+          <u-gotMe:speed>5.731</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.232918003574014" lon="6.92763090133667">
+        <ele>38.200000000000045</ele>
+        <time>2016-10-15T15:58:06Z</time>
+        <extensions>
+          <u-gotMe:speed>6.786</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.233024034649134" lon="6.92772570066154">
+        <ele>38.60000000000002</ele>
+        <time>2016-10-15T15:58:08Z</time>
+        <extensions>
+          <u-gotMe:speed>6.644</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23335595801473" lon="6.928022922948003">
+        <ele>38.799999999999955</ele>
+        <time>2016-10-15T15:58:14Z</time>
+        <extensions>
+          <u-gotMe:speed>7.02</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23382132127881" lon="6.928409580141306">
+        <ele>39.0</ele>
+        <time>2016-10-15T15:58:22Z</time>
+        <extensions>
+          <u-gotMe:speed>7.24</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.233882592990994" lon="6.928441431373358">
+        <ele>39.0</ele>
+        <time>2016-10-15T15:58:23Z</time>
+        <extensions>
+          <u-gotMe:speed>7.038</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23407780751586" lon="6.928450986742973">
+        <ele>39.39999999999998</ele>
+        <time>2016-10-15T15:58:26Z</time>
+        <extensions>
+          <u-gotMe:speed>7.119</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.234141090884805" lon="6.928444113582373">
+        <ele>39.60000000000002</ele>
+        <time>2016-10-15T15:58:27Z</time>
+        <extensions>
+          <u-gotMe:speed>6.98</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23447167314589" lon="6.928414274007082">
+        <ele>39.799999999999955</ele>
+        <time>2016-10-15T15:58:32Z</time>
+        <extensions>
+          <u-gotMe:speed>7.093</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23467795178294" lon="6.928384937345982">
+        <ele>40.0</ele>
+        <time>2016-10-15T15:58:35Z</time>
+        <extensions>
+          <u-gotMe:speed>7.359</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23523702472448" lon="6.928319809958339">
+        <ele>39.60000000000002</ele>
+        <time>2016-10-15T15:58:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.575</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23569316789508" lon="6.928210258483887">
+        <ele>39.799999999999955</ele>
+        <time>2016-10-15T15:58:50Z</time>
+        <extensions>
+          <u-gotMe:speed>7.073</u-gotMe:speed>
+          <u-gotMe:temp>12</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.236130284145474" lon="6.928022671490908">
+        <ele>40.39999999999998</ele>
+        <time>2016-10-15T15:58:57Z</time>
+        <extensions>
+          <u-gotMe:speed>6.451</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23619365133345" lon="6.928016720339656">
+        <ele>40.60000000000002</ele>
+        <time>2016-10-15T15:58:58Z</time>
+        <extensions>
+          <u-gotMe:speed>6.415</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.236387357115746" lon="6.928051505237818">
+        <ele>40.799999999999955</ele>
+        <time>2016-10-15T15:59:01Z</time>
+        <extensions>
+          <u-gotMe:speed>6.91</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23645315505564" lon="6.928072040900588">
+        <ele>41.0</ele>
+        <time>2016-10-15T15:59:02Z</time>
+        <extensions>
+          <u-gotMe:speed>6.884</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.236908208578825" lon="6.928179496899247">
+        <ele>41.60000000000002</ele>
+        <time>2016-10-15T15:59:09Z</time>
+        <extensions>
+          <u-gotMe:speed>7.075</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23733979277313" lon="6.928290473297238">
+        <ele>42.0</ele>
+        <time>2016-10-15T15:59:15Z</time>
+        <extensions>
+          <u-gotMe:speed>7.452</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23751178942621" lon="6.928334226831794">
+        <ele>42.200000000000045</ele>
+        <time>2016-10-15T15:59:17Z</time>
+        <extensions>
+          <u-gotMe:speed>7.788</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23806373775005" lon="6.9284559320658445">
+        <ele>42.60000000000002</ele>
+        <time>2016-10-15T15:59:24Z</time>
+        <extensions>
+          <u-gotMe:speed>7.726</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238200614228845" lon="6.928486358374357">
+        <ele>42.799999999999955</ele>
+        <time>2016-10-15T15:59:26Z</time>
+        <extensions>
+          <u-gotMe:speed>7.723</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238335059955716" lon="6.92851678468287">
+        <ele>43.0</ele>
+        <time>2016-10-15T15:59:28Z</time>
+        <extensions>
+          <u-gotMe:speed>7.72</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238868065178394" lon="6.928658103570342">
+        <ele>43.200000000000045</ele>
+        <time>2016-10-15T15:59:36Z</time>
+        <extensions>
+          <u-gotMe:speed>7.608</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23893428221345" lon="6.928673442453146">
+        <ele>43.200000000000045</ele>
+        <time>2016-10-15T15:59:37Z</time>
+        <extensions>
+          <u-gotMe:speed>7.648</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23929193802178" lon="6.928768157958984">
+        <ele>43.200000000000045</ele>
+        <time>2016-10-15T15:59:43Z</time>
+        <extensions>
+          <u-gotMe:speed>6.084</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23939352668822" lon="6.928776623681188">
+        <ele>43.200000000000045</ele>
+        <time>2016-10-15T15:59:45Z</time>
+        <extensions>
+          <u-gotMe:speed>5.633</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2394738253206" lon="6.928696157410741">
+        <ele>43.39999999999998</ele>
+        <time>2016-10-15T15:59:47Z</time>
+        <extensions>
+          <u-gotMe:speed>4.63</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23949687555432" lon="6.928518712520599">
+        <ele>43.799999999999955</ele>
+        <time>2016-10-15T15:59:50Z</time>
+        <extensions>
+          <u-gotMe:speed>4.297</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23941322416067" lon="6.9282162096351385">
+        <ele>44.200000000000045</ele>
+        <time>2016-10-15T15:59:53Z</time>
+        <extensions>
+          <u-gotMe:speed>7.179</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23916688002646" lon="6.927326135337353">
+        <ele>44.0</ele>
+        <time>2016-10-15T16:00:01Z</time>
+        <extensions>
+          <u-gotMe:speed>7.741</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23913762718439" lon="6.92720920778811">
+        <ele>44.0</ele>
+        <time>2016-10-15T16:00:02Z</time>
+        <extensions>
+          <u-gotMe:speed>7.752</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238929169252515" lon="6.92631209269166">
+        <ele>43.799999999999955</ele>
+        <time>2016-10-15T16:00:10Z</time>
+        <extensions>
+          <u-gotMe:speed>7.81</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23891173489392" lon="6.92619969137013">
+        <ele>43.799999999999955</ele>
+        <time>2016-10-15T16:00:11Z</time>
+        <extensions>
+          <u-gotMe:speed>7.888</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23877804353833" lon="6.925341971218586">
+        <ele>44.200000000000045</ele>
+        <time>2016-10-15T16:00:19Z</time>
+        <extensions>
+          <u-gotMe:speed>7.323</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23864225670695" lon="6.924473186954856">
+        <ele>43.60000000000002</ele>
+        <time>2016-10-15T16:00:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.493</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23863043822348" lon="6.924337651580572">
+        <ele>43.60000000000002</ele>
+        <time>2016-10-15T16:00:28Z</time>
+        <extensions>
+          <u-gotMe:speed>7.712</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23858752287924" lon="6.9236484076827765">
+        <ele>43.39999999999998</ele>
+        <time>2016-10-15T16:00:34Z</time>
+        <extensions>
+          <u-gotMe:speed>7.268</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2384980879724" lon="6.922740060836077">
+        <ele>43.60000000000002</ele>
+        <time>2016-10-15T16:00:42Z</time>
+        <extensions>
+          <u-gotMe:speed>7.588</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23849020898342" lon="6.9226261507719755">
+        <ele>43.60000000000002</ele>
+        <time>2016-10-15T16:00:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.516</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23842818289995" lon="6.921710427850485">
+        <ele>43.799999999999955</ele>
+        <time>2016-10-15T16:00:51Z</time>
+        <extensions>
+          <u-gotMe:speed>7.687</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238420052453876" lon="6.921597523614764">
+        <ele>44.0</ele>
+        <time>2016-10-15T16:00:52Z</time>
+        <extensions>
+          <u-gotMe:speed>7.619</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23834746517241" lon="6.920654475688934">
+        <ele>43.60000000000002</ele>
+        <time>2016-10-15T16:01:00Z</time>
+        <extensions>
+          <u-gotMe:speed>8.317</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23831368610263" lon="6.9202745240181684">
+        <ele>43.0</ele>
+        <time>2016-10-15T16:01:03Z</time>
+        <extensions>
+          <u-gotMe:speed>8.572</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23823959007859" lon="6.919765993952751">
+        <ele>43.0</ele>
+        <time>2016-10-15T16:01:07Z</time>
+        <extensions>
+          <u-gotMe:speed>8.896</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23818326368928" lon="6.91938235424459">
+        <ele>41.799999999999955</ele>
+        <time>2016-10-15T16:01:10Z</time>
+        <extensions>
+          <u-gotMe:speed>8.715</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23810950294137" lon="6.918892599642277">
+        <ele>40.799999999999955</ele>
+        <time>2016-10-15T16:01:14Z</time>
+        <extensions>
+          <u-gotMe:speed>8.661</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238036496564746" lon="6.918430421501398">
+        <ele>39.200000000000045</ele>
+        <time>2016-10-15T16:01:18Z</time>
+        <extensions>
+          <u-gotMe:speed>7.488</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23800841718912" lon="6.918287510052323">
+        <ele>37.799999999999955</ele>
+        <time>2016-10-15T16:01:20Z</time>
+        <extensions>
+          <u-gotMe:speed>4.715</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23799559287727" lon="6.918229758739471">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T16:01:22Z</time>
+        <extensions>
+          <u-gotMe:speed>1.831</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23799123428762" lon="6.91821358166635">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T16:01:23Z</time>
+        <extensions>
+          <u-gotMe:speed>1.378</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23799131810665" lon="6.918204361572862">
+        <ele>36.200000000000045</ele>
+        <time>2016-10-15T16:01:28Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23799433559179" lon="6.918154405429959">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T16:01:31Z</time>
+        <extensions>
+          <u-gotMe:speed>1.605</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23799123428762" lon="6.918081231415272">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T16:01:33Z</time>
+        <extensions>
+          <u-gotMe:speed>2.414</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23795963451266" lon="6.9178021140396595">
+        <ele>36.799999999999955</ele>
+        <time>2016-10-15T16:01:37Z</time>
+        <extensions>
+          <u-gotMe:speed>5.359</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23789995536208" lon="6.917206831276417">
+        <ele>37.0</ele>
+        <time>2016-10-15T16:01:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.094</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237792667001486" lon="6.916479030624032">
+        <ele>37.0</ele>
+        <time>2016-10-15T16:01:49Z</time>
+        <extensions>
+          <u-gotMe:speed>8.408</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2376571316272" lon="6.915592309087515">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T16:01:56Z</time>
+        <extensions>
+          <u-gotMe:speed>8.826</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23762771114707" lon="6.915328949689865">
+        <ele>36.60000000000002</ele>
+        <time>2016-10-15T16:01:58Z</time>
+        <extensions>
+          <u-gotMe:speed>8.833</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237594686448574" lon="6.914390595629811">
+        <ele>36.39999999999998</ele>
+        <time>2016-10-15T16:02:05Z</time>
+        <extensions>
+          <u-gotMe:speed>8.933</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237648414447904" lon="6.9139001704752445">
+        <ele>35.60000000000002</ele>
+        <time>2016-10-15T16:02:09Z</time>
+        <extensions>
+          <u-gotMe:speed>7.959</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23766442388296" lon="6.913791289553046">
+        <ele>35.39999999999998</ele>
+        <time>2016-10-15T16:02:10Z</time>
+        <extensions>
+          <u-gotMe:speed>7.592</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23773282021284" lon="6.913286866620183">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T16:02:15Z</time>
+        <extensions>
+          <u-gotMe:speed>6.459</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237742291763425" lon="6.9131965935230255">
+        <ele>34.200000000000045</ele>
+        <time>2016-10-15T16:02:16Z</time>
+        <extensions>
+          <u-gotMe:speed>6.212</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23778252489865" lon="6.912867184728384">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T16:02:20Z</time>
+        <extensions>
+          <u-gotMe:speed>4.6</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237800881266594" lon="6.912827203050256">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T16:02:21Z</time>
+        <extensions>
+          <u-gotMe:speed>3.389</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23782552406192" lon="6.912822676822543">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:02:22Z</time>
+        <extensions>
+          <u-gotMe:speed>2.899</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237840946763754" lon="6.912836087867618">
+        <ele>32.200000000000045</ele>
+        <time>2016-10-15T16:02:23Z</time>
+        <extensions>
+          <u-gotMe:speed>2.541</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23785452544689" lon="6.912859221920371">
+        <ele>32.200000000000045</ele>
+        <time>2016-10-15T16:02:24Z</time>
+        <extensions>
+          <u-gotMe:speed>2.321</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23798603750765" lon="6.913010850548744">
+        <ele>32.0</ele>
+        <time>2016-10-15T16:02:28Z</time>
+        <extensions>
+          <u-gotMe:speed>5.43</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238180162385106" lon="6.913253171369433">
+        <ele>33.200000000000045</ele>
+        <time>2016-10-15T16:02:32Z</time>
+        <extensions>
+          <u-gotMe:speed>7.006</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23822827450931" lon="6.91332827322185">
+        <ele>33.200000000000045</ele>
+        <time>2016-10-15T16:02:33Z</time>
+        <extensions>
+          <u-gotMe:speed>7.157</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23837529309094" lon="6.91356766037643">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T16:02:36Z</time>
+        <extensions>
+          <u-gotMe:speed>7.488</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238617865368724" lon="6.91396395675838">
+        <ele>34.0</ele>
+        <time>2016-10-15T16:02:41Z</time>
+        <extensions>
+          <u-gotMe:speed>7.38</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239007875323296" lon="6.914533004164696">
+        <ele>34.0</ele>
+        <time>2016-10-15T16:02:48Z</time>
+        <extensions>
+          <u-gotMe:speed>7.923</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23920258693397" lon="6.914878087118268">
+        <ele>34.200000000000045</ele>
+        <time>2016-10-15T16:02:52Z</time>
+        <extensions>
+          <u-gotMe:speed>7.751</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23927626386285" lon="6.915052346885204">
+        <ele>34.0</ele>
+        <time>2016-10-15T16:02:54Z</time>
+        <extensions>
+          <u-gotMe:speed>6.989</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23939704708755" lon="6.915281256660819">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T16:02:58Z</time>
+        <extensions>
+          <u-gotMe:speed>3.709</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23941791802645" lon="6.915288548916578">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:02:59Z</time>
+        <extensions>
+          <u-gotMe:speed>2.754</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23946016281843" lon="6.9152675941586494">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T16:03:01Z</time>
+        <extensions>
+          <u-gotMe:speed>2.3</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2395205963403" lon="6.915135914459825">
+        <ele>33.200000000000045</ele>
+        <time>2016-10-15T16:03:04Z</time>
+        <extensions>
+          <u-gotMe:speed>4.198</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23954020999372" lon="6.915082354098558">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T16:03:05Z</time>
+        <extensions>
+          <u-gotMe:speed>4.124</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239578515291214" lon="6.914951931685209">
+        <ele>33.60000000000002</ele>
+        <time>2016-10-15T16:03:07Z</time>
+        <extensions>
+          <u-gotMe:speed>4.937</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23962855525315" lon="6.91467197611928">
+        <ele>34.200000000000045</ele>
+        <time>2016-10-15T16:03:10Z</time>
+        <extensions>
+          <u-gotMe:speed>6.466</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239684546366334" lon="6.914351871237159">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T16:03:13Z</time>
+        <extensions>
+          <u-gotMe:speed>6.905</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239707093685865" lon="6.914249025285244">
+        <ele>34.60000000000002</ele>
+        <time>2016-10-15T16:03:14Z</time>
+        <extensions>
+          <u-gotMe:speed>6.868</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23972771316767" lon="6.914147017523646">
+        <ele>34.39999999999998</ele>
+        <time>2016-10-15T16:03:15Z</time>
+        <extensions>
+          <u-gotMe:speed>6.798</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23982326686382" lon="6.913899667561054">
+        <ele>33.799999999999955</ele>
+        <time>2016-10-15T16:03:18Z</time>
+        <extensions>
+          <u-gotMe:speed>5.413</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239868277683854" lon="6.913857590407133">
+        <ele>33.799999999999955</ele>
+        <time>2016-10-15T16:03:19Z</time>
+        <extensions>
+          <u-gotMe:speed>5.19</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24008712917566" lon="6.913698753342032">
+        <ele>33.39999999999998</ele>
+        <time>2016-10-15T16:03:23Z</time>
+        <extensions>
+          <u-gotMe:speed>6.245</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24015192128718" lon="6.9135104957968">
+        <ele>32.799999999999955</ele>
+        <time>2016-10-15T16:03:26Z</time>
+        <extensions>
+          <u-gotMe:speed>3.946</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240134067833424" lon="6.913366410881281">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:03:28Z</time>
+        <extensions>
+          <u-gotMe:speed>4.613</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24013390019536" lon="6.913287872448564">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:03:29Z</time>
+        <extensions>
+          <u-gotMe:speed>4.576</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24014270119369" lon="6.913213776424527">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:03:30Z</time>
+        <extensions>
+          <u-gotMe:speed>4.497</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24016566760838" lon="6.912953434512019">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:03:33Z</time>
+        <extensions>
+          <u-gotMe:speed>5.957</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24020506255329" lon="6.912853689864278">
+        <ele>32.60000000000002</ele>
+        <time>2016-10-15T16:03:34Z</time>
+        <extensions>
+          <u-gotMe:speed>6.356</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24031033925712" lon="6.912752604112029">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T16:03:36Z</time>
+        <extensions>
+          <u-gotMe:speed>5.759</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240368174389005" lon="6.912734247744083">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T16:03:37Z</time>
+        <extensions>
+          <u-gotMe:speed>5.87</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240429278463125" lon="6.912714634090662">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T16:03:38Z</time>
+        <extensions>
+          <u-gotMe:speed>6.226</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240482000634074" lon="6.912670126184821">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T16:03:39Z</time>
+        <extensions>
+          <u-gotMe:speed>6.031</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24057369865477" lon="6.912502907216549">
+        <ele>32.39999999999998</ele>
+        <time>2016-10-15T16:03:41Z</time>
+        <extensions>
+          <u-gotMe:speed>7.124</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240634048357606" lon="6.912161177024245">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:03:44Z</time>
+        <extensions>
+          <u-gotMe:speed>7.518</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24065265618265" lon="6.9119104743003845">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:03:46Z</time>
+        <extensions>
+          <u-gotMe:speed>7.867</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24064435809851" lon="6.911526415497065">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:03:49Z</time>
+        <extensions>
+          <u-gotMe:speed>8.008</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240602783858776" lon="6.910862484946847">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:03:55Z</time>
+        <extensions>
+          <u-gotMe:speed>7.03</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24055492319167" lon="6.910785790532827">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:03:56Z</time>
+        <extensions>
+          <u-gotMe:speed>7.294</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24035241641104" lon="6.910405922681093">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T16:04:00Z</time>
+        <extensions>
+          <u-gotMe:speed>8.767</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24012183025479" lon="6.9099087081849575">
+        <ele>30.799999999999955</ele>
+        <time>2016-10-15T16:04:05Z</time>
+        <extensions>
+          <u-gotMe:speed>8.465</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24007732234895" lon="6.9096948858350515">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:04:07Z</time>
+        <extensions>
+          <u-gotMe:speed>7.472</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240051003172994" lon="6.909354496747255">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T16:04:10Z</time>
+        <extensions>
+          <u-gotMe:speed>7.589</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240054942667484" lon="6.9092413410544395">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T16:04:11Z</time>
+        <extensions>
+          <u-gotMe:speed>7.586</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240086207166314" lon="6.909121060743928">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:04:12Z</time>
+        <extensions>
+          <u-gotMe:speed>8.144</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24027815274894" lon="6.9082245323807">
+        <ele>29.600000000000023</ele>
+        <time>2016-10-15T16:04:19Z</time>
+        <extensions>
+          <u-gotMe:speed>7.861</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240328527987" lon="6.907812478020787">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:04:23Z</time>
+        <extensions>
+          <u-gotMe:speed>6.411</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2403509914875" lon="6.907677780836821">
+        <ele>28.399999999999977</ele>
+        <time>2016-10-15T16:04:25Z</time>
+        <extensions>
+          <u-gotMe:speed>4.632</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2403599601239" lon="6.9075320195406675">
+        <ele>28.0</ele>
+        <time>2016-10-15T16:04:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.244</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24038150161505" lon="6.907272934913635">
+        <ele>28.399999999999977</ele>
+        <time>2016-10-15T16:04:30Z</time>
+        <extensions>
+          <u-gotMe:speed>6.265</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24041771143675" lon="6.907099261879921">
+        <ele>28.399999999999977</ele>
+        <time>2016-10-15T16:04:32Z</time>
+        <extensions>
+          <u-gotMe:speed>5.955</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240475630387664" lon="6.906993817538023">
+        <ele>27.799999999999955</ele>
+        <time>2016-10-15T16:04:34Z</time>
+        <extensions>
+          <u-gotMe:speed>4.903</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24059716798365" lon="6.907013431191444">
+        <ele>28.0</ele>
+        <time>2016-10-15T16:04:37Z</time>
+        <extensions>
+          <u-gotMe:speed>4.777</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24064896814525" lon="6.907035978510976">
+        <ele>28.200000000000045</ele>
+        <time>2016-10-15T16:04:38Z</time>
+        <extensions>
+          <u-gotMe:speed>5.482</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24086647853255" lon="6.907188864424825">
+        <ele>28.799999999999955</ele>
+        <time>2016-10-15T16:04:42Z</time>
+        <extensions>
+          <u-gotMe:speed>6.701</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.240978041663766" lon="6.907280394807458">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:04:44Z</time>
+        <extensions>
+          <u-gotMe:speed>6.869</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24126763641834" lon="6.907477620989084">
+        <ele>30.0</ele>
+        <time>2016-10-15T16:04:49Z</time>
+        <extensions>
+          <u-gotMe:speed>6.772</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.241374254226685" lon="6.90756730735302">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:04:51Z</time>
+        <extensions>
+          <u-gotMe:speed>6.495</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24158313125372" lon="6.90770217217505">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T16:04:55Z</time>
+        <extensions>
+          <u-gotMe:speed>5.863</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24181170575321" lon="6.907686917111278">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T16:04:59Z</time>
+        <extensions>
+          <u-gotMe:speed>6.398</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.241927376016974" lon="6.907666213810444">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T16:05:01Z</time>
+        <extensions>
+          <u-gotMe:speed>6.349</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24204354919493" lon="6.907628159970045">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:05:03Z</time>
+        <extensions>
+          <u-gotMe:speed>6.472</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24222225137055" lon="6.907540317624807">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:05:06Z</time>
+        <extensions>
+          <u-gotMe:speed>6.695</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24247781559825" lon="6.907318532466888">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T16:05:11Z</time>
+        <extensions>
+          <u-gotMe:speed>5.9</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24251637235284" lon="6.907261116430163">
+        <ele>31.0</ele>
+        <time>2016-10-15T16:05:12Z</time>
+        <extensions>
+          <u-gotMe:speed>5.727</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.242514276877046" lon="6.9070119224488735">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T16:05:15Z</time>
+        <extensions>
+          <u-gotMe:speed>5.759</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24248209036887" lon="6.906824503093958">
+        <ele>31.0</ele>
+        <time>2016-10-15T16:05:17Z</time>
+        <extensions>
+          <u-gotMe:speed>6.171</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24246188998222" lon="6.906536668539047">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:05:20Z</time>
+        <extensions>
+          <u-gotMe:speed>6.331</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24245962686837" lon="6.90643516369164">
+        <ele>31.200000000000045</ele>
+        <time>2016-10-15T16:05:21Z</time>
+        <extensions>
+          <u-gotMe:speed>6.546</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.242441438138485" lon="6.905764862895012">
+        <ele>31.399999999999977</ele>
+        <time>2016-10-15T16:05:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.735</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.242455100640655" lon="6.904991799965501">
+        <ele>29.799999999999955</ele>
+        <time>2016-10-15T16:05:34Z</time>
+        <extensions>
+          <u-gotMe:speed>6.649</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24244697019458" lon="6.904907813295722">
+        <ele>29.399999999999977</ele>
+        <time>2016-10-15T16:05:35Z</time>
+        <extensions>
+          <u-gotMe:speed>5.979</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24237237125635" lon="6.904742689803243">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:05:38Z</time>
+        <extensions>
+          <u-gotMe:speed>4.718</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24233482033014" lon="6.904702289029956">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:05:39Z</time>
+        <extensions>
+          <u-gotMe:speed>4.937</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24213474430144" lon="6.904524927958846">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:05:43Z</time>
+        <extensions>
+          <u-gotMe:speed>6.937</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24174004048109" lon="6.904189819470048">
+        <ele>29.399999999999977</ele>
+        <time>2016-10-15T16:05:49Z</time>
+        <extensions>
+          <u-gotMe:speed>7.952</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24121323786676" lon="6.903730910271406">
+        <ele>29.399999999999977</ele>
+        <time>2016-10-15T16:05:57Z</time>
+        <extensions>
+          <u-gotMe:speed>7.81</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.241146517917514" lon="6.903678523376584">
+        <ele>29.399999999999977</ele>
+        <time>2016-10-15T16:05:58Z</time>
+        <extensions>
+          <u-gotMe:speed>7.936</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24063807167113" lon="6.903209136798978">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:06:06Z</time>
+        <extensions>
+          <u-gotMe:speed>7.882</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2405721899122" lon="6.903147026896477">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:06:07Z</time>
+        <extensions>
+          <u-gotMe:speed>7.935</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.24004999734461" lon="6.902658781036735">
+        <ele>29.0</ele>
+        <time>2016-10-15T16:06:15Z</time>
+        <extensions>
+          <u-gotMe:speed>8.221</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2399194072932" lon="6.90253984183073">
+        <ele>28.600000000000023</ele>
+        <time>2016-10-15T16:06:17Z</time>
+        <extensions>
+          <u-gotMe:speed>7.996</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.239465694874525" lon="6.902153519913554">
+        <ele>28.200000000000045</ele>
+        <time>2016-10-15T16:06:24Z</time>
+        <extensions>
+          <u-gotMe:speed>8.023</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23902313038707" lon="6.901752697303891">
+        <ele>27.799999999999955</ele>
+        <time>2016-10-15T16:06:31Z</time>
+        <extensions>
+          <u-gotMe:speed>7.485</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23896554671228" lon="6.901702908799052">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T16:06:32Z</time>
+        <extensions>
+          <u-gotMe:speed>7.198</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23869673907757" lon="6.901477100327611">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T16:06:37Z</time>
+        <extensions>
+          <u-gotMe:speed>6.13</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238649632781744" lon="6.9014321733266115">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T16:06:38Z</time>
+        <extensions>
+          <u-gotMe:speed>5.872</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238512337207794" lon="6.901292782276869">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T16:06:41Z</time>
+        <extensions>
+          <u-gotMe:speed>5.755</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238485934212804" lon="6.901159845292568">
+        <ele>26.0</ele>
+        <time>2016-10-15T16:06:43Z</time>
+        <extensions>
+          <u-gotMe:speed>4.426</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.238434636965394" lon="6.900982987135649">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T16:06:47Z</time>
+        <extensions>
+          <u-gotMe:speed>3.072</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23829608410597" lon="6.900944514200091">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T16:06:50Z</time>
+        <extensions>
+          <u-gotMe:speed>5.446</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23794320598245" lon="6.900823395699263">
+        <ele>27.200000000000045</ele>
+        <time>2016-10-15T16:06:56Z</time>
+        <extensions>
+          <u-gotMe:speed>6.557</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237882604822516" lon="6.900803614407778">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T16:06:57Z</time>
+        <extensions>
+          <u-gotMe:speed>6.578</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237497959285975" lon="6.900691380724311">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T16:07:03Z</time>
+        <extensions>
+          <u-gotMe:speed>7.004</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23737759515643" lon="6.900628600269556">
+        <ele>27.0</ele>
+        <time>2016-10-15T16:07:05Z</time>
+        <extensions>
+          <u-gotMe:speed>6.696</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23727818578482" lon="6.900501362979412">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T16:07:07Z</time>
+        <extensions>
+          <u-gotMe:speed>6.852</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2371890861541" lon="6.900330372154713">
+        <ele>27.0</ele>
+        <time>2016-10-15T16:07:09Z</time>
+        <extensions>
+          <u-gotMe:speed>7.362</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.237083641812205" lon="6.900186287239194">
+        <ele>27.0</ele>
+        <time>2016-10-15T16:07:11Z</time>
+        <extensions>
+          <u-gotMe:speed>7.564</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23672866821289" lon="6.899838438257575">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T16:07:17Z</time>
+        <extensions>
+          <u-gotMe:speed>7.597</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23660293966532" lon="6.899739867076278">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T16:07:19Z</time>
+        <extensions>
+          <u-gotMe:speed>7.749</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23634846508503" lon="6.899520931765437">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T16:07:23Z</time>
+        <extensions>
+          <u-gotMe:speed>7.828</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.236115699633956" lon="6.899315491318703">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T16:07:27Z</time>
+        <extensions>
+          <u-gotMe:speed>7.294</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23594395443797" lon="6.899154810234904">
+        <ele>26.399999999999977</ele>
+        <time>2016-10-15T16:07:30Z</time>
+        <extensions>
+          <u-gotMe:speed>7.507</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23547037690878" lon="6.89872951246798">
+        <ele>26.799999999999955</ele>
+        <time>2016-10-15T16:07:38Z</time>
+        <extensions>
+          <u-gotMe:speed>7.44</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23541078157723" lon="6.898674443364143">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T16:07:39Z</time>
+        <extensions>
+          <u-gotMe:speed>7.512</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2349289059639" lon="6.898237494751811">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T16:07:47Z</time>
+        <extensions>
+          <u-gotMe:speed>7.423</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23486981354654" lon="6.898192148655653">
+        <ele>25.799999999999955</ele>
+        <time>2016-10-15T16:07:48Z</time>
+        <extensions>
+          <u-gotMe:speed>7.236</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23471466451883" lon="6.898073293268681">
+        <ele>25.200000000000045</ele>
+        <time>2016-10-15T16:07:51Z</time>
+        <extensions>
+          <u-gotMe:speed>5.639</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23462916910648" lon="6.897988300770521">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T16:07:53Z</time>
+        <extensions>
+          <u-gotMe:speed>5.771</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.234466560184956" lon="6.897778082638979">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T16:07:57Z</time>
+        <extensions>
+          <u-gotMe:speed>5.238</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.234461698681116" lon="6.897699795663357">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:07:58Z</time>
+        <extensions>
+          <u-gotMe:speed>5.142</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23447133786976" lon="6.897627040743828">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:07:59Z</time>
+        <extensions>
+          <u-gotMe:speed>5.004</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23450620658696" lon="6.897510197013617">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:08:01Z</time>
+        <extensions>
+          <u-gotMe:speed>4.06</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23455406725407" lon="6.897490918636322">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:08:03Z</time>
+        <extensions>
+          <u-gotMe:speed>2.217</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23456563428044" lon="6.897464012727141">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:08:04Z</time>
+        <extensions>
+          <u-gotMe:speed>2.044</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23455079831183" lon="6.897375751286745">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:08:08Z</time>
+        <extensions>
+          <u-gotMe:speed>1.195</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23453805781901" lon="6.897376589477062">
+        <ele>22.399999999999977</ele>
+        <time>2016-10-15T16:08:13Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.234527077525854" lon="6.897378349676728">
+        <ele>22.600000000000023</ele>
+        <time>2016-10-15T16:08:14Z</time>
+        <extensions>
+          <u-gotMe:speed>1.4</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.234487514942884" lon="6.897443812340498">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:08:16Z</time>
+        <extensions>
+          <u-gotMe:speed>3.402</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23445834591985" lon="6.897673141211271">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:08:20Z</time>
+        <extensions>
+          <u-gotMe:speed>4.116</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23432959988713" lon="6.897673308849335">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:08:23Z</time>
+        <extensions>
+          <u-gotMe:speed>4.954</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2342845890671" lon="6.897647408768535">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T16:08:24Z</time>
+        <extensions>
+          <u-gotMe:speed>5.112</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23415651358664" lon="6.897532660514116">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T16:08:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.507</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2341104131192" lon="6.897489074617624">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T16:08:28Z</time>
+        <extensions>
+          <u-gotMe:speed>5.726</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.233742531389" lon="6.897147763520479">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:08:35Z</time>
+        <extensions>
+          <u-gotMe:speed>6.872</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23329443484545" lon="6.896745935082436">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T16:08:43Z</time>
+        <extensions>
+          <u-gotMe:speed>7.065</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23282689228654" lon="6.896332455798984">
+        <ele>24.799999999999955</ele>
+        <time>2016-10-15T16:08:51Z</time>
+        <extensions>
+          <u-gotMe:speed>7.278</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23235867917538" lon="6.895930292084813">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:08:59Z</time>
+        <extensions>
+          <u-gotMe:speed>7.396</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23183204419911" lon="6.895448584109545">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:09:08Z</time>
+        <extensions>
+          <u-gotMe:speed>7.616</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2314284555614" lon="6.895061256363988">
+        <ele>23.200000000000045</ele>
+        <time>2016-10-15T16:09:15Z</time>
+        <extensions>
+          <u-gotMe:speed>7.649</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23113039508462" lon="6.894779121503234">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:09:20Z</time>
+        <extensions>
+          <u-gotMe:speed>7.683</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23101506009698" lon="6.89466848038137">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:09:22Z</time>
+        <extensions>
+          <u-gotMe:speed>7.398</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23091506399214" lon="6.894569406285882">
+        <ele>21.600000000000023</ele>
+        <time>2016-10-15T16:09:25Z</time>
+        <extensions>
+          <u-gotMe:speed>2.841</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230901485309005" lon="6.894550882279873">
+        <ele>21.0</ele>
+        <time>2016-10-15T16:09:26Z</time>
+        <extensions>
+          <u-gotMe:speed>2.364</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230888744816184" lon="6.894571082666516">
+        <ele>20.799999999999955</ele>
+        <time>2016-10-15T16:09:27Z</time>
+        <extensions>
+          <u-gotMe:speed>1.798</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23088673315942" lon="6.894631432369351">
+        <ele>20.600000000000023</ele>
+        <time>2016-10-15T16:09:29Z</time>
+        <extensions>
+          <u-gotMe:speed>2.114</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23091498017311" lon="6.894805608317256">
+        <ele>21.200000000000045</ele>
+        <time>2016-10-15T16:09:33Z</time>
+        <extensions>
+          <u-gotMe:speed>3.564</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23084004595876" lon="6.895042732357979">
+        <ele>21.799999999999955</ele>
+        <time>2016-10-15T16:09:37Z</time>
+        <extensions>
+          <u-gotMe:speed>4.866</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23082177340984" lon="6.895115235820413">
+        <ele>22.0</ele>
+        <time>2016-10-15T16:09:38Z</time>
+        <extensions>
+          <u-gotMe:speed>5.151</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23076259717345" lon="6.895309863612056">
+        <ele>22.0</ele>
+        <time>2016-10-15T16:09:41Z</time>
+        <extensions>
+          <u-gotMe:speed>4.626</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23072839900851" lon="6.895333332940936">
+        <ele>21.799999999999955</ele>
+        <time>2016-10-15T16:09:42Z</time>
+        <extensions>
+          <u-gotMe:speed>4.019</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230602838099" lon="6.895409021526575">
+        <ele>22.399999999999977</ele>
+        <time>2016-10-15T16:09:45Z</time>
+        <extensions>
+          <u-gotMe:speed>4.863</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23047945648432" lon="6.895442716777325">
+        <ele>22.600000000000023</ele>
+        <time>2016-10-15T16:09:47Z</time>
+        <extensions>
+          <u-gotMe:speed>5.907</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.230421202257276" lon="6.895465180277824">
+        <ele>22.600000000000023</ele>
+        <time>2016-10-15T16:09:48Z</time>
+        <extensions>
+          <u-gotMe:speed>5.901</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.23000470548868" lon="6.895637009292841">
+        <ele>23.200000000000045</ele>
+        <time>2016-10-15T16:09:55Z</time>
+        <extensions>
+          <u-gotMe:speed>6.331</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.229664232581854" lon="6.895796852186322">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:10:01Z</time>
+        <extensions>
+          <u-gotMe:speed>6.573</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22949449904263" lon="6.895881928503513">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:10:04Z</time>
+        <extensions>
+          <u-gotMe:speed>6.635</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22902343608439" lon="6.896113017573953">
+        <ele>24.600000000000023</ele>
+        <time>2016-10-15T16:10:12Z</time>
+        <extensions>
+          <u-gotMe:speed>6.722</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22848506644368" lon="6.896357350051403">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:10:21Z</time>
+        <extensions>
+          <u-gotMe:speed>6.771</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.227984415367246" lon="6.89661375246942">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:10:30Z</time>
+        <extensions>
+          <u-gotMe:speed>5.68</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.227891124784946" lon="6.8966431729495525">
+        <ele>23.200000000000045</ele>
+        <time>2016-10-15T16:10:32Z</time>
+        <extensions>
+          <u-gotMe:speed>5.353</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22780202515423" lon="6.896597491577268">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:10:34Z</time>
+        <extensions>
+          <u-gotMe:speed>5.261</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22754738293588" lon="6.896405545994639">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:10:40Z</time>
+        <extensions>
+          <u-gotMe:speed>4.91</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22730288282037" lon="6.896121567115188">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:10:46Z</time>
+        <extensions>
+          <u-gotMe:speed>6.318</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226929971948266" lon="6.895761229097843">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:10:53Z</time>
+        <extensions>
+          <u-gotMe:speed>7.174</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22648841328919" lon="6.895321263000369">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:11:01Z</time>
+        <extensions>
+          <u-gotMe:speed>7.182</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.226071413606405" lon="6.895034434273839">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:11:08Z</time>
+        <extensions>
+          <u-gotMe:speed>7.044</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22557679750025" lon="6.8948472663760185">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:11:16Z</time>
+        <extensions>
+          <u-gotMe:speed>6.763</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.225212939083576" lon="6.894845254719257">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:11:22Z</time>
+        <extensions>
+          <u-gotMe:speed>7.076</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22462687641382" lon="6.8949756771326065">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:11:31Z</time>
+        <extensions>
+          <u-gotMe:speed>7.337</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22426285035908" lon="6.895189583301544">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:11:37Z</time>
+        <extensions>
+          <u-gotMe:speed>6.933</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22396034747362" lon="6.89537750557065">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:11:43Z</time>
+        <extensions>
+          <u-gotMe:speed>6.005</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.223628256469965" lon="6.895508095622063">
+        <ele>22.600000000000023</ele>
+        <time>2016-10-15T16:11:50Z</time>
+        <extensions>
+          <u-gotMe:speed>3.209</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22362247295678" lon="6.8955078441649675">
+        <ele>22.200000000000045</ele>
+        <time>2016-10-15T16:11:51Z</time>
+        <extensions>
+          <u-gotMe:speed>1.471</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22362213768065" lon="6.895514549687505">
+        <ele>22.0</ele>
+        <time>2016-10-15T16:11:53Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22355801612139" lon="6.895549418404698">
+        <ele>22.399999999999977</ele>
+        <time>2016-10-15T16:12:01Z</time>
+        <extensions>
+          <u-gotMe:speed>3.017</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22343614324927" lon="6.895642206072807">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:12:05Z</time>
+        <extensions>
+          <u-gotMe:speed>4.319</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22334268502891" lon="6.895672380924225">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:12:07Z</time>
+        <extensions>
+          <u-gotMe:speed>5.216</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22313364036381" lon="6.8957222532480955">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:12:11Z</time>
+        <extensions>
+          <u-gotMe:speed>5.655</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22296625375748" lon="6.895763156935573">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:12:14Z</time>
+        <extensions>
+          <u-gotMe:speed>6.08</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22275536507368" lon="6.895796097815037">
+        <ele>25.0</ele>
+        <time>2016-10-15T16:12:18Z</time>
+        <extensions>
+          <u-gotMe:speed>5.889</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222429141402245" lon="6.895830798894167">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:12:25Z</time>
+        <extensions>
+          <u-gotMe:speed>4.569</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22239963710308" lon="6.895709680393338">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:12:28Z</time>
+        <extensions>
+          <u-gotMe:speed>2.997</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22238983027637" lon="6.895669111981988">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:12:29Z</time>
+        <extensions>
+          <u-gotMe:speed>3.032</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22230475395918" lon="6.895380187779665">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:12:34Z</time>
+        <extensions>
+          <u-gotMe:speed>4.458</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22226996906102" lon="6.895337775349617">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:12:35Z</time>
+        <extensions>
+          <u-gotMe:speed>4.591</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222164776176214" lon="6.8952669482678175">
+        <ele>23.200000000000045</ele>
+        <time>2016-10-15T16:12:38Z</time>
+        <extensions>
+          <u-gotMe:speed>4.119</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22208338789642" lon="6.895236521959305">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:12:40Z</time>
+        <extensions>
+          <u-gotMe:speed>4.478</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221897561103106" lon="6.895179273560643">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:12:45Z</time>
+        <extensions>
+          <u-gotMe:speed>3.734</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221786584705114" lon="6.895191594958305">
+        <ele>22.399999999999977</ele>
+        <time>2016-10-15T16:12:50Z</time>
+        <extensions>
+          <u-gotMe:speed>2.364</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22176152281463" lon="6.895398795604706">
+        <ele>22.600000000000023</ele>
+        <time>2016-10-15T16:12:54Z</time>
+        <extensions>
+          <u-gotMe:speed>3.998</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22172631882131" lon="6.895899530500174">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:13:01Z</time>
+        <extensions>
+          <u-gotMe:speed>4.708</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221715254709125" lon="6.89645885489881">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:13:08Z</time>
+        <extensions>
+          <u-gotMe:speed>5.312</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22164015285671" lon="6.896982220932841">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T16:13:14Z</time>
+        <extensions>
+          <u-gotMe:speed>6.125</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221558848395944" lon="6.897297715768218">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:13:18Z</time>
+        <extensions>
+          <u-gotMe:speed>5.623</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22151333466172" lon="6.897412799298763">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T16:13:20Z</time>
+        <extensions>
+          <u-gotMe:speed>4.55</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22148383036256" lon="6.89746686257422">
+        <ele>24.200000000000045</ele>
+        <time>2016-10-15T16:13:21Z</time>
+        <extensions>
+          <u-gotMe:speed>4.802</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22126992419362" lon="6.897904900833964">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:13:29Z</time>
+        <extensions>
+          <u-gotMe:speed>5.042</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22116691060364" lon="6.898041861131787">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:13:32Z</time>
+        <extensions>
+          <u-gotMe:speed>5.045</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22106255590916" lon="6.898161638528109">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:13:35Z</time>
+        <extensions>
+          <u-gotMe:speed>4.761</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22090782597661" lon="6.8982882890850306">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:13:39Z</time>
+        <extensions>
+          <u-gotMe:speed>4.607</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22082434222102" lon="6.898364229127765">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:13:41Z</time>
+        <extensions>
+          <u-gotMe:speed>4.878</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2207838576287" lon="6.898406557738781">
+        <ele>24.0</ele>
+        <time>2016-10-15T16:13:42Z</time>
+        <extensions>
+          <u-gotMe:speed>4.893</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22061026841402" lon="6.8985474575310946">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:13:47Z</time>
+        <extensions>
+          <u-gotMe:speed>3.287</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22058344632387" lon="6.898555504158139">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:13:48Z</time>
+        <extensions>
+          <u-gotMe:speed>2.914</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22052963450551" lon="6.898588361218572">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:13:51Z</time>
+        <extensions>
+          <u-gotMe:speed>1.264</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22051119431853" lon="6.898618368431926">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:13:55Z</time>
+        <extensions>
+          <u-gotMe:speed>1.966</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22054220736027" lon="6.898624654859304">
+        <ele>22.799999999999955</ele>
+        <time>2016-10-15T16:13:56Z</time>
+        <extensions>
+          <u-gotMe:speed>3.143</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2206839453429" lon="6.898622643202543">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:14:00Z</time>
+        <extensions>
+          <u-gotMe:speed>4.024</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22072652541101" lon="6.898786844685674">
+        <ele>23.0</ele>
+        <time>2016-10-15T16:14:03Z</time>
+        <extensions>
+          <u-gotMe:speed>4.135</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.2206992842257" lon="6.898945514112711">
+        <ele>23.200000000000045</ele>
+        <time>2016-10-15T16:14:05Z</time>
+        <extensions>
+          <u-gotMe:speed>4.691</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22068545408547" lon="6.899117678403854">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:14:07Z</time>
+        <extensions>
+          <u-gotMe:speed>5.002</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22062435001135" lon="6.899740621447563">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:14:15Z</time>
+        <extensions>
+          <u-gotMe:speed>4.034</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22058545798063" lon="6.899827877059579">
+        <ele>23.399999999999977</ele>
+        <time>2016-10-15T16:14:19Z</time>
+        <extensions>
+          <u-gotMe:speed>1.601</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22060540691018" lon="6.900032479315996">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:14:25Z</time>
+        <extensions>
+          <u-gotMe:speed>1.215</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220603143796325" lon="6.90003021620214">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:14:30Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220603143796325" lon="6.90003021620214">
+        <ele>23.600000000000023</ele>
+        <time>2016-10-15T16:14:43Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22062099725008" lon="6.90022467635572">
+        <ele>23.799999999999955</ele>
+        <time>2016-10-15T16:14:47Z</time>
+        <extensions>
+          <u-gotMe:speed>4.033</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22063457593322" lon="6.900486443191767">
+        <ele>24.399999999999977</ele>
+        <time>2016-10-15T16:14:50Z</time>
+        <extensions>
+          <u-gotMe:speed>5.878</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22063331864774" lon="6.9005869422107935">
+        <ele>25.0</ele>
+        <time>2016-10-15T16:14:51Z</time>
+        <extensions>
+          <u-gotMe:speed>6.507</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22064304165542" lon="6.9012613501399755">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T16:14:58Z</time>
+        <extensions>
+          <u-gotMe:speed>6.499</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22064379602671" lon="6.901356652379036">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T16:14:59Z</time>
+        <extensions>
+          <u-gotMe:speed>6.485</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22061404027045" lon="6.902098618447781">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T16:15:07Z</time>
+        <extensions>
+          <u-gotMe:speed>6.417</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22060305997729" lon="6.9027315359562635">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T16:15:14Z</time>
+        <extensions>
+          <u-gotMe:speed>5.905</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22063088789582" lon="6.903417510911822">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T16:15:22Z</time>
+        <extensions>
+          <u-gotMe:speed>5.167</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22063918597996" lon="6.903673578053713">
+        <ele>26.0</ele>
+        <time>2016-10-15T16:15:27Z</time>
+        <extensions>
+          <u-gotMe:speed>2.013</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22058839164674" lon="6.903721187263727">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T16:15:30Z</time>
+        <extensions>
+          <u-gotMe:speed>2.312</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220525024458766" lon="6.903743399307132">
+        <ele>26.0</ele>
+        <time>2016-10-15T16:15:32Z</time>
+        <extensions>
+          <u-gotMe:speed>3.518</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22033157013357" lon="6.903767120093107">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T16:15:36Z</time>
+        <extensions>
+          <u-gotMe:speed>2.051</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220298713073134" lon="6.903954287990928">
+        <ele>25.399999999999977</ele>
+        <time>2016-10-15T16:15:40Z</time>
+        <extensions>
+          <u-gotMe:speed>4.231</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22030491568148" lon="6.904014805331826">
+        <ele>25.600000000000023</ele>
+        <time>2016-10-15T16:15:41Z</time>
+        <extensions>
+          <u-gotMe:speed>4.479</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22033182159066" lon="6.90415034070611">
+        <ele>26.200000000000045</ele>
+        <time>2016-10-15T16:15:43Z</time>
+        <extensions>
+          <u-gotMe:speed>5.071</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22036727704108" lon="6.904295179992914">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T16:15:45Z</time>
+        <extensions>
+          <u-gotMe:speed>5.365</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22049593925476" lon="6.904848134145141">
+        <ele>26.600000000000023</ele>
+        <time>2016-10-15T16:15:52Z</time>
+        <extensions>
+          <u-gotMe:speed>5.947</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220652932301164" lon="6.905576772987843">
+        <ele>27.200000000000045</ele>
+        <time>2016-10-15T16:16:01Z</time>
+        <extensions>
+          <u-gotMe:speed>6.054</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22071663476527" lon="6.905817501246929">
+        <ele>27.600000000000023</ele>
+        <time>2016-10-15T16:16:04Z</time>
+        <extensions>
+          <u-gotMe:speed>5.948</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.220833729952574" lon="6.9062188267707825">
+        <ele>28.0</ele>
+        <time>2016-10-15T16:16:09Z</time>
+        <extensions>
+          <u-gotMe:speed>6.2</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22097362391651" lon="6.906712017953396">
+        <ele>28.600000000000023</ele>
+        <time>2016-10-15T16:16:15Z</time>
+        <extensions>
+          <u-gotMe:speed>6.146</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22105476073921" lon="6.907044695690274">
+        <ele>28.799999999999955</ele>
+        <time>2016-10-15T16:16:19Z</time>
+        <extensions>
+          <u-gotMe:speed>6.102</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221249137073755" lon="6.907680714502931">
+        <ele>29.200000000000045</ele>
+        <time>2016-10-15T16:16:27Z</time>
+        <extensions>
+          <u-gotMe:speed>5.964</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221372267231345" lon="6.90796947106719">
+        <ele>29.600000000000023</ele>
+        <time>2016-10-15T16:16:31Z</time>
+        <extensions>
+          <u-gotMe:speed>5.649</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22148776985705" lon="6.908257557079196">
+        <ele>30.0</ele>
+        <time>2016-10-15T16:16:35Z</time>
+        <extensions>
+          <u-gotMe:speed>5.802</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221669824793935" lon="6.9088628981262445">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:16:43Z</time>
+        <extensions>
+          <u-gotMe:speed>5.884</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.221801253035665" lon="6.909351646900177">
+        <ele>30.799999999999955</ele>
+        <time>2016-10-15T16:16:49Z</time>
+        <extensions>
+          <u-gotMe:speed>5.989</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22185003571212" lon="6.909516351297498">
+        <ele>30.799999999999955</ele>
+        <time>2016-10-15T16:16:51Z</time>
+        <extensions>
+          <u-gotMe:speed>6.03</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22201717086136" lon="6.910181622952223">
+        <ele>31.0</ele>
+        <time>2016-10-15T16:16:59Z</time>
+        <extensions>
+          <u-gotMe:speed>5.721</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.222107611596584" lon="6.910504326224327">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:17:04Z</time>
+        <extensions>
+          <u-gotMe:speed>3.726</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22215781919658" lon="6.910660983994603">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:17:09Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22217676229775" lon="6.910690488293767">
+        <ele>30.0</ele>
+        <time>2016-10-15T16:17:15Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22211850807071" lon="6.910692835226655">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:17:22Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22208288498223" lon="6.9107395224273205">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:17:30Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22207165323198" lon="6.910739857703447">
+        <ele>30.200000000000045</ele>
+        <time>2016-10-15T16:17:40Z</time>
+        <extensions>
+          <u-gotMe:speed>0.0</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22201750613749" lon="6.910767937079072">
+        <ele>30.399999999999977</ele>
+        <time>2016-10-15T16:17:44Z</time>
+        <extensions>
+          <u-gotMe:speed>1.851</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22199403680861" lon="6.910775983706117">
+        <ele>30.600000000000023</ele>
+        <time>2016-10-15T16:17:45Z</time>
+        <extensions>
+          <u-gotMe:speed>2.015</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+      <trkpt lat="52.22185573540628" lon="6.910881092771888">
+        <ele>30.799999999999955</ele>
+        <time>2016-10-15T16:17:52Z</time>
+        <extensions>
+          <u-gotMe:speed>2.089</u-gotMe:speed>
+          <u-gotMe:temp>11</u-gotMe:temp>
+        </extensions>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
