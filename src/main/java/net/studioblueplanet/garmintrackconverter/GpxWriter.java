@@ -31,11 +31,11 @@ import net.studioblueplanet.logger.DebugLogger;
 
 /**
  * This class writes tracks and waypoints to GPX file.
- * The major difference between GPX 1.0 and GPX 1.1 is the <extensions> element.
+ * The major difference between GPX 1.0 and GPX 1.1 is the &lt;extensions&gt; element.
  * This element is available in GPX 1.1 and not in GPX 1.0.
- * Minor difference is that <speed> and <course> no longer exist in GPX 1.1.
- * Therefore, tracks writen in GPX 1.1 use the extensions element. Private
- * fields are used in the <extensions> element in the u-gotMe namespace
+ * Minor difference is that &lt;speed&gt; and &lt;course&gt; no longer exist in GPX 1.1.
+ * Therefore, tracks written in GPX 1.1 use the &lt;extensions&gt; element. Private
+ * fields are used in the extensions element in the u-gotMe namespace
  * @author Jorgen
  */
 public class GpxWriter
@@ -517,6 +517,8 @@ public class GpxWriter
     /**
      * Write the track to a GPX file
      * @param fileName Name of the file to write to
+     * @param track Track to write
+     * @param trackName Name for the track to use inside the GPX file 
      */
     public void writeTrackToFile(String fileName, Track track, String trackName)
     {

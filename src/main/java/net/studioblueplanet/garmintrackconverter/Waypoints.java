@@ -76,7 +76,7 @@ public class Waypoints
     
     /**
      * This method returns the number of waypoints
-     * @return 
+     * @return The number of waypoints
      */
     public int getNumberOfWaypoints()
     {
