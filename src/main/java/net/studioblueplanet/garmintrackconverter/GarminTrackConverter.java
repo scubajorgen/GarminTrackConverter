@@ -6,15 +6,9 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
-import org.jdesktop.application.ResourceMap;
-
-import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import java.awt.Image;
-
-
 import java.util.ArrayList;
 
 /**

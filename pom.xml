@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.studioblueplanet</groupId>
     <artifactId>GarminTrackConverter</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -15,6 +15,11 @@
             <groupId>org.jdesktop</groupId>
             <artifactId>appframework</artifactId>
             <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FitReader</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
     <properties>
@@ -31,19 +36,19 @@
                 <version>1.4</version>
                 <executions>
                     <execution>
-                      <id>add-application-resource</id>
-                      <phase>generate-sources</phase>
-                      <goals>
-                        <goal>add-resource</goal>
-                      </goals>
-                      <configuration> 
-                        <resources>
-                          <resource>
-                            <directory>${basedir}/src/main/java/net/studioblueplanet/garmintrackconverter/resources</directory>
-                            <targetPath>net/studioblueplanet/garmintrackconverter/resources</targetPath>
-                          </resource>
-                        </resources>
-                      </configuration>
+                        <id>add-application-resource</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration> 
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/java/net/studioblueplanet/garmintrackconverter/resources</directory>
+                                    <targetPath>net/studioblueplanet/garmintrackconverter/resources</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -105,26 +110,26 @@
 
             <!-- Copy the TomTomWatch.properties to the target dir -->
             <plugin>
-              <artifactId>maven-resources-plugin</artifactId>
-              <version>3.0.2</version>
-              <executions>
-                <execution>
-                  <id>copy-resources</id>
-                  <phase>prepare-package</phase>
-                  <goals>
-                    <goal>copy-resources</goal>
-                  </goals>
-                  <configuration>
-                    <outputDirectory>${basedir}/target</outputDirectory>
-                    <resources>          
-                      <resource>
-                        <directory>src/main/resources_run</directory>
-                        <filtering>true</filtering>
-                      </resource>
-                    </resources>              
-                  </configuration>            
-                </execution>
-              </executions>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>src/main/resources_run</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
             </plugin>
             
             <plugin>
@@ -139,6 +144,31 @@
                     </execution>
                 </executions>
             </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        net.studioblueplanet.garmintrackconverter.GarminTrackConverter
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> 
         </plugins>
  
     </build>    
