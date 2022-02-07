@@ -192,13 +192,13 @@ public class GpxWriter
 
         // u-gotMe namespace
         attr = doc.createAttribute("xmlns:u-gotMe");
-        attr.setValue("http://u-gotme.deepocean.net");
+        attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v2");
         gpxElement.setAttributeNode(attr);
 
         // Schema locations
         attr = doc.createAttribute("xsi:schemaLocation");
         attr.setValue("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                      "http://u-gotme.deepocean.net http://www.deepocean.net/u-gotme/u-gotme.xsd");
+                      "http://tracklog.studioblueplanet.net/gpxextensions/v2 https://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd");
         gpxElement.setAttributeNode(attr);
 
     }
@@ -403,6 +403,10 @@ public class GpxWriter
             pointElement    = doc.createElement("wpt");
             trackElement.appendChild(pointElement);
 
+            element    = doc.createElement("ele");
+            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation())));
+            pointElement.appendChild(element);
+
             element    = doc.createElement("time");
             dateTime=point.getDateTime();
             dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
@@ -431,11 +435,6 @@ public class GpxWriter
             attr = doc.createAttribute("lon");
             attr.setValue(String.valueOf(point.getLongitude()));
             pointElement.setAttributeNode(attr);
-
-            element    = doc.createElement("ele");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation())));
-            pointElement.appendChild(element);
-
 
             wayPoints++;
         }

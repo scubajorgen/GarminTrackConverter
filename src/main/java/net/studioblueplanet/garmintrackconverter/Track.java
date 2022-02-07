@@ -33,10 +33,10 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class Track
 {
-    private ArrayList<TrackSegment>     segments;
-    private ArrayList<Waypoint>         waypoints;
-    private String                      lastError;
-    private String                      deviceName;
+    private final ArrayList<TrackSegment>   segments;
+    private final ArrayList<Waypoint>       waypoints;
+    private final String                    lastError;
+    private String                          deviceName;
     
     public Track(String trackFileName, String deviceFileName)
     {
@@ -55,6 +55,8 @@ public class Track
         lapRecord       =repository.getFitRecord("lap");
         trackRecord     =repository.getFitRecord("record");
 
+        repository.dumpRecordDefintions();
+        
         if (lapRecord!=null && trackRecord!=null)
         {
             this.parseLaps(lapRecord);
