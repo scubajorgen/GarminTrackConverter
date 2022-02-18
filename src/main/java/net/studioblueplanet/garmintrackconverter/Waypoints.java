@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.studioblueplanet.fitreader.FitReader;
-import net.studioblueplanet.fitreader.FitRecordRepository;
-import net.studioblueplanet.fitreader.FitRecord;
+import net.studioblueplanet.fitreader.FitMessageRepository;
+import net.studioblueplanet.fitreader.FitMessage;
 
 /**
  *
@@ -29,8 +29,8 @@ public class Waypoints
     public Waypoints(String waypointFileName)
     {
         FitReader               reader;
-        FitRecordRepository     repository;
-        FitRecord               record;
+        FitMessageRepository     repository;
+        FitMessage               record;
         double                  lat;
         double                  lon;
         double                  ele;
@@ -44,10 +44,10 @@ public class Waypoints
         waypoints=new ArrayList<Waypoint>();
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
-        record=repository.getFitRecord("waypoints");
+        record=repository.getFitMessage("waypoints");
         if (record!=null)
         {
-            size=record.getNumberOfRecordValues();
+            size=record.getNumberOfRecords();
             i=0;
             while (i<size)
             {

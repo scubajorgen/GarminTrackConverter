@@ -7,8 +7,8 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import net.studioblueplanet.fitreader.FitReader;
-import net.studioblueplanet.fitreader.FitRecord;
-import net.studioblueplanet.fitreader.FitRecordRepository;
+import net.studioblueplanet.fitreader.FitMessage;
+import net.studioblueplanet.fitreader.FitMessageRepository;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,9 +41,9 @@ public class Track
     public Track(String trackFileName, String deviceFileName)
     {
         FitReader               reader;
-        FitRecordRepository     repository;
-        FitRecord               lapRecord;
-        FitRecord               trackRecord;
+        FitMessageRepository     repository;
+        FitMessage               lapRecord;
+        FitMessage               trackRecord;
 
         
         segments        =new ArrayList<TrackSegment>();
@@ -52,10 +52,10 @@ public class Track
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
-        lapRecord       =repository.getFitRecord("lap");
-        trackRecord     =repository.getFitRecord("record");
+        lapRecord       =repository.getFitMessage("lap");
+        trackRecord     =repository.getFitMessage("record");
 
-        repository.dumpRecordDefintions();
+        repository.dumpMessageDefintions();
         
         if (lapRecord!=null && trackRecord!=null)
         {
@@ -71,7 +71,7 @@ public class Track
      * This method parses the FIT lap record and destilates the number of laps.
      * @param lapRecord The FIT record holding the 'lap' info
      */
-    private void parseLaps(FitRecord lapRecord)
+    private void parseLaps(FitMessage lapRecord)
     {
         int i;
         int size;
@@ -80,7 +80,7 @@ public class Track
         double                  elapsedTime;
         TrackSegment            segment;
         
-        size            =lapRecord.getNumberOfRecordValues();
+        size            =lapRecord.getNumberOfRecords();
         i=0;
         while (i<size)
         {
@@ -105,7 +105,7 @@ public class Track
      * This method parses the FIT activity record. It destiles the track points
      * @param trackRecord The record holding the 'activity' information
      */
-    private void parseTrackPoints(FitRecord trackRecord)
+    private void parseTrackPoints(FitMessage trackRecord)
     {
         double                  lat;
         double                  lon;
@@ -123,7 +123,7 @@ public class Track
         TrackSegment            segment;
 
 
-        size            =trackRecord.getNumberOfRecordValues();
+        size            =trackRecord.getNumberOfRecords();
         i=0;
         while (i<size)
         {

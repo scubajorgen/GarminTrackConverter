@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.studioblueplanet</groupId>
     <artifactId>GarminTrackConverter</artifactId>
-    <version>1.2</version>
+    <version>2.0</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>FitReader</artifactId>
-            <version>1.2</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <properties>
