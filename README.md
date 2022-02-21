@@ -7,6 +7,8 @@ Garmin .FIT tracks do not contain marked waypoints. These are stored in a separa
 On the Garmin Edge810 this file is Locations.fit.
 During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track.
 
+![](image/GarminTrackConverter.png)
+
 Features
 * Conversion of activity fit files to GPX 1.1
 * Including waypoints logged during the activity
