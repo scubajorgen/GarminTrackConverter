@@ -35,6 +35,7 @@ public class Waypoints
         double                  lon;
         double                  ele;
         DateTime                dateTime;
+        String                  dateTimeString;
         int                     symbol;
         String                  name;
         String                  description;
@@ -61,9 +62,17 @@ public class Waypoints
                 this.waypoints.add(new Waypoint(name, description, dateTime, lat, lon, ele, symbol));
 
 
+                if (dateTime!=null)
+                {
+                    dateTimeString=dateTime.toString();
+                }
+                else
+                {
+                    dateTimeString="";
+                }
                 DebugLogger.debug("Waypoint "+record.getIntValue(i, "message_index")+
                                  ": "+name +"("+description+") "+
-                                 dateTime.toString()+
+                                 dateTimeString+
                                  "("+lat+","+lon+")"+
                                  " symbol "+symbol+
                                  " alt "+ele

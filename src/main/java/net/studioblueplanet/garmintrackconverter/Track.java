@@ -12,16 +12,7 @@ import net.studioblueplanet.fitreader.FitMessageRepository;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.File;
+import java.util.List;
 
 import net.studioblueplanet.logger.DebugLogger;
         
@@ -33,21 +24,25 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class Track
 {
-    private final ArrayList<TrackSegment>   segments;
-    private final ArrayList<Waypoint>       waypoints;
+    private final List<TrackSegment>        segments;
+    private final List<Waypoint>            waypoints;
     private final String                    lastError;
     private String                          deviceName;
     
-    public Track(String trackFileName, String deviceFileName)
+    /**
+     * Constructor
+     * @param trackFileName Track file
+     * @param deviceName Description of the device that recorded the track
+     */
+    public Track(String trackFileName, String deviceName)
     {
         FitReader               reader;
-        FitMessageRepository     repository;
-        FitMessage               lapRecord;
-        FitMessage               trackRecord;
-
+        FitMessageRepository    repository;
+        FitMessage              lapRecord;
+        FitMessage              trackRecord;
         
-        segments        =new ArrayList<TrackSegment>();
-        waypoints       =new ArrayList<Waypoint>();
+        segments        =new ArrayList<>();
+        waypoints       =new ArrayList<>();
         lastError       ="Ok";
         
         reader          =FitReader.getInstance();
@@ -62,9 +57,8 @@ public class Track
             this.parseLaps(lapRecord);
             this.parseTrackPoints(trackRecord);
 
-            this.parseDeviceFile(deviceFileName);
+            this.deviceName=deviceName;
         }
-    
     }
 
     /**
@@ -159,44 +153,14 @@ public class Track
                              );
             i++;
         }           
-        
     }
     
     /**
-     * Parse the device file for the name of the device
-     * @param deviceFileName XML file containing device info
+     * Add the waypoints that were read from the locations.fit file. 
+     * Only the waypoints that were recorded during the track are added 
+     * to the track.
+     * @param allWaypoints The waypoints read from the device
      */
-    public void parseDeviceFile(String deviceFileName)
-    {
-        File                    xmlFile;
-        Document                doc;
-        DocumentBuilder         dBuilder;
-        DocumentBuilderFactory  dbFactory;
-        Element                 device;
-        Element                 model;
-        Element                 id;
-        Element                 description;
-        
-        xmlFile=new File(deviceFileName);
-	dbFactory = DocumentBuilderFactory.newInstance();
-	
-        try
-        {
-            dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(xmlFile);
-            id          =(Element)doc.getElementsByTagName("Id").item(0);
-            model       =(Element)doc.getElementsByTagName("Model").item(0);
-            description =(Element)model.getElementsByTagName("Description").item(0);
-            deviceName=description.getTextContent()+" - "+id.getTextContent();
-            DebugLogger.info("Found "+deviceName);
-        }
-        catch(Exception e)
-        {
-            DebugLogger.error("Error parsing device file");
-        }
-               
-    }
-    
     public void addTrackWaypoints(ArrayList<Waypoint> allWaypoints)
     {
         DateTime                dateTime;
@@ -225,7 +189,6 @@ public class Track
                 }
             }
         }
-            
     }
     
     /**
@@ -254,6 +217,7 @@ public class Track
             i++;
         }
         info+=" points)";
+        info+=" and "+waypoints.size()+" waypoints";
         return info;
     }
     
@@ -280,12 +244,16 @@ public class Track
      * @param segment The segment to request the track points for
      * @return The array list with track points
      */
-    public ArrayList<TrackPoint> getTrackPoints(int segment)
+    public List<TrackPoint> getTrackPoints(int segment)
     {
         return this.segments.get(segment).getTrackPoints();
     }
     
-    public ArrayList<Waypoint> getWayPoints()
+    /**
+     * Returns an array of waypoints that were recorded during the track
+     * @return A list of waypoints
+     */
+    public List<Waypoint> getWayPoints()
     {
         return this.waypoints;
     }

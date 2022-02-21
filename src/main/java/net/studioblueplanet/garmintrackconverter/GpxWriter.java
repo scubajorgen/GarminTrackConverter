@@ -21,10 +21,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-
 import hirondelle.date4j.DateTime;
 
 import net.studioblueplanet.logger.DebugLogger;
@@ -237,23 +233,14 @@ public class GpxWriter
      */
     private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo)
     {
-        ArrayList <TrackPoint>      points;
-        Iterator<TrackPoint>        iterator;
-        TrackPoint                  point;
         Element                     pointElement;
         Element                     element;
         Attr                        attr;
         DateTime                    dateTime;
         String                      dateTimeString;
 
-
-        points=track.getTrackPoints(segmentNo);
-
-        iterator=points.iterator();
-
-        while (iterator.hasNext())
+        for (TrackPoint point : track.getTrackPoints(segmentNo))
         {
-            point           =iterator.next();
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
@@ -303,9 +290,6 @@ public class GpxWriter
      */
     private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo)
     {
-        ArrayList <TrackPoint>   points;
-        Iterator<TrackPoint>     iterator;
-        TrackPoint               point;
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
@@ -314,13 +298,8 @@ public class GpxWriter
         String                      dateTimeString;
 
 
-        points=track.getTrackPoints(segmentNo);
-
-        iterator=points.iterator();
-
-        while (iterator.hasNext())
+        for(TrackPoint point : track.getTrackPoints(segmentNo))
         {
-            point           =iterator.next();
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
@@ -349,10 +328,6 @@ public class GpxWriter
             element    = doc.createElement("u-gotMe:temp");
             element.appendChild(doc.createTextNode(String.valueOf(point.getTemperature())));
             extensionsElement.appendChild(element);
-
-
-
-            
             
             // set attribute 'lat' to element
             attr = doc.createAttribute("lat");
@@ -380,9 +355,6 @@ public class GpxWriter
      */
     private void appendWaypointsGpx(Document doc, Element trackElement, Track track)
     {
-        ArrayList <Waypoint>        points;
-        Iterator<Waypoint>          iterator;
-        Waypoint                    point;
         Element                     pointElement;
         Element                     element;
         Element                     extensionElement;
@@ -390,16 +362,8 @@ public class GpxWriter
         DateTime                    dateTime;
         String                      dateTimeString;
 
-
-        // Retrieve the list of waypoints
-        points=track.getWayPoints();
-
-        // Parse the points
-        iterator=points.iterator();
-
-        while (iterator.hasNext())
+        for(Waypoint point : track.getWayPoints())
         {
-            point           =iterator.next();
             pointElement    = doc.createElement("wpt");
             trackElement.appendChild(pointElement);
 
@@ -440,8 +404,6 @@ public class GpxWriter
         }
 
     }
-
-
 
     /**
      * This method adds the track segments to the track.
@@ -504,12 +466,6 @@ public class GpxWriter
         }
     }
 
-
-
-
-
-
-
     /* ************************************************************************\
      * The interface functions
      * ************************************************************************/
@@ -527,15 +483,13 @@ public class GpxWriter
         Attr        attr;
         String      creator;
 
-
-        wayPoints=0;
-        trackPoints=0;
+        wayPoints   =0;
+        trackPoints =0;
 
         try
         {
             // create the GPX file
             createGpxDocument(track.getDeviceName());
-
 
             addTrack(doc, gpxElement, track, trackName);
 

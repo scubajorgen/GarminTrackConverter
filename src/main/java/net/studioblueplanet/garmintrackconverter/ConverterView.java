@@ -11,11 +11,17 @@ import javax.swing.JTextField;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -23,89 +29,111 @@ import java.io.File;
  */
 public class ConverterView extends javax.swing.JFrame implements Runnable
 {
-    private Settings        settings;
+    private final Settings  settings;
+    private boolean         tracksShown;
     private Track           track;
     private Waypoints       waypoints;
-    private ImageIcon       checkImage;
-    private ImageIcon       failImage;
+    private Device          device;
     
-    private Thread          thread;
-    private boolean         threadExit;
+    private final Thread    thread;
+    private final boolean   threadExit;
+    
+    private final Map<String,Track>   tracks;
+    
+    private final MapOsm    map;
+
     /**
      * Creates new form ConverterView
      */
     public ConverterView()
     {
+        //DefaultListModel<String> model;
+
         settings=Settings.getInstance();
         this.setResizable(false);
         initComponents();
-        this.textFieldWaypointFile.setText(settings.getWaypointFile());
-        this.textFieldDeviceFile.setText(settings.getDeviceFile());
-
+      
+        // Initialize the listbox
+        this.jTrackList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //model=new DefaultListModel<>();
+        //jTrackList.setModel(model);
+                
+        tracks=new HashMap<>();
         
-
-        checkImage = new ImageIcon(getClass().getResource("/net/studioblueplanet/garmintrackconverter/resources/check.png"));
-        failImage = new ImageIcon(getClass().getResource("/net/studioblueplanet/garmintrackconverter/resources/fail.png"));
-
+                // Initialize the map
+        this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
+        map = new MapOsm(this.jMapPanel);
+        this.textAreaOutput.setText("Please attach device\n");
+ 
         
-        
+        tracksShown =false;
         threadExit  =false;
         thread      =new Thread(this);
         thread.start();
-        
     }
     
+    /**
+     * Thread function
+     */
+    @Override
     public void run()
     {
-        String  trackFile;
-        String  waypointFile;
-        String  deviceFile;
-        boolean localThreadExit;
-        File    file;
+        String                          waypointFile;
+        String                          deviceFile;
+        boolean                         localThreadExit;
+        File                            trackFile;
+        final DefaultListModel<String>  model;
+        
+        model=new DefaultListModel<>();
+        //model=(DefaultListModel<String>)jTrackList.getModel();
+        
+        synchronized(this)
+        {
+            localThreadExit=threadExit;
+            trackFile=new File(settings.getTrackFilePath());
+        }        
         
         do
         {
             synchronized(this)
             {
                 localThreadExit=threadExit;
-                trackFile=this.textFieldTrackFile.getText();
-                if (trackFile.equals(""))
+            }
+            
+            if (!tracksShown)
+            {
+                if (trackFile.exists())
                 {
-                    trackFile=settings.getTrackFilePath();
+                    this.textAreaOutput.append("Initializing...\n");
+                    readWaypoints();
+                    
+                    readDevice();
+
+                    textAreaOutput.append("File "+trackFile.getAbsolutePath()+"\n");
+                    Stream.of(trackFile.listFiles())
+                    .filter(file -> !file.isDirectory())
+                    .sorted()
+                    .map(File::getName).forEach(file -> {model.addElement(file);});
+                    SwingUtilities.invokeLater(new Runnable() {public void run() 
+                    {                          
+                        jTrackList.setModel(model);
+                    }});
+                    tracksShown=true;
                 }
-                waypointFile    =this.textFieldWaypointFile.getText();
-                deviceFile      =this.textFieldDeviceFile.getText();
-            }
-            file=new File(trackFile);
-            if (file.exists())
-            {
-                imageLabelTrack.setIcon(checkImage);
-            }
+            } 
             else
             {
-                imageLabelTrack.setIcon(failImage);
+                if (!trackFile.exists())
+                {
+                    this.textAreaOutput.setText("Please attach device\n");
+                    tracks.clear();
+                    SwingUtilities.invokeLater(new Runnable() {public void run() 
+                    {                          
+                        ((DefaultListModel)(jTrackList.getModel())).clear();
+                    }});
+                    tracksShown=false;
+                }
             }
-
-            file=new File(waypointFile);
-            if (file.exists())
-            {
-                imageLabelWaypoint.setIcon(checkImage);
-            }
-            else
-            {
-                imageLabelWaypoint.setIcon(failImage);
-            }
-
-            file=new File(deviceFile);
-            if (file.exists())
-            {
-                imageLabelDevice.setIcon(checkImage);
-            }
-            else
-            {
-                imageLabelDevice.setIcon(failImage);
-            }
-      
             try
             {
                 Thread.sleep(1000);
@@ -116,9 +144,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
             }
         }        
-        while (!threadExit);
+        while (!localThreadExit);
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,26 +159,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        textFieldTrackFile = new javax.swing.JTextField();
-        buttonChooseTrackFile = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        textFieldWaypointFile = new javax.swing.JTextField();
-        buttonChooseWaypointFile = new javax.swing.JButton();
-        textFieldGpxFile = new javax.swing.JTextField();
-        buttonChooseGpxFile = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
-        buttonConvert = new javax.swing.JButton();
-        imageLabelTrack = new javax.swing.JLabel();
+        buttonSave = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        imageLabelWaypoint = new javax.swing.JLabel();
-        imageLabelDevice = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        textFieldDeviceFile = new javax.swing.JTextField();
-        buttonChooseDeviceFile = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTrackList = new javax.swing.JList<>();
+        jMapPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -164,374 +181,103 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        buttonChooseTrackFile.setText("Choose");
-        buttonChooseTrackFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                buttonChooseTrackFileActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Track file");
-
-        jLabel2.setText("Waypoint file");
-
-        buttonChooseWaypointFile.setText("Choose");
-        buttonChooseWaypointFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                buttonChooseWaypointFileActionPerformed(evt);
-            }
-        });
-
-        textFieldGpxFile.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
-                textFieldGpxFileFocusLost(evt);
-            }
-        });
-
-        buttonChooseGpxFile.setText("Choose");
-        buttonChooseGpxFile.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                buttonChooseGpxFileActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("GPX File");
-
         textAreaOutput.setColumns(20);
         textAreaOutput.setRows(5);
         jScrollPane1.setViewportView(textAreaOutput);
 
-        buttonConvert.setText("Convert");
-        buttonConvert.addActionListener(new java.awt.event.ActionListener()
+        buttonSave.setText("Save GPX");
+        buttonSave.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                buttonConvertActionPerformed(evt);
+                buttonSaveActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Device File");
-
-        buttonChooseDeviceFile.setText("Choose");
-        buttonChooseDeviceFile.addActionListener(new java.awt.event.ActionListener()
+        jTrackList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                buttonChooseDeviceFileActionPerformed(evt);
+                jTrackListValueChanged(evt);
             }
         });
+        jScrollPane2.setViewportView(jTrackList);
+
+        jMapPanel.setBackground(new java.awt.Color(200, 200, 240));
+
+        javax.swing.GroupLayout jMapPanelLayout = new javax.swing.GroupLayout(jMapPanel);
+        jMapPanel.setLayout(jMapPanelLayout);
+        jMapPanelLayout.setHorizontalGroup(
+            jMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 513, Short.MAX_VALUE)
+        );
+        jMapPanelLayout.setVerticalGroup(
+            jMapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonConvert)
-                .addGap(274, 274, 274))
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator3)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(textFieldDeviceFile, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(textFieldGpxFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                                .addComponent(textFieldWaypointFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                                .addComponent(textFieldTrackFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jLabel5))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(imageLabelTrack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(imageLabelWaypoint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(buttonChooseTrackFile)
-                                            .addComponent(buttonChooseWaypointFile)
-                                            .addComponent(buttonChooseDeviceFile)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(buttonChooseGpxFile))))
-                            .addComponent(imageLabelDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator3))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonSave)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textFieldTrackFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(imageLabelTrack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(textFieldWaypointFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(imageLabelWaypoint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(buttonChooseTrackFile)
-                        .addGap(36, 36, 36)
-                        .addComponent(buttonChooseWaypointFile)))
+                .addGap(107, 107, 107)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel5)
-                                .addGap(4, 4, 4)
-                                .addComponent(textFieldDeviceFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(buttonChooseDeviceFile)))
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(imageLabelDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                    .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textFieldGpxFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonChooseGpxFile))
-                .addGap(18, 18, 18)
-                .addComponent(buttonConvert)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addComponent(buttonSave)
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Handles the choose track file button
-     * @param evt Button event.
-     */
-    private void buttonChooseTrackFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonChooseTrackFileActionPerformed
-    {//GEN-HEADEREND:event_buttonChooseTrackFileActionPerformed
-        JFileChooser                fc;
-        String                      fileName;
-        String                      path;
-        FileNameExtensionFilter     fitFileFilter;
-        int                         returnValue;
-        String                      extension;
-        
-        fc= new JFileChooser();
-        
-        fileName=this.textFieldTrackFile.getText();
-        if (fileName.equals(""))
-        {
-            fc.setCurrentDirectory(new File(settings.getTrackFilePath()));
-        }
-        else
-        {
-            fc.setSelectedFile(new File(fileName));
-        }
-        fitFileFilter=new FileNameExtensionFilter("FIT files (*.fit)", "FIT");
-
-        // Set file extension filters
-        fc.addChoosableFileFilter(fitFileFilter);
-        fc.setFileFilter(fitFileFilter);
-        
-        returnValue=fc.showDialog(null, "Select");
-        
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            path=fc.getCurrentDirectory().toString();
-            settings.setTrackFilePath(path);
-            fileName=path+"/"+fc.getSelectedFile().getName().toString();
-            
-            // Make sure the extension is .fit
-            extension=".fit";
-            if(!fileName.toLowerCase().endsWith(extension))
-            {
-                fileName +=extension;
-            }
-            this.textFieldTrackFile.setText(fileName);
-        }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
-
-        }  
-    }//GEN-LAST:event_buttonChooseTrackFileActionPerformed
-
-    /**
      * Handles the convert button
      * @param evt Button event
      */
-    private void buttonConvertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonConvertActionPerformed
-    {//GEN-HEADEREND:event_buttonConvertActionPerformed
-        String      waypointsFile;
-        String      trackFile;
-        String      gpxFile;
-        String      deviceFile;
-        GpxWriter   writer;
-        boolean     error;
-        
-        error=false;
-        
-        waypointsFile   =this.textFieldWaypointFile.getText();
-        deviceFile      =this.textFieldDeviceFile.getText();
-        trackFile       =this.textFieldTrackFile.getText();
-        gpxFile         =this.textFieldGpxFile.getText();
-        
-        
-        
-        if (trackFile.equals(""))
-        {
-            this.textAreaOutput.setText("First select the track file");
-        }
-        else if (gpxFile.equals(""))
-        {
-            this.textAreaOutput.setText("First select the gpx output file");
-        }
-        else if (waypointsFile.equals(""))
-        {
-            this.textAreaOutput.setText("First select the waypoint file");
-        }
-        else if (deviceFile.equals(""))
-        {
-            this.textAreaOutput.setText("First select the device file");
-        }
-        else
-        {
-            if (!error)
-            {
-                this.textAreaOutput.setText("Converting\n");
-                waypoints=new Waypoints(waypointsFile);
-                if (waypoints!=null)
-                {
-                    this.textAreaOutput.setText(textAreaOutput.getText()+"Number of waypoints read: "+waypoints.getNumberOfWaypoints()+"\n");
-                }
-                else
-                {
-                    this.textAreaOutput.setText("Error reading waypoints");
-                    error=true;
-                }
-            }
-            
-            if (!error)
-            {
-                track=new Track(trackFile, deviceFile);
-                if (track!=null)
-                {
-                    track.addTrackWaypoints(waypoints.getWaypoints());
-                    this.textAreaOutput.setText(textAreaOutput.getText()+track.getTrackInfo()+"\n");                    
-                }
-                else
-                {
-                    this.textAreaOutput.setText("Error reading track");
-                    error=true;
-                }
-            }
-            
-            
-            if (!error)
-            {
-                writer=GpxWriter.getInstance();
-                writer.writeTrackToFile(gpxFile, track, "Track");
-                this.textAreaOutput.setText(textAreaOutput.getText()+"File "+gpxFile+" written\n");
-            }
-        
-        }
-    }//GEN-LAST:event_buttonConvertActionPerformed
-
-    /**
-     * Handles the choose waypoint file button
-     * @param evt Button event.
-     */    
-    private void buttonChooseWaypointFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonChooseWaypointFileActionPerformed
-    {//GEN-HEADEREND:event_buttonChooseWaypointFileActionPerformed
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSaveActionPerformed
+    {//GEN-HEADEREND:event_buttonSaveActionPerformed
         JFileChooser                fc;
         String                      fileName;
         String                      path;
         FileNameExtensionFilter     fitFileFilter;
         int                         returnValue;
         String                      extension;
+        String                      gpxFile;
+        GpxWriter                   writer;        
         
         fc= new JFileChooser();
         
-        fc.setSelectedFile(new File(settings.getWaypointFile()));
-
-        fitFileFilter=new FileNameExtensionFilter("FIT files (*.fit)", "FIT");
-
-        // Set file extension filters
-        fc.addChoosableFileFilter(fitFileFilter);
-        fc.setFileFilter(fitFileFilter);
-        
-        returnValue=fc.showDialog(null, "Select");
-        
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            path=fc.getCurrentDirectory().toString();
-            fileName=path+"/"+fc.getSelectedFile().getName().toString();
-            settings.setWaypointFile(fileName);
-            
-            // Make sure the extension is .fit
-            extension=".fit";
-            if(!fileName.toLowerCase().endsWith(extension))
-            {
-                fileName +=extension;
-            }
-            
-            this.textFieldWaypointFile.setText(fileName);
-        }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
-
-        }        
-        
-    }//GEN-LAST:event_buttonChooseWaypointFileActionPerformed
-
-    /**
-     * Handles the choose gpx file button
-     * @param evt Button event
-     */
-    private void buttonChooseGpxFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonChooseGpxFileActionPerformed
-    {//GEN-HEADEREND:event_buttonChooseGpxFileActionPerformed
-        JFileChooser                fc;
-        String                      fileName;
-        String                      path;
-        FileNameExtensionFilter     fitFileFilter;
-        int                         returnValue;
-        String                      extension;
-        
-        fc= new JFileChooser();
-        
-        fileName=this.textFieldGpxFile.getText();
+        // TO DO: generate a sensible filename
+        fileName="";
         if (fileName.equals(""))
         {
             fc.setCurrentDirectory(new File(settings.getGpxFilePath()));
@@ -546,13 +292,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         fc.addChoosableFileFilter(fitFileFilter);
         fc.setFileFilter(fitFileFilter);
         
-        returnValue=fc.showDialog(null, "Select");
+        returnValue=fc.showDialog(null, "Save");
         
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
             path=fc.getCurrentDirectory().toString();
             settings.setGpxFilePath(path);
-            fileName=path+"/"+fc.getSelectedFile().getName().toString();
+            fileName=path+"/"+fc.getSelectedFile().getName();
             
             // Make sure the extension is .gpx
             extension=".gpx";
@@ -561,111 +307,121 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 fileName +=extension;
             }
             
-            this.textFieldGpxFile.setText(fileName);
+            writer=GpxWriter.getInstance();
+            writer.writeTrackToFile(fileName, track, "Track");
+            this.textAreaOutput.setText(textAreaOutput.getText()+"File "+fileName+" written\n");
         }
         if (returnValue == JFileChooser.CANCEL_OPTION)
         {
 
         }  
-    }//GEN-LAST:event_buttonChooseGpxFileActionPerformed
+    }//GEN-LAST:event_buttonSaveActionPerformed
 
-    private void buttonChooseDeviceFileActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonChooseDeviceFileActionPerformed
-    {//GEN-HEADEREND:event_buttonChooseDeviceFileActionPerformed
-        JFileChooser                fc;
-        String                      fileName;
-        String                      path;
-        FileNameExtensionFilter     xmlFileFilter;
-        int                         returnValue;
-        String                      extension;
+    private void jTrackListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jTrackListValueChanged
+    {//GEN-HEADEREND:event_jTrackListValueChanged
+        int     index;
+        String  fullFileName;
+        String  fileName;
         
-        fc= new JFileChooser();
-        
-        fc.setSelectedFile(new File(settings.getDeviceFile()));
-
-        xmlFileFilter=new FileNameExtensionFilter("XML files (*.xml)", "XML");
-
-        // Set file extension filters
-        fc.addChoosableFileFilter(xmlFileFilter);
-        fc.setFileFilter(xmlFileFilter);
-        
-        returnValue=fc.showDialog(null, "Select");
-        
-        if (returnValue == JFileChooser.APPROVE_OPTION)
+        if (!evt.getValueIsAdjusting())
         {
-            path=fc.getCurrentDirectory().toString();
-            fileName=path+"/"+fc.getSelectedFile().getName().toString();
-            settings.setDeviceFile(fileName);
-            
-            // Make sure the extension is .xml
-            extension=".xml";
-            if(!fileName.toLowerCase().endsWith(extension))
+            index=jTrackList.getSelectedIndex();
+            fileName=getTrack(index);
+            fullFileName=settings.getTrackFilePath()+"\\"+fileName;
+            if (tracks.containsKey(fileName))
             {
-                fileName +=extension;
-            }
-            
-            this.textFieldDeviceFile.setText(fileName);
-        }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
-
-        }        
-
-    }//GEN-LAST:event_buttonChooseDeviceFileActionPerformed
-
-    private void textFieldGpxFileFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_textFieldGpxFileFocusLost
-    {//GEN-HEADEREND:event_textFieldGpxFileFocusLost
-        String      fileName;
-        String      extension;
-        String[]    parts;
-        
-        fileName=this.textFieldGpxFile.getText();
-        
-       
-
-        if (!fileName.equals(""))
-        {
-            // Make sure the extension is .gpx
-            extension=".gpx";
-            if(!fileName.toLowerCase().endsWith(extension))
-            {
-                fileName +=extension;
-            }             
-            parts=fileName.split("[/:]");
-            if (parts.length==1)
-            {
-                fileName=settings.getGpxFilePath()+fileName;
-                this.textFieldGpxFile.setText(fileName);
+                track=tracks.get(fileName);
             }
             else
             {
-                this.textFieldGpxFile.setText(fileName);
+                track=readTrack(fullFileName);
+                tracks.put(fileName, track);
             }
+            textAreaOutput.append(track.getTrackInfo()+"\n");
+            map.showTrack(track);
         }
-    }//GEN-LAST:event_textFieldGpxFileFocusLost
+    }//GEN-LAST:event_jTrackListValueChanged
 
+    /**
+     * Clear the track/activity list
+     */
+    private void clearTracks()
+    {
+        DefaultListModel<String> model;
+        model=(DefaultListModel)jTrackList.getModel();
+        model.clear();
+    }
+    
+    /**
+     * Get the track at given index in the list
+     * @param index The index
+     * @return The track
+     */
+    private String getTrack(int index)
+    {
+        DefaultListModel<String> model;
+        model=(DefaultListModel)jTrackList.getModel();
+        return model.getElementAt(index);
+    }
+    
+    /**
+     * Reads the fit file into a Track
+     * @param fileName Name of the fit file
+     * @return The track
+     */
+    private Track readTrack(String fileName)
+    {
+        Track theTrack;
+        theTrack=new Track(fileName, device.getDeviceDescription());
 
+        theTrack.addTrackWaypoints(waypoints.getWaypoints());
+
+        return theTrack;
+    }
+
+    
+    private void readWaypoints()
+    {
+        String waypointsFile;
+
+        waypointsFile=settings.getWaypointFile();
+        if (new File(waypointsFile).exists())
+        {
+            waypoints=new Waypoints(waypointsFile);
+            textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
+        }
+        else
+        {
+            textAreaOutput.append("Waypoint file "+waypointsFile+" not found\n");
+        }
+    }
+    
+    private void readDevice()
+    {
+        String deviceFile;
+
+        deviceFile=settings.getDeviceFile();
+        if (new File(deviceFile).exists())
+        {
+            device=new Device(deviceFile);
+            textAreaOutput.append("Device file "+deviceFile+" read\n");
+        }
+        else
+        {
+            textAreaOutput.append("Device file "+deviceFile+" not found\n");
+        }        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonChooseDeviceFile;
-    private javax.swing.JButton buttonChooseGpxFile;
-    private javax.swing.JButton buttonChooseTrackFile;
-    private javax.swing.JButton buttonChooseWaypointFile;
-    private javax.swing.JButton buttonConvert;
-    private javax.swing.JLabel imageLabelDevice;
-    private javax.swing.JLabel imageLabelTrack;
-    private javax.swing.JLabel imageLabelWaypoint;
+    private javax.swing.JButton buttonSave;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jMapPanel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JList<String> jTrackList;
     private javax.swing.JTextArea textAreaOutput;
-    private javax.swing.JTextField textFieldDeviceFile;
-    private javax.swing.JTextField textFieldGpxFile;
-    private javax.swing.JTextField textFieldTrackFile;
-    private javax.swing.JTextField textFieldWaypointFile;
     // End of variables declaration//GEN-END:variables
 }

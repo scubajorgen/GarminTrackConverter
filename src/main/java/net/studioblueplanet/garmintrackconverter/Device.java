@@ -1,0 +1,69 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.studioblueplanet.garmintrackconverter;
+
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import net.studioblueplanet.logger.DebugLogger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+/**
+ * Represents the device as defined in the Garmin device XML fil.
+ * @author jorgen
+ */
+public class Device
+{
+    private String  id;
+    private String  model;
+    private String  description;
+    
+    public Device(String deviceFileName)
+    {
+        File                    xmlFile;
+        Document                doc;
+        DocumentBuilder         dBuilder;
+        DocumentBuilderFactory  dbFactory;
+        Element                 deviceElement;
+        Element                 modelElement;
+        Element                 idElement;
+        Element                 descriptionElement;
+        
+	dbFactory = DocumentBuilderFactory.newInstance();
+	
+        try
+        {
+            xmlFile=new File(deviceFileName);
+
+            dBuilder            = dbFactory.newDocumentBuilder();
+            doc                 = dBuilder.parse(xmlFile);
+            idElement           =(Element)doc.getElementsByTagName("Id").item(0);
+            id                  =idElement.getTextContent();
+            modelElement        =(Element)doc.getElementsByTagName("Model").item(0);
+            model               =modelElement.getTextContent();
+            descriptionElement  =(Element)modelElement.getElementsByTagName("Description").item(0);
+            description         =descriptionElement.getTextContent();
+            DebugLogger.info("Found ID:"+id+" Model: "+model+" Description: "+description);
+        }
+        catch(Exception e)
+        {
+            DebugLogger.error("Error parsing device file");
+            id="unknown";
+            model="unknown";
+            description="unknown";
+        }
+    }
+
+    /**
+     * Return a characterisation of the device
+     * @return Description
+     */
+    public String getDeviceDescription()
+    {
+        return description+" - "+id;
+    }
+}

@@ -6,12 +6,11 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-
 import hirondelle.date4j.DateTime;
 import net.studioblueplanet.logger.DebugLogger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -19,10 +18,10 @@ import java.util.Iterator;
  */
 public class TrackSegment
 {
-    private DateTime                startTime;
-    private DateTime                endTime;
-    private double                  elapsedTime;
-    private ArrayList<TrackPoint>   trackPoints;
+    private final DateTime              startTime;
+    private final DateTime              endTime;
+    private final double                elapsedTime;
+    private final List<TrackPoint>      trackPoints;
     
     /**
      * Constructor. Sets the parameters that defines the lap
@@ -49,7 +48,12 @@ public class TrackSegment
         
         inLap=false;
         
-        if (time.gteq(startTime) && time.lt(endTime))
+        if (time==null)
+        {
+            System.err.println("Null time");
+        }
+        
+        if (time!=null && time.gteq(startTime) && time.lt(endTime))
         {
             inLap=true;
         }
@@ -89,7 +93,7 @@ public class TrackSegment
      * Get the array list with track points belonging to this segment
      * @return The array list with track points
      */
-    public ArrayList<TrackPoint> getTrackPoints()
+    public List<TrackPoint> getTrackPoints()
     {
         return this.trackPoints;
     }
