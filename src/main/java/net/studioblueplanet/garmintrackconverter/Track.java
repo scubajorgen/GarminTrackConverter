@@ -85,11 +85,18 @@ public class Track
             segment     =new TrackSegment(startTime, endTime, elapsedTime);
             segments.add(segment);
             
-            DebugLogger.debug("Lap "+lapRecord.getIntValue(i, "message_index")+
-                             " "+startTime.toString()+
-                             " "+endTime.toString()+
-                             " "+elapsedTime+" s"
-                             );
+            if (startTime!=null && endTime!=null)
+            {
+                DebugLogger.debug("Lap "+lapRecord.getIntValue(i, "message_index")+
+                                 " "+startTime.toString()+
+                                 " "+endTime.toString()+
+                                 " "+elapsedTime+" s"
+                                 );
+            }
+            else
+            {
+                DebugLogger.error("Lap does not contain start and end time");
+            }
             i++;
         }          
         
