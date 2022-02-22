@@ -17,7 +17,11 @@ Features
 
 
 ## Building
-Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first.
+Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first. Manually building:
+
+```
+mvn clean install
+```
 
 ## Configuring
 The application requires a configuration file garmintrackconverter.properties. 
