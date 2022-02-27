@@ -8,7 +8,6 @@ package net.studioblueplanet.garmintrackconverter;
 
 
 import hirondelle.date4j.DateTime;
-import net.studioblueplanet.logger.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +15,8 @@ import java.util.Iterator;
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessageRepository;
 import net.studioblueplanet.fitreader.FitMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -23,6 +24,7 @@ import net.studioblueplanet.fitreader.FitMessage;
  */
 public class Waypoints
 {
+    private final static Logger         LOGGER = LogManager.getLogger(Waypoints.class);
     private ArrayList<Waypoint> waypoints;
     
     
@@ -70,12 +72,8 @@ public class Waypoints
                 {
                     dateTimeString="";
                 }
-                DebugLogger.debug("Waypoint "+record.getIntValue(i, "message_index")+
-                                 ": "+name +"("+description+") "+
-                                 dateTimeString+
-                                 "("+lat+","+lon+")"+
-                                 " symbol "+symbol+
-                                 " alt "+ele
+                LOGGER.debug("Waypoint {}: {} ({}) {} ({},{}) symbol {} alt {}", 
+                             record.getIntValue(i, "message_index"), name, description, dateTimeString, lat, lon, symbol, ele
                                  );
                 i++;
             }        

@@ -6,9 +6,9 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-
 import hirondelle.date4j.DateTime;
-import net.studioblueplanet.logger.DebugLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -16,6 +16,7 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class Waypoint
 {
+    private final static Logger         LOGGER = LogManager.getLogger(Waypoint.class);
     private DateTime 	dateTime;
     private double	latitude;
     private double	longitude;

@@ -5,6 +5,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import hirondelle.date4j.DateTime;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,15 +16,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import hirondelle.date4j.DateTime;
 
-import net.studioblueplanet.logger.DebugLogger;
 
 /**
  * This class writes tracks and waypoints to GPX file.
@@ -36,6 +36,7 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class GpxWriter
 {
+    private final static Logger LOGGER = LogManager.getLogger(GpxWriter.class);
     private static GpxWriter    theInstance=null;
 
 
@@ -82,8 +83,7 @@ public class GpxWriter
         }
         else
         {
-            DebugLogger.error("Illegal GPX version "+newVersion+
-                              ". Version left to "+gpxVersion);
+            LOGGER.error("Illegal GPX version {}. Version left to {}", newVersion, gpxVersion);
         }
     }
 
@@ -496,9 +496,8 @@ public class GpxWriter
             // write the content into xml file
             writeGpxDocument(fileName);
 
-            DebugLogger.info("GpxWriter says: 'File saved to " + fileName + "!'");
-            DebugLogger.info("Track: "+trackName+", track points: "+trackPoints+
-                             ", wayPoints: "+wayPoints);
+            LOGGER.info("GpxWriter says: 'File saved to {}!'", fileName);
+            LOGGER.info("Track: {}, track points: {}, wayPoints: {}", trackName, trackPoints, wayPoints);
 
         }
         catch (ParserConfigurationException pce)

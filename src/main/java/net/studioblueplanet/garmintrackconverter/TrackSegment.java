@@ -7,10 +7,11 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import hirondelle.date4j.DateTime;
-import net.studioblueplanet.logger.DebugLogger;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -18,6 +19,7 @@ import java.util.List;
  */
 public class TrackSegment
 {
+    private final static Logger         LOGGER = LogManager.getLogger(TrackSegment.class);
     private final DateTime              startTime;
     private final DateTime              endTime;
     private final double                elapsedTime;

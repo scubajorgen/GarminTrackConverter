@@ -8,7 +8,8 @@ package net.studioblueplanet.garmintrackconverter;
 
 
 import hirondelle.date4j.DateTime;
-import net.studioblueplanet.logger.DebugLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class represents a track point.
@@ -16,6 +17,7 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class TrackPoint
 {
+  private final static Logger         LOGGER = LogManager.getLogger(TrackPoint.class);
   private DateTime	dateTime;
   private double	latitude;
   private double	longitude;

@@ -8,7 +8,8 @@ package net.studioblueplanet.garmintrackconverter;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import net.studioblueplanet.logger.DebugLogger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -18,9 +19,10 @@ import org.w3c.dom.Element;
  */
 public class Device
 {
-    private String  id;
-    private String  model;
-    private String  description;
+    private final static Logger LOGGER = LogManager.getLogger(Device.class);
+    private String              id;
+    private String              model;
+    private String              description;
     
     public Device(String deviceFileName)
     {
@@ -47,11 +49,11 @@ public class Device
             model               =modelElement.getTextContent();
             descriptionElement  =(Element)modelElement.getElementsByTagName("Description").item(0);
             description         =descriptionElement.getTextContent();
-            DebugLogger.info("Found ID:"+id+" Model: "+model+" Description: "+description);
+            LOGGER.info("Found ID: {}, Model: {}, Description: {}", id, model, description);
         }
         catch(Exception e)
         {
-            DebugLogger.error("Error parsing device file");
+            LOGGER.error("Error parsing device file");
             id="unknown";
             model="unknown";
             description="unknown";

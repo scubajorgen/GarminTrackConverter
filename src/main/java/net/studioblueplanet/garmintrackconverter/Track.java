@@ -13,8 +13,8 @@ import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import net.studioblueplanet.logger.DebugLogger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
         
 
 /**
@@ -24,6 +24,7 @@ import net.studioblueplanet.logger.DebugLogger;
  */
 public class Track
 {
+    private final static Logger             LOGGER = LogManager.getLogger(Track.class);
     private final List<TrackSegment>        segments;
     private final List<Waypoint>            waypoints;
     private final String                    lastError;
@@ -38,8 +39,8 @@ public class Track
     {
         FitReader               reader;
         FitMessageRepository    repository;
-        FitMessage              lapRecord;
-        FitMessage              trackRecord;
+        List<FitMessage>        lapMessages;
+        List<FitMessage>        trackMessages;
         
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
@@ -47,15 +48,15 @@ public class Track
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
-        lapRecord       =repository.getFitMessage("lap");
-        trackRecord     =repository.getFitMessage("record");
+        lapMessages     =repository.getAllMessages("lap");
+        trackMessages   =repository.getAllMessages("record");
 
         repository.dumpMessageDefintions();
         
-        if (lapRecord!=null && trackRecord!=null)
+        if (lapMessages!=null && trackMessages!=null)
         {
-            this.parseLaps(lapRecord);
-            this.parseTrackPoints(trackRecord);
+            this.parseLaps(lapMessages);
+            this.parseTrackPoints(trackMessages);
 
             this.deviceName=deviceName;
         }
@@ -63,9 +64,9 @@ public class Track
 
     /**
      * This method parses the FIT lap record and destilates the number of laps.
-     * @param lapRecord The FIT record holding the 'lap' info
+     * @param lapMessages The FIT record holding the 'lap' info
      */
-    private void parseLaps(FitMessage lapRecord)
+    private void parseLaps(List<FitMessage> lapMessages)
     {
         int i;
         int size;
@@ -74,39 +75,42 @@ public class Track
         double                  elapsedTime;
         TrackSegment            segment;
         
-        size            =lapRecord.getNumberOfRecords();
-        i=0;
-        while (i<size)
+        for (FitMessage message:lapMessages)
         {
-            endTime     =lapRecord.getTimeValue(i, "timestamp");
-            startTime   =lapRecord.getTimeValue(i, "start_time");
-            elapsedTime =lapRecord.getIntValue(i, "total_elapsed_time")/1000;
-       
-            segment     =new TrackSegment(startTime, endTime, elapsedTime);
-            segments.add(segment);
-            
-            if (startTime!=null && endTime!=null)
+            size            =message.getNumberOfRecords();
+            i=0;
+            while (i<size)
             {
-                DebugLogger.debug("Lap "+lapRecord.getIntValue(i, "message_index")+
-                                 " "+startTime.toString()+
-                                 " "+endTime.toString()+
-                                 " "+elapsedTime+" s"
-                                 );
-            }
-            else
-            {
-                DebugLogger.error("Lap does not contain start and end time");
-            }
-            i++;
-        }          
+                endTime     =message.getTimeValue(i, "timestamp");
+                startTime   =message.getTimeValue(i, "start_time");
+                elapsedTime =message.getIntValue(i, "total_elapsed_time")/1000;
+
+                segment     =new TrackSegment(startTime, endTime, elapsedTime);
+                segments.add(segment);
+
+                if (startTime!=null && endTime!=null)
+                {
+                    LOGGER.debug("Lap {} {} - {} {} s", 
+                                 message.getIntValue(i, "message_index"),
+                                 startTime.toString(),
+                                 endTime.toString(),
+                                 elapsedTime);
+                }
+                else
+                {
+                    LOGGER.error("Lap does not contain start and end time");
+                }
+                i++;
+            }   
+        }
         
     }
     
     /**
      * This method parses the FIT activity record. It destiles the track points
-     * @param trackRecord The record holding the 'activity' information
+     * @param trackMessages The record holding the 'activity' information
      */
-    private void parseTrackPoints(FitMessage trackRecord)
+    private void parseTrackPoints(List<FitMessage> trackMessages)
     {
         double                  lat;
         double                  lon;
@@ -124,42 +128,47 @@ public class Track
         TrackSegment            segment;
 
 
-        size            =trackRecord.getNumberOfRecords();
-        i=0;
-        while (i<size)
+        for (FitMessage message:trackMessages)
         {
-            dateTime    =trackRecord.getTimeValue(i, "timestamp");
-            lat         =trackRecord.getLatLonValue(i, "position_lat");
-            lon         =trackRecord.getLatLonValue(i, "position_long");
-            ele         =trackRecord.getAltitudeValue(i, "altitude");
-            temp        =trackRecord.getIntValue(i, "temperature");
-            speed       =trackRecord.getSpeedValue(i, "speed");
-            distance    =trackRecord.getDistanceValue(i, "distance");
-            
-            point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp);
-            
-            found=false;
-            it=this.segments.iterator();
-            while (it.hasNext() && !found)
+            size            =message.getNumberOfRecords();
+            i=0;
+            while (i<size)
             {
-                segment=it.next();
-                if (segment.isInLap(dateTime))
+                dateTime    =message.getTimeValue(i, "timestamp");
+                lat         =message.getLatLonValue(i, "position_lat");
+                lon         =message.getLatLonValue(i, "position_long");
+                ele         =message.getAltitudeValue(i, "altitude");
+                temp        =message.getIntValue(i, "temperature");
+                speed       =message.getSpeedValue(i, "speed");
+                distance    =message.getDistanceValue(i, "distance");
+
+                point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp);
+
+                found=false;
+                it=this.segments.iterator();
+                while (it.hasNext() && !found)
                 {
-                    segment.addTrackPoint(point);
-                    found=true;
+                    segment=it.next();
+                    if (segment.isInLap(dateTime))
+                    {
+                        segment.addTrackPoint(point);
+                        found=true;
+                    }
                 }
-            }
-            if (!found)
-            {
-                DebugLogger.error("No segment found to add trackpoint to");
-            }
-            
-            DebugLogger.debug("Track "+
-                             " "+dateTime.toString()+
-                             " ("+lat+","+lon+") ele "+ele+" "+speed+" km/h "+distance+" m "
-                             );
-            i++;
-        }           
+                if (!found)
+                {
+                    LOGGER.error("No segment found to add trackpoint to");
+                }
+
+                LOGGER.debug("Track {} ({}, {}) ele {}, {} km/h, {} m",
+                                 dateTime.toString(),
+                                 lat, lon,
+                                 ele, 
+                                 speed, 
+                                 distance);
+                i++;
+            }           
+        }
     }
     
     /**
