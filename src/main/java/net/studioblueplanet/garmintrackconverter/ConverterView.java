@@ -41,7 +41,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private final static Logger         LOGGER = LogManager.getLogger(ConverterView.class);
     private final ConfigSettings        settings;
     private boolean                     tracksShown;
-    private boolean                     newFilesShown;
     private Track                       track;
     private Waypoints                   waypoints;
     private Device                      device;
@@ -102,7 +101,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         this.textAreaOutput.setText("Please attach device\n");
  
         
-        newFilesShown   =false;
         tracksShown     =false;
         threadExit      =false;
         thread          =new Thread(this);
@@ -122,7 +120,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         File                            routeFile;
         File                            newFile;
         File                            locationFile;
-        boolean                         newFilesShownLocal;
+        boolean                         tracksShownLocal;
         
         
         //trackModel=(DefaultListModel)jTrackList.getModel();
@@ -144,10 +142,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             synchronized(this)
             {
                 localThreadExit     =threadExit;
-                newFilesShownLocal  =newFilesShown;
+                tracksShownLocal     =tracksShown;
             }
             
-            if (!tracksShown)
+            if (!tracksShownLocal)
             {
                 if (trackFile.exists())
                 {
@@ -159,25 +157,38 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
                     textAreaOutput.append("File "+trackFile.getAbsolutePath()+"\n");
                     SwingUtilities.invokeLater(new Runnable() {public void run() 
-                    {                          
+                    {                         
+                        trackModel.clear();
                         Stream.of(trackFile.listFiles())
                         .filter(file -> !file.isDirectory())
                         .sorted()
                         .map(File::getName).forEach(file -> {trackModel.addElement(file);});
 
+                        locationModel.clear();
                         Stream.of(locationFile.listFiles())
                         .filter(file -> !file.isDirectory())
                         .sorted()
                         .map(File::getName).forEach(file -> {locationModel.addElement(file);});
 
+                        routeModel.clear();
                         Stream.of(routeFile.listFiles())
                         .filter(file -> !file.isDirectory())
                         .sorted()
                         .map(File::getName).forEach(file -> {routeModel.addElement(file);});
+                        
+                        newFileModel.clear();
+                        Stream.of(newFile.listFiles())
+                        .filter(file -> !file.isDirectory())
+                        .filter(file -> file.getName().toLowerCase().endsWith(".gpx"))
+                        .sorted()
+                        .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
 
                     }});
                     
-                    tracksShown=true;
+                    synchronized(this)
+                    {
+                        tracksShown=true;
+                    }
                 }
             } 
             else
@@ -185,35 +196,20 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (!trackFile.exists())
                 {
                     this.textAreaOutput.setText("Please attach device\n");
-                    tracks.clear();
                     SwingUtilities.invokeLater(new Runnable() {public void run() 
                     {                          
                         trackModel.clear();
-                    }});
-                    tracksShown=false;
-                }
-            }
-            
-            if (!newFilesShownLocal)
-            {
-                if (newFile.exists())
-                {
-                    SwingUtilities.invokeLater(new Runnable() {public void run() 
-                    {                          
+                        routeModel.clear();
                         newFileModel.clear();
-                        Stream.of(newFile.listFiles())
-                        .filter(file -> !file.isDirectory())
-                        .filter(file -> file.getName().toLowerCase().endsWith(".gpx"))
-                        .sorted()
-                        .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
+                        locationModel.clear();
+                        jTextFieldDevice.setText("");
                     }});
                     synchronized(this)
                     {
-                        newFilesShown=true;
+                        tracksShown=false;
                     }
                 }
             }
-            
             
             try
             {
@@ -753,7 +749,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     LOGGER.info("Copied {} to {}", fileName, destinationFile);
                     synchronized(this)
                     {
-                        newFilesShown=false;
+                        tracksShown=false;
                     }
                 }
                 catch (IOException e)
@@ -785,6 +781,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         String  fileName;
 
         pathName=null;
+        fileName=null;
         if (jTrackList.getSelectedIndex()>=0)
         {
             fileName=jTrackList.getSelectedValue();
@@ -815,12 +812,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.info("Deleting {}", pathName);
                     Files.delete(Paths.get(pathName));
+                    this.textAreaOutput.append("Deleted "+fileName+"\n");
                     this.tracksShown    =false;
-                    this.newFilesShown  =false;
                 }
                 catch (IOException e)
                 {
                     LOGGER.error("Error deleting {}: {}", pathName, e.getMessage());
+                    textAreaOutput.append("Error deleting "+fileName+"\n");
                 }
             }
         }
@@ -891,8 +889,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         Track theTrack;
         theTrack=new Track(fileName, device.getDeviceDescription());
 
-        theTrack.addTrackWaypoints(waypoints.getWaypoints());
-
+        if(waypoints!=null)
+        {
+            theTrack.addTrackWaypoints(waypoints.getWaypoints());
+        }
         return theTrack;
     }
 
