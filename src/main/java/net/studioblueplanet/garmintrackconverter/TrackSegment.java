@@ -40,6 +40,17 @@ public class TrackSegment
     }
     
     /**
+     * Constructor, simple version
+     */
+    public TrackSegment()
+    {
+        this.startTime  =null;
+        this.endTime    =null;
+        this.elapsedTime=0.0;
+        trackPoints     =new ArrayList<TrackPoint>();        
+    }
+    
+    /**
      * This method returns whether the indicated timestamp lies within the lap.
      * @param time Timestamp to check
      * @return True if the timestamp is within the lap, false if not.

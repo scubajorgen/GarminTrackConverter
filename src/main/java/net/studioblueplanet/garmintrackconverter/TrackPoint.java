@@ -17,15 +17,41 @@ import org.apache.logging.log4j.Logger;
  */
 public class TrackPoint
 {
-  private final static Logger         LOGGER = LogManager.getLogger(TrackPoint.class);
-  private DateTime	dateTime;
-  private double	latitude;
-  private double	longitude;
-  private double 	elevation;
-  private double        speed;
-  private double        distance;
-  private int   	temperature;
+  private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
+  private final DateTime        dateTime;
+  private final double          latitude;
+  private final double          longitude;
+  private final double          elevation;
+  private final double          speed;
+  private final double          distance;
+  private final int             temperature;
   
+  /**
+   * Constructor, simple version
+   * @param lat Latitude
+   * @param lon Longitude
+   */
+  public TrackPoint(double lat, double lon)
+  {
+    this.dateTime	=null;
+    this.latitude       =lat;
+    this.longitude      =lon;
+    this.elevation      =0;
+    this.speed          =0;
+    this.distance       =0;
+    this.temperature    =0;     
+  }
+  
+  /**
+   * Constructor, full version
+   * @param dateTime Datetime of the point
+   * @param lat Latitude
+   * @param lon Longitude
+   * @param ele Elevation
+   * @param speed Speed
+   * @param distance Distance
+   * @param temp Temperature
+   */
   public TrackPoint(DateTime dateTime, double lat, double lon, double ele, double speed, double distance, int temp)
   {
     this.dateTime	=dateTime;

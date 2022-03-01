@@ -27,7 +27,7 @@ public class Track
     private final static Logger             LOGGER = LogManager.getLogger(Track.class);
     private final List<TrackSegment>        segments;
     private final List<Waypoint>            waypoints;
-    private final String                    lastError;
+
     private String                          deviceName;
     
     /**
@@ -44,7 +44,6 @@ public class Track
         
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
-        lastError       ="Ok";
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
@@ -61,6 +60,13 @@ public class Track
             this.deviceName=deviceName;
         }
     }
+    
+    public Track()
+    {
+        segments        =new ArrayList<>();
+        waypoints       =new ArrayList<>();
+    }
+    
 
     /**
      * This method parses the FIT lap record and destilates the number of laps.
@@ -272,6 +278,27 @@ public class Track
     public List<Waypoint> getWayPoints()
     {
         return this.waypoints;
+    }
+    
+    /**
+     * Create and apend a new segment to the track
+     * @return segment 
+     */
+    public TrackSegment appendTrackSegment()
+    {
+        TrackSegment segment;
+        segment=new TrackSegment();
+        segments.add(segment);
+        return segment;
+    }
+    
+    /**
+     * Empties the track.
+     */
+    public void clear()
+    {
+        segments.clear();
+        waypoints.clear();
     }
     
 }

@@ -44,6 +44,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     
     private final Map<String,Track>     tracks;
     private final Map<String,Track>     routes;
+    private final Map<String,Track>     newFiles;
     
     private final MapOsm                map;
 
@@ -79,8 +80,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLocationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jLocationList.setModel(locationModel);
                 
-        tracks=new HashMap<>();
-        routes=new HashMap<>();
+        tracks  =new HashMap<>();
+        routes  =new HashMap<>();
+        newFiles=new HashMap<>();
         
         // Initialize the map
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
@@ -118,6 +120,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             locationFile    =new File(settings.getStringValue("locationFilePath"));
         }        
         
+        LOGGER.info("Thread started");
         do
         {
             synchronized(this)
@@ -125,7 +128,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 localThreadExit     =threadExit;
                 tracksShownLocal     =tracksShown;
             }
-            LOGGER.info("Thread started");
             
             if (!tracksShownLocal)
             {
@@ -670,11 +672,36 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
     private void jNewFilesListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jNewFilesListValueChanged
     {//GEN-HEADEREND:event_jNewFilesListValueChanged
+        int     index;
+        String  fullFileName;
+        String  fileName;
+        
         if (!evt.getValueIsAdjusting() && jNewFilesList.getSelectedIndex()>=0)
         {
             jTrackList.clearSelection();
             jRouteList.clearSelection();
             jLocationList.clearSelection();
+            
+            index=jNewFilesList.getSelectedIndex();
+            fileName=newFileModel.getElementAt(index);
+            fullFileName=settings.getStringValue("newFilePath")+"\\"+fileName;
+
+            if (newFiles.containsKey(fileName))
+            {
+                track=newFiles.get(fileName);
+            }
+            else
+            {
+                track=GpxReader.getInstance().readRouteFromFile(fullFileName);
+                newFiles.put(fileName, track);
+            }
+
+
+            if (track!=null)
+            {
+                jTextInfo.setText(track.getTrackInfo());
+                map.showTrack(track);
+            }
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
 
@@ -736,6 +763,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     synchronized(this)
                     {
                         tracksShown=false;
+                    }
+                    Track route=GpxReader.getInstance().readRouteFromFile(fileName);
+                    if (route!=null)
+                    {
+                        map.showTrack(route);
+                        // TO DO: set index in file list, somewhere
                     }
                 }
                 catch (IOException e)
@@ -863,7 +896,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         return model.getElementAt(index);
     }
     
-    
+
     
     /**
      * Reads the fit file into a Track

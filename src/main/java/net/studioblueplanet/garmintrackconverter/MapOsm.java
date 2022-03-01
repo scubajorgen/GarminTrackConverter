@@ -393,7 +393,6 @@ public class MapOsm extends Map
 
         numOfSegments=activity.getNumberOfSegments();
         segment=0;
-        firstWaypointShown  =false;
         while (segment<numOfSegments)
         {
             trackPoints=activity.getTrackPoints(segment);
