@@ -5,6 +5,7 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -38,6 +39,13 @@ public abstract class Map
      */
     public abstract String showTrack(Track activity);
 
+   /**
+    * Plots waypoints
+    * @param waypoints List of waypoints
+     * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
+    */ 
+    public abstract String showWaypoints(List<Waypoint> waypoints);
+    
     /**
      * Hides the track
      */

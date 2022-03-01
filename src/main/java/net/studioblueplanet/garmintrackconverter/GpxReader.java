@@ -5,13 +5,15 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import hirondelle.date4j.DateTime;
+import java.io.File;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -219,7 +221,57 @@ public class GpxReader
     }
     
     
-    
+    private void parseWaypoints(Track route, NodeList waypoints)
+    {
+        List<Waypoint>  points;
+        Waypoint        point;
+        String          name="";
+        String          description="";
+        String          symbol="";
+        double          lat;
+        double          lon;
+        double          elevation=0.0;
+        DateTime        time=null;
+        NodeList        nodes;
+        Element         element;
+        Element         waypoint;
+        
+        
+        points=route.getWayPoints();
+        for (int i=0; i<waypoints.getLength(); i++)
+        {
+            waypoint=(Element)waypoints.item(i);
+            element=getChildElement(waypoint, "name");
+            if (element!=null)
+            {
+                name=element.getTextContent();
+            }
+            element=getChildElement(waypoint, "desc");
+            if (element!=null)
+            {
+                description=element.getTextContent();
+            }
+            element=getChildElement(waypoint, "sym");
+            if (element!=null)
+            {
+                symbol=element.getTextContent();
+            }
+            element=getChildElement(waypoint, "ele");
+            if (element!=null)
+            {
+                elevation=Double.parseDouble(element.getTextContent());
+            }
+            element=getChildElement(waypoint, "time");
+            if (element!=null)
+            {
+                time=new DateTime(element.getTextContent());
+            }
+            lat=Double.parseDouble(waypoint.getAttribute("lat"));
+            lon=Double.parseDouble(waypoint.getAttribute("lon"));
+            point=new Waypoint(name, description, time, lat, lon, elevation, 0);
+            points.add(point);
+        }
+    }
     
     /**
      * This method reads a route consisting of waypoints from file
@@ -233,8 +285,7 @@ public class GpxReader
         DocumentBuilder         dBuilder;
         Document                doc;
         Element                 gpxElement;
-        Element                 routeElement;
-        Element                 trackElement;
+        Element                 element;
         Track                   route;
 
         route=new Track();
@@ -250,25 +301,30 @@ public class GpxReader
             if (gpxElement.getNodeName().equals("gpx"))
             {
                 // First try to to load points from a <rte>
-                routeElement=this.getChildElement(gpxElement, "rte");
+                element=this.getChildElement(gpxElement, "rte");
                 
-                if (routeElement!=null)
+                if (element!=null)
                 {
-                    this.parseRoute(route, routeElement);
+                    this.parseRoute(route, element);
                 }
                 else
                 {
-                    trackElement=this.getChildElement(gpxElement, "trk");
-                    if (trackElement!=null)
+                    element=this.getChildElement(gpxElement, "trk");
+                    if (element!=null)
                     {
-                        this.parseTrack(route, trackElement);
+                        this.parseTrack(route, element);
                     }
                     else
                     {
-                        route=null;
                         LOGGER.error("No <trk> or <rte> in GPX file");
                     }
                 }
+                NodeList nodes=gpxElement.getElementsByTagName("wpt");
+                if (nodes!=null)
+                {
+                    parseWaypoints(route, nodes);
+                }
+                
             }
             else
             {

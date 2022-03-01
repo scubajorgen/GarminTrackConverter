@@ -10,7 +10,7 @@ package net.studioblueplanet.garmintrackconverter;
 import hirondelle.date4j.DateTime;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessageRepository;
@@ -25,14 +25,14 @@ import org.apache.logging.log4j.Logger;
 public class Waypoints
 {
     private final static Logger         LOGGER = LogManager.getLogger(Waypoints.class);
-    private ArrayList<Waypoint> waypoints;
+    private final List<Waypoint>        waypoints;
     
     
     public Waypoints(String waypointFileName)
     {
         FitReader               reader;
-        FitMessageRepository     repository;
-        FitMessage               record;
+        FitMessageRepository    repository;
+        FitMessage              record;
         double                  lat;
         double                  lon;
         double                  ele;
@@ -90,7 +90,7 @@ public class Waypoints
         return waypoints.size();
     }    
     
-    public ArrayList<Waypoint> getWaypoints()
+    public List<Waypoint> getWaypoints()
     {
         return this.waypoints;
     }

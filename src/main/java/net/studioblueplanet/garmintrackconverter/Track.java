@@ -183,7 +183,7 @@ public class Track
      * to the track.
      * @param allWaypoints The waypoints read from the device
      */
-    public void addTrackWaypoints(ArrayList<Waypoint> allWaypoints)
+    public void addTrackWaypoints(List<Waypoint> allWaypoints)
     {
         DateTime                dateTime;
         Iterator<Waypoint>      waypointIterator;

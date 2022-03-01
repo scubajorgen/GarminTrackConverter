@@ -26,6 +26,7 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
@@ -442,6 +443,12 @@ public class MapOsm extends Map
         }
         return "";
     }
+
+        public String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints)
+        {
+            
+            return "";
+        }
 
 
     /**
