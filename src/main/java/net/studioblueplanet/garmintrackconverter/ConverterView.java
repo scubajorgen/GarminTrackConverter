@@ -699,8 +699,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
             if (track!=null)
             {
-                jTextInfo.setText(track.getTrackInfo());
-                map.showTrack(track);
+                if (track.getNumberOfSegments()>0)
+                {
+                    map.showTrack(track);
+                    jTextInfo.setText(track.getTrackInfo());
+                }
+                else if (track.getWayPoints().size()>0)
+                {
+                    map.showWaypoints(track.getWayPoints());
+                    jTextInfo.setText("Locations: "+track.getWayPoints().size());
+                }
             }
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
@@ -787,9 +795,23 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {//GEN-HEADEREND:event_jLocationListValueChanged
         if (!evt.getValueIsAdjusting() && jLocationList.getSelectedIndex()>=0)
         {
+            Waypoints       points;
+            String          fileName;
+            String          fullFileName;
+            int             index;
+            
             jTrackList.clearSelection();
             jRouteList.clearSelection();
             jNewFilesList.clearSelection();
+            
+            index=jLocationList.getSelectedIndex();
+            fileName=locationModel.getElementAt(index);
+            fullFileName=settings.getStringValue("locationFilePath")+"\\"+fileName;
+            LOGGER.info("Reading waypoints from {}", fullFileName);
+            points=new Waypoints(fullFileName);
+            map.showWaypoints(points.getWaypoints());
+            jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
+
         }
     }//GEN-LAST:event_jLocationListValueChanged
 

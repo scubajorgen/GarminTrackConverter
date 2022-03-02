@@ -33,19 +33,19 @@ public abstract class Map
     }
     
    /**
-     * This method show the track in this frame on a google map
+     * This method show the track in this frame on a map
      * @param activity The activity data structure containing the track (Activity) to show
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
     public abstract String showTrack(Track activity);
 
-   /**
-    * Plots waypoints
-    * @param waypoints List of waypoints
+    /**
+     * This method shows waypoints on a map
+     * @param waypoints List of waypoints
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
-    */ 
-    public abstract String showWaypoints(List<Waypoint> waypoints);
-    
+     */
+    public abstract String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints);
+
     /**
      * Hides the track
      */

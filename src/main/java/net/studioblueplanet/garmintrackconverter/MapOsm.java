@@ -14,7 +14,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -46,11 +45,11 @@ public class MapOsm extends Map
      */
     private class OsmTrackSegment
     {
-        private     List<GeoPosition> segment;
-        private     double leftBound;
-        private     double rightBound;
-        private     double upperBound;
-        private     double lowerBound;
+        private final   List<GeoPosition>   segment;
+        private         double              leftBound;
+        private         double              rightBound;
+        private         double              upperBound;
+        private         double              lowerBound;
         
         public OsmTrackSegment()
         {
@@ -125,26 +124,45 @@ public class MapOsm extends Map
      */
     private class OsmTrack
     {
-        public List<OsmTrackSegment> track;
+        private final List<OsmTrackSegment> segments;
+        private final Set<Waypoint>         waypoints;
         
         public OsmTrack()
         {
-            track=new ArrayList<OsmTrackSegment>();
+            segments       =new ArrayList<>();
+            // Create waypoints from the geo-positions
+            waypoints               = new HashSet<>();
         }
         
         public void add(OsmTrackSegment segment)
         {
-            track.add(segment);
+            segments.add(segment);
+        }
+      
+        public void add(Waypoint waypoint)
+        {
+            waypoints.add(waypoint);
         }
         
         public List<OsmTrackSegment> getSegments()
         {
-            return track;
+            return segments;
+        }
+        
+        public Set<Waypoint> getWaypoints()
+        {
+            return waypoints;
         }
 
-        public int size()
+
+        public int segmentSize()
         {
-            return track.size();
+            return segments.size();
+        }
+        
+        public int waypointSize()
+        {
+            return waypoints.size();
         }
         
         /**
@@ -168,7 +186,7 @@ public class MapOsm extends Map
             
             bounds=new ArrayList<GeoPosition>();
             
-            for (OsmTrackSegment segment : track)
+            for (OsmTrackSegment segment : segments)
             {
                 if (segment.getLeftBound()<leftBound)
                 {
@@ -190,6 +208,11 @@ public class MapOsm extends Map
                 bounds.add(new GeoPosition(lowerBound, rightBound));
             }
             
+            for (Waypoint waypoint : waypoints)
+            {
+                bounds.add(waypoint.getPosition());
+            }
+            
             return bounds;
         }
     }
@@ -200,10 +223,10 @@ public class MapOsm extends Map
      */
     private class RoutePainter implements Painter<JXMapViewer>
     {
-        private Color color = Color.RED;
-        private boolean antiAlias = true;
+        private final Color     color = Color.RED;
+        private final boolean   antiAlias = true;
 
-        private OsmTrack track;
+        private final OsmTrack  track;
 
         /**
          * @param track the track
@@ -247,8 +270,8 @@ public class MapOsm extends Map
          */
         private void drawRoute(Graphics2D g, JXMapViewer map, boolean useColor)
         {
-            int     lastX = 0;
-            int     lastY = 0;
+            int     lastX;
+            int     lastY;
             int     segmentCount;
 
             boolean first;
@@ -293,10 +316,8 @@ public class MapOsm extends Map
             }
         }
     }
-
     
     private JXMapViewer             mapViewer;    
-    
     
     /**
      * Constructor
@@ -334,28 +355,27 @@ public class MapOsm extends Map
     
     
     
-    private void initializeOverlayPainter(OsmTrack track, Set<Waypoint> waypoints)
+    private void initializeOverlayPainter(OsmTrack track)
     {
         RoutePainter                routePainter;
         WaypointPainter<Waypoint>   waypointPainter;
         
         // Create a waypoint painter that takes all the waypoints
-        waypointPainter = new WaypointPainter<Waypoint>();
-        waypointPainter.setWaypoints(waypoints);         
+        waypointPainter = new WaypointPainter<>();
+        waypointPainter.setWaypoints(track.getWaypoints());         
 
-        
         routePainter    = new RoutePainter(track);        
         
         // Set the focus
         mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track.getBounds()), 0.9);
-
         
         // Create a compound painter that uses both the route-painter and the waypoint-painter
-        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        List<Painter<JXMapViewer>> painters;
+        painters = new ArrayList<>();
         painters.add(routePainter);
         painters.add(waypointPainter);
 
-        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<>(painters);
         mapViewer.setOverlayPainter(painter);         
     }
     
@@ -371,21 +391,18 @@ public class MapOsm extends Map
         double                  lon;
 
         List<TrackPoint>        trackPoints;
-        TrackPoint              gpsRecord;
+        //TrackPoint              gpsRecord;
         int                     numOfSegments;
         int                     segment;
         int                     numOfRecords;
-        int                     record;
+        //int                     record;
         boolean                 firstWaypointShown;
         OsmTrack                track;
         OsmTrackSegment         trackSegment;
-        Set<Waypoint>           waypoints;
         int                     points;
         
         // Create a track from the geo-positions
         track                   =new OsmTrack();
-        // Create waypoints from the geo-positions
-        waypoints               = new HashSet<Waypoint>();
 
         firstWaypointShown      =false;
         lat                     =0.0;
@@ -396,15 +413,13 @@ public class MapOsm extends Map
         segment=0;
         while (segment<numOfSegments)
         {
-            trackPoints=activity.getTrackPoints(segment);
+            trackPoints         =activity.getTrackPoints(segment);
             numOfRecords        =trackPoints.size();
             trackSegment        =new OsmTrackSegment();
-            record=0;
-            while (record<numOfRecords)
+            for (TrackPoint gpsRecord : trackPoints)
             {
-                gpsRecord=trackPoints.get(record);
-                lat=gpsRecord.getLatitude();
-                lon=gpsRecord.getLongitude();
+                lat         =gpsRecord.getLatitude();
+                lon         =gpsRecord.getLongitude();
                 
                 // Sometime the tomtom registers a (0,0) coordinate
                 // Only show normal, non zero, coordinates
@@ -414,12 +429,11 @@ public class MapOsm extends Map
                     // Show first point of each segment
                     if (!firstWaypointShown)
                     {
-                        waypoints.add(new DefaultWaypoint(lat, lon));
+                        track.add(new DefaultWaypoint(lat, lon));
                         firstWaypointShown=true;
                     }
                     points++;
                 }
-                record++;
             }
             
             track.add(trackSegment);
@@ -429,26 +443,46 @@ public class MapOsm extends Map
         // Show last waypoint
         if (firstWaypointShown)
         {
-            waypoints.add(new DefaultWaypoint(lat, lon));
+            track.add(new DefaultWaypoint(lat, lon));
+        }
+        
+        for (net.studioblueplanet.garmintrackconverter.Waypoint point : activity.getWayPoints())
+        {
+            track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
         }
         
         // No points = show default image
-        if (points==0)
+        if (points==0 && track.waypointSize()==0)
         {
             this.hideTrack();
         }
         else
         {
-            this.initializeOverlayPainter(track, waypoints);
+            this.initializeOverlayPainter(track);
         }
         return "";
     }
-
-        public String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints)
+    
+    public String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints)
+    {
+        OsmTrack                track;
+        
+        track=new OsmTrack();
+        
+        if (waypoints.size()>0)
         {
-            
-            return "";
+            waypoints.forEach((point) ->
+            {
+                track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
+            });
+            this.initializeOverlayPainter(track);
         }
+        else
+        {
+            this.hideTrack();
+        }
+        return "";
+    }
 
 
     /**
