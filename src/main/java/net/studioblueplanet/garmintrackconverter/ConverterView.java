@@ -665,8 +665,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 track=readTrack(fullFileName, false);
                 routes.put(fileName, track);
             }
-            jTextInfo.setText(track.getTrackInfo());
-            map.showTrack(track);
+            trackToMap(track);
         }
     }//GEN-LAST:event_jRouteListValueChanged
 
@@ -695,21 +694,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 track=GpxReader.getInstance().readRouteFromFile(fullFileName);
                 newFiles.put(fileName, track);
             }
-
-
-            if (track!=null)
-            {
-                if (track.getNumberOfSegments()>0)
-                {
-                    map.showTrack(track);
-                    jTextInfo.setText(track.getTrackInfo());
-                }
-                else if (track.getWayPoints().size()>0)
-                {
-                    map.showWaypoints(track.getWayPoints());
-                    jTextInfo.setText("Locations: "+track.getWayPoints().size());
-                }
-            }
+            trackToMap(track);
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
 
@@ -775,7 +760,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     Track route=GpxReader.getInstance().readRouteFromFile(fileName);
                     if (route!=null)
                     {
-                        map.showTrack(route);
+                        trackToMap(route);
                         // TO DO: set index in file list, somewhere
                     }
                 }
@@ -854,6 +839,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     LOGGER.info("Deleting {}", pathName);
                     Files.delete(Paths.get(pathName));
                     this.textAreaOutput.append("Deleted "+fileName+"\n");
+                    map.hideTrack();
                     this.tracksShown    =false;
                 }
                 catch (IOException e)
@@ -870,7 +856,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      * @param message Message to show
      * @return True if confirmed, false if canceled.
      */
-    public boolean showConfirmDialog(String message)
+    private boolean showConfirmDialog(String message)
     {
         int     response;
         boolean yesPressed;
@@ -883,6 +869,23 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         return yesPressed;
     }    
+
+    private void trackToMap(Track track)
+    {
+        if (track!=null)
+        {
+            if (track.getNumberOfSegments()>0)
+            {
+                map.showTrack(track);
+                jTextInfo.setText(track.getTrackInfo());
+            }
+            else if (track.getWayPoints().size()>0)
+            {
+                map.showWaypoints(track.getWayPoints());
+                jTextInfo.setText("Locations: "+track.getWayPoints().size());
+            }
+        }
+    }
     
     /**
      * Clear the track/activity list

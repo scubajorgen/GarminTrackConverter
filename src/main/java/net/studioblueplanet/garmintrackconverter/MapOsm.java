@@ -441,7 +441,7 @@ public class MapOsm extends Map
         }     
         
         // Show last waypoint
-        if (firstWaypointShown)
+        if (firstWaypointShown && lat!=0.0 && lon!=0.0)
         {
             track.add(new DefaultWaypoint(lat, lon));
         }
