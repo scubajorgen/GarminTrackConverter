@@ -268,7 +268,17 @@ public class Track
      */
     public List<TrackPoint> getTrackPoints(int segment)
     {
-        return this.segments.get(segment).getTrackPoints();
+        List<TrackPoint> points;
+        if (segment>=0 && segment<segments.size())
+        {
+            points=segments.get(segment).getTrackPoints();
+        }
+        else
+        {
+            LOGGER.error("Illegal segment number {} while requesting trackpoints", segment);
+            points=null;
+        }
+        return points;
     }
     
     /**

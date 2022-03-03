@@ -70,7 +70,7 @@ public class Device
     }
 
     /**
-     * Returns the ID of the device
+     * Returns the ID (serial number) of the device
      * @return The ID
      */
     public String getId()
@@ -79,7 +79,7 @@ public class Device
     }
 
     /**
-     * Returns the device model
+     * Returns the device model identification
      * @return The model
      */
     public String getModel()
@@ -88,7 +88,7 @@ public class Device
     }
 
     /**
-     * Returns the description of the device
+     * Returns the description (type) of the device
      * @return The description as String
      */
     public String getDescription()
