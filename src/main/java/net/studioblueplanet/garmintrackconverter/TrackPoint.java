@@ -97,6 +97,4 @@ public class TrackPoint
   {
       return distance;
   }
-  
-
 }

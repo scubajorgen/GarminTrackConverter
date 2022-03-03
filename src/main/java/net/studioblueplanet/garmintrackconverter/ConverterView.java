@@ -36,7 +36,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private final ConfigSettings        settings;
     private boolean                     tracksShown;
     private Track                       track;
-    private Waypoints                   waypoints;
+    private Locations                   waypoints;
     private Device                      device;
     
     private final Thread                thread;
@@ -48,10 +48,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     
     private final MapOsm                map;
 
-    final DefaultListModel<String>  trackModel;
-    final DefaultListModel<String>  routeModel;
-    final DefaultListModel<String>  newFileModel;
-    final DefaultListModel<String>  locationModel;
+    final DefaultListModel<String>      trackModel;
+    final DefaultListModel<String>      routeModel;
+    final DefaultListModel<String>      newFileModel;
+    final DefaultListModel<String>      locationModel;
 
     /**
      * Creates new form ConverterView
@@ -62,7 +62,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         //DefaultListModel<String> model;
 
         settings=ConfigSettings.getInstance();
-        this.setResizable(false);
+        setResizable(false);
         initComponents();
       
         // Initialize the listbox
@@ -113,7 +113,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         
         synchronized(this)
         {
-            localThreadExit =threadExit;
             trackFile       =new File(settings.getStringValue("trackFilePath"));
             routeFile       =new File(settings.getStringValue("routeFilePath"));
             newFile         =new File(settings.getStringValue("newFilePath"));
@@ -199,8 +198,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             }
             catch (InterruptedException e)
             {
-
-
+                LOGGER.error("Thread sleep interrupted");
             }
         }        
         while (!localThreadExit);
@@ -596,11 +594,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             writer=GpxWriter.getInstance();
             writer.writeTrackToFile(fileName, track, "Track");
-            this.textAreaOutput.setText(textAreaOutput.getText()+"File "+fileName+" written\n");
+            this.textAreaOutput.append("File saved to "+fileName+"\n");
+            LOGGER.info("File saved to {}"+fileName);
         }
         if (returnValue == JFileChooser.CANCEL_OPTION)
         {
-
+            LOGGER.info("File save canceled");
         }  
     }//GEN-LAST:event_buttonSaveActionPerformed
 
@@ -780,7 +779,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {//GEN-HEADEREND:event_jLocationListValueChanged
         if (!evt.getValueIsAdjusting() && jLocationList.getSelectedIndex()>=0)
         {
-            Waypoints       points;
+            Locations       points;
             String          fileName;
             String          fullFileName;
             int             index;
@@ -793,7 +792,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=locationModel.getElementAt(index);
             fullFileName=settings.getStringValue("locationFilePath")+"\\"+fileName;
             LOGGER.info("Reading waypoints from {}", fullFileName);
-            points=new Waypoints(fullFileName);
+            points=new Locations(fullFileName);
             map.showWaypoints(points.getWaypoints());
             jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
 
@@ -948,7 +947,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         waypointsFile=settings.getStringValue("waypointFile");
         if (new File(waypointsFile).exists())
         {
-            waypoints=new Waypoints(waypointsFile);
+            waypoints=new Locations(waypointsFile);
             textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
         }
         else

@@ -44,7 +44,7 @@ public abstract class Map
      * @param waypoints List of waypoints
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
-    public abstract String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints);
+    public abstract String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Location> waypoints);
 
     /**
      * Hides the track

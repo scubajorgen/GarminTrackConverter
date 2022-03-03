@@ -53,7 +53,7 @@ public class MapOsm extends Map
         
         public OsmTrackSegment()
         {
-            segment=new ArrayList<GeoPosition>();
+            segment     =new ArrayList<>();
             leftBound   =180.0;
             rightBound  =-180.0;
             lowerBound  =180.0;
@@ -172,47 +172,20 @@ public class MapOsm extends Map
          */
         public List<GeoPosition> getBounds()
         {
-            double leftBound;
-            double rightBound;
-            double upperBound;
-            double lowerBound;      
-            
-            leftBound   =180.0;
-            rightBound  =-180.0;
-            lowerBound  =180.0;
-            upperBound  =-180.0;
-            
             ArrayList<GeoPosition> bounds;
             
             bounds=new ArrayList<GeoPosition>();
             
             for (OsmTrackSegment segment : segments)
             {
-                if (segment.getLeftBound()<leftBound)
-                {
-                    leftBound=segment.getLeftBound();
-                }
-                if (segment.getRightBound()>rightBound)
-                {
-                    rightBound=segment.getRightBound();
-                }
-                if (segment.getUpperBound()>upperBound)
-                {
-                    upperBound=segment.getUpperBound();
-                }
-                if (segment.getLowerBound()<lowerBound)
-                {
-                    lowerBound=segment.getLowerBound();
-                }
-                bounds.add(new GeoPosition(upperBound, leftBound));
-                bounds.add(new GeoPosition(lowerBound, rightBound));
+                bounds.add(new GeoPosition(segment.getUpperBound(), segment.getLeftBound()));
+                bounds.add(new GeoPosition(segment.getLowerBound(), segment.getRightBound()));
             }
             
             for (Waypoint waypoint : waypoints)
             {
                 bounds.add(waypoint.getPosition());
             }
-            
             return bounds;
         }
     }
@@ -225,7 +198,6 @@ public class MapOsm extends Map
     {
         private final Color     color = Color.RED;
         private final boolean   antiAlias = true;
-
         private final OsmTrack  track;
 
         /**
@@ -338,16 +310,11 @@ public class MapOsm extends Map
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
         mapViewer.addMouseMotionListener(mia);
-
         mapViewer.addMouseListener(new CenterMapListener(mapViewer));
-
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
-
         mapViewer.addKeyListener(new PanKeyListener(mapViewer));        
-        
-        
         panel.add(mapViewer);
-        
+
         hideTrack();
     }
             
@@ -367,7 +334,7 @@ public class MapOsm extends Map
         routePainter    = new RoutePainter(track);        
         
         // Set the focus
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(track.getBounds()), 0.9);
+        mapViewer.zoomToBestFit(new HashSet<>(track.getBounds()), 0.9);
         
         // Create a compound painter that uses both the route-painter and the waypoint-painter
         List<Painter<JXMapViewer>> painters;
@@ -385,6 +352,7 @@ public class MapOsm extends Map
      * @param activity The activity data structure containing the track (Activity) to show
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
+    @Override
     public String showTrack(Track activity)
     {
         double                  lat;
@@ -446,7 +414,7 @@ public class MapOsm extends Map
             track.add(new DefaultWaypoint(lat, lon));
         }
         
-        for (net.studioblueplanet.garmintrackconverter.Waypoint point : activity.getWayPoints())
+        for (Location point : activity.getWayPoints())
         {
             track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
         }
@@ -463,7 +431,8 @@ public class MapOsm extends Map
         return "";
     }
     
-    public String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Waypoint> waypoints)
+    @Override
+    public String showWaypoints(List<Location> waypoints)
     {
         OsmTrack                track;
         
@@ -488,6 +457,7 @@ public class MapOsm extends Map
     /**
      * Hides the track
      */
+    @Override
     public void hideTrack()
     {
         mapViewer.setZoom(15);

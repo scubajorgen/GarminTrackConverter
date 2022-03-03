@@ -362,7 +362,7 @@ public class GpxWriter
         DateTime                    dateTime;
         String                      dateTimeString;
 
-        for(Waypoint point : track.getWayPoints())
+        for(Location point : track.getWayPoints())
         {
             pointElement    = doc.createElement("wpt");
             trackElement.appendChild(pointElement);

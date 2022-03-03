@@ -19,16 +19,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
+ * This file represents the list of locations
  * @author Jorgen
  */
-public class Waypoints
+public class Locations
 {
-    private final static Logger         LOGGER = LogManager.getLogger(Waypoints.class);
-    private final List<Waypoint>        waypoints;
+    private final static Logger         LOGGER = LogManager.getLogger(Locations.class);
+    private final List<Location>        locations;
     
     
-    public Waypoints(String waypointFileName)
+    public Locations(String waypointFileName)
     {
         FitReader               reader;
         FitMessageRepository    repository;
@@ -44,7 +44,7 @@ public class Waypoints
         int                     i;
         int                     size;
 
-        waypoints=new ArrayList<Waypoint>();
+        locations=new ArrayList<>();
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
         record=repository.getFitMessage("waypoints");
@@ -61,7 +61,7 @@ public class Waypoints
                 lon         =record.getLatLonValue(i, "position_long");
                 ele         =record.getAltitudeValue(i, "altitude");
                 symbol      =record.getIntValue(i, "symbol");
-                this.waypoints.add(new Waypoint(name, description, dateTime, lat, lon, ele, symbol));
+                this.locations.add(new Location(name, description, dateTime, lat, lon, ele, symbol));
 
 
                 if (dateTime!=null)
@@ -78,7 +78,6 @@ public class Waypoints
                 i++;
             }        
         }        
-        
     }
     
     /**
@@ -87,12 +86,11 @@ public class Waypoints
      */
     public int getNumberOfWaypoints()
     {
-        return waypoints.size();
+        return locations.size();
     }    
     
-    public List<Waypoint> getWaypoints()
+    public List<Location> getWaypoints()
     {
-        return this.waypoints;
+        return this.locations;
     }
-    
 }

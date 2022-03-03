@@ -26,7 +26,7 @@ public class Track
 {
     private final static Logger             LOGGER = LogManager.getLogger(Track.class);
     private final List<TrackSegment>        segments;
-    private final List<Waypoint>            waypoints;
+    private final List<Location>            waypoints;
 
     private String                          deviceName;
     
@@ -183,12 +183,12 @@ public class Track
      * to the track.
      * @param allWaypoints The waypoints read from the device
      */
-    public void addTrackWaypoints(List<Waypoint> allWaypoints)
+    public void addTrackWaypoints(List<Location> allWaypoints)
     {
         DateTime                dateTime;
-        Iterator<Waypoint>      waypointIterator;
+        Iterator<Location>      waypointIterator;
         Iterator<TrackSegment>  segmentIterator;
-        Waypoint                waypoint;
+        Location                waypoint;
         TrackSegment            segment;
         boolean                 found;
         
@@ -275,7 +275,7 @@ public class Track
      * Returns an array of waypoints that were recorded during the track
      * @return A list of waypoints
      */
-    public List<Waypoint> getWayPoints()
+    public List<Location> getWayPoints()
     {
         return this.waypoints;
     }

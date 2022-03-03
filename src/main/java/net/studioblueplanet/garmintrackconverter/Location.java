@@ -14,18 +14,18 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Jorgen
  */
-public class Waypoint
+public class Location
 {
-    private final static Logger         LOGGER = LogManager.getLogger(Waypoint.class);
-    private DateTime 	dateTime;
-    private double	latitude;
-    private double	longitude;
-    private double 	elevation;
-    private String 	name;
-    private String 	description;
-    private int    	symbol;    
+    private final static Logger LOGGER = LogManager.getLogger(Location.class);
+    private final DateTime 	dateTime;
+    private final double	latitude;
+    private final double	longitude;
+    private final double 	elevation;
+    private final String 	name;
+    private final String 	description;
+    private final int    	symbol;    
     
-    public Waypoint(String name, String description, DateTime dateTime, double lat, double lon, double ele, int symbol)
+    public Location(String name, String description, DateTime dateTime, double lat, double lon, double ele, int symbol)
     {
         this.latitude  		=lat;
         this.longitude         =lon;

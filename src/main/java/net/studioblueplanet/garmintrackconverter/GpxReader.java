@@ -223,8 +223,8 @@ public class GpxReader
     
     private void parseWaypoints(Track route, NodeList waypoints)
     {
-        List<Waypoint>  points;
-        Waypoint        point;
+        List<Location>  points;
+        Location        point;
         String          name="";
         String          description="";
         String          symbol="";
@@ -235,7 +235,6 @@ public class GpxReader
         NodeList        nodes;
         Element         element;
         Element         waypoint;
-        
         
         points=route.getWayPoints();
         for (int i=0; i<waypoints.getLength(); i++)
@@ -268,7 +267,7 @@ public class GpxReader
             }
             lat=Double.parseDouble(waypoint.getAttribute("lat"));
             lon=Double.parseDouble(waypoint.getAttribute("lon"));
-            point=new Waypoint(name, description, time, lat, lon, elevation, 0);
+            point=new Location(name, description, time, lat, lon, elevation, 0);
             points.add(point);
         }
     }
