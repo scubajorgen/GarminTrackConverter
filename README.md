@@ -57,6 +57,23 @@ It requires from the device:
 ## Executing
 Go to /target directory. Run 'java -jar GarminTrackConverter<x.y>.jar, where x.y is the version. There is also a jar file containing all depenedencies.
 
+If all is configured properly, you see four panels to the left, one map panel to the right and one info box at the bottom.
+
+The four panels represent:
+* The logged activities (top left)
+* The courses on the the device (top right)
+* The logged waypoints file (bottom left)
+* The new uploaded files (bottom right)
+
+Clicking any of the files shown shows the contents on the map on the right side of the screen.
+
+Buttons: 
+* Save GPX: saves the last clicked track/activity
+* Upload: Uploads a .gpx file containing trk, rte or wpt
+* Delete: Delete the selected file
+
+Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers. 
+
 ## Development
 The software was developed using Apache Netbeans. The Maven project can be run or debugged from Netbeans. For developement, a directory /development is available. It contains in /development/Garmin a copy of the filestructure from a Garmin Edge830 device, including some logged activities, courses and locations. The folder /development/gpx can be used to store GPX files.
 
