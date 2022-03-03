@@ -68,4 +68,33 @@ public class Device
     {
         return description+" - "+id;
     }
+
+    /**
+     * Returns the ID of the device
+     * @return The ID
+     */
+    public String getId()
+    {
+        return id;
+    }
+
+    /**
+     * Returns the device model
+     * @return The model
+     */
+    public String getModel()
+    {
+        return model;
+    }
+
+    /**
+     * Returns the description of the device
+     * @return The description as String
+     */
+    public String getDescription()
+    {
+        return description;
+    }
+
+
 }
