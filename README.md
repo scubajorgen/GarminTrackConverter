@@ -29,19 +29,43 @@ In this file the directories are defined on the device and where the GPX files s
 
 ```
 ###################################################################################################
+# Debugging level 'off', 'debug', 'info', 'error'
+# Defines the level of debug info that is printed in the console
+#  off   - show nothing
+#  error - only show errors
+#  info  - show errors and some info
+#  debug - show errors, info and all kind of debugging crap
+debugLevel  = info
+
+###################################################################################################
 # This setting defines the device file (xml)
-# Usually it is in the directory \GarminDevice.xml
+# Usually it is in the directory \Garmin\GarminDevice.xml
 deviceFile=f\:\\Garmin\\GarminDevice.xml
 
 ###################################################################################################
-# This setting defines the default waypoint file
-# Usually it is in the directory \garmin\Locations\Locations.fit
-waypointFile=f\:\\Garmin\\Locations\\Locations.fit
+# This setting defines the default path where to find the garmin track files
+# Usually it is in the directory \Garmin\Activities
+trackFilePath=f\:\\Garmin\\Activities\\
 
 ###################################################################################################
-# This setting defines the default path where to find the garmin track files
-# Usually it is in the directory \garmin\activities
-trackFilePath=f\:\\Garmin\\activities\\
+# This setting defines the default path where to find the garmin route/course files
+# Usually it is in the directory \Garmin\Courses
+routeFilePath=f\:\\Garmin\\Courses\\
+
+###################################################################################################
+# This setting defines the default path where to write new files to
+# Usually it is in the directory \garmin\newfiles
+newFilePath=f\:\\Garmin\\NewFiles
+
+###################################################################################################
+# This setting defines the default path where to find the location files
+# Usually it is in the directory \garmin\courses
+locationFilePath=f\:\\Garmin\\Locations
+
+###################################################################################################
+# This setting defines the default waypoint file
+# Usually it is in the directory \Garmin\Locations\Locations.fit
+waypointFile=f\:\\Garmin\\Locations\\Locations.fit
 
 ###################################################################################################
 # This setting defines the default path where to write the GPX file to
