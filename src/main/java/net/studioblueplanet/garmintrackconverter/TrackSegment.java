@@ -63,7 +63,7 @@ public class TrackSegment
         
         if (time==null)
         {
-            System.err.println("Null time");
+            LOGGER.error("Null time");
         }
         
         if (time!=null && time.gteq(startTime) && time.lt(endTime))
@@ -119,4 +119,25 @@ public class TrackSegment
     {
         return this.trackPoints.size();
     }
+    
+    /**
+     * Returns the elapsed time in seconds
+     * @return Elapsed time in seconds
+     */
+    public double getElapsedTime()
+    {
+        return elapsedTime;
+    }
+
+    public DateTime getStartTime()
+    {
+        return startTime;
+    }
+
+    public DateTime getEndTime()
+    {
+        return endTime;
+    }
+    
+    
 }
