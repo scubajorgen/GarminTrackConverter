@@ -54,7 +54,7 @@ public class GpxWriter
      */
     private GpxWriter()
     {
-        gpxVersion      =new String("1.1");
+        gpxVersion      ="1.1";
     }
 
     /**
@@ -85,6 +85,11 @@ public class GpxWriter
         {
             LOGGER.error("Illegal GPX version {}. Version left to {}", newVersion, gpxVersion);
         }
+    }
+    
+    public String getGpxVersion()
+    {
+        return gpxVersion;
     }
 
 
@@ -214,10 +219,8 @@ public class GpxWriter
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(fileName));
-
 
             transformer.transform(source, result);
     }
@@ -460,8 +463,6 @@ public class GpxWriter
             {
                 appendTrackGpx1_1(doc, segmentElement, track, i);
             }
-
-            
             i++;
         }
     }
@@ -500,16 +501,10 @@ public class GpxWriter
             LOGGER.info("Track: {}, track points: {}, wayPoints: {}", trackName, trackPoints, wayPoints);
 
         }
-        catch (ParserConfigurationException pce)
+        catch (ParserConfigurationException | TransformerException e)
         {
-            pce.printStackTrace();
+            LOGGER.error("Error writing GPX: {}", e.getMessage());
         }
-        catch (TransformerException tfe)
-        {
-            tfe.printStackTrace();
-        }
-
     }
-
 }
  
