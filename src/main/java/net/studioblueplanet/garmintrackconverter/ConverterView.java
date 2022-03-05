@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
@@ -35,16 +36,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private final static Logger         LOGGER = LogManager.getLogger(ConverterView.class);
     private final ConfigSettings        settings;
     private boolean                     tracksShown;
-    private Track                       track;
     private Locations                   waypoints;
     private Device                      device;
     
     private final Thread                thread;
     private final boolean               threadExit;
     
+    // Caching of converted FIT/GPX files
     private final Map<String,Track>     tracks;
     private final Map<String,Track>     routes;
     private final Map<String,Track>     newFiles;
+    private final Map<String,Locations> locations;
     
     private final MapOsm                map;
 
@@ -80,15 +82,15 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLocationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jLocationList.setModel(locationModel);
                 
-        tracks  =new HashMap<>();
-        routes  =new HashMap<>();
-        newFiles=new HashMap<>();
+        tracks      =new HashMap<>();
+        routes      =new HashMap<>();
+        newFiles    =new HashMap<>();
+        locations   =new HashMap<>();
         
         // Initialize the map
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
         map = new MapOsm(this.jMapPanel);
         this.textAreaOutput.setText("Please attach device\n");
- 
         
         tracksShown     =false;
         threadExit      =false;
@@ -543,31 +545,33 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Handles the convert button
-     * @param evt Button event
+     * Shows the file chooser requesting a GPX file 
+     * @param directory Initial directory
+     * @param fileNameProposal Suggested file name
+     * @param buttonText Text on the action button
+     * @return The file name entered or null if canceled
      */
-    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSaveActionPerformed
-    {//GEN-HEADEREND:event_buttonSaveActionPerformed
+    private String getGpxFileName(String directory, String fileNameProposal, String buttonText)
+    {
         JFileChooser                fc;
-        String                      fileName;
+        String                      returnFileName;
         String                      path;
         FileNameExtensionFilter     fitFileFilter;
         int                         returnValue;
         String                      extension;
         String                      gpxFile;
-        GpxWriter                   writer;        
         
         fc= new JFileChooser();
         
         // TO DO: generate a sensible filename
-        fileName="";
-        if (fileName.equals(""))
+        returnFileName=fileNameProposal;
+        if (returnFileName.equals(""))
         {
-            fc.setCurrentDirectory(new File(settings.getStringValue("gpxFilePath")));
+            fc.setCurrentDirectory(new File(directory));
         }
         else
         {
-            fc.setSelectedFile(new File(fileName));
+            fc.setSelectedFile(new File(returnFileName));
         }
         fitFileFilter=new FileNameExtensionFilter("GPX files (*.gpx)", "GPX");
 
@@ -575,7 +579,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         fc.addChoosableFileFilter(fitFileFilter);
         fc.setFileFilter(fitFileFilter);
         
-        returnValue=fc.showDialog(null, "Save");
+        returnValue=fc.showDialog(null, buttonText);
         
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
@@ -583,24 +587,195 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             // To do: set setting
             
-            fileName=path+"/"+fc.getSelectedFile().getName();
+            returnFileName=path+"/"+fc.getSelectedFile().getName();
             
             // Make sure the extension is .gpx
             extension=".gpx";
-            if(!fileName.toLowerCase().endsWith(extension))
+            if(!returnFileName.toLowerCase().endsWith(extension))
             {
-                fileName +=extension;
+                returnFileName +=extension;
             }
-            
-            writer=GpxWriter.getInstance();
-            writer.writeTrackToFile(fileName, track, "Track");
-            this.textAreaOutput.append("File saved to "+fileName+"\n");
-            LOGGER.info("File saved to {}"+fileName);
+
         }
         if (returnValue == JFileChooser.CANCEL_OPTION)
         {
             LOGGER.info("File save canceled");
-        }  
+            returnFileName=null;
+        }         
+        return returnFileName;
+    }
+
+    /**
+     * Show confirm dialog.
+     * @param message Message to show
+     * @return True if confirmed, false if canceled.
+     */
+    private boolean showConfirmDialog(String message)
+    {
+        int     response;
+        boolean yesPressed;
+        
+        yesPressed=false;
+        response = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION)
+        {
+            yesPressed=true;
+        }
+        return yesPressed;
+    }    
+
+    /**
+     * Shows the indicated track on the map
+     * @param track The track to show
+     */
+    private void trackToMap(Track track)
+    {
+        if (track!=null)
+        {
+            if (track.getNumberOfSegments()>0)
+            {
+                map.showTrack(track);
+                jTextInfo.setText(track.getTrackInfo());
+            }
+            else if (track.getWayPoints().size()>0)
+            {
+                map.showWaypoints(track.getWayPoints());
+                jTextInfo.setText("Locations: "+track.getWayPoints().size());
+            }
+        }
+    }
+    
+    /**
+     * Reads the fit file into a Track
+     * @param fileName Name of the fit file
+     * @param addWayoints Indicates whether the waypoints recorded during the
+     *                    track should be added to the track
+     * @return The track
+     */
+    private Track readTrack(String fileName, boolean addWaypoints)
+    {
+        Track theTrack;
+        theTrack=new Track(fileName, device.getDeviceDescription());
+
+        if(addWaypoints && waypoints!=null)
+        {
+            theTrack.addTrackWaypoints(waypoints.getWaypoints());
+        }
+        return theTrack;
+    }
+
+    /**
+     * Read the waypoints from the FIT file
+     */
+    private void readWaypoints()
+    {
+        String waypointsFile;
+
+        waypointsFile=settings.getStringValue("waypointFile");
+        if (new File(waypointsFile).exists())
+        {
+            waypoints=new Locations(waypointsFile);
+            textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
+        }
+        else
+        {
+            textAreaOutput.append("Waypoint file "+waypointsFile+" not found\n");
+        }
+    }
+    
+    /**
+     * Reads the Device from the device XML file
+     */
+    private void readDevice()
+    {
+        String deviceFile;
+
+        deviceFile=settings.getStringValue("deviceFile");
+        if (new File(deviceFile).exists())
+        {
+            device=new Device(deviceFile);
+            textAreaOutput.append("Device file "+deviceFile+" read\n");
+        }
+        else
+        {
+            textAreaOutput.append("Device file "+deviceFile+" not found\n");
+        }        
+    }
+
+    /**
+     * Returns track from map
+     * @param list List in which the track is selected
+     * @param map Map containing the track
+     * @return The track or null if not found
+     */
+    private Track getTrack(JList list, Map<String,Track> map)
+    {
+        Track track;
+        track=null;
+        
+        int index=list.getSelectedIndex();
+        if (index>=0)
+        {
+            String trackName=((DefaultListModel<String>)list.getModel()).elementAt(index);
+            if (map.containsKey(trackName))
+            {
+                track=map.get(trackName);
+            }
+        }
+        return track;
+    }
+    
+    /**
+     * Handles the convert button
+     * @param evt Button event
+     */
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSaveActionPerformed
+    {//GEN-HEADEREND:event_buttonSaveActionPerformed
+        GpxWriter                   writer;        
+        String                      fileName;
+        String                      trackName;
+        Track                       track;
+            
+        if (jTrackList.getSelectedIndex()>=0)
+        {
+            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            if (fileName!=null)
+            {
+                writer=GpxWriter.getInstance();
+                track=getTrack(jTrackList, tracks);
+                writer.writeTrackToFile(fileName, track, "Track");
+                this.textAreaOutput.append("File saved to "+fileName+"\n");
+                LOGGER.info("File saved to {}"+fileName);
+            }
+        }
+        else if (jNewFilesList.getSelectedIndex()>=0)
+        {
+            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            if (fileName!=null)
+            {
+                writer=GpxWriter.getInstance();
+                track=getTrack(jNewFilesList, newFiles);
+                writer.writeTrackToFile(fileName, track, "Track");
+                this.textAreaOutput.append("Route saved to "+fileName+"\n");
+                LOGGER.info("Route saved to {}"+fileName);
+            }
+        }
+        else if (jLocationList.getSelectedIndex()>=0)
+        {
+            textAreaOutput.append("Not supported yet");
+        }
+        else if (jRouteList.getSelectedIndex()>=0)
+        {
+            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            if (fileName!=null)
+            {
+                writer=GpxWriter.getInstance();
+                track=getTrack(jRouteList, routes);
+                writer.writeTrackToFile(fileName, track, "Track");
+                this.textAreaOutput.append("Route saved to "+fileName+"\n");
+                LOGGER.info("Route saved to {}"+fileName);
+            }
+        }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     private void jTrackListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jTrackListValueChanged
@@ -608,6 +783,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         int     index;
         String  fullFileName;
         String  fileName;
+        Track   track;
         
         if (!evt.getValueIsAdjusting() && jTrackList.getSelectedIndex()>=0)
         {
@@ -615,7 +791,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jNewFilesList.clearSelection();
             jLocationList.clearSelection();
             index=jTrackList.getSelectedIndex();
-            fileName=getTrack(index);
+            fileName=trackModel.elementAt(index);
             fullFileName=settings.getStringValue("trackFilePath")+"\\"+fileName;
             if (tracks.containsKey(fileName))
             {
@@ -646,6 +822,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         int     index;
         String  fullFileName;
         String  fileName;
+        Track   track;
         
         if (!evt.getValueIsAdjusting() && jRouteList.getSelectedIndex()>=0)
         {
@@ -653,7 +830,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jNewFilesList.clearSelection();
             jLocationList.clearSelection();
             index=jRouteList.getSelectedIndex();
-            fileName=getRoute(index);
+            fileName=routeModel.elementAt(index);
             fullFileName=settings.getStringValue("routeFilePath")+"\\"+fileName;
             if (routes.containsKey(fileName))
             {
@@ -673,6 +850,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         int     index;
         String  fullFileName;
         String  fileName;
+        Track   track;
         
         if (!evt.getValueIsAdjusting() && jNewFilesList.getSelectedIndex()>=0)
         {
@@ -699,55 +877,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
     private void buttonUploadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonUploadActionPerformed
     {//GEN-HEADEREND:event_buttonUploadActionPerformed
-        JFileChooser                fc;
-        String                      fileName;
-        String                      path;
-        FileNameExtensionFilter     fitFileFilter;
-        int                         returnValue;
-        String                      extension;
-        String                      gpxFile;
-        GpxWriter                   writer;        
-        
-        fc= new JFileChooser();
-        
-        // TO DO: generate a sensible filename
-        fileName="";
-        if (fileName.equals(""))
+        String fileName;
+        fileName=this.getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Upload");
+        if (fileName!=null)
         {
-            fc.setCurrentDirectory(new File(settings.getStringValue("gpxFilePath")));
-        }
-        else
-        {
-            fc.setSelectedFile(new File(fileName));
-        }
-        fitFileFilter=new FileNameExtensionFilter("GPX files (*.gpx)", "GPX");
-
-        // Set file extension filters
-        fc.addChoosableFileFilter(fitFileFilter);
-        fc.setFileFilter(fitFileFilter);
-        
-        returnValue=fc.showDialog(null, "Upload");
-        
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            path=fc.getCurrentDirectory().toString();
-            //settings.setGpxFilePath(path);
-            fileName=path+"/"+fc.getSelectedFile().getName();
-            
-            // Make sure the extension is .gpx
-            extension=".gpx";
-            if(!fileName.toLowerCase().endsWith(extension))
-            {
-                fileName +=extension;
-            }
-            
             String destinationPath=settings.getStringValue("newFilePath");
-            String destinationFile=destinationPath+"//"+fc.getSelectedFile().getName();
+            String destinationFile=destinationPath+"//"+(new File(fileName).getName());
             File destination=new File(destinationPath);
             if (destination.exists())
             {
-                Path copied = Paths.get(destinationFile);
-                Path originalPath = Paths.get(fileName);
+                Path copied         = Paths.get(destinationFile);
+                Path originalPath   = Paths.get(fileName);
                 try
                 {
                     Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
@@ -769,10 +909,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
             }
         }
-        if (returnValue == JFileChooser.CANCEL_OPTION)
-        {
 
-        }  
     }//GEN-LAST:event_buttonUploadActionPerformed
 
     private void jLocationListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jLocationListValueChanged
@@ -791,8 +928,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             index=jLocationList.getSelectedIndex();
             fileName=locationModel.getElementAt(index);
             fullFileName=settings.getStringValue("locationFilePath")+"\\"+fileName;
-            LOGGER.info("Reading waypoints from {}", fullFileName);
-            points=new Locations(fullFileName);
+            
+            if (locations.containsKey(fileName))
+            {
+                points=locations.get(fileName);
+            }
+            else
+            {
+                LOGGER.info("Reading waypoints from {}", fullFileName);
+                points=new Locations(fullFileName);
+                locations.put(fileName, points);
+            }
             map.showWaypoints(points.getWaypoints());
             jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
 
@@ -850,127 +996,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
-    /**
-     * Show confirm dialog.
-     * @param message Message to show
-     * @return True if confirmed, false if canceled.
-     */
-    private boolean showConfirmDialog(String message)
-    {
-        int     response;
-        boolean yesPressed;
-        
-        yesPressed=false;
-        response = JOptionPane.showConfirmDialog(null, message, "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (response == JOptionPane.YES_OPTION)
-        {
-            yesPressed=true;
-        }
-        return yesPressed;
-    }    
-
-    private void trackToMap(Track track)
-    {
-        if (track!=null)
-        {
-            if (track.getNumberOfSegments()>0)
-            {
-                map.showTrack(track);
-                jTextInfo.setText(track.getTrackInfo());
-            }
-            else if (track.getWayPoints().size()>0)
-            {
-                map.showWaypoints(track.getWayPoints());
-                jTextInfo.setText("Locations: "+track.getWayPoints().size());
-            }
-        }
-    }
-    
-    /**
-     * Clear the track/activity list
-     */
-    private void clearTracks()
-    {
-        DefaultListModel<String> model;
-        model=(DefaultListModel)jTrackList.getModel();
-        model.clear();
-    }
-    
-    /**
-     * Get the track at given index in the list
-     * @param index The index
-     * @return The track
-     */
-    private String getTrack(int index)
-    {
-        DefaultListModel<String> model;
-        model=(DefaultListModel)jTrackList.getModel();
-        return model.getElementAt(index);
-    }
-    
-    /**
-     * Get the track at given index in the list
-     * @param index The index
-     * @return The track
-     */
-    private String getRoute(int index)
-    {
-        DefaultListModel<String> model;
-        model=(DefaultListModel)jRouteList.getModel();
-        return model.getElementAt(index);
-    }
-    
-
-    
-    /**
-     * Reads the fit file into a Track
-     * @param fileName Name of the fit file
-     * @return The track
-     */
-    private Track readTrack(String fileName, boolean addWaypoints)
-    {
-        Track theTrack;
-        theTrack=new Track(fileName, device.getDeviceDescription());
-
-        if(addWaypoints && waypoints!=null)
-        {
-            theTrack.addTrackWaypoints(waypoints.getWaypoints());
-        }
-        return theTrack;
-    }
-
-    
-    private void readWaypoints()
-    {
-        String waypointsFile;
-
-        waypointsFile=settings.getStringValue("waypointFile");
-        if (new File(waypointsFile).exists())
-        {
-            waypoints=new Locations(waypointsFile);
-            textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
-        }
-        else
-        {
-            textAreaOutput.append("Waypoint file "+waypointsFile+" not found\n");
-        }
-    }
-    
-    private void readDevice()
-    {
-        String deviceFile;
-
-        deviceFile=settings.getStringValue("deviceFile");
-        if (new File(deviceFile).exists())
-        {
-            device=new Device(deviceFile);
-            textAreaOutput.append("Device file "+deviceFile+" read\n");
-        }
-        else
-        {
-            textAreaOutput.append("Device file "+deviceFile+" not found\n");
-        }        
-    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
