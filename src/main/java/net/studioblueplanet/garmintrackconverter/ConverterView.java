@@ -43,10 +43,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private final boolean               threadExit;
     
     // Caching of converted FIT/GPX files
-    private final Map<String,Track>     tracks;
-    private final Map<String,Track>     routes;
-    private final Map<String,Track>     newFiles;
-    private final Map<String,Locations> locations;
+    private final Map<String,Track>     tracksCache;
+    private final Map<String,Track>     routesCache;
+    private final Map<String,Track>     newFilesCache;
+    private final Map<String,Locations> locationsCache;
     
     private final MapOsm                map;
 
@@ -82,10 +82,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLocationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jLocationList.setModel(locationModel);
                 
-        tracks      =new HashMap<>();
-        routes      =new HashMap<>();
-        newFiles    =new HashMap<>();
-        locations   =new HashMap<>();
+        tracksCache      =new HashMap<>();
+        routesCache      =new HashMap<>();
+        newFilesCache    =new HashMap<>();
+        locationsCache   =new HashMap<>();
         
         // Initialize the map
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
@@ -726,6 +726,29 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
     
     /**
+     * Returns track from map
+     * @param list List in which the track is selected
+     * @param map Map containing the track
+     * @return The track or null if not found
+     */
+    private Locations getWaypoints(JList list, Map<String,Locations> map)
+    {
+        Locations locations;
+        locations=null;
+        
+        int index=list.getSelectedIndex();
+        if (index>=0)
+        {
+            String waypointsName=((DefaultListModel<String>)list.getModel()).elementAt(index);
+            if (map.containsKey(waypointsName))
+            {
+                locations=map.get(waypointsName);
+            }
+        }
+        return locations;
+    }
+    
+    /**
      * Handles the convert button
      * @param evt Button event
      */
@@ -735,6 +758,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         String                      fileName;
         String                      trackName;
         Track                       track;
+        Locations                   locations;
             
         if (jTrackList.getSelectedIndex()>=0)
         {
@@ -742,7 +766,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
-                track=getTrack(jTrackList, tracks);
+                track=getTrack(jTrackList, tracksCache);
                 writer.writeTrackToFile(fileName, track, "Track");
                 this.textAreaOutput.append("File saved to "+fileName+"\n");
                 LOGGER.info("File saved to {}"+fileName);
@@ -754,15 +778,23 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
-                track=getTrack(jNewFilesList, newFiles);
+                track=getTrack(jNewFilesList, newFilesCache);
                 writer.writeTrackToFile(fileName, track, "Track");
                 this.textAreaOutput.append("Route saved to "+fileName+"\n");
-                LOGGER.info("Route saved to {}"+fileName);
+                LOGGER.info("Route saved to {}", fileName);
             }
         }
         else if (jLocationList.getSelectedIndex()>=0)
         {
-            textAreaOutput.append("Not supported yet");
+            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            if (fileName!=null)
+            {
+                writer=GpxWriter.getInstance();
+                locations=getWaypoints(jLocationList, locationsCache);
+                writer.writeWaypointsToFile(fileName, waypoints);
+                this.textAreaOutput.append("Route saved to "+fileName+"\n");
+                LOGGER.info("Route saved to {}", fileName);
+            }
         }
         else if (jRouteList.getSelectedIndex()>=0)
         {
@@ -770,10 +802,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
-                track=getTrack(jRouteList, routes);
+                track=getTrack(jRouteList, routesCache);
                 writer.writeTrackToFile(fileName, track, "Track");
                 this.textAreaOutput.append("Route saved to "+fileName+"\n");
-                LOGGER.info("Route saved to {}"+fileName);
+                LOGGER.info("Route saved to {}", fileName);
             }
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
@@ -793,14 +825,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             index=jTrackList.getSelectedIndex();
             fileName=trackModel.elementAt(index);
             fullFileName=settings.getStringValue("trackFilePath")+"\\"+fileName;
-            if (tracks.containsKey(fileName))
+            if (tracksCache.containsKey(fileName))
             {
-                track=tracks.get(fileName);
+                track=tracksCache.get(fileName);
             }
             else
             {
                 track=readTrack(fullFileName, true);
-                tracks.put(fileName, track);
+                tracksCache.put(fileName, track);
             }
             jTextInfo.setText(track.getTrackInfo());
             map.showTrack(track);
@@ -832,14 +864,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             index=jRouteList.getSelectedIndex();
             fileName=routeModel.elementAt(index);
             fullFileName=settings.getStringValue("routeFilePath")+"\\"+fileName;
-            if (routes.containsKey(fileName))
+            if (routesCache.containsKey(fileName))
             {
-                track=routes.get(fileName);
+                track=routesCache.get(fileName);
             }
             else
             {
                 track=readTrack(fullFileName, false);
-                routes.put(fileName, track);
+                routesCache.put(fileName, track);
             }
             trackToMap(track);
         }
@@ -862,14 +894,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=newFileModel.getElementAt(index);
             fullFileName=settings.getStringValue("newFilePath")+"\\"+fileName;
 
-            if (newFiles.containsKey(fileName))
+            if (newFilesCache.containsKey(fileName))
             {
-                track=newFiles.get(fileName);
+                track=newFilesCache.get(fileName);
             }
             else
             {
                 track=GpxReader.getInstance().readRouteFromFile(fullFileName);
-                newFiles.put(fileName, track);
+                newFilesCache.put(fileName, track);
             }
             trackToMap(track);
         }
@@ -929,15 +961,15 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=locationModel.getElementAt(index);
             fullFileName=settings.getStringValue("locationFilePath")+"\\"+fileName;
             
-            if (locations.containsKey(fileName))
+            if (locationsCache.containsKey(fileName))
             {
-                points=locations.get(fileName);
+                points=locationsCache.get(fileName);
             }
             else
             {
                 LOGGER.info("Reading waypoints from {}", fullFileName);
                 points=new Locations(fullFileName);
-                locations.put(fileName, points);
+                locationsCache.put(fileName, points);
             }
             map.showWaypoints(points.getWaypoints());
             jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());

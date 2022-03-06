@@ -7,6 +7,7 @@ package net.studioblueplanet.garmintrackconverter;
 
 import hirondelle.date4j.DateTime;
 import java.io.File;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -92,7 +93,6 @@ public class GpxWriter
         return gpxVersion;
     }
 
-
     /**
      * This method creates the XML document, adds the GPX headers and
      * creates the <gpx> element. The variables doc and gpxElement will
@@ -125,7 +125,40 @@ public class GpxWriter
             this.addGpx1_1Header(doc, gpxElement, deviceType);
         }
     }
-
+    
+    /**
+     * Adds a string value to the XML Element
+     * @param document Element to add to
+     * @param string String value
+     */
+    private void addString(Element document, String tag, String string)
+    {
+        Element element;
+        
+        if (string!=null && !string.equals(""))
+        {
+            element    = doc.createElement(tag);
+            element.appendChild(doc.createTextNode(string));
+            document.appendChild(element);
+        }        
+    }
+    
+    /**
+     * This method adds an attribute to the element
+     * @param document Element to append to
+     * @param tag Tag of the attribute
+     * @param value Value of the attribute
+     */
+    private void addAttribute(Element document, String tag, String value)
+    {
+        Attr attr;
+        
+        attr = doc.createAttribute(tag);
+        attr.setValue(value);
+        document.setAttributeNode(attr);        
+    }
+    
+    
     /**
      * Add the GPX 1.0 header
      * @param doc The XML document
@@ -133,33 +166,18 @@ public class GpxWriter
      */
     private void addGpx1_0Header(Document doc, Element gpxElement, String creator)
     {
-        Attr        attr;
-
         // GPX version 1.0
-
-        attr = doc.createAttribute("creator");
-        attr.setValue(creator);
-        gpxElement.setAttributeNode(attr);
-
-        attr = doc.createAttribute("version");
-        attr.setValue("1.0");
-        gpxElement.setAttributeNode(attr);
+        addAttribute(gpxElement, "creator", creator);
+        addAttribute(gpxElement, "version", "1.0");
 
         // GPX namespace
-        attr = doc.createAttribute("xmlns");
-        attr.setValue("http://www.topografix.com/GPX/1/0");
-        gpxElement.setAttributeNode(attr);
-
+        addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/0");
+        
         // XMLSchema namespace
-        attr = doc.createAttribute("xmlns:xsi");
-        attr.setValue("http://www.w3.org/2001/XMLSchema-instance");
-        gpxElement.setAttributeNode(attr);
+        addAttribute(gpxElement, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
          // Schema locations - just the GPX location
-        attr = doc.createAttribute("xsi:schemaLocation");
-        attr.setValue("http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd ");
-        gpxElement.setAttributeNode(attr);
-
+        addAttribute(gpxElement, "xsi:schemaLocation", "http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd ");
     }
 
     /**
@@ -169,39 +187,23 @@ public class GpxWriter
      */
     private void addGpx1_1Header(Document doc, Element gpxElement, String creator)
     {
-        Comment     comment;
-        Attr        attr;
-
         // GPX version 1.1
-        attr = doc.createAttribute("creator");
-        attr.setValue(creator);
-        gpxElement.setAttributeNode(attr);
-
-        attr = doc.createAttribute("version");
-        attr.setValue("1.1");
-        gpxElement.setAttributeNode(attr);
+        addAttribute(gpxElement, "creator", creator);
+        addAttribute(gpxElement, "version", "1.1");;
 
         // XMLSchema namespace
-        attr = doc.createAttribute("xmlns:xsi");
-        attr.setValue("http://www.w3.org/2001/XMLSchema-instance");
-        gpxElement.setAttributeNode(attr);
+        addAttribute(gpxElement, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         // GPX namespace
-        attr = doc.createAttribute("xmlns");
-        attr.setValue("http://www.topografix.com/GPX/1/1");
-        gpxElement.setAttributeNode(attr);
-
+        addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/1");
+        
         // u-gotMe namespace
-        attr = doc.createAttribute("xmlns:u-gotMe");
-        attr.setValue("http://tracklog.studioblueplanet.net/gpxextensions/v2");
-        gpxElement.setAttributeNode(attr);
+        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v2");
 
         // Schema locations
-        attr = doc.createAttribute("xsi:schemaLocation");
-        attr.setValue("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                      "http://tracklog.studioblueplanet.net/gpxextensions/v2 https://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd");
-        gpxElement.setAttributeNode(attr);
-
+        addAttribute(gpxElement, "xsi:schemaLocation", 
+                                 "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
+                                 "http://tracklog.studioblueplanet.net/gpxextensions/v2 https://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd");
     }
 
     /**
@@ -247,22 +249,16 @@ public class GpxWriter
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
-            element    = doc.createElement("ele");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation())));
-            pointElement.appendChild(element);
+            addString(pointElement, "ele", String.valueOf(point.getElevation()));
 
-            element    = doc.createElement("time");
             dateTime=point.getDateTime();
             dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                            dateTime.format("hh:mm:ss")+"Z";
-            element.appendChild(doc.createTextNode(dateTimeString));
-            pointElement.appendChild(element);
+            addString(pointElement, "time", dateTimeString);
            
 
             // Extensions: speed
-            element    = doc.createElement("speed");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getSpeed())));
-            pointElement.appendChild(element);
+            addString(pointElement, "speed", String.valueOf(point.getSpeed()));
 
             // TO DO ADD DISTANCE
 
@@ -296,7 +292,6 @@ public class GpxWriter
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
-        Attr                        attr;
         DateTime                    dateTime;
         String                      dateTimeString;
 
@@ -306,47 +301,29 @@ public class GpxWriter
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
-            // The elevation. For Pro versions it is the height sensor value. 
-            // For non-Pro versions it is measured by GPS.
-            element    = doc.createElement("ele");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation())));
-            pointElement.appendChild(element);
+            addString(pointElement, "ele", String.valueOf(point.getElevation()));
 
-            element    = doc.createElement("time");
             dateTime=point.getDateTime();
             dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                            dateTime.format("hh:mm:ss")+"Z";
-            element.appendChild(doc.createTextNode(dateTimeString));
-            pointElement.appendChild(element);
+            addString(pointElement, "time", dateTimeString);
 
             extensionsElement    = doc.createElement("extensions");
             pointElement.appendChild(extensionsElement);
 
             // Extensions: speed
-            element    = doc.createElement("u-gotMe:speed");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getSpeed())));
-            extensionsElement.appendChild(element);
+            addString(extensionsElement, "u-gotMe:speed", String.valueOf(point.getSpeed()));
 
-            // Extensions: speed
-            element    = doc.createElement("u-gotMe:temp");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getTemperature())));
-            extensionsElement.appendChild(element);
+            // Extensions: temperature
+            addString(extensionsElement, "u-gotMe:temp", String.valueOf(point.getTemperature()));
             
-            // set attribute 'lat' to element
-            attr = doc.createAttribute("lat");
-            attr.setValue(String.valueOf(point.getLatitude()));
-            pointElement.setAttributeNode(attr);
-
-            // set attribute 'lon' to element
-            attr = doc.createAttribute("lon");
-            attr.setValue(String.valueOf(point.getLongitude()));
-            pointElement.setAttributeNode(attr);
+            // set attribute 'lat' and 'lon' to element
+            addAttribute(pointElement, "lat", String.valueOf(point.getLatitude()));
+            addAttribute(pointElement, "lon", String.valueOf(point.getLongitude()));
 
             trackPoints++;
         }
     }
-
-
 
     /**
      * Appends the waypoints belonging to the given track segment.
@@ -356,56 +333,37 @@ public class GpxWriter
      * @param trackNo The track identification
      * @param segmentNo The segment identification
      */
-    private void appendWaypointsGpx(Document doc, Element trackElement, Track track)
+    private void appendWaypointsGpx(Document doc, Element trackElement, List<Location> waypoints)
     {
         Element                     pointElement;
         Element                     element;
-        Element                     extensionElement;
-        Attr                        attr;
         DateTime                    dateTime;
         String                      dateTimeString;
 
-        for(Location point : track.getWayPoints())
+        for(Location point : waypoints)
         {
             pointElement    = doc.createElement("wpt");
             trackElement.appendChild(pointElement);
 
-            element    = doc.createElement("ele");
-            element.appendChild(doc.createTextNode(String.valueOf(point.getElevation())));
-            pointElement.appendChild(element);
-
-            element    = doc.createElement("time");
+            addString(pointElement, "ele", String.valueOf(point.getElevation()));
             dateTime=point.getDateTime();
-            dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
-                           dateTime.format("hh:mm:ss")+"Z";
-            element.appendChild(doc.createTextNode(dateTimeString));
-            pointElement.appendChild(element);
-            
-            element    = doc.createElement("name");
-            element.appendChild(doc.createTextNode(point.getName()));
-            pointElement.appendChild(element);
-           
-            element    = doc.createElement("desc");
-            element.appendChild(doc.createTextNode(point.getDescription()));
-            pointElement.appendChild(element);
-           
-            element    = doc.createElement("sym");
-            element.appendChild(doc.createTextNode("Waypoint"));
-            pointElement.appendChild(element);
-           
-            // set attribute 'lat' to element
-            attr = doc.createAttribute("lat");
-            attr.setValue(String.valueOf(point.getLatitude()));
-            pointElement.setAttributeNode(attr);
+            if (dateTime!=null)
+            {
+                dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
+                               dateTime.format("hh:mm:ss")+"Z";
+                addString(pointElement, "time", dateTimeString);
+            }
 
-            // set attribute 'lon' to element
-            attr = doc.createAttribute("lon");
-            attr.setValue(String.valueOf(point.getLongitude()));
-            pointElement.setAttributeNode(attr);
+            addString(pointElement, "name", point.getName());
+            addString(pointElement, "desc", point.getDescription());
+            addString(pointElement, "sym", "Waypoint");
+          
+            // set attribute 'lat' and 'lon' to element
+            addAttribute(pointElement, "lat", String.valueOf(point.getLatitude()));
+            addAttribute(pointElement, "lon", String.valueOf(point.getLongitude()));
 
             wayPoints++;
         }
-
     }
 
     /**
@@ -427,43 +385,40 @@ public class GpxWriter
 
         if (gpxVersion.equals("1.0"))
         {
-            appendWaypointsGpx(doc, gpxElement, track);
+            appendWaypointsGpx(doc, gpxElement, track.getWayPoints());
         }
         else if (gpxVersion.equals("1.1"))
         {
-            appendWaypointsGpx(doc, gpxElement, track);
+            appendWaypointsGpx(doc, gpxElement, track.getWayPoints());
         }
 
         // The track element
-        trackElement = doc.createElement("trk");
-        gpxElement.appendChild(trackElement);
-
-        element = doc.createElement("name");
-        element.appendChild(doc.createTextNode(trackName));
-        trackElement.appendChild(element);
-
-        description=track.getDeviceName() +" logged track";
-        element = doc.createElement("desc");
-        element.appendChild(doc.createTextNode(description));
-        trackElement.appendChild(element);        
-        
-        // Add the track segments.
-        i=0;
-        while (i<numberOfSegments)
+        if (track.getNumberOfSegments()>0)
         {
-            // segment
-            Element segmentElement = doc.createElement("trkseg");
-            trackElement.appendChild(segmentElement);
+            trackElement = doc.createElement("trk");
+            gpxElement.appendChild(trackElement);
 
-            if (gpxVersion.equals("1.0"))
+            addString(trackElement, "name", trackName);
+            addString(trackElement, "desc", track.getDeviceName() +" logged track");
+
+            // Add the track segments.
+            i=0;
+            while (i<numberOfSegments)
             {
-                appendTrackGpx1_0(doc, segmentElement, track, i);
+                // segment
+                Element segmentElement = doc.createElement("trkseg");
+                trackElement.appendChild(segmentElement);
+
+                if (gpxVersion.equals("1.0"))
+                {
+                    appendTrackGpx1_0(doc, segmentElement, track, i);
+                }
+                else if (gpxVersion.equals("1.1"))
+                {
+                    appendTrackGpx1_1(doc, segmentElement, track, i);
+                }
+                i++;
             }
-            else if (gpxVersion.equals("1.1"))
-            {
-                appendTrackGpx1_1(doc, segmentElement, track, i);
-            }
-            i++;
         }
     }
 
@@ -497,8 +452,43 @@ public class GpxWriter
             // write the content into xml file
             writeGpxDocument(fileName);
 
-            LOGGER.info("GpxWriter says: 'File saved to {}!'", fileName);
-            LOGGER.info("Track: {}, track points: {}, wayPoints: {}", trackName, trackPoints, wayPoints);
+            LOGGER.info("File saved to {}!", fileName);
+            LOGGER.info("Written track: {}, track points: {}, wayPoints: {}", trackName, trackPoints, wayPoints);
+
+        }
+        catch (ParserConfigurationException | TransformerException e)
+        {
+            LOGGER.error("Error writing GPX: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Write waypoints to a GPX file, as wpt elements
+     * @param fileName Name of the file to write to
+     * @param waypoints Waypoints to write
+     */
+    public void writeWaypointsToFile(String fileName, Locations waypoints)
+    {
+        Element     trackElement;
+        Element     element;
+        Comment     comment;
+        Attr        attr;
+        String      creator;
+
+        wayPoints   =0;
+        trackPoints =0;
+
+        try
+        {
+            // create the GPX file
+            createGpxDocument("Locations.fit");
+
+            this.appendWaypointsGpx(doc, gpxElement, waypoints.getWaypoints());
+
+            // write the content into xml file
+            writeGpxDocument(fileName);
+
+            LOGGER.info("Waypoint File saved to {}, saved {} waypoints!", fileName, waypoints.getNumberOfWaypoints());
 
         }
         catch (ParserConfigurationException | TransformerException e)
