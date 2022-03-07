@@ -9,6 +9,7 @@ package net.studioblueplanet.garmintrackconverter;
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessage;
 import net.studioblueplanet.fitreader.FitMessageRepository;
+import net.studioblueplanet.fitreader.FitGlobalProfile;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ public class Track
     private final List<Location>            waypoints;
 
     private String                          deviceName;
+    private String                          sport;
     
     /**
      * Constructor
@@ -40,7 +42,10 @@ public class Track
         FitReader               reader;
         FitMessageRepository    repository;
         List<FitMessage>        lapMessages;
+        List<FitMessage>        segmentMessages;
         List<FitMessage>        trackMessages;
+        FitMessage              sportMessage;
+        int                     sportId;
         
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
@@ -49,7 +54,14 @@ public class Track
         repository      =reader.readFile(trackFileName);
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
-
+        segmentMessages =repository.getAllMessages("segment");
+        sportMessage    =repository.getFitMessage("sport");
+        if (sportMessage!=null)
+        {
+            sportId=sportMessage.getIntValue(0, "sport");
+            sport=FitGlobalProfile.getInstance().getTypeValueName("sport", sportId);
+        }
+        
         repository.dumpMessageDefintions();
         
         if (lapMessages!=null && trackMessages!=null)
@@ -226,7 +238,7 @@ public class Track
         
         noOfSegments=segments.size();
         
-        info="Track with "+this.segments.size()+" segments (";
+        info="Track ("+sport+") with "+this.segments.size()+" segments (";
         i=0;
         while (i<noOfSegments)
         {
@@ -288,6 +300,15 @@ public class Track
     public List<Location> getWayPoints()
     {
         return this.waypoints;
+    }
+
+    /**
+     * Returns the name of the sport
+     * @return Sports name or null if not retrieved from the FIT file
+     */
+    public String getSport()
+    {
+        return this.sport;
     }
     
     /**

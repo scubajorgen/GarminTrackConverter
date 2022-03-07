@@ -92,7 +92,7 @@ public class TrackTest
     {
         System.out.println("getTrackInfo");
 
-        assertEquals("Track with 1 segments (5023 points) and 1 waypoints", instance.getTrackInfo());
+        assertEquals("Track (cycling) with 1 segments (5023 points) and 1 waypoints", instance.getTrackInfo());
     }
 
     /**
@@ -161,6 +161,16 @@ public class TrackTest
         instance.clear();
         assertEquals(0, instance.getNumberOfSegments());
         assertEquals(0, instance.getWayPoints().size());
+    }
+    
+    /**
+     * Test of getSport method, of class Track.
+     */
+    @Test
+    public void testGetSport()
+    {
+        System.out.println("getSport");
+        assertEquals("cycling", instance.getSport());
     }
     
 }
