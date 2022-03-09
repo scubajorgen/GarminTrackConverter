@@ -47,7 +47,7 @@ public class Locations
         locations=new ArrayList<>();
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
-        record=repository.getFitMessage("waypoints");
+        record=repository.getFitMessage("location");
         if (record!=null)
         {
             size=record.getNumberOfRecords();

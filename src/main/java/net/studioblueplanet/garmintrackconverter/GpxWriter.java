@@ -399,7 +399,12 @@ public class GpxWriter
             gpxElement.appendChild(trackElement);
 
             addString(trackElement, "name", trackName);
-            addString(trackElement, "desc", track.getDeviceName() +" logged track ("+track.getSport()+")");
+            description=track.getDeviceName()+" logged track";
+            if (track.getSport()!=null)
+            {
+                description+=" ("+track.getSport()+")";
+            }
+            addString(trackElement, "desc", description);
 
             // Add the track segments.
             i=0;

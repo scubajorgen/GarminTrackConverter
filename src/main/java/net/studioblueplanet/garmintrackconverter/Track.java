@@ -238,7 +238,12 @@ public class Track
         
         noOfSegments=segments.size();
         
-        info="Track ("+sport+") with "+this.segments.size()+" segments (";
+        info="Track ";
+        if (sport!=null)
+        {
+            info+="("+sport+") ";
+        }
+        info+="with "+this.segments.size()+" segments (";
         i=0;
         while (i<noOfSegments)
         {
