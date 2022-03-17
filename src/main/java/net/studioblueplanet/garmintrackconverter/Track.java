@@ -31,6 +31,8 @@ public class Track
 
     private String                          deviceName;
     private String                          sport;
+    private String                          manufacturer;
+    private String                          product;
     
     /**
      * Constructor
@@ -44,8 +46,8 @@ public class Track
         List<FitMessage>        lapMessages;
         List<FitMessage>        segmentMessages;
         List<FitMessage>        trackMessages;
-        FitMessage              sportMessage;
-        int                     sportId;
+        FitMessage              message;
+        int                     id;
         
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
@@ -55,12 +57,25 @@ public class Track
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
         segmentMessages =repository.getAllMessages("segment");
-        sportMessage    =repository.getFitMessage("sport");
-        if (sportMessage!=null)
+        
+        // Sport
+        message    =repository.getFitMessage("sport");
+        if (message!=null)
         {
-            sportId=sportMessage.getIntValue(0, "sport");
-            sport=FitGlobalProfile.getInstance().getTypeValueName("sport", sportId);
+            id=message.getIntValue(0, "sport");
+            sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
         }
+        
+        //file_id
+        message    =repository.getFitMessage("file_id");
+        if (message!=null)
+        {
+            id          =message.getIntValue(0, "manufacturer");
+            manufacturer=FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+            id          =message.getIntValue(0, "product");
+            product     =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+        }        
+        
         
         repository.dumpMessageDefintions();
         
