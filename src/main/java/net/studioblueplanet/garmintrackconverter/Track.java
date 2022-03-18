@@ -62,7 +62,7 @@ public class Track
         message    =repository.getFitMessage("sport");
         if (message!=null)
         {
-            id=message.getIntValue(0, "sport");
+            id=(int)message.getIntValue(0, "sport");
             sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
         }
         
@@ -70,9 +70,9 @@ public class Track
         message    =repository.getFitMessage("file_id");
         if (message!=null)
         {
-            id          =message.getIntValue(0, "manufacturer");
+            id          =(int)message.getIntValue(0, "manufacturer");
             manufacturer=FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
-            id          =message.getIntValue(0, "product");
+            id          =(int)message.getIntValue(0, "product");
             product     =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
         }        
         
@@ -171,9 +171,9 @@ public class Track
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
                 ele         =message.getAltitudeValue(i, "altitude");
-                temp        =message.getIntValue(i, "temperature");
-                speed       =message.getSpeedValue(i, "speed");
-                distance    =message.getDistanceValue(i, "distance");
+                temp        =(int)message.getIntValue(i, "temperature");
+                speed       =message.getScaledValue(i, "speed");
+                distance    =message.getScaledValue(i, "distance");
 
                 point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp);
 
