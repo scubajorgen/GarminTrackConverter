@@ -59,8 +59,8 @@ public class Locations
                 description =record.getStringValue(i, "description");
                 lat         =record.getLatLonValue(i, "position_lat");
                 lon         =record.getLatLonValue(i, "position_long");
-                ele         =record.getAltitudeValue(i, "altitude");
-                symbol      =record.getIntValue(i, "symbol");
+                ele         =record.getScaledValue(i, "altitude");
+                symbol      =(int)record.getIntValue(i, "symbol");
                 this.locations.add(new Location(name, description, dateTime, lat, lon, ele, symbol));
 
 

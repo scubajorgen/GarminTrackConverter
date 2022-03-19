@@ -33,6 +33,9 @@ public class Track
     private String                          sport;
     private String                          manufacturer;
     private String                          product;
+    private long                            serialNumber;
+    private String                          fileType;
+    private String                          softwareVersion;
     
     /**
      * Constructor
@@ -62,7 +65,7 @@ public class Track
         message    =repository.getFitMessage("sport");
         if (message!=null)
         {
-            id=message.getIntValue(0, "sport");
+            id=(int)message.getIntValue(0, "sport");
             sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
         }
         
@@ -70,12 +73,27 @@ public class Track
         message    =repository.getFitMessage("file_id");
         if (message!=null)
         {
-            id          =message.getIntValue(0, "manufacturer");
+            id          =(int)message.getIntValue(0, "manufacturer");
             manufacturer=FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
-            id          =message.getIntValue(0, "product");
+            id          =(int)message.getIntValue(0, "product");
             product     =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+            serialNumber=message.getIntValue(0, "serial_number");
+            id          =(int)message.getIntValue(0, "type");
+            fileType    =FitGlobalProfile.getInstance().getTypeValueName("file", id);
         }        
-        
+
+        //device_info
+        message    =repository.getFitMessage("device_info");
+        if (message!=null)
+        {
+            id              =(int)message.getIntValue(0, "manufacturer");
+            manufacturer    =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+            id              =(int)message.getIntValue(0, "product");
+            product         =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+            serialNumber    =message.getIntValue(0, "serial_number");
+            double version  =message.getScaledValue(0, "software_version");
+            softwareVersion =String.format("%5.2f", version);
+        }
         
         repository.dumpMessageDefintions();
         
@@ -171,9 +189,9 @@ public class Track
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
                 ele         =message.getAltitudeValue(i, "altitude");
-                temp        =message.getIntValue(i, "temperature");
-                speed       =message.getSpeedValue(i, "speed");
-                distance    =message.getDistanceValue(i, "distance");
+                temp        =(int)message.getIntValue(i, "temperature");
+                speed       =message.getScaledValue(i, "speed");
+                distance    =message.getScaledValue(i, "distance");
 
                 point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp);
 
