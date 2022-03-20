@@ -36,7 +36,24 @@ public class Track
     private long                            serialNumber;
     private String                          fileType;
     private String                          softwareVersion;
+
+    private double                          elapsedTime;    // ms
+    private double                          timedTime;      // ms
+    private double                          startLat;
+    private double                          startLon;
+    private double                          distance;       // m
+    private double                          averageSpeed;   // m/s
+    private double                          maxSpeed;       // m/s
+    private int                             ascend;         // m
+    private int                             descend;        // m
+    private double                          grit;           // kGrit
+    private double                          flow;           // FLOW
+    private double                          calories;       // kcal
     
+    
+    private static final int                TIMEREVENT=0;
+    private static final int                TIMEREVENT_TIMERSTARTED=0;
+    private static final int                TIMEREVENT_TIMERSTOPPED=4;
     /**
      * Constructor
      * @param trackFileName Track file
@@ -47,7 +64,8 @@ public class Track
         FitReader               reader;
         FitMessageRepository    repository;
         List<FitMessage>        lapMessages;
-        List<FitMessage>        segmentMessages;
+        List<FitMessage>        sessionMessages;
+        List<FitMessage>        eventMessages;
         List<FitMessage>        trackMessages;
         FitMessage              message;
         int                     id;
@@ -59,7 +77,8 @@ public class Track
         repository      =reader.readFile(trackFileName);
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
-        segmentMessages =repository.getAllMessages("segment");
+        sessionMessages =repository.getAllMessages("session");
+        eventMessages   =repository.getAllMessages("event");
         
         // Sport
         message    =repository.getFitMessage("sport");
@@ -95,12 +114,14 @@ public class Track
             softwareVersion =String.format("%5.2f", version);
         }
         
-        repository.dumpMessageDefintions();
-        
         if (lapMessages!=null && trackMessages!=null)
         {
-            this.parseLaps(lapMessages);
-            this.parseTrackPoints(trackMessages);
+            // Get data from session
+            this.parseSessions(sessionMessages);
+            // Get track segments from timer start/stop
+            this.parseEvents(eventMessages);
+            // Add trackpoints to segments
+            this.addTrackpointsToSegments(trackMessages);
 
             this.deviceName=deviceName;
         }
@@ -136,7 +157,7 @@ public class Track
                 startTime   =message.getTimeValue(i, "start_time");
                 elapsedTime =message.getIntValue(i, "total_elapsed_time")/1000;
 
-                segment     =new TrackSegment(startTime, endTime, elapsedTime);
+                segment     =new TrackSegment(startTime, endTime);
                 segments.add(segment);
 
                 if (startTime!=null && endTime!=null)
@@ -157,11 +178,121 @@ public class Track
         
     }
     
+    
+    /**
+     * This method parses the FIT lap record and destillates the number of sessions.
+     * @param lapMessages The FIT record holding the 'lap' info
+     */
+    private void parseSessions(List<FitMessage> sessionMessages)
+    {
+        int i;
+        int size;
+        DateTime                startTime;
+        DateTime                endTime;
+        TrackSegment            segment;
+        
+        for (FitMessage message:sessionMessages)
+        {
+            size            =message.getNumberOfRecords();
+            i=0;
+            while (i<size)
+            {
+                endTime     =message.getTimeValue(i, "timestamp");
+                startTime   =message.getTimeValue(i, "start_time");
+                elapsedTime =message.getIntValue(i, "total_elapsed_time");
+                timedTime   =message.getIntValue(i, "total_timer_time");
+
+                startLat    =message.getLatLonValue(i, "start_position_lat");
+                startLon    =message.getLatLonValue(i, "start_position_lon");
+                
+                distance    =message.getScaledValue(i, "total_distance");
+                averageSpeed=message.getScaledValue(i, "avg_speed");
+                maxSpeed    =message.getScaledValue(i, "max_speed");
+                grit        =message.getFloatValue(i, "total_grit");
+                flow        =message.getFloatValue(i, "avg_flow");
+                calories    =message.getScaledValue(i, "total_calories");
+                ascend      =(int)message.getIntValue(i, "total_ascent");
+                descend     =(int)message.getIntValue(i, "total_descent");
+                
+                if (startTime!=null && endTime!=null)
+                {
+                    LOGGER.info("Session {} {} - {} {}/{} s, {}/{} km/h, dist {} km asc {} m, desc {} m, grit {}, flow {}, cal {} kcal", 
+                                 message.getIntValue(i, "message_index"),
+                                 startTime.toString(),
+                                 endTime.toString(),
+                                 elapsedTime/1000, 
+                                 timedTime/1000,
+                                 averageSpeed*3.6, maxSpeed*3.6, distance,
+                                 ascend, descend,
+                                 grit, flow, calories);
+                }
+                else
+                {
+                    LOGGER.error("Session does not contain start and end time");
+                }
+                i++;
+            }   
+        }
+    }    
+    
+    /**
+     * This method parses the FIT lap record and destillates the number of sessions.
+     * @param lapMessages The FIT record holding the 'lap' info
+     */
+    private void parseEvents(List<FitMessage> eventMessages)
+    {
+        int i;
+        int size;
+        DateTime                startTime;
+        DateTime                endTime;
+        TrackSegment            segment;
+        boolean                 started;
+        int                     event;
+        int                     eventType;
+        
+        started     =false;
+        startTime   =null;
+        endTime =null;
+        for (FitMessage message:eventMessages)
+        {
+            size            =message.getNumberOfRecords();
+            i=0;
+            while (i<size)
+            {
+                event       =(int)message.getIntValue(i, "event");
+                eventType   =(int)message.getIntValue(i, "event_type");
+                if (event==TIMEREVENT)
+                {
+                    if (started)
+                    {
+                        if (eventType==TIMEREVENT_TIMERSTOPPED)
+                        {
+                            started=false;
+                            endTime=message.getTimeValue(i, "timestamp");
+                            segment     =new TrackSegment(startTime, endTime);
+                            segments.add(segment);
+                            LOGGER.info("Segment found: {} - {}", startTime.format("YYYY-MM-DD hh:mm:ss"), endTime.format("YYYY-MM-DD hh:mm:ss"));
+                        }
+                    }
+                    else
+                    {
+                        if (eventType==TIMEREVENT_TIMERSTARTED)
+                        {
+                            started=true;
+                            startTime=message.getTimeValue(i, "timestamp");
+                        }
+                    }
+                }
+                i++;
+            }   
+        }
+    }    
+    
     /**
      * This method parses the FIT activity record. It destiles the track points
      * @param trackMessages The record holding the 'activity' information
      */
-    private void parseTrackPoints(List<FitMessage> trackMessages)
+    private void addTrackpointsToSegments(List<FitMessage> trackMessages)
     {
         double                  lat;
         double                  lon;
@@ -188,7 +319,7 @@ public class Track
                 dateTime    =message.getTimeValue(i, "timestamp");
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
-                ele         =message.getAltitudeValue(i, "altitude");
+                ele         =message.getScaledValue(i, "altitude");
                 temp        =(int)message.getIntValue(i, "temperature");
                 speed       =message.getScaledValue(i, "speed");
                 distance    =message.getScaledValue(i, "distance");
@@ -208,7 +339,7 @@ public class Track
                 }
                 if (!found)
                 {
-                    LOGGER.error("No segment found to add trackpoint to");
+                    LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.format("YYYY-MM-DD hh:mm:ss"));
                 }
 
                 LOGGER.debug("Track {} ({}, {}) ele {}, {} km/h, {} m",
@@ -369,5 +500,53 @@ public class Track
         segments.clear();
         waypoints.clear();
     }
-    
+
+    /**
+     * Returns the elapsed time in seconds
+     * @return Elapsed time in seconds
+     */
+    public double getElapsedTime()
+    {
+        return elapsedTime;
+    }
+
+    public double getTimedTime()
+    {
+        return timedTime;
+    }
+
+    public double getStartLat()
+    {
+        return startLat;
+    }
+
+    public double getStartLon()
+    {
+        return startLon;
+    }
+
+    public double getDistance()
+    {
+        return distance;
+    }
+
+    public double getAverageSpeed()
+    {
+        return averageSpeed;
+    }
+
+    public double getMaxSpeed()
+    {
+        return maxSpeed;
+    }
+
+    public int getAscend()
+    {
+        return ascend;
+    }
+
+    public int getDescend()
+    {
+        return descend;
+    }
 }

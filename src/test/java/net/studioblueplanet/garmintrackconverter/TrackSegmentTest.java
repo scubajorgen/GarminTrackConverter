@@ -41,7 +41,7 @@ public class TrackSegmentTest
     @Before
     public void setUp()
     {
-        instance=new TrackSegment(new DateTime("2022-03-04 17:54:00"), new DateTime("2022-03-04 18:54:00"), 3600);
+        instance=new TrackSegment(new DateTime("2022-03-04 17:54:00"), new DateTime("2022-03-04 18:54:00"));
         instanceSimple=new TrackSegment();
         TrackPoint point=new TrackPoint(5.0, 53.0);
         instance.addTrackPoint(point);
@@ -62,7 +62,7 @@ public class TrackSegmentTest
         assertEquals(false, instance.isInLap(new DateTime("2022-03-04 17:53:59")));
         assertEquals(true , instance.isInLap(new DateTime("2022-03-04 17:54:00"))); // start time
         assertEquals(true , instance.isInLap(new DateTime("2022-03-04 18:53:59")));
-        assertEquals(false, instance.isInLap(new DateTime("2022-03-04 18:54:00"))); // end time
+        assertEquals(true, instance.isInLap(new DateTime("2022-03-04 18:54:00"))); // end time
         assertEquals(false, instance.isInLap(new DateTime("2022-03-04 18:54:01")));
     }
 
@@ -112,17 +112,6 @@ public class TrackSegmentTest
         System.out.println("getNumberOfTrackPoints");
         assertEquals(1, instance.getNumberOfTrackPoints());
         assertEquals(0, instanceSimple.getNumberOfTrackPoints());
-    }
-    
-    /**
-     * Test of getElapsedTime method, of class TrackSegment.
-     */
-    @Test
-    public void testGetElapsedTime()
-    {
-        System.out.println("getElapsedTime");
-        assertEquals(3600.0, instance.getElapsedTime()      , 0.0001);
-        assertEquals(   0.0, instanceSimple.getElapsedTime(), 0.0001);
     }
     
     /**

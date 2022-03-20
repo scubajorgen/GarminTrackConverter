@@ -19,24 +19,21 @@ import org.apache.logging.log4j.Logger;
  */
 public class TrackSegment
 {
-    private final static Logger         LOGGER = LogManager.getLogger(TrackSegment.class);
-    private final DateTime              startTime;
-    private final DateTime              endTime;
-    private final double                elapsedTime;
-    private final List<TrackPoint>      trackPoints;
-    
+    private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
+    private final List<TrackPoint>  trackPoints;
+    private final DateTime          startTime;
+    private final DateTime          endTime;
+
     /**
      * Constructor. Sets the parameters that defines the lap
      * @param startTime Start time of the lap
      * @param endTime End time of the lap
-     * @param elapsedTime Elapsed time in seconds
      */
-    public TrackSegment(DateTime startTime, DateTime endTime, double elapsedTime)
+    public TrackSegment(DateTime startTime, DateTime endTime)
     {
         this.startTime  =startTime;
         this.endTime    =endTime;
-        this.elapsedTime=elapsedTime;
-        trackPoints     =new ArrayList<TrackPoint>();
+        trackPoints     =new ArrayList<>();
     }
     
     /**
@@ -46,8 +43,7 @@ public class TrackSegment
     {
         this.startTime  =null;
         this.endTime    =null;
-        this.elapsedTime=0.0;
-        trackPoints     =new ArrayList<TrackPoint>();        
+        trackPoints     =new ArrayList<>();        
     }
     
     /**
@@ -66,7 +62,7 @@ public class TrackSegment
             LOGGER.error("Null time");
         }
         
-        if (time!=null && time.gteq(startTime) && time.lt(endTime))
+        if (time!=null && time.gteq(startTime) && time.lteq(endTime))
         {
             inLap=true;
         }
@@ -120,15 +116,6 @@ public class TrackSegment
         return this.trackPoints.size();
     }
     
-    /**
-     * Returns the elapsed time in seconds
-     * @return Elapsed time in seconds
-     */
-    public double getElapsedTime()
-    {
-        return elapsedTime;
-    }
-
     public DateTime getStartTime()
     {
         return startTime;
@@ -138,6 +125,4 @@ public class TrackSegment
     {
         return endTime;
     }
-    
-    
 }

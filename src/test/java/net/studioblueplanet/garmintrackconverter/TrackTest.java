@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 public class TrackTest
 {
     private Track instance;
+    private static Track instanceTwoSegments;
     public TrackTest()
     {
     }
@@ -29,6 +30,7 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
+        instanceTwoSegments=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice");
     }
     
     @AfterClass
@@ -91,8 +93,8 @@ public class TrackTest
     public void testGetTrackInfo()
     {
         System.out.println("getTrackInfo");
-
         assertEquals("Track (cycling) with 1 segments (5023 points) and 1 waypoints", instance.getTrackInfo());
+        assertEquals("Track (cycling) with 2 segments (10, 18 points) and 0 waypoints", instanceTwoSegments.getTrackInfo());
     }
 
     /**
