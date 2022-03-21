@@ -31,6 +31,7 @@ public class Track
 
     private String                          deviceName;
     private String                          sport;
+    private String                          subSport;
     private String                          manufacturer;
     private String                          product;
     private long                            serialNumber;
@@ -49,6 +50,8 @@ public class Track
     private double                          grit;           // kGrit
     private double                          flow;           // FLOW
     private double                          calories;       // kcal
+    private int                             jumpCount;      // 
+    private String                          mode;           //
     
     
     private static final int                TIMEREVENT=0;
@@ -81,12 +84,14 @@ public class Track
         eventMessages   =repository.getAllMessages("event");
         
         // Sport
+        /*
         message    =repository.getFitMessage("sport");
         if (message!=null)
         {
             id=(int)message.getIntValue(0, "sport");
             sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
         }
+        */
         
         //file_id
         message    =repository.getFitMessage("file_id");
@@ -119,11 +124,12 @@ public class Track
             // Get data from session
             this.parseSessions(sessionMessages);
             // Get track segments from timer start/stop
-            this.parseEvents(eventMessages);
+            this.getSegmentsFromEvents(eventMessages);
             // Add trackpoints to segments
             this.addTrackpointsToSegments(trackMessages);
 
             this.deviceName=deviceName;
+            //repository.dumpMessageDefintions();
         }
     }
     
@@ -185,11 +191,12 @@ public class Track
      */
     private void parseSessions(List<FitMessage> sessionMessages)
     {
-        int i;
-        int size;
+        int                     i;
+        int                     size;
         DateTime                startTime;
         DateTime                endTime;
         TrackSegment            segment;
+        int                     id;
         
         for (FitMessage message:sessionMessages)
         {
@@ -213,18 +220,31 @@ public class Track
                 calories    =message.getScaledValue(i, "total_calories");
                 ascend      =(int)message.getIntValue(i, "total_ascent");
                 descend     =(int)message.getIntValue(i, "total_descent");
+                jumpCount   =(int)message.getIntValue(i, "jump_count");
+                mode        =message.getStringValue(i, "mode");
+                
+                id=(int)message.getIntValue(0, "sport");
+                sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
+                id=(int)message.getIntValue(0, "sub_sport");
+                subSport=FitGlobalProfile.getInstance().getTypeValueName("sub_sport", id);
                 
                 if (startTime!=null && endTime!=null)
                 {
-                    LOGGER.info("Session {} {} - {} {}/{} s, {}/{} km/h, dist {} km asc {} m, desc {} m, grit {}, flow {}, cal {} kcal", 
-                                 message.getIntValue(i, "message_index"),
-                                 startTime.toString(),
-                                 endTime.toString(),
-                                 elapsedTime/1000, 
-                                 timedTime/1000,
-                                 averageSpeed*3.6, maxSpeed*3.6, distance,
-                                 ascend, descend,
-                                 grit, flow, calories);
+                    LOGGER.info("SESSION        : {}", message.getIntValue(i, "message_index"));
+                    LOGGER.info("Time           : {}-{}", startTime.format("YYYY-MM-DD hh:mm:ss"), endTime.format("YYYY-MM-DD hh:mm:ss"));
+                    LOGGER.info("Duration       : {}/{} sec", elapsedTime/1000, timedTime/1000);
+                    LOGGER.info("Distance       : {} km", distance);
+                    LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed*3.6, maxSpeed*3.6);
+                    LOGGER.info("Ascend/Descend : {}/{} m", ascend, descend);
+                    LOGGER.info("Sport          : {} - {}", sport, subSport);
+                    LOGGER.info("Mode           : {}", mode);
+                    if ("OFF ROAD".equals(mode))
+                    {
+                        LOGGER.info("Grit           : {} kGrit", grit);
+                        LOGGER.info("Flow           : {}", flow);
+                        LOGGER.info("Jumps          : {}", jumpCount);
+                    }
+                    LOGGER.info("Calories       : {} cal", calories);
                 }
                 else
                 {
@@ -239,7 +259,7 @@ public class Track
      * This method parses the FIT lap record and destillates the number of sessions.
      * @param lapMessages The FIT record holding the 'lap' info
      */
-    private void parseEvents(List<FitMessage> eventMessages)
+    private void getSegmentsFromEvents(List<FitMessage> eventMessages)
     {
         int i;
         int size;
