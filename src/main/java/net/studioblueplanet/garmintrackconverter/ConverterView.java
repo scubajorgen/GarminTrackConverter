@@ -637,10 +637,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 map.showTrack(track);
                 jTextInfo.setText(track.getTrackInfo());
             }
-            else if (track.getWayPoints().size()>0)
+            else if (track.getWaypoints().size()>0)
             {
-                map.showWaypoints(track.getWayPoints());
-                jTextInfo.setText("Locations: "+track.getWayPoints().size());
+                map.showWaypoints(track.getWaypoints());
+                jTextInfo.setText("Locations: "+track.getWaypoints().size());
             }
         }
     }
@@ -769,7 +769,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 track=getTrack(jTrackList, tracksCache);
                 writer.writeTrackToFile(fileName, track, "Track");
                 this.textAreaOutput.append("File saved to "+fileName+"\n");
-                LOGGER.info("File saved to {}"+fileName);
+                LOGGER.info("File saved to {}", fileName);
             }
         }
         else if (jNewFilesList.getSelectedIndex()>=0)
