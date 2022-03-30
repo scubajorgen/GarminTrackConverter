@@ -414,7 +414,7 @@ public class MapOsm extends Map
             track.add(new DefaultWaypoint(lat, lon));
         }
         
-        for (Location point : activity.getWayPoints())
+        for (Location point : activity.getWaypoints())
         {
             track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
         }

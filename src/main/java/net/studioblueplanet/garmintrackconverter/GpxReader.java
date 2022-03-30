@@ -236,7 +236,7 @@ public class GpxReader
         Element         element;
         Element         waypoint;
         
-        points=route.getWayPoints();
+        points=route.getWaypoints();
         for (int i=0; i<waypoints.getLength(); i++)
         {
             waypoint=(Element)waypoints.item(i);

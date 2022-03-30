@@ -45,8 +45,8 @@ public class Track
     private double                          distance;       // m
     private double                          averageSpeed;   // m/s
     private double                          maxSpeed;       // m/s
-    private int                             ascend;         // m
-    private int                             descend;        // m
+    private int                             ascent;         // m
+    private int                             descent;        // m
     private double                          grit;           // kGrit
     private double                          flow;           // FLOW
     private double                          calories;       // kcal
@@ -218,8 +218,8 @@ public class Track
                 grit        =message.getFloatValue(i, "total_grit");
                 flow        =message.getFloatValue(i, "avg_flow");
                 calories    =message.getScaledValue(i, "total_calories");
-                ascend      =(int)message.getIntValue(i, "total_ascent");
-                descend     =(int)message.getIntValue(i, "total_descent");
+                ascent      =(int)message.getIntValue(i, "total_ascent");
+                descent     =(int)message.getIntValue(i, "total_descent");
                 jumpCount   =(int)message.getIntValue(i, "jump_count");
                 mode        =message.getStringValue(i, "mode");
                 
@@ -235,7 +235,7 @@ public class Track
                     LOGGER.info("Duration       : {}/{} sec", elapsedTime/1000, timedTime/1000);
                     LOGGER.info("Distance       : {} km", distance);
                     LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed*3.6, maxSpeed*3.6);
-                    LOGGER.info("Ascend/Descend : {}/{} m", ascend, descend);
+                    LOGGER.info("Ascent/Descent : {}/{} m", ascent, descent);
                     LOGGER.info("Sport          : {} - {}", sport, subSport);
                     LOGGER.info("Mode           : {}", mode);
                     if ("OFF ROAD".equals(mode))
@@ -481,14 +481,28 @@ public class Track
         }
         return points;
     }
-    
+
+    /**
+     * Empties the track.
+     */
+    public void clear()
+    {
+        segments.clear();
+        waypoints.clear();
+    }
+
     /**
      * Returns an array of waypoints that were recorded during the track
      * @return A list of waypoints
      */
-    public List<Location> getWayPoints()
+    public List<Location> getWaypoints()
     {
         return this.waypoints;
+    }
+
+    public List<TrackSegment> getSegments()
+    {
+        return segments;
     }
 
     /**
@@ -512,15 +526,6 @@ public class Track
         return segment;
     }
     
-    /**
-     * Empties the track.
-     */
-    public void clear()
-    {
-        segments.clear();
-        waypoints.clear();
-    }
-
     /**
      * Returns the elapsed time in seconds
      * @return Elapsed time in seconds
@@ -560,13 +565,69 @@ public class Track
         return maxSpeed;
     }
 
-    public int getAscend()
+    public int getAscent()
     {
-        return ascend;
+        return ascent;
     }
 
-    public int getDescend()
+    public int getDescent()
     {
-        return descend;
+        return descent;
     }
+
+    public String getSubSport()
+    {
+        return subSport;
+    }
+
+    public String getManufacturer()
+    {
+        return manufacturer;
+    }
+
+    public String getProduct()
+    {
+        return product;
+    }
+
+    public long getSerialNumber()
+    {
+        return serialNumber;
+    }
+
+    public String getFileType()
+    {
+        return fileType;
+    }
+
+    public String getSoftwareVersion()
+    {
+        return softwareVersion;
+    }
+
+    public double getGrit()
+    {
+        return grit;
+    }
+
+    public double getFlow()
+    {
+        return flow;
+    }
+
+    public double getCalories()
+    {
+        return calories;
+    }
+
+    public int getJumpCount()
+    {
+        return jumpCount;
+    }
+
+    public String getMode()
+    {
+        return mode;
+    }
+
 }

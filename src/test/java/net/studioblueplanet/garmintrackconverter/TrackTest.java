@@ -70,19 +70,19 @@ public class TrackTest
         waypoints.add(location2);
         waypoints.add(location3);
 
-        assertEquals(1, instance.getWayPoints().size());
+        assertEquals(1, instance.getWaypoints().size());
         instance.addTrackWaypoints(waypoints);
-        assertEquals(2, instance.getWayPoints().size());
+        assertEquals(2, instance.getWaypoints().size());
 
         instance.addTrackWaypoints(waypoints);
-        assertEquals(3, instance.getWayPoints().size());
+        assertEquals(3, instance.getWaypoints().size());
 
         waypoints.clear();
         waypoints.add(location3);
         waypoints.add(location1);
 
         instance.addTrackWaypoints(waypoints);
-        assertEquals(3, instance.getWayPoints().size());
+        assertEquals(3, instance.getWaypoints().size());
         
     }
 
@@ -139,8 +139,8 @@ public class TrackTest
     {
         System.out.println("getWayPoints");
 
-        assertNotNull(instance.getWayPoints());
-        assertEquals(1, instance.getWayPoints().size());
+        assertNotNull(instance.getWaypoints());
+        assertEquals(1, instance.getWaypoints().size());
     }
 
     /**
@@ -162,7 +162,7 @@ public class TrackTest
         System.out.println("clear");
         instance.clear();
         assertEquals(0, instance.getNumberOfSegments());
-        assertEquals(0, instance.getWayPoints().size());
+        assertEquals(0, instance.getWaypoints().size());
     }
     
     /**

@@ -203,7 +203,7 @@ public class GpxWriter
         // Schema locations
         addAttribute(gpxElement, "xsi:schemaLocation", 
                                  "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                                 "http://tracklog.studioblueplanet.net/gpxextensions/v2 https://tracklog.studioblueplanet.net/gpxextensions/v2/ugotme-gpx.xsd");
+                                 "http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd");
     }
 
     /**
@@ -385,11 +385,11 @@ public class GpxWriter
 
         if (gpxVersion.equals("1.0"))
         {
-            appendWaypointsGpx(doc, gpxElement, track.getWayPoints());
+            appendWaypointsGpx(doc, gpxElement, track.getWaypoints());
         }
         else if (gpxVersion.equals("1.1"))
         {
-            appendWaypointsGpx(doc, gpxElement, track.getWayPoints());
+            appendWaypointsGpx(doc, gpxElement, track.getWaypoints());
         }
 
         // The track element
@@ -423,6 +423,42 @@ public class GpxWriter
                     appendTrackGpx1_1(doc, segmentElement, track, i);
                 }
                 i++;
+            }
+            Element extensions=doc.createElement("extensions");
+            gpxElement.appendChild(extensions);
+
+            String activity=track.getSport()+" - "+track.getSubSport();
+            addString(extensions, "activity", activity);
+            double distance=track.getDistance();
+            addString(extensions, "distance_m", String.valueOf(distance));
+            double duration=track.getElapsedTime();
+            addString(extensions, "duration_s", String.valueOf(duration/1000));
+            duration=track.getTimedTime();
+            addString(extensions, "timedDuration_s", String.valueOf(duration/1000));
+            double speed=track.getAverageSpeed();
+            addString(extensions, "aveSpeed_kmh", String.valueOf(speed*3.6));
+            double maxSpeed=track.getMaxSpeed();
+            addString(extensions, "maxSpeed_kmh", String.valueOf(maxSpeed*3.6));
+            double ascent=track.getAscent();
+            addString(extensions, "ascent_m", String.valueOf(ascent));
+            double descent=track.getDescent();
+            addString(extensions, "descent_m", String.valueOf(descent));
+            double calories=track.getCalories();
+            addString(extensions, "calories_cal", String.valueOf(calories));
+            double grit=track.getGrit();
+            if (!Double.isNaN(grit))
+            {
+                addString(extensions, "garminGrit_kgrit", String.valueOf(grit));
+            }
+            double flow=track.getFlow();
+            if (!Double.isNaN(flow))
+            {
+                addString(extensions, "garminFlow", String.valueOf(flow));
+            }
+            int jumps=track.getJumpCount();
+            if (jumps!=0xFFFF)
+            {
+                addString(extensions, "garminJumps", String.valueOf(jumps));
             }
         }
     }
