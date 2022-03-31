@@ -428,37 +428,37 @@ public class GpxWriter
             gpxElement.appendChild(extensions);
 
             String activity=track.getSport()+" - "+track.getSubSport();
-            addString(extensions, "activity", activity);
+            addString(extensions, "u-gotMe:activity", activity);
             double distance=track.getDistance();
-            addString(extensions, "distance_m", String.valueOf(distance));
+            addString(extensions, "u-gotMe:distance_m", String.valueOf(distance));
             double duration=track.getElapsedTime();
-            addString(extensions, "duration_s", String.valueOf(duration/1000));
+            addString(extensions, "u-gotMe:duration_s", String.valueOf(duration/1000));
             duration=track.getTimedTime();
-            addString(extensions, "timedDuration_s", String.valueOf(duration/1000));
+            addString(extensions, "u-gotMe:timedDuration_s", String.valueOf(duration/1000));
             double speed=track.getAverageSpeed();
-            addString(extensions, "aveSpeed_kmh", String.valueOf(speed*3.6));
+            addString(extensions, "u-gotMe:aveSpeed_kmh", String.valueOf(speed*3.6));
             double maxSpeed=track.getMaxSpeed();
-            addString(extensions, "maxSpeed_kmh", String.valueOf(maxSpeed*3.6));
+            addString(extensions, "u-gotMe:maxSpeed_kmh", String.valueOf(maxSpeed*3.6));
             double ascent=track.getAscent();
-            addString(extensions, "ascent_m", String.valueOf(ascent));
+            addString(extensions, "u-gotMe:ascent_m", String.valueOf(ascent));
             double descent=track.getDescent();
-            addString(extensions, "descent_m", String.valueOf(descent));
+            addString(extensions, "u-gotMe:descent_m", String.valueOf(descent));
             double calories=track.getCalories();
-            addString(extensions, "calories_cal", String.valueOf(calories));
+            addString(extensions, "u-gotMe:calories_cal", String.valueOf(calories));
             double grit=track.getGrit();
             if (!Double.isNaN(grit))
             {
-                addString(extensions, "garminGrit_kgrit", String.valueOf(grit));
+                addString(extensions, "u-gotMe:garminGrit_kgrit", String.valueOf(grit));
             }
             double flow=track.getFlow();
             if (!Double.isNaN(flow))
             {
-                addString(extensions, "garminFlow", String.valueOf(flow));
+                addString(extensions, "u-gotMe:garminFlow", String.valueOf(flow));
             }
             int jumps=track.getJumpCount();
             if (jumps!=0xFFFF)
             {
-                addString(extensions, "garminJumpCount", String.valueOf(jumps));
+                addString(extensions, "u-gotMe:garminJumpCount", String.valueOf(jumps));
             }
         }
     }
