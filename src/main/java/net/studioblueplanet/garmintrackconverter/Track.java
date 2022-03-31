@@ -49,7 +49,7 @@ public class Track
     private int                             descent;        // m
     private double                          grit;           // kGrit
     private double                          flow;           // FLOW
-    private double                          calories;       // kcal
+    private double                          calories;       // cal
     private int                             jumpCount;      // 
     private String                          mode;           //
     

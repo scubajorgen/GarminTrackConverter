@@ -458,7 +458,7 @@ public class GpxWriter
             int jumps=track.getJumpCount();
             if (jumps!=0xFFFF)
             {
-                addString(extensions, "garminJumps", String.valueOf(jumps));
+                addString(extensions, "garminJumpCount", String.valueOf(jumps));
             }
         }
     }
