@@ -425,7 +425,12 @@ public class Track
         info="Track ";
         if (sport!=null)
         {
-            info+="("+sport+") ";
+            info+="("+sport;
+            if (subSport!=null)
+            {
+                info+=" - "+subSport;
+            }
+            info+=") ";
         }
         info+="with "+this.segments.size()+" segments (";
         i=0;

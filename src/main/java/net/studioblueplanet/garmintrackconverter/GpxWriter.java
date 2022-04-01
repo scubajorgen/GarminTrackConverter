@@ -316,7 +316,7 @@ public class GpxWriter
 
             // Extensions: temperature
             addString(extensionsElement, "u-gotMe:temp", String.valueOf(point.getTemperature()));
-            
+                        
             // set attribute 'lat' and 'lon' to element
             addAttribute(pointElement, "lat", String.valueOf(point.getLatitude()));
             addAttribute(pointElement, "lon", String.valueOf(point.getLongitude()));

@@ -93,8 +93,8 @@ public class TrackTest
     public void testGetTrackInfo()
     {
         System.out.println("getTrackInfo");
-        assertEquals("Track (cycling) with 1 segments (5023 points) and 1 waypoints", instance.getTrackInfo());
-        assertEquals("Track (cycling) with 2 segments (10, 18 points) and 0 waypoints", instanceTwoSegments.getTrackInfo());
+        assertEquals("Track (cycling - gravel_cycling) with 1 segments (5023 points) and 1 waypoints", instance.getTrackInfo());
+        assertEquals("Track (cycling - cyclocross) with 2 segments (10, 18 points) and 0 waypoints", instanceTwoSegments.getTrackInfo());
     }
 
     /**
