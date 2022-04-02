@@ -17,84 +17,100 @@ import org.apache.logging.log4j.Logger;
  */
 public class TrackPoint
 {
-  private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
-  private final DateTime        dateTime;
-  private final double          latitude;
-  private final double          longitude;
-  private final double          elevation;
-  private final double          speed;
-  private final double          distance;
-  private final int             temperature;
+    private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
+    private final DateTime        dateTime;
+    private final Double          latitude;     // degree
+    private final Double          longitude;    // degree
+    private final Double          elevation;    // m
+    private final Double          speed;        // m/s
+    private final Double          distance;     // m
+    private final Integer         temperature;  // deg C
+    private final Integer         heartrate;    // bpm
+    private final Integer         gpsAccuracy;  // cm
   
-  /**
-   * Constructor, simple version
-   * @param lat Latitude
-   * @param lon Longitude
-   */
-  public TrackPoint(double lat, double lon)
-  {
-    this.dateTime	=null;
-    this.latitude       =lat;
-    this.longitude      =lon;
-    this.elevation      =0;
-    this.speed          =0;
-    this.distance       =0;
-    this.temperature    =0;     
-  }
-  
-  /**
-   * Constructor, full version
-   * @param dateTime Datetime of the point
-   * @param lat Latitude
-   * @param lon Longitude
-   * @param ele Elevation
-   * @param speed Speed
-   * @param distance Distance
-   * @param temp Temperature
-   */
-  public TrackPoint(DateTime dateTime, double lat, double lon, double ele, double speed, double distance, int temp)
-  {
-    this.dateTime	=dateTime;
-    this.latitude       =lat;
-    this.longitude      =lon;
-    this.elevation      =ele;
-    this.speed          =speed;
-    this.distance       =distance;
-    this.temperature    =temp;
-  }
-  
-  public DateTime getDateTime()
-  {
-    return dateTime;
-  }
-  
-  public double getLatitude()
-  {
-      return latitude;
-  }
-  
-  public double getLongitude()
-  {
-      return longitude; 
-  }
-  
-  public double getElevation()
-  {
-      return this.elevation;
-  }
-  
-  public int getTemperature()
-  {
-      return this.temperature;
-  }
-  
-  public double getSpeed()
-  {
-      return speed;
-  }
-  
-  public double getDistance()
-  {
-      return distance;
-  }
+    /**
+     * Constructor, simple version
+     * @param lat Latitude
+     * @param lon Longitude
+     */
+    public TrackPoint(double lat, double lon)
+    {
+        this.dateTime       =null;
+        this.latitude       =lat;
+        this.longitude      =lon;
+        this.elevation      =null;
+        this.speed          =null;
+        this.distance       =null;
+        this.temperature    =null;  
+        this.heartrate      =null;
+        this.gpsAccuracy    =null;
+    }
+
+    /**
+     * Constructor, full version
+     * @param dateTime Datetime of the point
+     * @param lat Latitude
+     * @param lon Longitude
+     * @param ele Elevation
+     * @param speed Speed
+     * @param distance Distance
+     * @param temp Temperature
+     */
+    public TrackPoint(DateTime dateTime, Double lat, Double lon, Double ele, Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
+    {
+        this.dateTime       =dateTime;
+        this.latitude       =lat;
+        this.longitude      =lon;
+        this.elevation      =ele;
+        this.speed          =speed;
+        this.distance       =distance;
+        this.temperature    =temp;
+        this.heartrate      =heartrate;
+        this.gpsAccuracy    =gpsAccuracy;
+    }
+
+    public DateTime getDateTime()
+    {
+        return dateTime;
+    }
+
+    public Double getLatitude()
+    {
+        return latitude;
+    }
+
+    public Double getLongitude()
+    {
+        return longitude; 
+    }
+
+    public Double getElevation()
+    {
+        return this.elevation;
+    }
+
+    public Integer getTemperature()
+    {
+        return this.temperature;
+    }
+
+    public Double getSpeed()
+    {
+        return speed;
+    }
+
+    public Double getDistance()
+    {
+        return distance;
+    }
+
+    public Integer getHeartrate()
+    {
+        return heartrate;
+    }
+    
+    public Integer getGpsAccuracy()
+    {
+        return gpsAccuracy;
+    }
 }

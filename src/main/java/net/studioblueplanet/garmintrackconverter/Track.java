@@ -25,7 +25,10 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Track
 {
-    private final static Logger             LOGGER = LogManager.getLogger(Track.class);
+    public static final int                 MS_PER_S    =1000;
+    public static final int                 CM_PER_M    =100;
+    public static final double              KMH_PER_MS  =3.6;
+    private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
     private final List<TrackSegment>        segments;
     private final List<Location>            waypoints;
 
@@ -34,23 +37,23 @@ public class Track
     private String                          subSport;
     private String                          manufacturer;
     private String                          product;
-    private long                            serialNumber;
+    private Long                            serialNumber;
     private String                          fileType;
     private String                          softwareVersion;
 
-    private double                          elapsedTime;    // ms
-    private double                          timedTime;      // ms
-    private double                          startLat;
-    private double                          startLon;
-    private double                          distance;       // m
-    private double                          averageSpeed;   // m/s
-    private double                          maxSpeed;       // m/s
-    private int                             ascent;         // m
-    private int                             descent;        // m
-    private double                          grit;           // kGrit
-    private double                          flow;           // FLOW
-    private double                          calories;       // cal
-    private int                             jumpCount;      // 
+    private Long                            elapsedTime;    // s
+    private Long                            timedTime;      // s
+    private Double                          startLat;
+    private Double                          startLon;
+    private Double                          distance;       // m
+    private Double                          averageSpeed;   // km/h
+    private Double                          maxSpeed;       // km/h
+    private Integer                         ascent;         // m
+    private Integer                         descent;        // m
+    private Double                          grit;           // kGrit
+    private Double                          flow;           // FLOW
+    private Double                          calories;       // cal
+    private Integer                         jumpCount;      // 
     private String                          mode;           //
     
     
@@ -78,6 +81,7 @@ public class Track
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
+        repository.dumpMessageDefintions();
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
         sessionMessages =repository.getAllMessages("session");
@@ -150,7 +154,6 @@ public class Track
         int size;
         DateTime                startTime;
         DateTime                endTime;
-        double                  elapsedTime;
         TrackSegment            segment;
         
         for (FitMessage message:lapMessages)
@@ -161,7 +164,7 @@ public class Track
             {
                 endTime     =message.getTimeValue(i, "timestamp");
                 startTime   =message.getTimeValue(i, "start_time");
-                elapsedTime =message.getIntValue(i, "total_elapsed_time")/1000;
+                elapsedTime =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
 
                 segment     =new TrackSegment(startTime, endTime);
                 segments.add(segment);
@@ -206,21 +209,21 @@ public class Track
             {
                 endTime     =message.getTimeValue(i, "timestamp");
                 startTime   =message.getTimeValue(i, "start_time");
-                elapsedTime =message.getIntValue(i, "total_elapsed_time");
-                timedTime   =message.getIntValue(i, "total_timer_time");
+                elapsedTime =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
+                timedTime   =message.getIntValue(i, "total_timer_time")/MS_PER_S;
 
                 startLat    =message.getLatLonValue(i, "start_position_lat");
                 startLon    =message.getLatLonValue(i, "start_position_lon");
                 
                 distance    =message.getScaledValue(i, "total_distance");
-                averageSpeed=message.getScaledValue(i, "avg_speed");
-                maxSpeed    =message.getScaledValue(i, "max_speed");
+                averageSpeed=message.getScaledValue(i, "avg_speed")*KMH_PER_MS;
+                maxSpeed    =message.getScaledValue(i, "max_speed")*KMH_PER_MS;
                 grit        =message.getFloatValue(i, "total_grit");
                 flow        =message.getFloatValue(i, "avg_flow");
+                jumpCount   =(int)message.getIntValue(i, "jump_count");
                 calories    =message.getScaledValue(i, "total_calories");
                 ascent      =(int)message.getIntValue(i, "total_ascent");
                 descent     =(int)message.getIntValue(i, "total_descent");
-                jumpCount   =(int)message.getIntValue(i, "jump_count");
                 mode        =message.getStringValue(i, "mode");
                 
                 id=(int)message.getIntValue(0, "sport");
@@ -232,9 +235,9 @@ public class Track
                 {
                     LOGGER.info("SESSION        : {}", message.getIntValue(i, "message_index"));
                     LOGGER.info("Time           : {}-{}", startTime.format("YYYY-MM-DD hh:mm:ss"), endTime.format("YYYY-MM-DD hh:mm:ss"));
-                    LOGGER.info("Duration       : {}/{} sec", elapsedTime/1000, timedTime/1000);
+                    LOGGER.info("Duration       : {}/{} sec", elapsedTime, timedTime);
                     LOGGER.info("Distance       : {} km", distance);
-                    LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed*3.6, maxSpeed*3.6);
+                    LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed, maxSpeed);
                     LOGGER.info("Ascent/Descent : {}/{} m", ascent, descent);
                     LOGGER.info("Sport          : {} - {}", sport, subSport);
                     LOGGER.info("Mode           : {}", mode);
@@ -314,14 +317,16 @@ public class Track
      */
     private void addTrackpointsToSegments(List<FitMessage> trackMessages)
     {
-        double                  lat;
-        double                  lon;
-        double                  ele;
+        Double                  lat;
+        Double                  lon;
+        Double                  ele;
         DateTime                dateTime;
 
-        double                  speed;
-        double                  distance;
-        int                     temp;
+        Double                  speed;
+        Double                  distance;
+        Integer                 temp;
+        Integer                 heartrate;
+        Integer                 gpsAccuracy;
         int                     i;
         int                     size;
         TrackPoint              point;
@@ -339,12 +344,61 @@ public class Track
                 dateTime    =message.getTimeValue(i, "timestamp");
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
-                ele         =message.getScaledValue(i, "altitude");
-                temp        =(int)message.getIntValue(i, "temperature");
-                speed       =message.getScaledValue(i, "speed");
-                distance    =message.getScaledValue(i, "distance");
+                
+                if (message.hasField("corrected_altitude"))
+                {
+                    ele         =message.getScaledValue(i, "corrected_altitude");
+                }
+                else
+                {
+                    ele         =null;
+                }
+                    
+                if (message.hasField("temperature"))
+                {
+                    temp        =(int)message.getIntValue(i, "temperature");
+                }
+                else
+                {
+                    temp        =null;
+                }
+                
+                if (message.hasField("speed"))
+                {
+                    speed       =message.getScaledValue(i, "speed");
+                }
+                else
+                {
+                    speed       =null;
+                }
+                    
+                if (message.hasField("distance"))
+                {
+                    distance    =message.getScaledValue(i, "distance");
+                }
+                else
+                {
+                    distance    =null;
+                }
+                if (message.hasField("heart_rate"))
+                {
+                    heartrate   =(int)message.getIntValue(i, "heart_rate");
+                }
+                else
+                {
+                    heartrate   =null;
+                }
 
-                point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp);
+                if (message.hasField("gps_accuracy"))
+                {
+                    gpsAccuracy =(int)message.getIntValue(i, "gps_accuracy")*CM_PER_M; // in cm
+                }
+                else
+                {
+                    gpsAccuracy =null;
+                }
+
+                point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp, heartrate, gpsAccuracy);
 
                 found=false;
                 it=this.segments.iterator();
@@ -511,15 +565,6 @@ public class Track
     }
 
     /**
-     * Returns the name of the sport
-     * @return Sports name or null if not retrieved from the FIT file
-     */
-    public String getSport()
-    {
-        return this.sport;
-    }
-    
-    /**
      * Create and apend a new segment to the track
      * @return segment 
      */
@@ -535,54 +580,73 @@ public class Track
      * Returns the elapsed time in seconds
      * @return Elapsed time in seconds
      */
-    public double getElapsedTime()
+    public Long getElapsedTime()
     {
         return elapsedTime;
     }
 
-    public double getTimedTime()
+    public Long getTimedTime()
     {
         return timedTime;
     }
 
-    public double getStartLat()
+    public Double getStartLat()
     {
         return startLat;
     }
 
-    public double getStartLon()
+    public Double getStartLon()
     {
         return startLon;
     }
 
-    public double getDistance()
+    public Double getDistance()
     {
         return distance;
     }
 
-    public double getAverageSpeed()
+    public Double getAverageSpeed()
     {
         return averageSpeed;
     }
 
-    public double getMaxSpeed()
+    public Double getMaxSpeed()
     {
         return maxSpeed;
     }
 
-    public int getAscent()
+    public Integer getAscent()
     {
         return ascent;
     }
 
-    public int getDescent()
+    public Integer getDescent()
     {
         return descent;
     }
 
+    public String getSport()
+    {
+        return this.sport;
+    }
+    
     public String getSubSport()
     {
         return subSport;
+    }
+    
+    public String getSportDescription()
+    {
+        String desc;
+        if (sport!=null && subSport!=null)
+        {
+            desc=sport+" - "+subSport;
+        }
+        else
+        {
+            desc=null;
+        }
+        return desc;
     }
 
     public String getManufacturer()
@@ -595,7 +659,7 @@ public class Track
         return product;
     }
 
-    public long getSerialNumber()
+    public Long getSerialNumber()
     {
         return serialNumber;
     }
@@ -610,22 +674,22 @@ public class Track
         return softwareVersion;
     }
 
-    public double getGrit()
+    public Double getGrit()
     {
         return grit;
     }
 
-    public double getFlow()
+    public Double getFlow()
     {
         return flow;
     }
 
-    public double getCalories()
+    public Double getCalories()
     {
         return calories;
     }
 
-    public int getJumpCount()
+    public Integer getJumpCount()
     {
         return jumpCount;
     }

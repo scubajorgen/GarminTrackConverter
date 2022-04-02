@@ -131,7 +131,7 @@ public class GpxWriter
      * @param document Element to add to
      * @param string String value
      */
-    private void addString(Element document, String tag, String string)
+    private void addChildElement(Element document, String tag, String string)
     {
         Element element;
         
@@ -139,6 +139,59 @@ public class GpxWriter
         {
             element    = doc.createElement(tag);
             element.appendChild(doc.createTextNode(string));
+            document.appendChild(element);
+        }        
+    }
+    
+    /**
+     * Adds a double value to the XML Element
+     * @param document Element to add to
+     * @param value Double
+     * @param digits Number of digits following the dot 
+     */
+    private void addChildElement(Element document, String tag, Double value, int digits)
+    {
+        Element element;
+        
+        if (value!=null && !value.isNaN())
+        {
+            element    = doc.createElement(tag);
+            element.appendChild(doc.createTextNode(String.format("%1."+digits+"f", value)));
+            document.appendChild(element);
+        }        
+    }
+    
+    /**
+     * Adds a int value to the XML Element
+     * @param document Element to add to
+     * @param value Double
+     */
+    private void addChildElement(Element document, String tag, Integer value)
+    {
+        Element element;
+        
+        if (value!=null)
+        {
+            element    = doc.createElement(tag);
+            element.appendChild(doc.createTextNode(String.valueOf(value)));
+            document.appendChild(element);
+        }        
+    }
+    
+    /**
+     * Adds a int value to the XML Element
+     * @param document Element to add to
+     * @param value Double
+     * @param divisor Divisor
+     */
+    private void addString(Element document, String tag, Long value)
+    {
+        Element element;
+        
+        if (value!=null)
+        {
+            element    = doc.createElement(tag);
+            element.appendChild(doc.createTextNode(String.valueOf(value)));
             document.appendChild(element);
         }        
     }
@@ -249,27 +302,27 @@ public class GpxWriter
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
-            addString(pointElement, "ele", String.valueOf(point.getElevation()));
+            addChildElement(pointElement, "ele", point.getElevation(), 1);
 
             dateTime=point.getDateTime();
             dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                            dateTime.format("hh:mm:ss")+"Z";
-            addString(pointElement, "time", dateTimeString);
+            addChildElement(pointElement, "time", dateTimeString);
            
 
             // Extensions: speed
-            addString(pointElement, "speed", String.valueOf(point.getSpeed()));
+            addChildElement(pointElement, "speed", point.getSpeed(), 1);
 
             // TO DO ADD DISTANCE
 
             // set attribute 'lat' to element
             attr = doc.createAttribute("lat");
-            attr.setValue(String.valueOf(point.getLatitude()));
+            attr.setValue(String.format("%1.7f", point.getLatitude()));
             pointElement.setAttributeNode(attr);
 
             // set attribute 'lon' to element
             attr = doc.createAttribute("lon");
-            attr.setValue(String.valueOf(point.getLongitude()));
+            attr.setValue(String.format("%1.7f", point.getLongitude()));
             pointElement.setAttributeNode(attr);
 
             trackPoints++;
@@ -301,25 +354,38 @@ public class GpxWriter
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
 
-            addString(pointElement, "ele", String.valueOf(point.getElevation()));
+            addChildElement(pointElement, "ele", point.getElevation(), 1);
 
             dateTime=point.getDateTime();
             dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                            dateTime.format("hh:mm:ss")+"Z";
-            addString(pointElement, "time", dateTimeString);
+            addChildElement(pointElement, "time", dateTimeString);
 
             extensionsElement    = doc.createElement("extensions");
             pointElement.appendChild(extensionsElement);
 
             // Extensions: speed
-            addString(extensionsElement, "u-gotMe:speed", String.valueOf(point.getSpeed()));
+            addChildElement(extensionsElement, "u-gotMe:speed", point.getSpeed(), 1);
+
+            // Extensions: distance
+            addChildElement(extensionsElement, "u-gotMe:dist", point.getDistance(), 1);
+                        
+            // Extensions: temperature
+            addChildElement(extensionsElement, "u-gotMe:temp", point.getTemperature());
+                        
+            // Extensions: heartrate
+            Integer heartrate=point.getHeartrate();
+            if (heartrate!=null && heartrate<255)
+            {
+                addChildElement(extensionsElement, "u-gotMe:hr", heartrate);
+            }
 
             // Extensions: temperature
-            addString(extensionsElement, "u-gotMe:temp", String.valueOf(point.getTemperature()));
-                        
+            addChildElement(extensionsElement, "u-gotMe:ehpe", point.getGpsAccuracy());
+
             // set attribute 'lat' and 'lon' to element
-            addAttribute(pointElement, "lat", String.valueOf(point.getLatitude()));
-            addAttribute(pointElement, "lon", String.valueOf(point.getLongitude()));
+            addAttribute(pointElement, "lat", String.format("%1.7f", point.getLatitude()));
+            addAttribute(pointElement, "lon", String.format("%1.7f", point.getLongitude()));
 
             trackPoints++;
         }
@@ -345,22 +411,22 @@ public class GpxWriter
             pointElement    = doc.createElement("wpt");
             trackElement.appendChild(pointElement);
 
-            addString(pointElement, "ele", String.valueOf(point.getElevation()));
+            addChildElement(pointElement, "ele", point.getElevation(), 1);
             dateTime=point.getDateTime();
             if (dateTime!=null)
             {
                 dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
                                dateTime.format("hh:mm:ss")+"Z";
-                addString(pointElement, "time", dateTimeString);
+                addChildElement(pointElement, "time", dateTimeString);
             }
 
-            addString(pointElement, "name", point.getName());
-            addString(pointElement, "desc", point.getDescription());
-            addString(pointElement, "sym", "Waypoint");
+            addChildElement(pointElement, "name", point.getName());
+            addChildElement(pointElement, "desc", point.getDescription());
+            addChildElement(pointElement, "sym", "Waypoint");
           
             // set attribute 'lat' and 'lon' to element
-            addAttribute(pointElement, "lat", String.valueOf(point.getLatitude()));
-            addAttribute(pointElement, "lon", String.valueOf(point.getLongitude()));
+            addAttribute(pointElement, "lat", String.format("%1.7f", point.getLatitude()));
+            addAttribute(pointElement, "lon", String.format("%1.7f", point.getLongitude()));
 
             wayPoints++;
         }
@@ -398,13 +464,13 @@ public class GpxWriter
             trackElement = doc.createElement("trk");
             gpxElement.appendChild(trackElement);
 
-            addString(trackElement, "name", trackName);
+            addChildElement(trackElement, "name", trackName);
             description=track.getDeviceName()+" logged track";
             if (track.getSport()!=null)
             {
                 description+=" ("+track.getSport()+")";
             }
-            addString(trackElement, "desc", description);
+            addChildElement(trackElement, "desc", description);
 
             // Add the track segments.
             i=0;
@@ -427,38 +493,23 @@ public class GpxWriter
             Element extensions=doc.createElement("extensions");
             gpxElement.appendChild(extensions);
 
-            String activity=track.getSport()+" - "+track.getSubSport();
-            addString(extensions, "u-gotMe:activity", activity);
-            double distance=track.getDistance();
-            addString(extensions, "u-gotMe:distance_m", String.valueOf(distance));
-            double duration=track.getElapsedTime();
-            addString(extensions, "u-gotMe:duration_s", String.valueOf(duration/1000));
-            duration=track.getTimedTime();
-            addString(extensions, "u-gotMe:timedDuration_s", String.valueOf(duration/1000));
-            double speed=track.getAverageSpeed();
-            addString(extensions, "u-gotMe:aveSpeed_kmh", String.valueOf(speed*3.6));
-            double maxSpeed=track.getMaxSpeed();
-            addString(extensions, "u-gotMe:maxSpeed_kmh", String.valueOf(maxSpeed*3.6));
-            double ascent=track.getAscent();
-            addString(extensions, "u-gotMe:ascent_m", String.valueOf(ascent));
-            double descent=track.getDescent();
-            addString(extensions, "u-gotMe:descent_m", String.valueOf(descent));
-            double calories=track.getCalories();
-            addString(extensions, "u-gotMe:calories_cal", String.valueOf(calories));
-            double grit=track.getGrit();
-            if (!Double.isNaN(grit))
+            String activity=track.getSportDescription();
+            addChildElement(extensions, "u-gotMe:activity", activity);
+            addChildElement(extensions, "u-gotMe:software", "GarminTrackConverter");
+            addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
+            addString(extensions, "u-gotMe:duration_s", track.getElapsedTime());
+            addString(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
+            addChildElement(extensions, "u-gotMe:aveSpeed_kmh", track.getAverageSpeed(), 2);
+            addChildElement(extensions, "u-gotMe:maxSpeed_kmh", track.getMaxSpeed(), 2);
+            addChildElement(extensions, "u-gotMe:ascent_m", track.getAscent());
+            addChildElement(extensions, "u-gotMe:descent_m", track.getDescent());
+            addChildElement(extensions, "u-gotMe:calories_cal", track.getCalories(), 1);
+            addChildElement(extensions, "u-gotMe:garminGrit_kgrit", track.getGrit(), 2);
+            addChildElement(extensions, "u-gotMe:garminFlow", track.getFlow(), 2);
+            Integer jumps=track.getJumpCount();
+            if (jumps!=null && jumps!=0xFFFF)
             {
-                addString(extensions, "u-gotMe:garminGrit_kgrit", String.valueOf(grit));
-            }
-            double flow=track.getFlow();
-            if (!Double.isNaN(flow))
-            {
-                addString(extensions, "u-gotMe:garminFlow", String.valueOf(flow));
-            }
-            int jumps=track.getJumpCount();
-            if (jumps!=0xFFFF)
-            {
-                addString(extensions, "u-gotMe:garminJumpCount", String.valueOf(jumps));
+                addChildElement(extensions, "u-gotMe:garminJumpCount", jumps);
             }
         }
     }
