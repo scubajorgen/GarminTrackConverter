@@ -185,7 +185,7 @@ public class GpxWriter
      * @param value Double
      * @param divisor Divisor
      */
-    private void addString(Element document, String tag, Long value)
+    private void addChildElement(Element document, String tag, Long value)
     {
         Element element;
         
@@ -500,11 +500,11 @@ public class GpxWriter
 
             String activity=track.getSportDescription();
             addChildElement(extensions, "u-gotMe:device", track.getDeviceName());
-            addChildElement(extensions, "u-gotMe:activity", activity);
             addChildElement(extensions, "u-gotMe:software", appName);
+            addChildElement(extensions, "u-gotMe:activity", activity);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
-            addString(extensions, "u-gotMe:duration_s", track.getElapsedTime());
-            addString(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
+            addChildElement(extensions, "u-gotMe:duration_s", track.getElapsedTime());
+            addChildElement(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
             addChildElement(extensions, "u-gotMe:aveSpeed_kmh", track.getAverageSpeed(), 2);
             addChildElement(extensions, "u-gotMe:maxSpeed_kmh", track.getMaxSpeed(), 2);
             addChildElement(extensions, "u-gotMe:ascent_m", track.getAscent());

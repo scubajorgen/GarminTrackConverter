@@ -96,7 +96,7 @@ public class GpxWriterTest
         Track track = null;
         String trackName = "";
         GpxWriter instance = null;
-        instance.writeTrackToFile(fileName, track, trackName);
+        instance.writeTrackToFile(fileName, track, trackName, "äppname");
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
