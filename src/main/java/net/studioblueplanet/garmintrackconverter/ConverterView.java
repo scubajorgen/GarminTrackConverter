@@ -93,8 +93,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
         map = new MapOsm(this.jMapPanel);
         this.textAreaOutput.setText("Please attach device\n");
-        
-        
 
         build=GitBuildInfo.getInstance();
         appName="GarminTrackConverter "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";        
@@ -496,16 +494,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 299, Short.MAX_VALUE))
+                                .addGap(0, 295, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextInfo))
-                                    .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)))))
+                                .addComponent(jTextInfo))
+                            .addComponent(jMapPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

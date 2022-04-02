@@ -120,7 +120,7 @@ public class Track
             product         =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
             serialNumber    =message.getIntValue(0, "serial_number");
             double version  =message.getScaledValue(0, "software_version");
-            softwareVersion =String.format("%5.2f", version);
+            softwareVersion =String.format("%.2f", version);
         }
         
         if (lapMessages!=null && trackMessages!=null)

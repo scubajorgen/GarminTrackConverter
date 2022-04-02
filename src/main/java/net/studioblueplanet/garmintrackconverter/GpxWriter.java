@@ -499,7 +499,7 @@ public class GpxWriter
             gpxElement.appendChild(extensions);
 
             String activity=track.getSportDescription();
-            addChildElement(extensions, "u-gotMe:device", track.getDeviceName());
+            addChildElement(extensions, "u-gotMe:device", track.getDeviceName()+" - sw "+track.getSoftwareVersion());
             addChildElement(extensions, "u-gotMe:software", appName);
             addChildElement(extensions, "u-gotMe:activity", activity);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
