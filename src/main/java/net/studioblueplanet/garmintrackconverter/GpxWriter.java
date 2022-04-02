@@ -44,6 +44,7 @@ public class GpxWriter
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
+    private String              appName;
 
 
     Document                    doc;
@@ -251,7 +252,7 @@ public class GpxWriter
         addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/1");
         
         // u-gotMe namespace
-        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v2");
+        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v3");
 
         // Schema locations
         addAttribute(gpxElement, "xsi:schemaLocation", 
@@ -465,10 +466,14 @@ public class GpxWriter
             gpxElement.appendChild(trackElement);
 
             addChildElement(trackElement, "name", trackName);
-            description=track.getDeviceName()+" logged track";
-            if (track.getSport()!=null)
+            description="Created by: "+appName+". Logged by: "+track.getDeviceName();
+            if (track.getSportDescription()!=null)
             {
-                description+=" ("+track.getSport()+")";
+                description+=". Logged as: "+track.getSportDescription()+".";
+            }
+            else
+            {
+                description+=".";
             }
             addChildElement(trackElement, "desc", description);
 
@@ -494,8 +499,9 @@ public class GpxWriter
             gpxElement.appendChild(extensions);
 
             String activity=track.getSportDescription();
+            addChildElement(extensions, "u-gotMe:device", track.getDeviceName());
             addChildElement(extensions, "u-gotMe:activity", activity);
-            addChildElement(extensions, "u-gotMe:software", "GarminTrackConverter");
+            addChildElement(extensions, "u-gotMe:software", appName);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
             addString(extensions, "u-gotMe:duration_s", track.getElapsedTime());
             addString(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
@@ -523,7 +529,7 @@ public class GpxWriter
      * @param track Track to write
      * @param trackName Name for the track to use inside the GPX file 
      */
-    public void writeTrackToFile(String fileName, Track track, String trackName)
+    public void writeTrackToFile(String fileName, Track track, String trackName, String appName)
     {
         Element     trackElement;
         Element     element;
@@ -536,6 +542,7 @@ public class GpxWriter
 
         try
         {
+            this.appName=appName;
             // create the GPX file
             createGpxDocument(track.getDeviceName());
 

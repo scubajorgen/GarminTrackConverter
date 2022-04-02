@@ -38,6 +38,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private boolean                     tracksShown;
     private Locations                   waypoints;
     private Device                      device;
+    private final String                appName;
     
     private final Thread                thread;
     private final boolean               threadExit;
@@ -62,7 +63,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         LOGGER.debug("Starting ConverterView");
         //DefaultListModel<String> model;
-
+        GitBuildInfo build;
+        
         settings=ConfigSettings.getInstance();
         setResizable(false);
         initComponents();
@@ -91,6 +93,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
         map = new MapOsm(this.jMapPanel);
         this.textAreaOutput.setText("Please attach device\n");
+        
+        
+
+        build=GitBuildInfo.getInstance();
+        appName="GarminTrackConverter "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";        
         
         tracksShown     =false;
         threadExit      =false;
@@ -767,7 +774,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 writer=GpxWriter.getInstance();
                 track=getTrack(jTrackList, tracksCache);
-                writer.writeTrackToFile(fileName, track, "Track");
+                writer.writeTrackToFile(fileName, track, "Track", appName);
                 this.textAreaOutput.append("File saved to "+fileName+"\n");
                 LOGGER.info("File saved to {}", fileName);
             }
@@ -779,7 +786,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 writer=GpxWriter.getInstance();
                 track=getTrack(jNewFilesList, newFilesCache);
-                writer.writeTrackToFile(fileName, track, "Track");
+                writer.writeTrackToFile(fileName, track, "Track", appName);
                 this.textAreaOutput.append("Route saved to "+fileName+"\n");
                 LOGGER.info("Route saved to {}", fileName);
             }
@@ -803,7 +810,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 writer=GpxWriter.getInstance();
                 track=getTrack(jRouteList, routesCache);
-                writer.writeTrackToFile(fileName, track, "Track");
+                writer.writeTrackToFile(fileName, track, "Track", appName);
                 this.textAreaOutput.append("Route saved to "+fileName+"\n");
                 LOGGER.info("Route saved to {}", fileName);
             }
