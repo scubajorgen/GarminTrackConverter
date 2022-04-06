@@ -10,6 +10,7 @@ import org.jdesktop.application.SingleFrameApplication;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.util.ArrayList;
+import org.jdesktop.application.Application;
 
 /**
  *
@@ -63,7 +64,14 @@ public class GarminTrackConverter extends SingleFrameApplication
     {
     }
     
-    
+    /**
+     * Returns the application instance
+     * @return The instance
+     */
+    public static GarminTrackConverter getApplication()
+    {
+        return Application.getInstance(GarminTrackConverter.class);
+    }    
     /**
      * @param args the command line arguments
      */

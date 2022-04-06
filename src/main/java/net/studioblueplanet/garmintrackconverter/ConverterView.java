@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 import net.studioblueplanet.settings.ConfigSettings;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.jdesktop.application.ResourceMap;
 
 /**
  * This class represents the main view of the application
@@ -55,6 +56,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     final DefaultListModel<String>      routeModel;
     final DefaultListModel<String>      newFileModel;
     final DefaultListModel<String>      locationModel;
+    
+    private ConverterAbout              aboutBox;
 
     /**
      * Creates new form ConverterView
@@ -257,6 +260,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLocationList = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
         jTextInfo = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItemExit = new javax.swing.JMenuItem();
+        jMenuHelp = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -460,6 +468,36 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         jTextInfo.setEnabled(false);
 
+        jMenu1.setText("File");
+
+        jMenuItemExit.setText("Exit");
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItemExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemExit);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenuHelp.setText("Help");
+
+        jMenuItem1.setText("About");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuHelp.add(jMenuItem1);
+
+        jMenuBar1.add(jMenuHelp);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -522,7 +560,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
                             .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1031,6 +1069,33 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemExitActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemExitActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
+    {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
+        GarminTrackConverter    app;
+        GitBuildInfo            build;
+        ResourceMap             appResourceMap;
+        
+        app=GarminTrackConverter.getApplication();
+        build=GitBuildInfo.getInstance();
+
+        appResourceMap=app.getContext().getResourceMap();
+        if (aboutBox==null)
+        {
+            aboutBox=new ConverterAbout(this, true);
+            aboutBox.setLocationRelativeTo(this);
+
+            aboutBox.setVersion(build.getGitCommitDescription()+" ("+build.getBuildTime()+")");
+            aboutBox.setAuthor(appResourceMap.getString("Application.author"));
+            aboutBox.setHomePage(appResourceMap.getString("Application.homepage"));            
+        }
+        GarminTrackConverter.getApplication().show(aboutBox);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1054,6 +1119,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private javax.swing.JList<String> jLocationList;
     private javax.swing.JPanel jMapPanel;
     private javax.swing.JPanel jMapPanel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuHelp;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JList<String> jNewFilesList;
     private javax.swing.JList<String> jRouteList;
     private javax.swing.JScrollPane jScrollPane1;

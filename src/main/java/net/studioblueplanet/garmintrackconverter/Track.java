@@ -81,7 +81,6 @@ public class Track
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
-        repository.dumpMessageDefintions();
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
         sessionMessages =repository.getAllMessages("session");
@@ -398,24 +397,30 @@ public class Track
                     gpsAccuracy =null;
                 }
 
-                point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp, heartrate, gpsAccuracy);
-
-                found=false;
-                it=this.segments.iterator();
-                while (it.hasNext() && !found)
+                if (Math.round(lat)!=180 && Math.round(lon)!=180)
                 {
-                    segment=it.next();
-                    if (segment.isInLap(dateTime))
+                    point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp, heartrate, gpsAccuracy);
+
+                    found=false;
+                    it=this.segments.iterator();
+                    while (it.hasNext() && !found)
                     {
-                        segment.addTrackPoint(point);
-                        found=true;
+                        segment=it.next();
+                        if (segment.isInLap(dateTime))
+                        {
+                            segment.addTrackPoint(point);
+                            found=true;
+                        }
+                    }
+                    if (!found)
+                    {
+                        LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.format("YYYY-MM-DD hh:mm:ss"));
                     }
                 }
-                if (!found)
+                else
                 {
-                    LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.format("YYYY-MM-DD hh:mm:ss"));
+                    LOGGER.error("Illegal lat/lon");
                 }
-
                 LOGGER.debug("Track {} ({}, {}) ele {}, {} km/h, {} m",
                                  dateTime.toString(),
                                  lat, lon,
