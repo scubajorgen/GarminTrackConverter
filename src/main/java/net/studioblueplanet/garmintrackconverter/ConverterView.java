@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -23,7 +24,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import net.studioblueplanet.settings.ConfigSettings;
+import net.studioblueplanet.settings.ApplicationSettings;
+import net.studioblueplanet.settings.SettingsDevice;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.jdesktop.application.ResourceMap;
@@ -35,7 +37,8 @@ import org.jdesktop.application.ResourceMap;
 public class ConverterView extends javax.swing.JFrame implements Runnable
 {
     private final static Logger         LOGGER = LogManager.getLogger(ConverterView.class);
-    private final ConfigSettings        settings;
+    private ApplicationSettings         settings;
+    private SettingsDevice              attachedDevice;
     private boolean                     tracksShown;
     private Locations                   waypoints;
     private Device                      device;
@@ -68,7 +71,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         //DefaultListModel<String> model;
         GitBuildInfo build;
         
-        settings=ConfigSettings.getInstance();
+        settings=ApplicationSettings.getInstance();
         setResizable(false);
         initComponents();
       
@@ -113,20 +116,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     public void run()
     {
         String                          waypointFile;
-        String                          deviceFile;
         boolean                         localThreadExit;
-        File                            trackFile;
-        File                            routeFile;
-        File                            newFile;
-        File                            locationFile;
+        File                            deviceFile;
         boolean                         tracksShownLocal;
+        List<SettingsDevice>            devices;
+        int                             minPrio;
+        
         
         synchronized(this)
         {
-            trackFile       =new File(settings.getStringValue("trackFilePath"));
-            routeFile       =new File(settings.getStringValue("routeFilePath"));
-            newFile         =new File(settings.getStringValue("newFilePath"));
-            locationFile    =new File(settings.getStringValue("locationFilePath"));
+            devices=settings.getDevices();
         }        
         
         LOGGER.info("Thread started");
@@ -140,34 +139,55 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             if (!tracksShownLocal)
             {
-                if (trackFile.exists())
+                // Find an attached device; with multiple devices attached
+                // the device with lowest prio value wins
+                minPrio=Integer.MAX_VALUE;
+                for (SettingsDevice settingsDevice : devices)
                 {
+                    deviceFile=new File(settingsDevice.deviceFile);
+                    if (deviceFile.exists())
+                    {
+                        LOGGER.info("Found device {}", settingsDevice.name);
+                        if (settingsDevice.devicePriority<minPrio)
+                        {
+                            attachedDevice  =settingsDevice;
+                            minPrio=attachedDevice.devicePriority;
+                        }
+                    }
+                }
+                if (attachedDevice!=null)
+                {
+                    LOGGER.info("Attached device {}", attachedDevice.name);
                     this.textAreaOutput.append("Initializing...\n");
                     readWaypoints();
-                    
+
                     readDevice();
                     jTextFieldDevice.setText(device.getDeviceDescription());
 
                     SwingUtilities.invokeLater(() ->
                     {                         
+                        File trackFile       =new File(attachedDevice.trackFilePath);
+                        File routeFile       =new File(attachedDevice.routeFilePath);
+                        File newFile         =new File(attachedDevice.newFilePath);
+                        File locationFile    =new File(attachedDevice.locationFilePath);
                         trackModel.clear();
                         Stream.of(trackFile.listFiles())
                                 .filter(file -> !file.isDirectory())
                                 .sorted()
                                 .map(File::getName).forEach(file -> {trackModel.addElement(file);});
-                        
+
                         locationModel.clear();
                         Stream.of(locationFile.listFiles())
                                 .filter(file -> !file.isDirectory())
                                 .sorted()
                                 .map(File::getName).forEach(file -> {locationModel.addElement(file);});
-                        
+
                         routeModel.clear();
-                        Stream.of(routeFile.listFiles())
+                                    Stream.of(routeFile.listFiles())
                                 .filter(file -> !file.isDirectory())
                                 .sorted()
                                 .map(File::getName).forEach(file -> {routeModel.addElement(file);});
-                        
+
                         newFileModel.clear();
                         Stream.of(newFile.listFiles())
                                 .filter(file -> !file.isDirectory())
@@ -175,7 +195,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                 .sorted()
                                 .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
                     });
-                    
+
                     synchronized(this)
                     {
                         tracksShown=true;
@@ -184,7 +204,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             } 
             else
             {
-                if (!trackFile.exists())
+                deviceFile=new File(attachedDevice.deviceFile);
+                if (!deviceFile.exists())
                 {
                     this.textAreaOutput.setText("Please attach device\n");
                     SwingUtilities.invokeLater(() ->
@@ -198,6 +219,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     synchronized(this)
                     {
                         tracksShown=false;
+                        attachedDevice=null;
                     }
                 }
             }
@@ -712,7 +734,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         String waypointsFile;
 
-        waypointsFile=settings.getStringValue("waypointFile");
+        waypointsFile=attachedDevice.waypointFile;
         if (new File(waypointsFile).exists())
         {
             waypoints=new Locations(waypointsFile);
@@ -730,8 +752,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void readDevice()
     {
         String deviceFile;
-
-        deviceFile=settings.getStringValue("deviceFile");
+        deviceFile=attachedDevice.deviceFile;
         if (new File(deviceFile).exists())
         {
             device=new Device(deviceFile);
@@ -803,7 +824,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
         if (jTrackList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
@@ -815,7 +836,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         else if (jNewFilesList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
@@ -827,7 +848,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         else if (jLocationList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
@@ -839,7 +860,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         else if (jRouteList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
@@ -865,7 +886,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jTrackList.getSelectedIndex();
             fileName=trackModel.elementAt(index);
-            fullFileName=settings.getStringValue("trackFilePath")+"\\"+fileName;
+            fullFileName=attachedDevice.trackFilePath+"\\"+fileName;
             if (tracksCache.containsKey(fileName))
             {
                 track=tracksCache.get(fileName);
@@ -904,7 +925,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jRouteList.getSelectedIndex();
             fileName=routeModel.elementAt(index);
-            fullFileName=settings.getStringValue("routeFilePath")+"\\"+fileName;
+            fullFileName=attachedDevice.routeFilePath+"\\"+fileName;
             if (routesCache.containsKey(fileName))
             {
                 track=routesCache.get(fileName);
@@ -933,7 +954,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jNewFilesList.getSelectedIndex();
             fileName=newFileModel.getElementAt(index);
-            fullFileName=settings.getStringValue("newFilePath")+"\\"+fileName;
+            fullFileName=attachedDevice.newFilePath+"\\"+fileName;
 
             if (newFilesCache.containsKey(fileName))
             {
@@ -951,10 +972,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void buttonUploadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonUploadActionPerformed
     {//GEN-HEADEREND:event_buttonUploadActionPerformed
         String fileName;
-        fileName=this.getGpxFileName(settings.getStringValue("gpxFilePath"), "", "Upload");
+        fileName=this.getGpxFileName(settings.getGpxFilePath(), "", "Upload");
         if (fileName!=null)
         {
-            String destinationPath=settings.getStringValue("newFilePath");
+            String destinationPath=attachedDevice.newFilePath;
             String destinationFile=destinationPath+"//"+(new File(fileName).getName());
             File destination=new File(destinationPath);
             if (destination.exists())
@@ -1000,7 +1021,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jLocationList.getSelectedIndex();
             fileName=locationModel.getElementAt(index);
-            fullFileName=settings.getStringValue("locationFilePath")+"\\"+fileName;
+            fullFileName=attachedDevice.locationFilePath+"\\"+fileName;
             
             if (locationsCache.containsKey(fileName))
             {
@@ -1029,22 +1050,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         if (jTrackList.getSelectedIndex()>=0)
         {
             fileName=jTrackList.getSelectedValue();
-            pathName=settings.getStringValue("trackFilePath")+"/"+fileName;
+            pathName=attachedDevice.trackFilePath+"/"+fileName;
         }
         else if (jNewFilesList.getSelectedIndex()>=0)
         {
             fileName=jNewFilesList.getSelectedValue();
-            pathName=settings.getStringValue("newFilePath")+"/"+fileName;
+            pathName=attachedDevice.newFilePath+"/"+fileName;
         }
         else if (jLocationList.getSelectedIndex()>=0)
         {
             fileName=jLocationList.getSelectedValue();
-            pathName=settings.getStringValue("locationFilePath")+"/"+fileName;
+            pathName=attachedDevice.locationFilePath+"/"+fileName;
         }
         else if (jRouteList.getSelectedIndex()>=0)
         {
             fileName=jRouteList.getSelectedValue();
-            pathName=settings.getStringValue("routeFilePath")+"/"+fileName;
+            pathName=attachedDevice.routeFilePath+"/"+fileName;
         }
 
         

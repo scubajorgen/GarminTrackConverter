@@ -1,0 +1,27 @@
+{
+  "debugLevel":"info",
+  "gpxFilePath": "d:/gps/gpx",
+  "devices":
+  [
+    {
+      "name": "fenix 7 Solar",
+      "trackFilePath": "z:/GARMIN/Activity",
+      "routeFilePath": "z:/GARMIN/Courses",
+      "newFilePath": "z:/GARMIN/NewFiles",
+      "locationFilePath": "z:/GARMIN/Location",
+      "waypointFile": "z:/GARMIN/Location/Lctns.fit",
+      "deviceFile": "z:/GARMIN/GarminDevice.xml",
+      "devicePriority": 1
+    },
+    {
+      "name": "Edge 830",
+      "trackFilePath": "f:/Garmin/Activities",
+      "routeFilePath": "f:/Garmin/Courses",
+      "newFilePath": "f:/Garmin/NewFiles",
+      "locationFilePath": "f:/Garmin/Locations",
+      "waypointFile": "f:/Garmin/Location/Locations.fit",
+      "deviceFile": "f:/Garmin/GarminDevice.xml",
+      "devicePriority": 2
+    }
+  ]
+}
