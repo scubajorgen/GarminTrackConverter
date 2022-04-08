@@ -215,8 +215,23 @@ public class Track
                 startLon    =message.getLatLonValue(i, "start_position_lon");
                 
                 distance    =message.getScaledValue(i, "total_distance");
-                averageSpeed=message.getScaledValue(i, "avg_speed")*KMH_PER_MS;
-                maxSpeed    =message.getScaledValue(i, "max_speed")*KMH_PER_MS;
+                
+                if (message.hasField("enhanced_avg_speed"))
+                {
+                    averageSpeed=message.getScaledValue(i, "enhanced_avg_speed")*KMH_PER_MS;
+                }
+                else if (message.hasField("avg_speed"))
+                {
+                    averageSpeed=message.getScaledValue(i, "avg_speed")*KMH_PER_MS;
+                }
+                if (message.hasField("enhanced_max_speed"))
+                {
+                    maxSpeed    =message.getScaledValue(i, "enhanced_max_speed")*KMH_PER_MS;
+                }
+                else if (message.hasField("max_speed"))
+                {
+                    maxSpeed    =message.getScaledValue(i, "max_speed")*KMH_PER_MS;
+                }
                 grit        =message.getFloatValue(i, "total_grit");
                 flow        =message.getFloatValue(i, "avg_flow");
                 jumpCount   =(int)message.getIntValue(i, "jump_count");
@@ -344,7 +359,11 @@ public class Track
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
                 
-                if (message.hasField("corrected_altitude"))
+                if (message.hasField("enhanced_altitude"))
+                {
+                    ele         =message.getScaledValue(i, "enhanced_altitude");
+                }
+                else if (message.hasField("corrected_altitude"))
                 {
                     ele         =message.getScaledValue(i, "corrected_altitude");
                 }
@@ -362,7 +381,11 @@ public class Track
                     temp        =null;
                 }
                 
-                if (message.hasField("speed"))
+                if (message.hasField("enhanced_speed"))
+                {
+                    speed       =message.getScaledValue(i, "enhanced_speed");
+                }
+                else if (message.hasField("speed"))
                 {
                     speed       =message.getScaledValue(i, "speed");
                 }
