@@ -62,7 +62,7 @@ public class ApplicationSettings
      */
     public List<SettingsDevice> getDevices()
     {
-        return settings.devices;
+        return settings.getDevices();
     }
     
     /**
@@ -71,7 +71,7 @@ public class ApplicationSettings
      */
     public String getGpxFilePath()
     {
-        return settings.gpxFilePath;
+        return settings.getGpxFilePath();
     }
     
     /**
@@ -80,6 +80,6 @@ public class ApplicationSettings
      */
     public String getDebugLevel()
     {
-        return settings.debugLevel;
+        return settings.getDebugLevel();
     }
 }

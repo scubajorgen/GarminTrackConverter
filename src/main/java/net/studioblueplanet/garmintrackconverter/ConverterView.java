@@ -145,20 +145,20 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 minPrio=Integer.MAX_VALUE;
                 for (SettingsDevice settingsDevice : devices)
                 {
-                    deviceFile=new File(settingsDevice.deviceFile);
+                    deviceFile=new File(settingsDevice.getDeviceFile());
                     if (deviceFile.exists())
                     {
-                        LOGGER.info("Found device {}", settingsDevice.name);
-                        if (settingsDevice.devicePriority<minPrio)
+                        LOGGER.info("Found device {}", settingsDevice.getName());
+                        if (settingsDevice.getDevicePriority()<minPrio)
                         {
                             attachedDevice  =settingsDevice;
-                            minPrio=attachedDevice.devicePriority;
+                            minPrio=attachedDevice.getDevicePriority();
                         }
                     }
                 }
                 if (attachedDevice!=null)
                 {
-                    LOGGER.info("Attached device {}", attachedDevice.name);
+                    LOGGER.info("Attached device {}", attachedDevice.getName());
                     this.textAreaOutput.append("Initializing...\n");
                     readWaypoints();
 
@@ -167,10 +167,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
                     SwingUtilities.invokeLater(() ->
                     {                         
-                        File trackFile       =new File(attachedDevice.trackFilePath);
-                        File routeFile       =new File(attachedDevice.routeFilePath);
-                        File newFile         =new File(attachedDevice.newFilePath);
-                        File locationFile    =new File(attachedDevice.locationFilePath);
+                        File trackFile       =new File(attachedDevice.getTrackFilePath());
+                        File routeFile       =new File(attachedDevice.getRouteFilePath());
+                        File newFile         =new File(attachedDevice.getNewFilePath());
+                        File locationFile    =new File(attachedDevice.getLocationFilePath());
                         trackModel.clear();
                         Comparator<File> c = Comparator.comparing((File x) -> x.getName());
                         Stream.of(trackFile.listFiles())
@@ -208,7 +208,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             } 
             else
             {
-                deviceFile=new File(attachedDevice.deviceFile);
+                deviceFile=new File(attachedDevice.getDeviceFile());
                 if (!deviceFile.exists())
                 {
                     this.textAreaOutput.setText("Please attach device\n");
@@ -739,7 +739,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         String waypointsFile;
 
-        waypointsFile=attachedDevice.waypointFile;
+        waypointsFile=attachedDevice.getWaypointFile();
         if (new File(waypointsFile).exists())
         {
             waypoints=new Locations(waypointsFile);
@@ -757,7 +757,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void readDevice()
     {
         String deviceFile;
-        deviceFile=attachedDevice.deviceFile;
+        deviceFile=attachedDevice.getDeviceFile();
         if (new File(deviceFile).exists())
         {
             device=new Device(deviceFile);
@@ -893,7 +893,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jTrackList.getSelectedIndex();
             fileName=trackModel.elementAt(index);
-            fullFileName=attachedDevice.trackFilePath+"\\"+fileName;
+            fullFileName=attachedDevice.getTrackFilePath()+"\\"+fileName;
             if (tracksCache.containsKey(fileName))
             {
                 track=tracksCache.get(fileName);
@@ -932,7 +932,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jRouteList.getSelectedIndex();
             fileName=routeModel.elementAt(index);
-            fullFileName=attachedDevice.routeFilePath+"\\"+fileName;
+            fullFileName=attachedDevice.getRouteFilePath()+"\\"+fileName;
             if (routesCache.containsKey(fileName))
             {
                 track=routesCache.get(fileName);
@@ -961,7 +961,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jNewFilesList.getSelectedIndex();
             fileName=newFileModel.getElementAt(index);
-            fullFileName=attachedDevice.newFilePath+"\\"+fileName;
+            fullFileName=attachedDevice.getNewFilePath()+"\\"+fileName;
 
             if (newFilesCache.containsKey(fileName))
             {
@@ -982,7 +982,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         fileName=this.getGpxFileName(settings.getGpxFilePath(), "", "Upload");
         if (fileName!=null)
         {
-            String destinationPath=attachedDevice.newFilePath;
+            String destinationPath=attachedDevice.getNewFilePath();
             String destinationFile=destinationPath+"//"+(new File(fileName).getName());
             File destination=new File(destinationPath);
             if (destination.exists())
@@ -1028,7 +1028,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jLocationList.getSelectedIndex();
             fileName=locationModel.getElementAt(index);
-            fullFileName=attachedDevice.locationFilePath+"\\"+fileName;
+            fullFileName=attachedDevice.getLocationFilePath()+"\\"+fileName;
             
             if (locationsCache.containsKey(fileName))
             {
@@ -1057,22 +1057,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         if (jTrackList.getSelectedIndex()>=0)
         {
             fileName=jTrackList.getSelectedValue();
-            pathName=attachedDevice.trackFilePath+"/"+fileName;
+            pathName=attachedDevice.getTrackFilePath()+"/"+fileName;
         }
         else if (jNewFilesList.getSelectedIndex()>=0)
         {
             fileName=jNewFilesList.getSelectedValue();
-            pathName=attachedDevice.newFilePath+"/"+fileName;
+            pathName=attachedDevice.getNewFilePath()+"/"+fileName;
         }
         else if (jLocationList.getSelectedIndex()>=0)
         {
             fileName=jLocationList.getSelectedValue();
-            pathName=attachedDevice.locationFilePath+"/"+fileName;
+            pathName=attachedDevice.getLocationFilePath()+"/"+fileName;
         }
         else if (jRouteList.getSelectedIndex()>=0)
         {
             fileName=jRouteList.getSelectedValue();
-            pathName=attachedDevice.routeFilePath+"/"+fileName;
+            pathName=attachedDevice.getRouteFilePath()+"/"+fileName;
         }
 
         

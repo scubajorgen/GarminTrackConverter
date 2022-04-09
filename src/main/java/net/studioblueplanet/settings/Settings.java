@@ -14,9 +14,41 @@ import java.util.List;
 public class Settings
 {
     @JsonProperty("debugLevel")
-    public String               debugLevel;
+    private String               debugLevel;
     @JsonProperty("gpxFilePath")
-    public String               gpxFilePath;
+    private String               gpxFilePath;
     @JsonProperty("devices")
-    public List<SettingsDevice> devices;
+    private List<SettingsDevice> devices;
+
+    public String getDebugLevel()
+    {
+        return debugLevel;
+    }
+
+    public void setDebugLevel(String debugLevel)
+    {
+        this.debugLevel = debugLevel;
+    }
+
+    public String getGpxFilePath()
+    {
+        return gpxFilePath;
+    }
+
+    public void setGpxFilePath(String gpxFilePath)
+    {
+        this.gpxFilePath = gpxFilePath;
+    }
+
+    public List<SettingsDevice> getDevices()
+    {
+        return devices;
+    }
+
+    public void setDevices(List<SettingsDevice> devices)
+    {
+        this.devices = devices;
+    }
+    
+    
 }

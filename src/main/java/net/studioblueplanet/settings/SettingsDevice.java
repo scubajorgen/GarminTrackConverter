@@ -12,27 +12,108 @@ package net.studioblueplanet.settings;
 public class SettingsDevice
 {
     // Device name
-    public String name;
+    private String name;
     
     // directory where to find the tracks
-    public String trackFilePath;
+    private String trackFilePath;
     
     // Directory where to find the courses
-    public String routeFilePath;
+    private String routeFilePath;
     
     // Directory where to upload new files
-    public String newFilePath;
+    private String newFilePath;
     
     // Directory where to find locations/waypoints
-    public String locationFilePath;
+    private String locationFilePath;
     
     // The full path of the locations/waypoints file
-    public String waypointFile;
+    private String waypointFile;
     
     // The full path of the device XML file
-    public String deviceFile;
-    
+    private String deviceFile;
     
     // When multiple devices are connected the device with the lowest number is selected
-    public int devicePriority;
+    private int devicePriority;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getTrackFilePath()
+    {
+        return trackFilePath;
+    }
+
+    public void setTrackFilePath(String trackFilePath)
+    {
+        this.trackFilePath = trackFilePath;
+    }
+
+    public String getRouteFilePath()
+    {
+        return routeFilePath;
+    }
+
+    public void setRouteFilePath(String routeFilePath)
+    {
+        this.routeFilePath = routeFilePath;
+    }
+
+    public String getNewFilePath()
+    {
+        return newFilePath;
+    }
+
+    public void setNewFilePath(String newFilePath)
+    {
+        this.newFilePath = newFilePath;
+    }
+
+    public String getLocationFilePath()
+    {
+        return locationFilePath;
+    }
+
+    public void setLocationFilePath(String locationFilePath)
+    {
+        this.locationFilePath = locationFilePath;
+    }
+
+    public String getWaypointFile()
+    {
+        return waypointFile;
+    }
+
+    public void setWaypointFile(String waypointFile)
+    {
+        this.waypointFile = waypointFile;
+    }
+
+    public String getDeviceFile()
+    {
+        return deviceFile;
+    }
+
+    public void setDeviceFile(String deviceFile)
+    {
+        this.deviceFile = deviceFile;
+    }
+
+    public int getDevicePriority()
+    {
+        return devicePriority;
+    }
+
+    public void setDevicePriority(int devicePriority)
+    {
+        this.devicePriority = devicePriority;
+    }
+
+
 }
