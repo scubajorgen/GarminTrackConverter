@@ -528,6 +528,7 @@ public class GpxWriter
      * @param fileName Name of the file to write to
      * @param track Track to write
      * @param trackName Name for the track to use inside the GPX file 
+     * @param appName Name of this application
      */
     public void writeTrackToFile(String fileName, Track track, String trackName, String appName)
     {

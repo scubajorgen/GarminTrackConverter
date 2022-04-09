@@ -14,6 +14,8 @@ public class ConverterAbout extends javax.swing.JDialog
 
     /**
      * Creates new form ConverterAbout
+     * @param parent Parent frame
+     * @param modal Modal
      */
     public ConverterAbout(java.awt.Frame parent, boolean modal)
     {

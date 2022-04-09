@@ -49,12 +49,14 @@ public class TrackPoint
     /**
      * Constructor, full version
      * @param dateTime Datetime of the point
-     * @param lat Latitude
-     * @param lon Longitude
-     * @param ele Elevation
-     * @param speed Speed
-     * @param distance Distance
-     * @param temp Temperature
+     * @param lat Latitude in deg
+     * @param lon Longitude in deg
+     * @param ele Elevation in m
+     * @param speed Speed in m/s
+     * @param distance Distance in m
+     * @param temp Temperature in degC
+     * @param heartrate Heart rate in bpm
+     * @param gpsAccuracy Accuracy of gps in m
      */
     public TrackPoint(DateTime dateTime, Double lat, Double lon, Double ele, Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
     {
