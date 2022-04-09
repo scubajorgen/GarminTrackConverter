@@ -631,16 +631,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         
         fc= new JFileChooser();
         
-        // TO DO: generate a sensible filename
         returnFileName=fileNameProposal;
-        if (returnFileName.equals(""))
-        {
-            fc.setCurrentDirectory(new File(directory));
-        }
-        else
+        fc.setCurrentDirectory(new File(directory));
+        if (!returnFileName.equals(""))
         {
             fc.setSelectedFile(new File(returnFileName));
         }
+        
         fitFileFilter=new FileNameExtensionFilter("GPX files (*.gpx)", "GPX");
 
         // Set file extension filters
