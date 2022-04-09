@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -171,28 +172,29 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         File newFile         =new File(attachedDevice.newFilePath);
                         File locationFile    =new File(attachedDevice.locationFilePath);
                         trackModel.clear();
+                        Comparator<File> c = Comparator.comparing((File x) -> x.getName());
                         Stream.of(trackFile.listFiles())
                                 .filter(file -> !file.isDirectory())
-                                .sorted()
+                                .sorted(c.reversed())
                                 .map(File::getName).forEach(file -> {trackModel.addElement(file);});
 
                         locationModel.clear();
                         Stream.of(locationFile.listFiles())
                                 .filter(file -> !file.isDirectory())
-                                .sorted()
+                                .sorted(c)
                                 .map(File::getName).forEach(file -> {locationModel.addElement(file);});
 
                         routeModel.clear();
                                     Stream.of(routeFile.listFiles())
                                 .filter(file -> !file.isDirectory())
-                                .sorted()
+                                .sorted(c)
                                 .map(File::getName).forEach(file -> {routeModel.addElement(file);});
 
                         newFileModel.clear();
                         Stream.of(newFile.listFiles())
                                 .filter(file -> !file.isDirectory())
                                 .filter(file -> file.getName().toLowerCase().endsWith(".gpx"))
-                                .sorted()
+                                .sorted(c)
                                 .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
                     });
 
