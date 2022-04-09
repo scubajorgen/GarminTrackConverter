@@ -1,10 +1,10 @@
 # Garmin Track Converter
 ## Introduction
 The Garmin Track Converter is an application intended to convert ANT/Garmin .FIT track log files from an attached Garmin device to GPX 1.1 format. 
-It has been created for and tested with the Garmin Edge 810/830 bike computer, but it might be useful for other Garmins devices as well.
+It has been created for and tested with the Garmin Edge 810/830 bike computer and Garmin Fenix 7, but it might be useful for other Garmins devices as well.
 
-Garmin .FIT tracks do not contain marked waypoints. These are stored in a separate (max. 100 waypoints).
-On the Garmin Edge810 this file is Locations.fit.
+Garmin .FIT tracks do not contain marked waypoints. These are stored in a separate file(max. 100 waypoints).
+On the Garmin Edge810 this file is Locations.fit, on the Fenix Lctns.fit.
 During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track.
 
 ![](image/GarminTrackConverter.png)
@@ -12,9 +12,9 @@ During conversion of the track, the converter checks the waypoint file and incor
 Features
 * Conversion of activity fit files to GPX 1.1
 * Including waypoints logged during the activity
-* Laps are written to trkseg GPX segments
+* Start/stop events are written to trkseg GPX segments
 * Device ID/serial is included in the GPX
-
+* Upload of waypoints and routers in GPX format (New Files)
 
 ## Building
 Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first. Manually building:
@@ -24,52 +24,38 @@ mvn clean install
 ```
 
 ## Configuring
-The application requires a configuration file garmintrackconverter.properties. 
-In this file the directories are defined on the device and where the GPX files should be written to.
+The application requires a configuration file garmintrackconverter.json. 
+In this file the directories are defined on the device and where the GPX files should be written to. It appears that various types of Garmin devices have slightly different file structures. Therefore, multiple devices can be defined 
+in the configuration.
 
 ```
-###################################################################################################
-# Debugging level 'off', 'debug', 'info', 'error'
-# Defines the level of debug info that is printed in the console
-#  off   - show nothing
-#  error - only show errors
-#  info  - show errors and some info
-#  debug - show errors, info and all kind of debugging crap
-debugLevel  = info
-
-###################################################################################################
-# This setting defines the device file (xml)
-# Usually it is in the directory \Garmin\GarminDevice.xml
-deviceFile=f\:\\Garmin\\GarminDevice.xml
-
-###################################################################################################
-# This setting defines the default path where to find the garmin track files
-# Usually it is in the directory \Garmin\Activities
-trackFilePath=f\:\\Garmin\\Activities\\
-
-###################################################################################################
-# This setting defines the default path where to find the garmin route/course files
-# Usually it is in the directory \Garmin\Courses
-routeFilePath=f\:\\Garmin\\Courses\\
-
-###################################################################################################
-# This setting defines the default path where to write new files to
-# Usually it is in the directory \garmin\newfiles
-newFilePath=f\:\\Garmin\\NewFiles
-
-###################################################################################################
-# This setting defines the default path where to find the location files
-# Usually it is in the directory \garmin\courses
-locationFilePath=f\:\\Garmin\\Locations
-
-###################################################################################################
-# This setting defines the default waypoint file
-# Usually it is in the directory \Garmin\Locations\Locations.fit
-waypointFile=f\:\\Garmin\\Locations\\Locations.fit
-
-###################################################################################################
-# This setting defines the default path where to write the GPX file to
-gpxFilePath=d\:\\gps\\gpx\\
+{
+  "debugLevel":"info",
+  "gpxFilePath": "d:/gps/gpx",
+  "devices":
+  [
+    {
+      "name": "fenix 7 Solar",
+      "trackFilePath": "z:/GARMIN/Activity",
+      "routeFilePath": "z:/GARMIN/Courses",
+      "newFilePath": "z:/GARMIN/NewFiles",
+      "locationFilePath": "z:/GARMIN/Location",
+      "waypointFile": "z:/GARMIN/Location/Lctns.fit",
+      "deviceFile": "z:/GARMIN/GarminDevice.xml",
+      "devicePriority": 1
+    },
+    {
+      "name": "Edge 830",
+      "trackFilePath": "f:/Garmin/Activities",
+      "routeFilePath": "f:/Garmin/Courses",
+      "newFilePath": "f:/Garmin/NewFiles",
+      "locationFilePath": "f:/Garmin/Locations",
+      "waypointFile": "f:/Garmin/Location/Locations.fit",
+      "deviceFile": "f:/Garmin/GarminDevice.xml",
+      "devicePriority": 2
+    }
+  ]
+}
 
 ```
 
@@ -96,7 +82,7 @@ Buttons:
 * Upload: Uploads a .gpx file containing trk, rte or wpt
 * Delete: Delete the selected file
 
-Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers. 
+Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers and the Fenix 7. 
 
 ## Development
 The software was developed using Apache Netbeans. The Maven project can be run or debugged from Netbeans. For developement, a directory /development is available. It contains in /development/Garmin a copy of the filestructure from a Garmin Edge830 device, including some logged activities, courses and locations. The folder /development/gpx can be used to store GPX files.
@@ -109,7 +95,10 @@ The software uses
 - hirondelle-date4j-1.5.1.jar
 - appframework-1.0.3.jar
 - swing-worker-1.1.jar
+- ...
 
+## Remark on the Fenix 7
+Unfortunatelly, the Fenix 7 cannot be attached to USB as mass storage device. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and not accessible from Java programs. Therefore I use [Mtpdrive](https://www.mtpdrive.com/). Mtpdrive is a commercial tool by which it is possible to assign a drive letter to an MTP device. When assigned, the file structure is accessible by GarminTrackConverter.
 
 ## Information
 * [Blog](http://blog.studioblueplanet.net/?page_id=468)
