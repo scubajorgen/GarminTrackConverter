@@ -1105,6 +1105,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         build=GitBuildInfo.getInstance();
 
         appResourceMap=app.getContext().getResourceMap();
+
         if (aboutBox==null)
         {
             aboutBox=new ConverterAbout(this, true);
@@ -1113,8 +1114,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             aboutBox.setVersion(build.getGitCommitDescription()+" ("+build.getBuildTime()+")");
             aboutBox.setAuthor(appResourceMap.getString("Application.author"));
             aboutBox.setHomePage(appResourceMap.getString("Application.homepage"));            
+            aboutBox.setGithub(appResourceMap.getString("Application.github"));            
         }
         GarminTrackConverter.getApplication().show(aboutBox);
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     
