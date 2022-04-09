@@ -10,6 +10,7 @@ import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessage;
 import net.studioblueplanet.fitreader.FitMessageRepository;
 import net.studioblueplanet.fitreader.FitGlobalProfile;
+import java.io.File;
 import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ public class Track
     private final List<TrackSegment>        segments;
     private final List<Location>            waypoints;
 
+    private String                          fitFileName;
     private String                          deviceName;
     private String                          sport;
     private String                          subSport;
@@ -41,6 +43,8 @@ public class Track
     private String                          fileType;
     private String                          softwareVersion;
 
+    private DateTime                        startTime;
+    private DateTime                        endTime;
     private Long                            elapsedTime;    // s
     private Long                            timedTime;      // s
     private Double                          startLat;
@@ -76,6 +80,7 @@ public class Track
         FitMessage              message;
         int                     id;
         
+        fitFileName     =new File(trackFileName).getName();
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
         
@@ -195,8 +200,6 @@ public class Track
     {
         int                     i;
         int                     size;
-        DateTime                startTime;
-        DateTime                endTime;
         TrackSegment            segment;
         int                     id;
         
@@ -727,4 +730,23 @@ public class Track
         return mode;
     }
 
+    public String getFitFileName()
+    {
+        return fitFileName;
+    }
+
+    public DateTime getStartTime()
+    {
+        return startTime;
+    }
+
+    public DateTime getEndTime()
+    {
+        return endTime;
+    }
+
+    public String getStartDate()
+    {
+        return startTime.format("YYYYMMDD");
+    }
 }

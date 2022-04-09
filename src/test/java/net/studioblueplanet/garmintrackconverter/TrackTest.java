@@ -174,5 +174,51 @@ public class TrackTest
         System.out.println("getSport");
         assertEquals("cycling", instance.getSport());
     }
+
+    /**
+     * Test of getFilename method, of class Track.
+     */
+    @Test
+    public void testGetFitFileName()
+    {
+        System.out.println("getFitFileName");
+        assertEquals("2021-05-08-10-18-29.fit", instance.getFitFileName());
+    }
+    
+    /**
+     * Test of getStartTime method, of class Track.
+     */
+    @Test
+    public void testGetStartTime()
+    {
+        System.out.println("getStartTime");
+        // UTC
+        assertEquals("2021-05-08 08:18:29", instance.getStartTime().format("YYYY-MM-DD hh:mm:ss"));
+    }
+    
+    /**
+     * Test of getStartDate method, of class Track.
+     */
+    @Test
+    public void testGetStartDate()
+    {
+        System.out.println("getStartDate");
+        // UTC
+        assertEquals("20210508", instance.getStartDate());
+    }
+    
+    /**
+     * Test of getEndTime method, of class Track.
+     */
+    @Test
+    public void testGetEndTime()
+    {
+        System.out.println("getEndTime");
+        // UTC
+        assertEquals("2021-05-08 10:39:38", instance.getEndTime().format("YYYY-MM-DD hh:mm:ss"));
+    }
+    
+    
+    
     
 }

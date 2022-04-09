@@ -826,14 +826,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         String                      trackName;
         Track                       track;
         Locations                   locations;
+        String                      gpxFileName;
             
         if (jTrackList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
+            track=getTrack(jTrackList, tracksCache);
+            gpxFileName=track.getSport()+"_"+track.getStartDate()+"_descripion.gpx";
+            fileName=getGpxFileName(settings.getGpxFilePath(), gpxFileName, "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
-                track=getTrack(jTrackList, tracksCache);
                 writer.writeTrackToFile(fileName, track, "Track", appName);
                 this.textAreaOutput.append("File saved to "+fileName+"\n");
                 LOGGER.info("File saved to {}", fileName);
