@@ -123,7 +123,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         List<SettingsDevice>            devices;
         int                             minPrio;
         
-        
+        // TODO: revise the synchronized stuff throughout the application
         synchronized(this)
         {
             devices=settings.getDevices();
@@ -196,6 +196,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                 .filter(file -> file.getName().toLowerCase().endsWith(".gpx"))
                                 .sorted(c)
                                 .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
+                        jTrackList.setSelectedIndex(0);
+                        
                     });
 
                     synchronized(this)
@@ -220,6 +222,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     });
                     synchronized(this)
                     {
+                        map.hideTrack();
                         tracksShown=false;
                         attachedDevice=null;
                     }
