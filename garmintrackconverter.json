@@ -5,22 +5,22 @@
     [
       {
         "name": "fenix 7 Solar",
-        "trackFilePath": "./development/GARMIN2/Activity",
-        "routeFilePath": "./development/GARMIN2/Courses",
-        "newFilePath": "./development/GARMIN2/NewFiles",
-        "locationFilePath": "./development/GARMIN2/Location",
-        "waypointFile": "./development/GARMIN2/Location/Lctns.fit",
-        "deviceFile": "./development/GARMIN2/GarminDevice.xml",
+        "trackFilePath": "./development/device_fenix7/GARMIN/Activity",
+        "routeFilePath": "./development/device_fenix7/GARMIN/Courses",
+        "newFilePath": "./development/device_fenix7/GARMIN/NewFiles",
+        "locationFilePath": "./development/device_fenix7/GARMIN/Location",
+        "waypointFile": "./development/device_fenix7/GARMIN/Location/Lctns.fit",
+        "deviceFile": "./development/device_fenix7/GARMIN/GarminDevice.xml",
         "devicePriority": 3
       },
       {
         "name": "Edge 830",
-        "trackFilePath": "./development/Garmin/Activities",
-        "routeFilePath": "./development/Garmin/Courses",
-        "newFilePath": "./development/Garmin/NewFiles",
-        "locationFilePath": "./development/Garmin/Locations",
-        "waypointFile": "./development/Garmin/Location/Locations.fit",
-        "deviceFile": "./development/Garmin/GarminDevice.xml",
+        "trackFilePath": "./development/device_edge830/Garmin/Activities",
+        "routeFilePath": "./development/device_edge830/Garmin/Courses",
+        "newFilePath": "./development/device_edge830/Garmin/NewFiles",
+        "locationFilePath": "./development/device_edge830/Garmin/Locations",
+        "waypointFile": "./development/device_edge830/Garmin/Location/Locations.fit",
+        "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
         "devicePriority": 2
       }
     ]

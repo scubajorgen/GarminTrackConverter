@@ -30,31 +30,31 @@ in the configuration.
 
 ```
 {
-  "debugLevel":"info",
-  "gpxFilePath": "d:/gps/gpx",
-  "devices":
-  [
-    {
-      "name": "fenix 7 Solar",
-      "trackFilePath": "z:/GARMIN/Activity",
-      "routeFilePath": "z:/GARMIN/Courses",
-      "newFilePath": "z:/GARMIN/NewFiles",
-      "locationFilePath": "z:/GARMIN/Location",
-      "waypointFile": "z:/GARMIN/Location/Lctns.fit",
-      "deviceFile": "z:/GARMIN/GarminDevice.xml",
-      "devicePriority": 1
-    },
-    {
-      "name": "Edge 830",
-      "trackFilePath": "f:/Garmin/Activities",
-      "routeFilePath": "f:/Garmin/Courses",
-      "newFilePath": "f:/Garmin/NewFiles",
-      "locationFilePath": "f:/Garmin/Locations",
-      "waypointFile": "f:/Garmin/Location/Locations.fit",
-      "deviceFile": "f:/Garmin/GarminDevice.xml",
-      "devicePriority": 2
-    }
-  ]
+    "debugLevel":"info",
+    "gpxFilePath": "./development/gpx",
+    "devices":
+    [
+      {
+        "name": "fenix 7 Solar",
+        "trackFilePath": "./development/device_fenix7/GARMIN/Activity",
+        "routeFilePath": "./development/device_fenix7/GARMIN/Courses",
+        "newFilePath": "./development/device_fenix7/GARMIN/NewFiles",
+        "locationFilePath": "./development/device_fenix7/GARMIN/Location",
+        "waypointFile": "./development/device_fenix7/GARMIN/Location/Lctns.fit",
+        "deviceFile": "./development/device_fenix7/GARMIN/GarminDevice.xml",
+        "devicePriority": 3
+      },
+      {
+        "name": "Edge 830",
+        "trackFilePath": "./development/device_edge830/Garmin/Activities",
+        "routeFilePath": "./development/device_edge830/Garmin/Courses",
+        "newFilePath": "./development/device_edge830/Garmin/NewFiles",
+        "locationFilePath": "./development/device_edge830/Garmin/Locations",
+        "waypointFile": "./development/device_edge830/Garmin/Location/Locations.fit",
+        "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
+        "devicePriority": 2
+      }
+    ]
 }
 
 ```
@@ -63,6 +63,8 @@ It requires from the device:
 * The directory containing the tracks (activities, \Garmin\activities)
 * The file containing the device info (Garmin\GarminDevice.xml)
 * The waypoint file (\Garmin\Locations\Locations.fit)
+
+In the directory /development example file structures are available for the Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7). The files and directories are (partly) copied from real devices.
 
 ## Executing
 Go to /target directory. Run 'java -jar GarminTrackConverter<x.y>.jar, where x.y is the version. There is also a jar file containing all depenedencies.
