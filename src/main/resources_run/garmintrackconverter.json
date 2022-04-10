@@ -19,7 +19,7 @@
       "routeFilePath": "f:/Garmin/Courses",
       "newFilePath": "f:/Garmin/NewFiles",
       "locationFilePath": "f:/Garmin/Locations",
-      "waypointFile": "f:/Garmin/Location/Locations.fit",
+      "waypointFile": "f:/Garmin/Locations/Locations.fit",
       "deviceFile": "f:/Garmin/GarminDevice.xml",
       "devicePriority": 2
     }

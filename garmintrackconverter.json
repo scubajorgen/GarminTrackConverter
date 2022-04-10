@@ -19,7 +19,7 @@
         "routeFilePath": "./development/device_edge830/Garmin/Courses",
         "newFilePath": "./development/device_edge830/Garmin/NewFiles",
         "locationFilePath": "./development/device_edge830/Garmin/Locations",
-        "waypointFile": "./development/device_edge830/Garmin/Location/Locations.fit",
+        "waypointFile": "./development/device_edge830/Garmin/Locations/Locations.fit",
         "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
         "devicePriority": 2
       }
