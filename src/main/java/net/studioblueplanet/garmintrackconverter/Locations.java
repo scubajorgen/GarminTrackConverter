@@ -93,4 +93,12 @@ public class Locations
     {
         return this.locations;
     }
+    
+    public void dumpWaypoints()
+    {
+        for (Location loc: locations)
+        {
+            LOGGER.info("Waypoint: {} - {} ({}, {})", loc.getDateTime().format("YYYY-MM-DD hh:mm:ss"), loc.getName(), loc.getLatitude(), loc.getLongitude());
+        }
+    }
 }

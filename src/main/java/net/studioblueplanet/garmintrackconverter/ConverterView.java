@@ -160,9 +160,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.info("Attached device {}", attachedDevice.getName());
                     this.textAreaOutput.append("Initializing...\n");
-                    readWaypoints();
-
                     readDevice();
+
+                    readWaypoints();
                     jTextFieldDevice.setText(device.getDeviceDescription());
 
                     SwingUtilities.invokeLater(() ->
@@ -740,6 +740,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         if (new File(waypointsFile).exists())
         {
             waypoints=new Locations(waypointsFile);
+            waypoints.dumpWaypoints();
             textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
         }
         else
