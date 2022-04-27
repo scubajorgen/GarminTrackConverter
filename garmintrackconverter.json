@@ -5,13 +5,14 @@
     [
       {
         "name": "fenix 7 Solar",
-        "trackFilePath": "./development/device_fenix7/GARMIN/Activity",
-        "routeFilePath": "./development/device_fenix7/GARMIN/Courses",
-        "newFilePath": "./development/device_fenix7/GARMIN/NewFiles",
-        "locationFilePath": "./development/device_fenix7/GARMIN/Location",
-        "waypointFile": "./development/device_fenix7/GARMIN/Location/Lctns.fit",
-        "deviceFile": "./development/device_fenix7/GARMIN/GarminDevice.xml",
-        "devicePriority": 3
+        "trackFilePath": "./development/device_fenix7_sync/GARMIN/Activity",
+        "routeFilePath": "./development/device_fenix7_sync/GARMIN/Courses",
+        "newFilePath": "./development/device_fenix7_sync/GARMIN/NewFiles",
+        "locationFilePath": "./development/device_fenix7_sync/GARMIN/Location",
+        "waypointFile": "./development/device_fenix7_sync/GARMIN/Location/Lctns.fit",
+        "deviceFile": "./development/device_fenix7_sync/GARMIN/GarminDevice.xml",
+        "syncCommand" : "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenixDev.ffs_batch",
+        "devicePriority": 1
       },
       {
         "name": "Edge 830",
@@ -21,6 +22,7 @@
         "locationFilePath": "./development/device_edge830/Garmin/Locations",
         "waypointFile": "./development/device_edge830/Garmin/Locations/Locations.fit",
         "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
+        "syncCommand": "",
         "devicePriority": 2
       }
     ]

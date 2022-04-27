@@ -30,31 +30,33 @@ in the configuration.
 
 ```
 {
-    "debugLevel":"info",
-    "gpxFilePath": "./development/gpx",
-    "devices":
-    [
-      {
-        "name": "fenix 7 Solar",
-        "trackFilePath": "./development/device_fenix7/GARMIN/Activity",
-        "routeFilePath": "./development/device_fenix7/GARMIN/Courses",
-        "newFilePath": "./development/device_fenix7/GARMIN/NewFiles",
-        "locationFilePath": "./development/device_fenix7/GARMIN/Location",
-        "waypointFile": "./development/device_fenix7/GARMIN/Location/Lctns.fit",
-        "deviceFile": "./development/device_fenix7/GARMIN/GarminDevice.xml",
-        "devicePriority": 3
-      },
-      {
-        "name": "Edge 830",
-        "trackFilePath": "./development/device_edge830/Garmin/Activities",
-        "routeFilePath": "./development/device_edge830/Garmin/Courses",
-        "newFilePath": "./development/device_edge830/Garmin/NewFiles",
-        "locationFilePath": "./development/device_edge830/Garmin/Locations",
-        "waypointFile": "./development/device_edge830/Garmin/Location/Locations.fit",
-        "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
-        "devicePriority": 2
-      }
-    ]
+  "debugLevel":"info",
+  "gpxFilePath": "d:/gps/gpx",
+  "devices":
+  [
+    {
+      "name": "fenix 7 Solar",
+      "trackFilePath": "d:/gps/fenix/GARMIN/Activity",
+      "routeFilePath": "d:/gps/fenix/GARMIN/Courses",
+      "newFilePath": "d:/gps/fenix/GARMIN/NewFiles",
+      "locationFilePath": "d:/gps/fenix/GARMIN/Location",
+      "waypointFile": "d:/gps/fenix/GARMIN/Location/Lctns.fit",
+      "deviceFile": "d:/gps/fenix/GARMIN/GarminDevice.xml",
+      "syncCommand": "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenix.ffs_batch",
+      "devicePriority": 2
+    },
+    {
+      "name": "Edge 830",
+      "trackFilePath": "f:/Garmin/Activities",
+      "routeFilePath": "f:/Garmin/Courses",
+      "newFilePath": "f:/Garmin/NewFiles",
+      "locationFilePath": "f:/Garmin/Locations",
+      "waypointFile": "f:/Garmin/Locations/Locations.fit",
+      "deviceFile": "f:/Garmin/GarminDevice.xml",
+      "syncCommand": "",
+      "devicePriority": 1
+    }
+  ]
 }
 
 ```
@@ -100,7 +102,11 @@ The software uses
 - ...
 
 ## Remark on the Fenix 7
-Unfortunatelly, the Fenix 7 cannot be attached to USB as mass storage device. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and not accessible from Java programs. Therefore I use [Mtpdrive](https://www.mtpdrive.com/). Mtpdrive is a commercial tool by which it is possible to assign a drive letter to an MTP device. When assigned, the file structure is accessible by GarminTrackConverter.
+Unfortunatelly, the Fenix 7 cannot be attached to USB as mass storage device. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and **not** accessible from Java programs. 
+
+I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
+
+I came up with a solution using an external file synchronization program [FreeFileSync](https://freefilesync.org/) that syncs the device to a local directory structure on your HDD. You can define a commandline file sync command with each device in the settings file. If it is defined (i.e. not equal to ""), a sync button becomes visible which you can use to sync to and from the device. Enclosed in the source code is a FreeFileSync batch file that can be executed to sync. Adapt it for your own usage.
 
 ## Information
 * [Blog](http://blog.studioblueplanet.net/?page_id=468)
