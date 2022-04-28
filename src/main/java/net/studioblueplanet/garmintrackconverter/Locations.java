@@ -8,9 +8,13 @@ package net.studioblueplanet.garmintrackconverter;
 
 
 import hirondelle.date4j.DateTime;
+import java.time.Month;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.TimeZone;
 
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessageRepository;
@@ -54,8 +58,8 @@ public class Locations
             i=0;
             while (i<size)
             {
-                dateTime    =record.getTimeValue(i, "timestamp");
                 name        =record.getStringValue(i, "name");
+                dateTime    =extractDateTime(record, i, name);
                 description =record.getStringValue(i, "description");
                 lat         =record.getLatLonValue(i, "position_lat");
                 lon         =record.getLatLonValue(i, "position_long");
@@ -78,6 +82,60 @@ public class Locations
                 i++;
             }        
         }        
+    }
+    
+    /**
+     * Extracts the datetime. In the Fenix the date time is not filled in in the
+     * timestamp field. However, it is by default used as name, e.g. "Apr 09 9:23".
+     * If the timestamp is not found, a try is made to extract it from the name
+     * as second best.
+     * @param record The FitMessage to use
+     * @param index Index of the data record
+     * @param name Name of the Location
+     * @return 
+     */
+    private DateTime extractDateTime(FitMessage record, int index, String name)
+    {
+        DateTime    dateTime;
+        Pattern     pattern;
+        Matcher     matcher;
+        long        dateTimeLong;
+
+        dateTimeLong=record.getIntValue(index, "timestamp");
+        LOGGER.info("Timestamp "+dateTimeLong+" "+name);
+        if (dateTimeLong==0xFFFFFFFFL)
+        {
+            pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):(\\d{2})$");
+            matcher=pattern.matcher(name);
+            if (matcher.find())
+            {
+                // TO DO: construct datetime
+                /*
+                int day     =Integer.parseInt(matcher.group(2));
+                int month   =Month.valueOf(matcher.group(1).toUpperCase()).getValue();
+                int hour    =Integer.parseInt(matcher.group(3));
+                int minute  =Integer.parseInt(matcher.group(4));
+                DateTime now=DateTime.now(TimeZone.getDefault());
+                
+                // Best guess for the year
+                int year    =now.getYear();
+                if (now.getMonth()<month)
+                {
+                    year++;
+                }
+                dateTime=new DateTime(year, month, day, hour, minute, 0, 0);
+                LOGGER.info("Datetime {}", dateTime.format("YYYY-MM-DD hh:mm:s"));
+                */
+            }
+            
+            // TO DO Remove
+            dateTime    =record.getTimeValue(index, "timestamp");
+        }
+        else
+        {
+            dateTime    =record.getTimeValue(index, "timestamp");
+        }        
+        return dateTime;
     }
     
     /**

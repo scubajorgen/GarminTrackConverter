@@ -11,7 +11,7 @@
         "locationFilePath": "./development/device_fenix7/GARMIN/Location",
         "waypointFile": "./development/device_fenix7/GARMIN/Location/Lctns.fit",
         "deviceFile": "./development/device_fenix7/GARMIN/GarminDevice.xml",
-        "devicePriority": 3
+        "devicePriority": 1
       },
       {
         "name": "Edge 830",
