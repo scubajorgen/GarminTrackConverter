@@ -6,8 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-
-import hirondelle.date4j.DateTime;
+import java.time.ZonedDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class TrackPoint
 {
     private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
-    private final DateTime        dateTime;
+    private final ZonedDateTime   dateTime;
     private final Double          latitude;     // degree
     private final Double          longitude;    // degree
     private final Double          elevation;    // m
@@ -58,7 +57,7 @@ public class TrackPoint
      * @param heartrate Heart rate in bpm
      * @param gpsAccuracy Accuracy of gps in m
      */
-    public TrackPoint(DateTime dateTime, Double lat, Double lon, Double ele, Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
+    public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
     {
         this.dateTime       =dateTime;
         this.latitude       =lat;
@@ -71,7 +70,7 @@ public class TrackPoint
         this.gpsAccuracy    =gpsAccuracy;
     }
 
-    public DateTime getDateTime()
+    public ZonedDateTime getDateTime()
     {
         return dateTime;
     }

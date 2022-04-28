@@ -5,7 +5,9 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,7 +42,8 @@ public class TrackPointTest
     public void setUp()
     {
         instanceSimple  =new TrackPoint(12.34, 34.12);
-        instance        =new TrackPoint(new DateTime("2022-03-03 09:58:00"), 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        ZonedDateTime dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
+        instance        =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
     }
     
     @After
@@ -56,7 +59,7 @@ public class TrackPointTest
     {
         System.out.println("getDateTime");
         assertNull(instanceSimple.getDateTime());
-        assertEquals("2022-03-03 09:58:00", instance.getDateTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2022-03-03 13:58:00", instance.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
     /**

@@ -5,6 +5,7 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -66,7 +67,7 @@ public class LocationsTest
         List<Location> result = instance.getWaypoints();
         assertEquals(18, result.size());
         Location waypoint=result.get(0);
-        assertEquals("2022-02-12 09:17:14", waypoint.getDateTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2022-02-12 09:17:14", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         assertEquals("Location 002", waypoint.getName());
         assertEquals(94, waypoint.getSymbol());
         assertEquals("", waypoint.getDescription());

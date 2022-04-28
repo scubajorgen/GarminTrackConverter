@@ -5,8 +5,10 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
 import java.io.File;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -295,7 +297,7 @@ public class GpxWriter
         Element                     pointElement;
         Element                     element;
         Attr                        attr;
-        DateTime                    dateTime;
+        ZonedDateTime               dateTime;
         String                      dateTimeString;
 
         for (TrackPoint point : track.getTrackPoints(segmentNo))
@@ -306,8 +308,8 @@ public class GpxWriter
             addChildElement(pointElement, "ele", point.getElevation(), 1);
 
             dateTime=point.getDateTime();
-            dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
-                           dateTime.format("hh:mm:ss")+"Z";
+            dateTimeString=dateTime.withZoneSameInstant(ZoneId.of("UTC"))
+                                   .format( DateTimeFormatter.ISO_OFFSET_DATE_TIME );
             addChildElement(pointElement, "time", dateTimeString);
            
 
@@ -346,7 +348,7 @@ public class GpxWriter
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
-        DateTime                    dateTime;
+        ZonedDateTime               dateTime;
         String                      dateTimeString;
 
 
@@ -358,8 +360,8 @@ public class GpxWriter
             addChildElement(pointElement, "ele", point.getElevation(), 1);
 
             dateTime=point.getDateTime();
-            dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
-                           dateTime.format("hh:mm:ss")+"Z";
+            dateTimeString=dateTime.withZoneSameInstant(ZoneId.of("UTC"))
+                                   .format( DateTimeFormatter.ISO_OFFSET_DATE_TIME );
             addChildElement(pointElement, "time", dateTimeString);
 
             extensionsElement    = doc.createElement("extensions");
@@ -404,7 +406,7 @@ public class GpxWriter
     {
         Element                     pointElement;
         Element                     element;
-        DateTime                    dateTime;
+        ZonedDateTime               dateTime;
         String                      dateTimeString;
 
         for(Location point : waypoints)
@@ -416,8 +418,8 @@ public class GpxWriter
             dateTime=point.getDateTime();
             if (dateTime!=null)
             {
-                dateTimeString=dateTime.format("YYYY-MM-DD")+"T"+
-                               dateTime.format("hh:mm:ss")+"Z";
+                dateTimeString=dateTime.withZoneSameInstant(ZoneId.of("UTC"))
+                                       .format( DateTimeFormatter.ISO_OFFSET_DATE_TIME );
                 addChildElement(pointElement, "time", dateTimeString);
             }
 

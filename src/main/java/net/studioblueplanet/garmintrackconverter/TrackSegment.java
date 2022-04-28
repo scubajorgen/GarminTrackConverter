@@ -6,8 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
-
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -21,15 +20,15 @@ public class TrackSegment
 {
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
     private final List<TrackPoint>  trackPoints;
-    private final DateTime          startTime;
-    private final DateTime          endTime;
+    private final ZonedDateTime     startTime;
+    private final ZonedDateTime     endTime;
 
     /**
      * Constructor. Sets the parameters that defines the lap
      * @param startTime Start time of the lap
      * @param endTime End time of the lap
      */
-    public TrackSegment(DateTime startTime, DateTime endTime)
+    public TrackSegment(ZonedDateTime startTime, ZonedDateTime endTime)
     {
         this.startTime  =startTime;
         this.endTime    =endTime;
@@ -51,18 +50,14 @@ public class TrackSegment
      * @param time Timestamp to check
      * @return True if the timestamp is within the lap, false if not.
      */
-    public boolean isInLap(DateTime time)
+    public boolean isInLap(ZonedDateTime time)
     {
         boolean inLap;
         
         inLap=false;
-        
-        if (time==null)
-        {
-            LOGGER.error("Null time");
-        }
-        
-        if (time!=null && time.gteq(startTime) && time.lteq(endTime))
+
+        if (time!=null && (time.isEqual(startTime)||time.isAfter(startTime)) 
+                       && (time.isEqual(endTime)  ||time.isBefore(endTime)))
         {
             inLap=true;
         }
@@ -116,12 +111,12 @@ public class TrackSegment
         return this.trackPoints.size();
     }
     
-    public DateTime getStartTime()
+    public ZonedDateTime getStartTime()
     {
         return startTime;
     }
 
-    public DateTime getEndTime()
+    public ZonedDateTime getEndTime()
     {
         return endTime;
     }

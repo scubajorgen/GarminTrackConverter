@@ -5,9 +5,10 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import hirondelle.date4j.DateTime;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class TrackTest
     public void setUp()
     {
         List<Location> locations=new ArrayList<>();
-        Location location=new Location("test", "", new DateTime("2021-05-08 08:20:00"), 5.0, 5.0, 0.0, 0);
+        Location location=new Location("test", "", ZonedDateTime.parse("2021-05-08T08:20:00Z"), 5.0, 5.0, 0.0, 0);
         locations.add(location);
 
         instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", "TestDevice");
@@ -63,9 +64,9 @@ public class TrackTest
         System.out.println("addTrackWaypoints");
         
         List<Location> waypoints=new ArrayList<>();
-        Location location1=new Location("test", "", new DateTime("2020-05-08 08:18:30"), 0.0, 0.0, 0.0, 0);
-        Location location2=new Location("test", "", new DateTime("2021-05-08 08:18:30"), 0.0, 0.0, 0.0, 0);
-        Location location3=new Location("test", "", new DateTime("2022-05-08 08:18:30"), 0.0, 0.0, 0.0, 0);
+        Location location1=new Location("test", "", ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location2=new Location("test", "", ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location3=new Location("test", "", ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
         waypoints.add(location1);
         waypoints.add(location2);
         waypoints.add(location3);
@@ -193,7 +194,7 @@ public class TrackTest
     {
         System.out.println("getStartTime");
         // UTC
-        assertEquals("2021-05-08 08:18:29", instance.getStartTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2021-05-08 08:18:29", instance.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
     
     /**
@@ -215,10 +216,6 @@ public class TrackTest
     {
         System.out.println("getEndTime");
         // UTC
-        assertEquals("2021-05-08 10:39:38", instance.getEndTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2021-05-08 10:39:38", instance.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
-    
-    
-    
-    
 }

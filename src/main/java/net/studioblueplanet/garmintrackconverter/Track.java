@@ -11,7 +11,8 @@ import net.studioblueplanet.fitreader.FitMessage;
 import net.studioblueplanet.fitreader.FitMessageRepository;
 import net.studioblueplanet.fitreader.FitGlobalProfile;
 import java.io.File;
-import hirondelle.date4j.DateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,8 +44,8 @@ public class Track
     private String                          fileType;
     private String                          softwareVersion;
 
-    private DateTime                        startTime;
-    private DateTime                        endTime;
+    private ZonedDateTime                   startTime;
+    private ZonedDateTime                   endTime;
     private Long                            elapsedTime;    // s
     private Long                            timedTime;      // s
     private Double                          startLat;
@@ -156,8 +157,8 @@ public class Track
     {
         int i;
         int size;
-        DateTime                startTime;
-        DateTime                endTime;
+        ZonedDateTime           startTime;
+        ZonedDateTime           endTime;
         TrackSegment            segment;
         
         for (FitMessage message:lapMessages)
@@ -251,7 +252,7 @@ public class Track
                 if (startTime!=null && endTime!=null)
                 {
                     LOGGER.info("SESSION        : {}", message.getIntValue(i, "message_index"));
-                    LOGGER.info("Time           : {}-{}", startTime.format("YYYY-MM-DD hh:mm:ss"), endTime.format("YYYY-MM-DD hh:mm:ss"));
+                    LOGGER.info("Time           : {}-{}", startTime.toString(), endTime.toString());
                     LOGGER.info("Duration       : {}/{} sec", elapsedTime, timedTime);
                     LOGGER.info("Distance       : {} km", distance);
                     LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed, maxSpeed);
@@ -283,8 +284,8 @@ public class Track
     {
         int i;
         int size;
-        DateTime                startTime;
-        DateTime                endTime;
+        ZonedDateTime           startTime;
+        ZonedDateTime           endTime;
         TrackSegment            segment;
         boolean                 started;
         int                     event;
@@ -311,7 +312,7 @@ public class Track
                             endTime=message.getTimeValue(i, "timestamp");
                             segment     =new TrackSegment(startTime, endTime);
                             segments.add(segment);
-                            LOGGER.info("Segment found: {} - {}", startTime.format("YYYY-MM-DD hh:mm:ss"), endTime.format("YYYY-MM-DD hh:mm:ss"));
+                            LOGGER.info("Segment found: {} - {}", startTime.toString(), endTime.toString());
                         }
                     }
                     else
@@ -337,7 +338,7 @@ public class Track
         Double                  lat;
         Double                  lon;
         Double                  ele;
-        DateTime                dateTime;
+        ZonedDateTime           dateTime;
 
         Double                  speed;
         Double                  distance;
@@ -440,7 +441,7 @@ public class Track
                     }
                     if (!found)
                     {
-                        LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.format("YYYY-MM-DD hh:mm:ss"));
+                        LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.toString());
                     }
                 }
                 else
@@ -466,7 +467,7 @@ public class Track
      */
     public void addTrackWaypoints(List<Location> allWaypoints)
     {
-        DateTime                dateTime;
+        ZonedDateTime           dateTime;
         Iterator<Location>      waypointIterator;
         Iterator<TrackSegment>  segmentIterator;
         Location                waypoint;
@@ -735,18 +736,18 @@ public class Track
         return fitFileName;
     }
 
-    public DateTime getStartTime()
+    public ZonedDateTime getStartTime()
     {
         return startTime;
     }
 
-    public DateTime getEndTime()
+    public ZonedDateTime getEndTime()
     {
         return endTime;
     }
 
     public String getStartDate()
     {
-        return startTime.format("YYYYMMDD");
+        return startTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 }

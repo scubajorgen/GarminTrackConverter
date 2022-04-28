@@ -6,7 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
+import java.time.ZonedDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class Location
 {
     private final static Logger LOGGER = LogManager.getLogger(Location.class);
-    private final DateTime 	dateTime;
+    private final ZonedDateTime dateTime;
     private final double	latitude;
     private final double	longitude;
     private final double 	elevation;
@@ -25,7 +25,7 @@ public class Location
     private final String 	description;
     private final int    	symbol;    
     
-    public Location(String name, String description, DateTime dateTime, double lat, double lon, double ele, int symbol)
+    public Location(String name, String description, ZonedDateTime dateTime, double lat, double lon, double ele, int symbol)
     {
         this.latitude  		=lat;
         this.longitude         =lon;
@@ -47,7 +47,7 @@ public class Location
         return description;
     }
         
-    public DateTime getDateTime()
+    public ZonedDateTime getDateTime()
     {
         return dateTime;
     }

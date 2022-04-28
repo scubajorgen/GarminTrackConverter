@@ -7,14 +7,16 @@
 package net.studioblueplanet.garmintrackconverter;
 
 
-import hirondelle.date4j.DateTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.TimeZone;
 
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessageRepository;
@@ -40,7 +42,7 @@ public class Locations
         double                  lat;
         double                  lon;
         double                  ele;
-        DateTime                dateTime;
+        ZonedDateTime           dateTime;
         String                  dateTimeString;
         int                     symbol;
         String                  name;
@@ -94,42 +96,39 @@ public class Locations
      * @param name Name of the Location
      * @return 
      */
-    private DateTime extractDateTime(FitMessage record, int index, String name)
+    private ZonedDateTime extractDateTime(FitMessage record, int index, String name)
     {
-        DateTime    dateTime;
-        Pattern     pattern;
-        Matcher     matcher;
-        long        dateTimeLong;
+        ZonedDateTime   dateTime;
+        LocalDateTime   localDateTime;
+        LocalDateTime   now;
+        Pattern         pattern;
+        Matcher         matcher;
+        long            dateTimeLong;
 
         dateTimeLong=record.getIntValue(index, "timestamp");
-        LOGGER.info("Timestamp "+dateTimeLong+" "+name);
         if (dateTimeLong==0xFFFFFFFFL)
         {
             pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):(\\d{2})$");
             matcher=pattern.matcher(name);
             if (matcher.find())
             {
-                // TO DO: construct datetime
-                /*
-                int day     =Integer.parseInt(matcher.group(2));
-                int month   =Month.valueOf(matcher.group(1).toUpperCase()).getValue();
-                int hour    =Integer.parseInt(matcher.group(3));
-                int minute  =Integer.parseInt(matcher.group(4));
-                DateTime now=DateTime.now(TimeZone.getDefault());
+                // Create dateTime from the name assuming year is current year
+                // We also assume default time zone
+                now=LocalDateTime.now();
+                localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+name, DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
                 
-                // Best guess for the year
-                int year    =now.getYear();
-                if (now.getMonth()<month)
+                // If it appears that now is before the dateTime, the assumption was not correct; 
+                // best we can do is assume it was from previous year
+                if (now.isBefore(localDateTime))
                 {
-                    year++;
+                    localDateTime.minusYears(1);
                 }
-                dateTime=new DateTime(year, month, day, hour, minute, 0, 0);
-                LOGGER.info("Datetime {}", dateTime.format("YYYY-MM-DD hh:mm:s"));
-                */
+                dateTime=localDateTime.atZone( ZoneId.systemDefault());
             }
-            
-            // TO DO Remove
-            dateTime    =record.getTimeValue(index, "timestamp");
+            else
+            {
+                dateTime    =null;
+            }
         }
         else
         {
@@ -154,9 +153,20 @@ public class Locations
     
     public void dumpWaypoints()
     {
+        ZonedDateTime   dateTime;
+        String          dateTimeString;
         for (Location loc: locations)
         {
-            LOGGER.info("Waypoint: {} - {} ({}, {})", loc.getDateTime().format("YYYY-MM-DD hh:mm:ss"), loc.getName(), loc.getLatitude(), loc.getLongitude());
+            dateTime=loc.getDateTime();
+            if (dateTime!=null)
+            {
+                dateTimeString=loc.getDateTime().toString();
+            }
+            else
+            {
+                dateTimeString="----";
+            }
+            LOGGER.info("Waypoint: {} - {} ({}, {})", dateTimeString, loc.getName(), loc.getLatitude(), loc.getLongitude());
         }
     }
 }

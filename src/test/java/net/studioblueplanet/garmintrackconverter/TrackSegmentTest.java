@@ -5,7 +5,9 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,7 +43,12 @@ public class TrackSegmentTest
     @Before
     public void setUp()
     {
-        instance=new TrackSegment(new DateTime("2022-03-04 17:54:00"), new DateTime("2022-03-04 18:54:00"));
+        ZonedDateTime startDateTime;
+        ZonedDateTime endDateTime;
+        startDateTime   =ZonedDateTime.of(2022, 3, 4, 17, 54, 0, 0, ZoneId.of("UTC"));
+        endDateTime     =ZonedDateTime.of(2022, 3, 4, 18, 54, 0, 0, ZoneId.of("UTC"));
+        
+        instance=new TrackSegment(startDateTime, endDateTime);
         instanceSimple=new TrackSegment();
         TrackPoint point=new TrackPoint(5.0, 53.0);
         instance.addTrackPoint(point);
@@ -59,11 +66,11 @@ public class TrackSegmentTest
     public void testIsInLap()
     {
         System.out.println("isInLap");
-        assertEquals(false, instance.isInLap(new DateTime("2022-03-04 17:53:59")));
-        assertEquals(true , instance.isInLap(new DateTime("2022-03-04 17:54:00"))); // start time
-        assertEquals(true , instance.isInLap(new DateTime("2022-03-04 18:53:59")));
-        assertEquals(true, instance.isInLap(new DateTime("2022-03-04 18:54:00"))); // end time
-        assertEquals(false, instance.isInLap(new DateTime("2022-03-04 18:54:01")));
+        assertEquals(false, instance.isInLap(ZonedDateTime.parse("2022-03-04T17:53:59Z")));
+        assertEquals(true , instance.isInLap(ZonedDateTime.parse("2022-03-04T17:54:00Z"))); // start time
+        assertEquals(true , instance.isInLap(ZonedDateTime.parse("2022-03-04T18:53:59Z")));
+        assertEquals(true, instance.isInLap(ZonedDateTime.parse("2022-03-04T18:54:00Z"))); // end time
+        assertEquals(false, instance.isInLap(ZonedDateTime.parse("2022-03-04T18:54:01Z")));
     }
 
     /**
@@ -121,7 +128,7 @@ public class TrackSegmentTest
     public void testGetStartTime()
     {
         System.out.println("getStartTime");
-        assertEquals("2022-03-04 17:54:00", instance.getStartTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2022-03-04 17:54:00", instance.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         assertNull(instanceSimple.getStartTime());
     }
     
@@ -132,7 +139,7 @@ public class TrackSegmentTest
     public void testGetEndTime()
     {
         System.out.println("getEndTime");
-        assertEquals("2022-03-04 18:54:00", instance.getEndTime().format("YYYY-MM-DD hh:mm:ss"));
+        assertEquals("2022-03-04 18:54:00", instance.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         assertNull(instanceSimple.getEndTime());
     }
     

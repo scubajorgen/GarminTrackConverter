@@ -5,8 +5,9 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import hirondelle.date4j.DateTime;
 import java.io.File;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -231,7 +232,7 @@ public class GpxReader
         double          lat;
         double          lon;
         double          elevation=0.0;
-        DateTime        time=null;
+        ZonedDateTime   time=null;
         NodeList        nodes;
         Element         element;
         Element         waypoint;
@@ -263,7 +264,7 @@ public class GpxReader
             element=getChildElement(waypoint, "time");
             if (element!=null)
             {
-                time=new DateTime(element.getTextContent());
+                time=ZonedDateTime.parse(element.getTextContent(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             }
             lat=Double.parseDouble(waypoint.getAttribute("lat"));
             lon=Double.parseDouble(waypoint.getAttribute("lon"));
