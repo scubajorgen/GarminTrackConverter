@@ -27,34 +27,12 @@ public class GarminTrackConverter extends SingleFrameApplication
         ArrayList<Image>    iconList;
         ImageIcon           icon;  
         
- 
         view=new ConverterView();
         view.setVisible(true);
-/*        
-        // Set the icons...
-        ResourceMap resourceMap;
-        resourceMap=this.getMainView().getResourceMap();
-        System.out.println("Resource Dir "+resourceMap.getResourcesDir());
-        
-        iconList=new ArrayList();
-
-        icon=resourceMap.getImageIcon("Application.icon16");
-        iconList.add(icon.getImage());
-        icon=resourceMap.getImageIcon("Application.icon24");
-        iconList.add(icon.getImage());
-        icon=resourceMap.getImageIcon("Application.icon32");
-        iconList.add(icon.getImage());
-        icon=resourceMap.getImageIcon("Application.icon42");
-        iconList.add(icon.getImage());
-
-
-        view.setIconImages(iconList);         
-*/
-
         view.setIconImage(new ImageIcon(getClass().getResource("/net/studioblueplanet/garmintrackconverter/resources/icon48.png")).getImage());
     }
     
-    
+ 
     /**
      * This method is to initialize the specified window by injecting resources.
      * Windows shown in our application come fully initialized from the GUI
