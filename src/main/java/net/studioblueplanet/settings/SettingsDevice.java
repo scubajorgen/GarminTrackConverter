@@ -5,6 +5,8 @@
  */
 package net.studioblueplanet.settings;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author jorgen
@@ -35,6 +37,10 @@ public class SettingsDevice
     // When multiple devices are connected the device with the lowest number is selected
     private int devicePriority;
 
+    // External command to sync MTP device like Fenix 7 to a local directory structure
+    private String               syncCommand;
+
+    
     public String getName()
     {
         return name;
@@ -115,5 +121,13 @@ public class SettingsDevice
         this.devicePriority = devicePriority;
     }
 
+    public String getSyncCommand()
+    {
+        return syncCommand;
+    }
 
+    public void setSyncCommand(String syncCommand)
+    {
+        this.syncCommand = syncCommand;
+    }
 }

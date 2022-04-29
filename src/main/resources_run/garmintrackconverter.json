@@ -5,13 +5,14 @@
   [
     {
       "name": "fenix 7 Solar",
-      "trackFilePath": "z:/GARMIN/Activity",
-      "routeFilePath": "z:/GARMIN/Courses",
-      "newFilePath": "z:/GARMIN/NewFiles",
-      "locationFilePath": "z:/GARMIN/Location",
-      "waypointFile": "z:/GARMIN/Location/Lctns.fit",
-      "deviceFile": "z:/GARMIN/GarminDevice.xml",
-      "devicePriority": 1
+      "trackFilePath": "d:/gps/fenix/GARMIN/Activity",
+      "routeFilePath": "d:/gps/fenix/GARMIN/Courses",
+      "newFilePath": "d:/gps/fenix/GARMIN/NewFiles",
+      "locationFilePath": "d:/gps/fenix/GARMIN/Location",
+      "waypointFile": "d:/gps/fenix/GARMIN/Location/Lctns.fit",
+      "deviceFile": "d:/gps/fenix/GARMIN/GarminDevice.xml",
+      "syncCommand": "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenix.ffs_batch",
+      "devicePriority": 2
     },
     {
       "name": "Edge 830",
@@ -21,7 +22,8 @@
       "locationFilePath": "f:/Garmin/Locations",
       "waypointFile": "f:/Garmin/Locations/Locations.fit",
       "deviceFile": "f:/Garmin/GarminDevice.xml",
-      "devicePriority": 2
+      "syncCommand": "",
+      "devicePriority": 1
     }
   ]
 }

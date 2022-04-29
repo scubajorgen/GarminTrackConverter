@@ -12,11 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Comparator;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -38,9 +36,8 @@ import org.jdesktop.application.ResourceMap;
 public class ConverterView extends javax.swing.JFrame implements Runnable
 {
     private final static Logger         LOGGER = LogManager.getLogger(ConverterView.class);
-    private ApplicationSettings         settings;
+    private final ApplicationSettings   settings;
     private SettingsDevice              attachedDevice;
-    private boolean                     tracksShown;
     private Locations                   waypoints;
     private Device                      device;
     private final String                appName;
@@ -56,12 +53,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     
     private final MapOsm                map;
 
-    final DefaultListModel<String>      trackModel;
-    final DefaultListModel<String>      routeModel;
-    final DefaultListModel<String>      newFileModel;
-    final DefaultListModel<String>      locationModel;
+    private DirectoryList                   trackDirectoryList;
+    private DirectoryList                   routeDirectoryList;
+    private DirectoryList                   newFileDirectoryList;
+    private DirectoryList                   locationDirectoryList;
     
-    private ConverterAbout              aboutBox;
+    private final DefaultListModel<String>  trackModel;
+    private final DefaultListModel<String>  routeModel;
+    private final DefaultListModel<String>  newFileModel;
+    private final DefaultListModel<String>  locationModel;
+    
+    private ConverterAbout                  aboutBox;
 
     /**
      * Creates new form ConverterView
@@ -75,7 +77,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         settings=ApplicationSettings.getInstance();
         setResizable(false);
         initComponents();
-      
+        jButtonSync.setVisible(false);
+        
         // Initialize the listbox
         trackModel      =new DefaultListModel<>();
         routeModel      =new DefaultListModel<>();
@@ -104,10 +107,119 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         build=GitBuildInfo.getInstance();
         appName="GarminTrackConverter "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";        
         
-        tracksShown     =false;
         threadExit      =false;
         thread          =new Thread(this);
         thread.start();
+    }
+    
+    /**
+     * Execute an external command to sync a MTP (Media Transfer Protocol)
+     * to synchronize between the device and a local directory
+     * For example execute a FreeFileSync batch job.
+     */
+    public void executeSyncCommand()
+    {
+        String command;
+        
+        command=attachedDevice.getSyncCommand();
+        
+        LOGGER.info("Executing sync command {}", command);
+        try
+        {
+            Runtime.getRuntime().exec(command);
+        }
+        catch(IOException e)
+        {
+            LOGGER.error("Sync error: ", e.getMessage());
+        }           
+    }
+    
+    /**
+     * Initialize the User Interface when a new device is found
+     */
+    private void initializeUiForDevice()
+    {
+        LOGGER.info("Attached device {}", attachedDevice.getName());
+        this.textAreaOutput.append("Initializing...\n");
+        readDevice();
+
+        readWaypoints();
+        jTextFieldDevice.setText(device.getDeviceDescription());
+
+        SwingUtilities.invokeLater(() ->
+        {                      
+            if (attachedDevice.getSyncCommand()!=null && !attachedDevice.getSyncCommand().equals(""))
+            {
+                jButtonSync.setVisible(true);
+            }
+            else
+            {
+                jButtonSync.setVisible(false);
+            }
+                
+            trackModel.clear();
+            trackDirectoryList.addFilesToListModel(trackModel, "fit");
+            
+            locationModel.clear();
+            locationDirectoryList.addFilesToListModel(locationModel, "fit");
+            
+            routeModel.clear();
+            routeDirectoryList.addFilesToListModel(routeModel, "fit");
+
+            newFileModel.clear();
+            newFileDirectoryList.addFilesToListModel(newFileModel, "gpx");
+
+            jTrackList.setSelectedIndex(0);
+        });
+    }
+
+    /**
+     * Clean up the UI when a device is removed
+     */
+    private void clearUi()
+    {
+        SwingUtilities.invokeLater(() ->
+        {                        
+            jButtonSync.setVisible(false);
+            trackModel.clear();
+            routeModel.clear();
+            newFileModel.clear();
+            locationModel.clear();
+            jTextFieldDevice.setText("");
+        });
+        synchronized(this)
+        {
+            map.hideTrack();
+            attachedDevice=null;
+        }        
+    }
+    
+    /**
+     * Check if directory content is updated. If so, update the lists on the
+     * User Interface
+     */
+    private void checkForDirectoryUpdates()
+    {
+        if (trackDirectoryList.updateDirectoryList())
+        {
+            trackModel.clear();
+            trackDirectoryList.addFilesToListModel(trackModel, "fit");                    
+        }
+        if (locationDirectoryList.updateDirectoryList())
+        {
+            locationModel.clear();
+            locationDirectoryList.addFilesToListModel(locationModel, "fit");                    
+        }
+        if (routeDirectoryList.updateDirectoryList())
+        {
+            routeModel.clear();
+            routeDirectoryList.addFilesToListModel(routeModel, "fit");                    
+        }
+        if (newFileDirectoryList.updateDirectoryList())
+        {
+            newFileModel.clear();
+            newFileDirectoryList.addFilesToListModel(newFileModel, "gpx");                    
+        }
     }
     
     /**
@@ -120,6 +232,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         boolean                         localThreadExit;
         File                            deviceFile;
         boolean                         tracksShownLocal;
+        int                             deviceIndexShownLocal;
+        SettingsDevice                  deviceFound;
         List<SettingsDevice>            devices;
         int                             minPrio;
         
@@ -128,105 +242,54 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             devices=settings.getDevices();
         }        
-        
+
         LOGGER.info("Thread started");
         do
         {
             synchronized(this)
             {
-                localThreadExit     =threadExit;
-                tracksShownLocal     =tracksShown;
-            }
+                localThreadExit         =threadExit;
+             }
             
-            if (!tracksShownLocal)
+            // Find an attached device; with multiple devices attached
+            // the device with lowest prio value wins
+            minPrio     =Integer.MAX_VALUE;
+            deviceFound =null;
+            for (SettingsDevice settingsDevice : devices)
             {
-                // Find an attached device; with multiple devices attached
-                // the device with lowest prio value wins
-                minPrio=Integer.MAX_VALUE;
-                for (SettingsDevice settingsDevice : devices)
+                deviceFile=new File(settingsDevice.getDeviceFile());
+                if (deviceFile.exists())
                 {
-                    deviceFile=new File(settingsDevice.getDeviceFile());
-                    if (deviceFile.exists())
+                    if (settingsDevice.getDevicePriority()<minPrio)
                     {
-                        LOGGER.info("Found device {}", settingsDevice.getName());
-                        if (settingsDevice.getDevicePriority()<minPrio)
-                        {
-                            attachedDevice  =settingsDevice;
-                            minPrio=attachedDevice.getDevicePriority();
-                        }
+                        deviceFound=settingsDevice;
+                        minPrio=deviceFound.getDevicePriority();
                     }
                 }
-                if (attachedDevice!=null)
+            }          
+            
+            if (deviceFound!=attachedDevice)
+            {
+                attachedDevice=deviceFound;
+                LOGGER.info("Found device {}", attachedDevice.getName());
+                // We found a new device or device was removed
+                if (deviceFound!=null)
                 {
-                    LOGGER.info("Attached device {}", attachedDevice.getName());
-                    this.textAreaOutput.append("Initializing...\n");
-                    readDevice();
-
-                    readWaypoints();
-                    jTextFieldDevice.setText(device.getDeviceDescription());
-
-                    SwingUtilities.invokeLater(() ->
-                    {                         
-                        File trackFile       =new File(attachedDevice.getTrackFilePath());
-                        File routeFile       =new File(attachedDevice.getRouteFilePath());
-                        File newFile         =new File(attachedDevice.getNewFilePath());
-                        File locationFile    =new File(attachedDevice.getLocationFilePath());
-                        trackModel.clear();
-                        Comparator<File> c = Comparator.comparing((File x) -> x.getName());
-                        Stream.of(trackFile.listFiles())
-                                .filter(file -> !file.isDirectory())
-                                .sorted(c.reversed())
-                                .map(File::getName).forEach(file -> {trackModel.addElement(file);});
-
-                        locationModel.clear();
-                        Stream.of(locationFile.listFiles())
-                                .filter(file -> !file.isDirectory())
-                                .sorted(c)
-                                .map(File::getName).forEach(file -> {locationModel.addElement(file);});
-
-                        routeModel.clear();
-                                    Stream.of(routeFile.listFiles())
-                                .filter(file -> !file.isDirectory())
-                                .sorted(c)
-                                .map(File::getName).forEach(file -> {routeModel.addElement(file);});
-
-                        newFileModel.clear();
-                        Stream.of(newFile.listFiles())
-                                .filter(file -> !file.isDirectory())
-                                .filter(file -> file.getName().toLowerCase().endsWith(".gpx"))
-                                .sorted(c)
-                                .map(File::getName).forEach(file -> {newFileModel.addElement(file);});
-                        jTrackList.setSelectedIndex(0);
-                        
-                    });
-
-                    synchronized(this)
-                    {
-                        tracksShown=true;
-                    }
+                    trackDirectoryList      =new DirectoryList(attachedDevice.getTrackFilePath(), false);
+                    locationDirectoryList   =new DirectoryList(attachedDevice.getLocationFilePath(), true);
+                    routeDirectoryList      =new DirectoryList(attachedDevice.getRouteFilePath(), true);
+                    newFileDirectoryList    =new DirectoryList(attachedDevice.getNewFilePath(), true);
+                    initializeUiForDevice();
                 }
-            } 
+                else
+                {
+                    clearUi();
+                }
+            }
             else
             {
-                deviceFile=new File(attachedDevice.getDeviceFile());
-                if (!deviceFile.exists())
-                {
-                    this.textAreaOutput.setText("Please attach device\n");
-                    SwingUtilities.invokeLater(() ->
-                    {                          
-                        trackModel.clear();
-                        routeModel.clear();
-                        newFileModel.clear();
-                        locationModel.clear();
-                        jTextFieldDevice.setText("");
-                    });
-                    synchronized(this)
-                    {
-                        map.hideTrack();
-                        tracksShown=false;
-                        attachedDevice=null;
-                    }
-                }
+                // Same device still attached: check directories
+                checkForDirectoryUpdates();
             }
             
             try
@@ -287,6 +350,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLocationList = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
         jTextInfo = new javax.swing.JTextField();
+        jButtonSync = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
@@ -495,6 +559,15 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         jTextInfo.setEnabled(false);
 
+        jButtonSync.setText("Sync");
+        jButtonSync.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonSyncActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("File");
 
         jMenuItemExit.setText("Exit");
@@ -534,25 +607,28 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(buttonSave)
-                                .addGap(117, 117, 117)
-                                .addComponent(buttonUpload)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonDelete)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane8))
+                                    .addComponent(buttonSave))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(buttonUpload)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(buttonDelete)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jButtonSync))
+                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -569,6 +645,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         .addComponent(jLabel4)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {buttonDelete, buttonSave, buttonUpload, jButtonSync});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -603,7 +682,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     .addComponent(buttonUpload)
                     .addComponent(buttonDelete)
                     .addComponent(jLabel9)
-                    .addComponent(jTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSync))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -991,10 +1071,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
                     LOGGER.info("Copied {} to {}", fileName, destinationFile);
-                    synchronized(this)
-                    {
-                        tracksShown=false;
-                    }
                     Track route=GpxReader.getInstance().readRouteFromFile(fileName);
                     if (route!=null)
                     {
@@ -1084,7 +1160,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     Files.delete(Paths.get(pathName));
                     this.textAreaOutput.append("Deleted "+fileName+"\n");
                     map.hideTrack();
-                    this.tracksShown    =false;
                 }
                 catch (IOException e)
                 {
@@ -1125,6 +1200,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jButtonSyncActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSyncActionPerformed
+    {//GEN-HEADEREND:event_jButtonSyncActionPerformed
+        executeSyncCommand();
+    }//GEN-LAST:event_jButtonSyncActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1133,6 +1213,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private javax.swing.JButton buttonSave;
     private javax.swing.JButton buttonSave1;
     private javax.swing.JButton buttonUpload;
+    private javax.swing.JButton jButtonSync;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;

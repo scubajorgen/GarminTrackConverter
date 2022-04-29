@@ -67,8 +67,8 @@ public class ApplicationSettingsTest
         List<SettingsDevice> result = instance.getDevices();
         assertEquals(2, result.size());
         assertEquals("fenix 7 Solar", result.get(0).getName());
-        assertEquals("./development/device_fenix7/GARMIN/GarminDevice.xml", result.get(0).getDeviceFile());
-        assertEquals("./development/device_fenix7/GARMIN/Location/Lctns.fit", result.get(0).getWaypointFile());
+        assertEquals("./development/device_fenix7_sync/GARMIN/GarminDevice.xml", result.get(0).getDeviceFile());
+        assertEquals("./development/device_fenix7_sync/GARMIN/Location/Lctns.fit", result.get(0).getWaypointFile());
     }
 
     /**
