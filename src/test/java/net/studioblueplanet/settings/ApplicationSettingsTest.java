@@ -78,7 +78,7 @@ public class ApplicationSettingsTest
     public void testGetGpxFilePath()
     {
         System.out.println("getGpxFilePath");
-        assertEquals("./development/gpx", instance.getGpxFilePath());
+        assertEquals("./development/gpx", instance.getGpxFileDownloadPath());
     }
 
     /**

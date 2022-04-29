@@ -15,8 +15,10 @@ public class Settings
 {
     @JsonProperty("debugLevel")
     private String               debugLevel;
-    @JsonProperty("gpxFilePath")
-    private String               gpxFilePath;
+    @JsonProperty("gpxFileDownloadPath")
+    private String               gpxFileDownloadPath;
+    @JsonProperty("gpxFileUploadPath")
+    private String               gpxFileUploadPath;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 
@@ -30,14 +32,24 @@ public class Settings
         this.debugLevel = debugLevel;
     }
 
-    public String getGpxFilePath()
+    public String getGpxFileDownloadPath()
     {
-        return gpxFilePath;
+        return gpxFileDownloadPath;
     }
 
-    public void setGpxFilePath(String gpxFilePath)
+    public void setGpxFileDownloadPath(String gpxFileDownloadPath)
     {
-        this.gpxFilePath = gpxFilePath;
+        this.gpxFileDownloadPath = gpxFileDownloadPath;
+    }
+
+    public String getGpxFileUploadPath()
+    {
+        return gpxFileUploadPath;
+    }
+
+    public void setGpxFileUploadPath(String gpxFileUploadPath)
+    {
+        this.gpxFileUploadPath = gpxFileUploadPath;
     }
 
     public List<SettingsDevice> getDevices()

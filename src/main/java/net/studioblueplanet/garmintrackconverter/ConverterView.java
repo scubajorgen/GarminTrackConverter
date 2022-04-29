@@ -84,7 +84,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         initComponents();
         hasSync         =false;
         isDirty         =true;
-        jButtonSync.setVisible(false);
+        //jButtonSync.setVisible(false);
         
         // Initialize the listbox
         trackModel      =new DefaultListModel<>();
@@ -208,7 +208,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             newFileDirectoryList.addFilesToListModel(newFileModel, "gpx");
 
             jTrackList.setSelectedIndex(0);
-            textAreaOutput.append("Done!");
+            textAreaOutput.append("Done!\n");
         });
     }
 
@@ -674,15 +674,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jMapPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 295, Short.MAX_VALUE))
+                            .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextInfo)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4))
                     .addGroup(layout.createSequentialGroup()
@@ -732,14 +733,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane7)
                             .addComponent(jScrollPane8))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSave)
                     .addComponent(buttonUpload)
                     .addComponent(buttonDelete)
                     .addComponent(jButtonSync))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -965,48 +966,48 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             track=getTrack(jTrackList, tracksCache);
             gpxFileName=track.getSport()+"_"+track.getStartDate()+"_descripion.gpx";
-            fileName=getGpxFileName(settings.getGpxFilePath(), gpxFileName, "Save");
+            fileName=getGpxFileName(settings.getGpxFileDownloadPath(), gpxFileName, "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
                 writer.writeTrackToFile(fileName, track, "Track", appName);
-                this.textAreaOutput.append("File saved to "+fileName+"\n");
-                LOGGER.info("File saved to {}", fileName);
+                this.textAreaOutput.setText("File saved to "+fileName+"\n");
+                LOGGER.info("Track saved to {}", fileName);
             }
         }
         else if (jNewFilesList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
                 track=getTrack(jNewFilesList, newFilesCache);
                 writer.writeTrackToFile(fileName, track, "Track", appName);
-                this.textAreaOutput.append("Route saved to "+fileName+"\n");
-                LOGGER.info("Route saved to {}", fileName);
+                this.textAreaOutput.setText("Route saved to "+fileName+"\n");
+                LOGGER.info("GPX file saved to {}", fileName);
             }
         }
         else if (jLocationList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
                 locations=getWaypoints(jLocationList, locationsCache);
                 writer.writeWaypointsToFile(fileName, waypoints);
-                this.textAreaOutput.append("Route saved to "+fileName+"\n");
-                LOGGER.info("Route saved to {}", fileName);
+                this.textAreaOutput.setText("Route saved to "+fileName+"\n");
+                LOGGER.info("Locations saved to {}", fileName);
             }
         }
         else if (jRouteList.getSelectedIndex()>=0)
         {
-            fileName=getGpxFileName(settings.getGpxFilePath(), "", "Save");
+            fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
                 writer=GpxWriter.getInstance();
                 track=getTrack(jRouteList, routesCache);
                 writer.writeTrackToFile(fileName, track, "Track", appName);
-                this.textAreaOutput.append("Route saved to "+fileName+"\n");
+                this.textAreaOutput.setText("Route saved to "+fileName+"\n");
                 LOGGER.info("Route saved to {}", fileName);
             }
         }
@@ -1112,7 +1113,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void buttonUploadActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonUploadActionPerformed
     {//GEN-HEADEREND:event_buttonUploadActionPerformed
         String fileName;
-        fileName=this.getGpxFileName(settings.getGpxFilePath(), "", "Upload");
+        fileName=this.getGpxFileName(settings.getGpxFileUploadPath(), "", "Upload");
         if (fileName!=null)
         {
             String destinationPath=attachedDevice.getNewFilePath();
@@ -1132,10 +1133,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         trackToMap(route);
                         // TO DO: set index in file list, somewhere
                     }
+                    textAreaOutput.setText("Uploaded "+fileName+"\n");
                     isDirty=true;
                 }
                 catch (IOException e)
                 {
+                    textAreaOutput.setText("Error uploading "+fileName+": "+e.getMessage()+"\n");
                     LOGGER.error("Error copying file: {}", e.getMessage());
                 }
             }
@@ -1214,14 +1217,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.info("Deleting {}", pathName);
                     Files.delete(Paths.get(pathName));
-                    this.textAreaOutput.append("Deleted "+fileName+"\n");
+                    this.textAreaOutput.setText("Deleted "+fileName+"\n");
                     map.hideTrack();
                     isDirty=true;
                 }
                 catch (IOException e)
                 {
                     LOGGER.error("Error deleting {}: {}", pathName, e.getMessage());
-                    textAreaOutput.append("Error deleting "+fileName+"\n");
+                    textAreaOutput.setText("Error deleting "+fileName+"\n");
                 }
             }
         }

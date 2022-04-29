@@ -66,12 +66,23 @@ public class ApplicationSettings
     }
     
     /**
-     * Return the configured GPX file path
+     * Return the configured GPX file upload path, i.e. the directory
+     * that is selected when uploading a new GPX file to the device
      * @return The GPX file path
      */
-    public String getGpxFilePath()
+    public String getGpxFileUploadPath()
     {
-        return settings.getGpxFilePath();
+        return settings.getGpxFileUploadPath();
+    }
+    
+    /**
+     * Return the configured GPX file download path, i.e. the directory
+     * that is selected when downloading a fit file as GPX from the device
+     * @return The GPX file path
+     */
+    public String getGpxFileDownloadPath()
+    {
+        return settings.getGpxFileDownloadPath();
     }
     
     /**

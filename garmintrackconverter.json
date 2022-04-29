@@ -1,6 +1,7 @@
 {
     "debugLevel":"info",
-    "gpxFilePath": "./development/gpx",
+    "gpxFileDownloadPath": "./development/gpx",
+    "gpxFileUploadPath": "./development/gpxRoutes",
     "devices":
     [
       {
