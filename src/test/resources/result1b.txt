@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.0" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd ">
+  <trk>
+    <name>trackname</name>
+    <desc>Created by: appname. Logged by: null.</desc>
+    <trkseg>
+      <trkpt lat="53.5000000" lon="6.5000000">
+        <ele>1.0</ele>
+        <time>2022-01-01T00:00:10Z</time>
+        <speed>2.0</speed>
+      </trkpt>
+    </trkseg>
+  </trk>
+  <extensions>
+    <u-gotMe:device>null - sw null</u-gotMe:device>
+    <u-gotMe:software>appname</u-gotMe:software>
+  </extensions>
+</gpx>

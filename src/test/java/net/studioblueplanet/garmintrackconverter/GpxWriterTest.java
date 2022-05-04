@@ -5,6 +5,12 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.io.File;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -70,35 +76,82 @@ public class GpxWriterTest
     }
 
     /**
-     * Test of writeGpxDocument method, of class GpxWriter.
-     */
-    @Test
-    @org.junit.Ignore
-    public void testWriteGpxDocument() throws Exception
-    {
-        System.out.println("writeGpxDocument");
-        String fileName = "";
-        GpxWriter instance = null;
-        instance.writeGpxDocument(fileName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of writeTrackToFile method, of class GpxWriter.
      */
     @Test
-    @org.junit.Ignore
-    public void testWriteTrackToFile()
+    public void testWriteTrackToFile() throws Exception
     {
+        TrackSegment    segment;
+        TrackPoint      point;
+        String          result;
+        
         System.out.println("writeTrackToFile");
-        String fileName = "";
-        Track track = null;
-        String trackName = "";
-        GpxWriter instance = null;
-        instance.writeTrackToFile(fileName, track, trackName, "äppname");
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Track track=new Track();
+        
+        List<TrackSegment> segments=track.getSegments();
+        segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+                                 ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
+        
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
+                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6);
+
+        segment.addTrackPoint(point);
+        segments.add(segment);
+        
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result1a.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+
+        writer=new StringWriter();
+        instance.setGpxVersion("1.0");
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result1b.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
     }
-    
+
+    /**
+     * Test of writeWaypointsToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteWaypointsToFile() throws Exception
+    {
+        List<Location>  locations;
+        Location        loc;
+        String          result;
+        ZonedDateTime   dateTime;
+        
+        System.out.println("writeWaypointsToFile");
+
+        Locations locationList=new Locations();
+        locations=locationList.getWaypoints();
+        dateTime=ZonedDateTime.of(2022, 05, 04, 14, 48, 30, 0, ZoneId.of("UTC"));
+        loc=new Location("name1", "desc1", dateTime, 53.5, 6.5, 1.0, 2);
+        locations.add(loc);
+        loc=new Location("name2", "desc2", dateTime, 53.6, 6.6, 4.0, 5);
+        locations.add(loc);
+        
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        instance.writeWaypointsToFile(writer, locationList);
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result2a.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+
+        writer=new StringWriter();
+        instance.setGpxVersion("1.0");
+        instance.writeWaypointsToFile(writer, locationList);
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result2b.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+
+
+    }    
 }

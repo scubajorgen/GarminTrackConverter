@@ -87,6 +87,14 @@ public class Locations
     }
     
     /**
+     * Constructor. Creates an empty list of locations.
+     */
+    public Locations()
+    {
+        locations=new ArrayList<>(0);
+    }
+    
+    /**
      * Extracts the datetime. In the Fenix the date time is not filled in in the
      * timestamp field. However, it is by default used as name, e.g. "Apr 09 9:23".
      * If the timestamp is not found, a try is made to extract it from the name

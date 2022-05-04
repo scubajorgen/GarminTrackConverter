@@ -6,6 +6,9 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.time.ZonedDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -42,12 +45,10 @@ public class GpxWriter
     private final static Logger LOGGER = LogManager.getLogger(GpxWriter.class);
     private static GpxWriter    theInstance=null;
 
-
     private int                 trackPoints;
     private int                 wayPoints;
     private String              gpxVersion;
     private String              appName;
-
 
     Document                    doc;
     Element                     gpxElement;
@@ -267,20 +268,24 @@ public class GpxWriter
      * @param fileName Name of the file
      * @throws javax.xml.transform.TransformerException
      */
-    void writeGpxDocument(String fileName) throws TransformerException
+    private void writeGpxDocument(Writer writer) throws TransformerException, IOException
     {
-            // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", 4);
+        StringWriter stringWriter;
+        
+        // write the content into xml file
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute("indent-number", 4);
 
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileName));
-
-            transformer.transform(source, result);
+        DOMSource source = new DOMSource(doc);
+        stringWriter=new StringWriter();
+        StreamResult result = new StreamResult(stringWriter);
+        transformer.transform(source, result);
+        
+        writer.write(stringWriter.toString());
     }
 
     /**
@@ -527,12 +532,12 @@ public class GpxWriter
      * ************************************************************************/
     /**
      * Write the track to a GPX file
-     * @param fileName Name of the file to write to
+     * @param writer Writer to use for writing the GPX
      * @param track Track to write
      * @param trackName Name for the track to use inside the GPX file 
      * @param appName Name of this application
      */
-    public void writeTrackToFile(String fileName, Track track, String trackName, String appName)
+    public void writeTrackToFile(Writer writer, Track track, String trackName, String appName)
     {
         Element     trackElement;
         Element     element;
@@ -552,13 +557,12 @@ public class GpxWriter
             addTrack(doc, gpxElement, track, trackName);
 
             // write the content into xml file
-            writeGpxDocument(fileName);
+            writeGpxDocument(writer);
 
-            LOGGER.info("File saved to {}!", fileName);
             LOGGER.info("Written track: {}, track points: {}, wayPoints: {}", trackName, trackPoints, wayPoints);
 
         }
-        catch (ParserConfigurationException | TransformerException e)
+        catch (ParserConfigurationException | TransformerException | IOException e)
         {
             LOGGER.error("Error writing GPX: {}", e.getMessage());
         }
@@ -566,10 +570,10 @@ public class GpxWriter
 
     /**
      * Write waypoints to a GPX file, as wpt elements
-     * @param fileName Name of the file to write to
+     * @param writer Writer to use for writing the GPX
      * @param waypoints Waypoints to write
      */
-    public void writeWaypointsToFile(String fileName, Locations waypoints)
+    public void writeWaypointsToFile(Writer writer, Locations waypoints)
     {
         Element     trackElement;
         Element     element;
@@ -588,12 +592,12 @@ public class GpxWriter
             this.appendWaypointsGpx(doc, gpxElement, waypoints.getWaypoints());
 
             // write the content into xml file
-            writeGpxDocument(fileName);
+            writeGpxDocument(writer);
 
-            LOGGER.info("Waypoint File saved to {}, saved {} waypoints!", fileName, waypoints.getNumberOfWaypoints());
+            LOGGER.info("Waypoint File saved, saved {} waypoints!", waypoints.getNumberOfWaypoints());
 
         }
-        catch (ParserConfigurationException | TransformerException e)
+        catch (ParserConfigurationException | TransformerException | IOException e)
         {
             LOGGER.error("Error writing GPX: {}", e.getMessage());
         }

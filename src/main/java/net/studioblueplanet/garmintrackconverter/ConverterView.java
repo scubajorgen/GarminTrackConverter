@@ -10,6 +10,7 @@ package net.studioblueplanet.garmintrackconverter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -955,7 +956,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSaveActionPerformed
     {//GEN-HEADEREND:event_buttonSaveActionPerformed
-        GpxWriter                   writer;        
+        GpxWriter                   gpsWriter;  
+        FileWriter                  fileWriter;
         String                      fileName;
         String                      trackName;
         Track                       track;
@@ -969,8 +971,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=getGpxFileName(settings.getGpxFileDownloadPath(), gpxFileName, "Save");
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
-                writer.writeTrackToFile(fileName, track, "Track", appName);
+                gpsWriter=GpxWriter.getInstance();
+                try
+                {
+                    fileWriter=new FileWriter(fileName);
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
+                    fileWriter.close();
+                 }
+                catch (IOException e)
+                {
+                    LOGGER.error("Error writing file {}: {}", fileName, e.getMessage());
+                }
                 this.textAreaOutput.setText("File saved to "+fileName+"\n");
                 LOGGER.info("Track saved to {}", fileName);
             }
@@ -980,9 +991,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
+                gpsWriter=GpxWriter.getInstance();
                 track=getTrack(jNewFilesList, newFilesCache);
-                writer.writeTrackToFile(fileName, track, "Track", appName);
+                try
+                {
+                    fileWriter=new FileWriter(fileName);
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
+                    fileWriter.close();
+                }
+                catch (IOException e)
+                {
+                    LOGGER.error("Error writing file {}: {}", fileName, e.getMessage());
+                }
                 this.textAreaOutput.setText("Route saved to "+fileName+"\n");
                 LOGGER.info("GPX file saved to {}", fileName);
             }
@@ -992,9 +1012,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
+                gpsWriter=GpxWriter.getInstance();
                 locations=getWaypoints(jLocationList, locationsCache);
-                writer.writeWaypointsToFile(fileName, waypoints);
+                try
+                {
+                    fileWriter=new FileWriter(fileName);
+                    gpsWriter.writeWaypointsToFile(fileWriter, waypoints);
+                    fileWriter.close();
+                }
+                catch (IOException e)
+                {
+                    LOGGER.error("Error writing file {}: {}", fileName, e.getMessage());
+                }
                 this.textAreaOutput.setText("Route saved to "+fileName+"\n");
                 LOGGER.info("Locations saved to {}", fileName);
             }
@@ -1004,9 +1033,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=getGpxFileName(settings.getGpxFileDownloadPath(), "", "Save");
             if (fileName!=null)
             {
-                writer=GpxWriter.getInstance();
+                gpsWriter=GpxWriter.getInstance();
                 track=getTrack(jRouteList, routesCache);
-                writer.writeTrackToFile(fileName, track, "Track", appName);
+                try
+                {
+                    fileWriter=new FileWriter(fileName);
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
+                    fileWriter.close();
+                }
+                catch (IOException e)
+                {
+                    LOGGER.error("Error writing file {}: {}", fileName, e.getMessage());
+                }
                 this.textAreaOutput.setText("Route saved to "+fileName+"\n");
                 LOGGER.info("Route saved to {}", fileName);
             }

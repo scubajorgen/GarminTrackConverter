@@ -92,16 +92,6 @@ public class Track
         sessionMessages =repository.getAllMessages("session");
         eventMessages   =repository.getAllMessages("event");
         
-        // Sport
-        /*
-        message    =repository.getFitMessage("sport");
-        if (message!=null)
-        {
-            id=(int)message.getIntValue(0, "sport");
-            sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
-        }
-        */
-        
         //file_id
         message    =repository.getFitMessage("file_id");
         if (message!=null)
@@ -191,7 +181,6 @@ public class Track
         }
         
     }
-    
     
     /**
      * This method parses the FIT lap record and destillates the number of sessions.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="Locations.fit" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd">
+  <wpt lat="53.5000000" lon="6.5000000">
+    <ele>1.0</ele>
+    <time>2022-05-04T14:48:30Z</time>
+    <name>name1</name>
+    <desc>desc1</desc>
+    <sym>Waypoint</sym>
+  </wpt>
+  <wpt lat="53.6000000" lon="6.6000000">
+    <ele>4.0</ele>
+    <time>2022-05-04T14:48:30Z</time>
+    <name>name2</name>
+    <desc>desc2</desc>
+    <sym>Waypoint</sym>
+  </wpt>
+</gpx>
