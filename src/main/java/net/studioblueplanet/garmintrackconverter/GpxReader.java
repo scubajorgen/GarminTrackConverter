@@ -264,7 +264,7 @@ public class GpxReader
             element=getChildElement(waypoint, "time");
             if (element!=null)
             {
-                time=ZonedDateTime.parse(element.getTextContent(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                time=ZonedDateTime.parse(element.getTextContent(), DateTimeFormatter.ISO_DATE_TIME);
             }
             lat=Double.parseDouble(waypoint.getAttribute("lat"));
             lon=Double.parseDouble(waypoint.getAttribute("lon"));
@@ -339,7 +339,4 @@ public class GpxReader
         }
         return route;
     }
-
-
-
 }

@@ -28,7 +28,7 @@ public class Location
     public Location(String name, String description, ZonedDateTime dateTime, double lat, double lon, double ele, int symbol)
     {
         this.latitude  		=lat;
-        this.longitude         =lon;
+        this.longitude          =lon;
         this.elevation          =ele;
         this.name               =name;
         this.description        =description;
