@@ -340,8 +340,11 @@ public class Track
         Iterator<TrackSegment>  it;
         boolean                 found;
         TrackSegment            segment;
+        int                     wrongCoordinates;
+        int                     goodCoordinates;
 
-
+        wrongCoordinates=0;
+        goodCoordinates=0;
         for (FitMessage message:trackMessages)
         {
             size            =message.getNumberOfRecords();
@@ -428,6 +431,7 @@ public class Track
                             found=true;
                         }
                     }
+                    goodCoordinates++;
                     if (!found)
                     {
                         LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.toString());
@@ -435,7 +439,8 @@ public class Track
                 }
                 else
                 {
-                    LOGGER.error("Illegal lat/lon");
+                    LOGGER.error("Illegal lat/lon at {} [{}, {}]", dateTime.toString(), lat, lon);
+                    wrongCoordinates++;
                 }
                 LOGGER.debug("Track {} ({}, {}) ele {}, {} km/h, {} m",
                                  dateTime.toString(),
@@ -446,6 +451,7 @@ public class Track
                 i++;
             }           
         }
+        LOGGER.info("Good coordinates {}, wrong coordinates: {} ({}%)", goodCoordinates, wrongCoordinates, 100*wrongCoordinates/(wrongCoordinates+goodCoordinates));
     }
     
     /**
