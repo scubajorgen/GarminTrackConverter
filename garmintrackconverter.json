@@ -2,6 +2,8 @@
     "debugLevel":"info",
     "gpxFileDownloadPath": "./development/gpx",
     "gpxFileUploadPath": "./development/gpxRoutes",
+    "trackCompression": true,
+    "trackCompressionMaxError": 0.01,
     "devices":
     [
       {

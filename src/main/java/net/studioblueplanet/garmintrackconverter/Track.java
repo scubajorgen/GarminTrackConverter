@@ -16,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.studioblueplanet.settings.ApplicationSettings;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
         
@@ -65,6 +66,11 @@ public class Track
     private static final int                TIMEREVENT=0;
     private static final int                TIMEREVENT_TIMERSTARTED=0;
     private static final int                TIMEREVENT_TIMERSTOPPED=4;
+
+    private int                             invalidCoordinates;
+    private int                             validCoordinates;
+    private int                             compressedCoordinates;
+    
     /**
      * Constructor
      * @param trackFileName Track file
@@ -80,6 +86,7 @@ public class Track
         List<FitMessage>        trackMessages;
         FitMessage              message;
         int                     id;
+        double                  maxError;
         
         fitFileName     =new File(trackFileName).getName();
         segments        =new ArrayList<>();
@@ -129,7 +136,12 @@ public class Track
 
             this.deviceName=deviceName;
             //repository.dumpMessageDefintions();
+            
+            maxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
+            this.compressTrack(maxError);
         }
+        
+        
     }
     
     public Track()
@@ -340,11 +352,9 @@ public class Track
         Iterator<TrackSegment>  it;
         boolean                 found;
         TrackSegment            segment;
-        int                     wrongCoordinates;
-        int                     goodCoordinates;
 
-        wrongCoordinates=0;
-        goodCoordinates=0;
+        invalidCoordinates=0;
+        validCoordinates=0;
         for (FitMessage message:trackMessages)
         {
             size            =message.getNumberOfRecords();
@@ -425,13 +435,13 @@ public class Track
                     while (it.hasNext() && !found)
                     {
                         segment=it.next();
-                        if (segment.isInLap(dateTime))
+                        if (segment.isInSegment(dateTime))
                         {
                             segment.addTrackPoint(point);
                             found=true;
                         }
                     }
-                    goodCoordinates++;
+                    validCoordinates++;
                     if (!found)
                     {
                         LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.toString());
@@ -440,9 +450,9 @@ public class Track
                 else
                 {
                     LOGGER.error("Illegal lat/lon at {} [{}, {}]", dateTime.toString(), lat, lon);
-                    wrongCoordinates++;
+                    invalidCoordinates++;
                 }
-                LOGGER.debug("Track {} ({}, {}) ele {}, {} km/h, {} m",
+                LOGGER.debug("Trackpoint {} ({}, {}) ele {}, {} km/h, {} m",
                                  dateTime.toString(),
                                  lat, lon,
                                  ele, 
@@ -451,7 +461,7 @@ public class Track
                 i++;
             }           
         }
-        LOGGER.info("Good coordinates {}, wrong coordinates: {} ({}%)", goodCoordinates, wrongCoordinates, 100*wrongCoordinates/(wrongCoordinates+goodCoordinates));
+        LOGGER.info("Good coordinates {}, wrong coordinates: {} ({}%)", validCoordinates, invalidCoordinates, 100*invalidCoordinates/(invalidCoordinates+validCoordinates));
     }
     
     /**
@@ -481,7 +491,7 @@ public class Track
                 // If the date time stamp is in the range of the segment,
                 // add this waypoint to the track and don't look any further
                 segment=segmentIterator.next();
-                if (segment.isInLap(dateTime))
+                if (segment.isInSegment(dateTime))
                 {
                     found=true;
                     waypoints.add(waypoint);
@@ -529,6 +539,61 @@ public class Track
         info+=" and "+waypoints.size()+" waypoints";
         return info;
     }
+
+    /**
+     * Return some info about this track
+     * @return The info
+     */
+    public String getTrackInfo2()
+    {
+        String          info;
+        int             i;
+        int             noOfSegments;
+        TrackSegment    segment;
+        
+        noOfSegments=segments.size();
+        
+        info="Activity: ";
+        if (sport!=null)
+        {
+            info+=sport;
+            if (subSport!=null)
+            {
+                info+=" - "+subSport;
+            }
+        }
+        else
+        {
+            info+=" unknown";
+        }
+        
+        int points  =segments.stream()
+                             .map(seg -> seg.getNumberOfTrackPoints())
+                             .mapToInt(Integer::valueOf)
+                             .sum();
+        int cpoints =segments.stream()
+                             .map(seg -> seg.getNumberOfCompressedTrackPoints())
+                             .mapToInt(Integer::valueOf)
+                             .sum();
+        
+        info+="\nSegments: "+this.segments.size()+", points: "+points+", compressed: "+cpoints+", waypoints: "+waypoints.size();
+        info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
+              " ("+(100*invalidCoordinates/(invalidCoordinates+validCoordinates))+"%, omitted)";
+        info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
+        return info;
+    }
+
+    
+    /* ******************************************************************************************* *\
+     * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
+    \* ******************************************************************************************* */
+    public void compressTrack(double maxError)
+    {
+        segments.forEach((segment) ->
+        {
+            segment.compress(maxError);
+        });
+    }    
     
     /**
      * Get the device name
@@ -559,6 +624,26 @@ public class Track
         if (segment>=0 && segment<segments.size())
         {
             points=segments.get(segment).getTrackPoints();
+        }
+        else
+        {
+            LOGGER.error("Illegal segment number {} while requesting trackpoints", segment);
+            points=null;
+        }
+        return points;
+    }
+
+    /**
+     * Returns the array list with track points belonging to indicated segment
+     * @param segment The segment to request the track points for
+     * @return The array list with track points
+     */
+    public List<TrackPoint> getCompressedTrackPoints(int segment)
+    {
+        List<TrackPoint> points;
+        if (segment>=0 && segment<segments.size())
+        {
+            points=segments.get(segment).getCompressedTrackPoints();
         }
         else
         {
@@ -744,5 +829,15 @@ public class Track
     public String getStartDate()
     {
         return startTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    }
+    
+    public int getInvalidCoordinates()
+    {
+        return invalidCoordinates;
+    }
+
+    public int getValidCoordinates()
+    {
+        return validCoordinates;
     }
 }

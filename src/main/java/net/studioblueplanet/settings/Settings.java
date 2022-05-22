@@ -19,6 +19,10 @@ public class Settings
     private String               gpxFileDownloadPath;
     @JsonProperty("gpxFileUploadPath")
     private String               gpxFileUploadPath;
+    @JsonProperty("trackCompression")
+    private boolean              trackCompression;
+    @JsonProperty("trackCompressionMaxError")
+    private double               trackCompressionMaxError;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 
@@ -61,6 +65,26 @@ public class Settings
     {
         this.devices = devices;
     }
+
+    public boolean isTrackCompression()
+    {
+        return trackCompression;
+    }
+
+    public void setTrackCompression(boolean trackCompression)
+    {
+        this.trackCompression = trackCompression;
+    }
+
+    public double getTrackCompressionMaxError()
+    {
+        return trackCompressionMaxError;
+    }
+
+    public void setTrackCompressionMaxError(double trackCompressionMaxError)
+    {
+        this.trackCompressionMaxError = trackCompressionMaxError;
+    }
     
-    
+   
 }

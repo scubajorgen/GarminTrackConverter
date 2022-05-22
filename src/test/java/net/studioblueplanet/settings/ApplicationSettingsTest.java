@@ -90,5 +90,25 @@ public class ApplicationSettingsTest
         System.out.println("getDebugLevel");
         assertEquals("info", instance.getDebugLevel());
     }
-    
+   
+    /**
+     * Test of isTrackCompression method, of class ApplicationSettings.
+     */
+    @Test
+    public void testIsTrackCompression()
+    {
+        System.out.println("isTrackCompression");
+        assertEquals(true, instance.isTrackCompression());
+    }    
+
+    /**
+     * Test of getTrackCompressionMaxError method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetTrackCompressionMaxError()
+    {
+        System.out.println("getTrackCompressionMaxError");
+        assertEquals(0.01, instance.getTrackCompressionMaxError(), 0.00001);
+    }    
+
 }

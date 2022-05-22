@@ -8,7 +8,10 @@ package net.studioblueplanet.garmintrackconverter;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +23,7 @@ public class TrackSegment
 {
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
     private final List<TrackPoint>  trackPoints;
+    private List<TrackPoint>  compressedTrackPoints;
     private final ZonedDateTime     startTime;
     private final ZonedDateTime     endTime;
 
@@ -50,7 +54,7 @@ public class TrackSegment
      * @param time Timestamp to check
      * @return True if the timestamp is within the lap, false if not.
      */
-    public boolean isInLap(ZonedDateTime time)
+    public boolean isInSegment(ZonedDateTime time)
     {
         boolean inLap;
         
@@ -103,12 +107,30 @@ public class TrackSegment
     }
     
     /**
+     * Get the array list with track points belonging to this segment
+     * @return The array list with track points
+     */
+    public List<TrackPoint> getCompressedTrackPoints()
+    {
+        return this.compressedTrackPoints;
+    }
+    
+    /**
      * Returns the number of track points in this segment
      * @return Number of points.
      */
     public int getNumberOfTrackPoints()
     {
         return this.trackPoints.size();
+    }
+    
+    /**
+     * Returns the number of compressed track points in this segment
+     * @return Number of points.
+     */
+    public int getNumberOfCompressedTrackPoints()
+    {
+        return this.compressedTrackPoints.size();
     }
     
     public ZonedDateTime getStartTime()
@@ -120,4 +142,61 @@ public class TrackSegment
     {
         return endTime;
     }
+    
+    /**
+     * Compress segment using the Douglas-Peucker method.
+     * Note: this results in a list containing only records that contain
+     * latitude and longitude. Other records are removed.
+     * @param maxError Measure for the maximum error
+     */
+    public void compress(double maxError)
+    {
+        int                     before;
+        int                     after;
+        TrackPoint              maxSpeed;
+        TrackPoint              maxHeartrate;
+        List<TrackPoint>    recs;
+        
+        // Find the max speed in the original data
+        maxSpeed    =trackPoints.stream()
+//                        .filter(r -> r.getSpeed()!=ActivityRecord.INVALID)
+                        .max(Comparator.comparing(TrackPoint::getSpeed))
+                        .orElse(null);
+        maxHeartrate=trackPoints.stream()
+//                        .filter(r -> r.getHeartRate()!=ActivityRecord.INVALID)
+                        .max(Comparator.comparing(TrackPoint::getHeartrate))
+                        .orElse(null);
+        recs=trackPoints.stream()
+//                .filter(r -> r.getLatitude()!=ActivityRecord.INVALID && r.getLongitude()!=ActivityRecord.INVALID)
+                .collect(Collectors.toList());
+        
+        if (maxError>0.0 && recs.size()>0)
+        {
+            before=trackPoints.size();
+            // Douglas Peucker compression
+            compressedTrackPoints=DPUtil.dpAlgorithm(recs, maxError);
+            
+            // Check if the max speed record is included in the result
+            if (maxSpeed!=null && compressedTrackPoints.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
+            {
+                // add if not
+                compressedTrackPoints.add(maxSpeed);
+                Collections.sort(compressedTrackPoints); // sort points on datetime
+            }
+            // Check if the max speed heartrate is included in the result
+            if (maxHeartrate!=null && compressedTrackPoints.stream().filter(r -> r.getDateTime().equals(maxHeartrate.getDateTime())).count()==0)
+            {
+                // add if not
+                compressedTrackPoints.add(maxHeartrate);
+                Collections.sort(compressedTrackPoints); // sort points on datetime
+            }
+            after=compressedTrackPoints.size();
+            LOGGER.info("DP Compression applied. Size before {}, after {} ({}%)", before, after, (100*after/before));
+        }
+        else
+        {
+            LOGGER.error("Compression maximum error value must be larger than 0.0");
+        }
+    }
+    
 }

@@ -93,4 +93,14 @@ public class ApplicationSettings
     {
         return settings.getDebugLevel();
     }
+    
+    public boolean isTrackCompression()
+    {
+        return settings.isTrackCompression();
+    }
+    
+    public double getTrackCompressionMaxError()
+    {
+        return settings.getTrackCompressionMaxError();
+    }
 }

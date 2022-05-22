@@ -2,4 +2,9 @@
 /documentation
 /nbproject
 /development/various
-
+/development/device_fenix7_sync/GARMIN/*.xml
+/development/device_fenix7_sync/GARMIN/*.fit
+/development/device_fenix7_sync/GARMIN/Activity/*.fit
+/development/device_fenix7_sync/GARMIN/Courses/*.fit
+/development/device_fenix7_sync/GARMIN/Location/*.fit
+/development/device_fenix7_sync/GARMIN/NewFiles/*.gpx

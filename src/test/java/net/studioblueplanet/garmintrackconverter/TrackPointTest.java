@@ -150,6 +150,32 @@ public class TrackPointTest
         assertEquals(3, instance.getGpsAccuracy().intValue());
     }
     
-    
+    /**
+     * Test of compareTo method, of class TrackPoint.
+     */
+    @Test
+    public void testCompareTo()
+    {
+        ZonedDateTime dateTime;
+        TrackPoint    comparePoint;
+        
+        System.out.println("compareTo");
+        
+        dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        assertEquals(0, instance.compareTo(comparePoint));
+
+        dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 01, 0, ZoneId.of("UTC"));
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        assertEquals(-1, instance.compareTo(comparePoint));
+
+        dateTime=ZonedDateTime.of(2022, 3, 3, 13, 57, 58, 0, ZoneId.of("UTC"));
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        assertEquals(1, instance.compareTo(comparePoint));
+
+        dateTime=ZonedDateTime.of(2021, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        assertEquals(1, instance.compareTo(comparePoint));
+    }    
     
 }

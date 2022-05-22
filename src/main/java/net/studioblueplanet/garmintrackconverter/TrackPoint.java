@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  * This class represents a track point.
  * @author Jorgen
  */
-public class TrackPoint
+public class TrackPoint implements Comparable<TrackPoint>
 {
     private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
     private final ZonedDateTime   dateTime;
@@ -114,4 +114,10 @@ public class TrackPoint
     {
         return gpsAccuracy;
     }
+    
+    @Override
+    public int compareTo(TrackPoint other)
+    {
+        return dateTime.compareTo(other.dateTime);
+    }     
 }

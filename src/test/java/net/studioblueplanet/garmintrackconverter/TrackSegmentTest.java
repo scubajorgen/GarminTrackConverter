@@ -66,11 +66,11 @@ public class TrackSegmentTest
     public void testIsInLap()
     {
         System.out.println("isInLap");
-        assertEquals(false, instance.isInLap(ZonedDateTime.parse("2022-03-04T17:53:59Z")));
-        assertEquals(true , instance.isInLap(ZonedDateTime.parse("2022-03-04T17:54:00Z"))); // start time
-        assertEquals(true , instance.isInLap(ZonedDateTime.parse("2022-03-04T18:53:59Z")));
-        assertEquals(true, instance.isInLap(ZonedDateTime.parse("2022-03-04T18:54:00Z"))); // end time
-        assertEquals(false, instance.isInLap(ZonedDateTime.parse("2022-03-04T18:54:01Z")));
+        assertEquals(false, instance.isInSegment(ZonedDateTime.parse("2022-03-04T17:53:59Z")));
+        assertEquals(true , instance.isInSegment(ZonedDateTime.parse("2022-03-04T17:54:00Z"))); // start time
+        assertEquals(true , instance.isInSegment(ZonedDateTime.parse("2022-03-04T18:53:59Z")));
+        assertEquals(true, instance.isInSegment(ZonedDateTime.parse("2022-03-04T18:54:00Z"))); // end time
+        assertEquals(false, instance.isInSegment(ZonedDateTime.parse("2022-03-04T18:54:01Z")));
     }
 
     /**

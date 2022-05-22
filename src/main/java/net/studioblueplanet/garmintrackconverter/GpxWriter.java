@@ -297,15 +297,25 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo)
+    private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo, boolean compressed)
     {
         Element                     pointElement;
         Element                     element;
         Attr                        attr;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
+        List<TrackPoint>            segmentPoints;
 
-        for (TrackPoint point : track.getTrackPoints(segmentNo))
+        if (compressed)
+        {
+            segmentPoints=track.getCompressedTrackPoints(segmentNo);
+        }
+        else
+        {
+            segmentPoints=track.getTrackPoints(segmentNo);
+        }
+
+        for(TrackPoint point : segmentPoints)
         {
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
@@ -348,16 +358,25 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo)
+    private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo, boolean compressed)
     {
         Element                     pointElement;
         Element                     element;
         Element                     extensionsElement;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
+        List<TrackPoint>            segmentPoints;
 
+        if (compressed)
+        {
+            segmentPoints=track.getCompressedTrackPoints(segmentNo);
+        }
+        else
+        {
+            segmentPoints=track.getTrackPoints(segmentNo);
+        }
 
-        for(TrackPoint point : track.getTrackPoints(segmentNo))
+        for(TrackPoint point : segmentPoints)
         {
             pointElement    = doc.createElement("trkpt");
             segmentElement.appendChild(pointElement);
@@ -446,8 +465,9 @@ public class GpxWriter
      * @param gpxElement The GPX element
      * @param trackNo The track identification
      * @param trackName The track name
+     * @param compressed Indicates to write the compressed track (true) or uncompressed (false)
      */
-    private void addTrack(Document doc, Element gpxElement, Track track, String trackName)
+    private void addTrack(Document doc, Element gpxElement, Track track, String trackName, boolean compressed)
     {
         int     i;
         int     numberOfSegments;
@@ -494,11 +514,11 @@ public class GpxWriter
 
                 if (gpxVersion.equals("1.0"))
                 {
-                    appendTrackGpx1_0(doc, segmentElement, track, i);
+                    appendTrackGpx1_0(doc, segmentElement, track, i, compressed);
                 }
                 else if (gpxVersion.equals("1.1"))
                 {
-                    appendTrackGpx1_1(doc, segmentElement, track, i);
+                    appendTrackGpx1_1(doc, segmentElement, track, i, compressed);
                 }
                 i++;
             }
@@ -536,8 +556,9 @@ public class GpxWriter
      * @param track Track to write
      * @param trackName Name for the track to use inside the GPX file 
      * @param appName Name of this application
+     * @param compressed Indicates to write the compressed track (true) or uncompressed (false)
      */
-    public void writeTrackToFile(Writer writer, Track track, String trackName, String appName)
+    public void writeTrackToFile(Writer writer, Track track, String trackName, String appName, boolean compressed)
     {
         Element     trackElement;
         Element     element;
@@ -554,7 +575,7 @@ public class GpxWriter
             // create the GPX file
             createGpxDocument(track.getDeviceName());
 
-            addTrack(doc, gpxElement, track, trackName);
+            addTrack(doc, gpxElement, track, trackName, compressed);
 
             // write the content into xml file
             writeGpxDocument(writer);

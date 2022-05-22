@@ -100,7 +100,7 @@ public class GpxWriterTest
         
         StringWriter writer=new StringWriter();
         instance.setGpxVersion("1.1");
-        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
         System.out.println(writer.toString());
         result=new String(Files.readAllBytes((new File("src/test/resources/result1a.txt")).toPath()));
         assertEquals(result, writer.toString());
@@ -108,11 +108,13 @@ public class GpxWriterTest
 
         writer=new StringWriter();
         instance.setGpxVersion("1.0");
-        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
         System.out.println(writer.toString());
         result=new String(Files.readAllBytes((new File("src/test/resources/result1b.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
+        
+        // TO DO: test compressed GPX writing
     }
 
     /**
