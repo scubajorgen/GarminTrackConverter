@@ -159,15 +159,12 @@ public class TrackSegment
         
         // Find the max speed in the original data
         maxSpeed    =trackPoints.stream()
-//                        .filter(r -> r.getSpeed()!=ActivityRecord.INVALID)
-                        .max(Comparator.comparing(TrackPoint::getSpeed))
+                        .max(Comparator.nullsFirst(Comparator.comparing(TrackPoint::getSpeedNotNull)))
                         .orElse(null);
         maxHeartrate=trackPoints.stream()
-//                        .filter(r -> r.getHeartRate()!=ActivityRecord.INVALID)
-                        .max(Comparator.comparing(TrackPoint::getHeartrate))
+                        .max(Comparator.nullsFirst(Comparator.comparing(TrackPoint::getHeartrateNotNull)))
                         .orElse(null);
         recs=trackPoints.stream()
-//                .filter(r -> r.getLatitude()!=ActivityRecord.INVALID && r.getLongitude()!=ActivityRecord.INVALID)
                 .collect(Collectors.toList());
         
         if (maxError>0.0 && recs.size()>0)

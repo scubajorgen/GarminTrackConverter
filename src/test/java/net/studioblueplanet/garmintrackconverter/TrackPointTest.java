@@ -118,6 +118,17 @@ public class TrackPointTest
     }
 
     /**
+     * Test of getSpeedNotNull method, of class TrackPoint.
+     */
+    @Test
+    public void testGetSpeedNotNull()
+    {
+        System.out.println("getSpeedNotNull");
+        assertEquals(0.0, instanceSimple.getSpeedNotNull(), 0.0001);
+        assertEquals(5.0, instance.getSpeedNotNull(), 0.0001);
+    }
+
+    /**
      * Test of getDistance method, of class TrackPoint.
      */
     @Test
@@ -137,6 +148,17 @@ public class TrackPointTest
         System.out.println("getHeartrate");
         assertNull(instanceSimple.getHeartrate());
         assertEquals(77, instance.getHeartrate().intValue());
+    }
+    
+    /**
+     * Test of getHeartrateNotNull method, of class TrackPoint.
+     */
+    @Test
+    public void testGetHeartrateNotNull()
+    {
+        System.out.println("getHeartrateNotNull");
+        assertEquals(0, instanceSimple.getHeartrateNotNull());
+        assertEquals(77, instance.getHeartrateNotNull());
     }
     
     /**

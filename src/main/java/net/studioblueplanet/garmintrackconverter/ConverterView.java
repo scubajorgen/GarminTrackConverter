@@ -255,7 +255,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 trackDirectoryList.addFilesToListModel(trackModel, "fit");
                 if (hasSelection)
                 {
-                    jTrackList.setSelectedIndex(0);
+                    if (trackModel.size()>0)
+                    {
+                        jTrackList.setSelectedIndex(0);
+                    }
+                    else
+                    {
+                        map.hideTrack();
+                    }
                 }
             });
         }
@@ -263,24 +270,72 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             SwingUtilities.invokeLater(() ->
             {
+                boolean hasSelection=false;
+                if (jLocationList.getSelectedIndex()>=0)
+                {
+                    hasSelection=true;
+                }
                 locationModel.clear();
                 locationDirectoryList.addFilesToListModel(locationModel, "fit"); 
+                if (hasSelection)
+                {
+                    if (locationModel.size()>0)
+                    {
+                        jLocationList.setSelectedIndex(0);
+                    }
+                    else
+                    {
+                        map.hideTrack();
+                    }
+                }
             });
         }
         if (routeDirectoryList.updateDirectoryList())
         {
             SwingUtilities.invokeLater(() ->
             {
+                boolean hasSelection=false;
+                if (jRouteList.getSelectedIndex()>=0)
+                {
+                    hasSelection=true;
+                }
                 routeModel.clear();
                 routeDirectoryList.addFilesToListModel(routeModel, "fit");  
+                if (hasSelection)
+                {
+                    if (routeModel.size()>0)
+                    {
+                        jRouteList.setSelectedIndex(0);
+                    }
+                    else
+                    {
+                        map.hideTrack();
+                    }
+                }
             });
         }
         if (newFileDirectoryList.updateDirectoryList())
         {
             SwingUtilities.invokeLater(() ->
             {
+                boolean hasSelection=false;
+                if (jNewFilesList.getSelectedIndex()>=0)
+                {
+                    hasSelection=true;
+                }
                 newFileModel.clear();
                 newFileDirectoryList.addFilesToListModel(newFileModel, "gpx");
+                if (hasSelection)
+                {
+                    if (newFileModel.size()>0)
+                    {
+                        jNewFilesList.setSelectedIndex(0);
+                    }
+                    else
+                    {
+                        map.hideTrack();
+                    }
+                }
             });
         }
     }
@@ -1128,11 +1183,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (routesCache.containsKey(fileName))
             {
                 track=routesCache.get(fileName);
+                textAreaOutput.setText("Route retrieved from cache\n");
             }
             else
             {
                 track=readTrack(fullFileName, false);
                 routesCache.put(fileName, track);
+                textAreaOutput.setText("Route read from FIT file\n");
             }
             trackToMap(track);
         }
@@ -1158,11 +1215,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (newFilesCache.containsKey(fileName))
             {
                 track=newFilesCache.get(fileName);
+                textAreaOutput.setText("New file retrieved from cache\n");
             }
             else
             {
                 track=GpxReader.getInstance().readRouteFromFile(fullFileName);
                 newFilesCache.put(fileName, track);
+                textAreaOutput.setText("New file read from GPX file\n");
             }
             trackToMap(track);
         }
@@ -1224,12 +1283,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (locationsCache.containsKey(fileName))
             {
                 points=locationsCache.get(fileName);
+                textAreaOutput.setText("Locations retrieved from cache\n");
             }
             else
             {
                 LOGGER.info("Reading waypoints from {}", fullFileName);
                 points=new Locations(fullFileName);
                 locationsCache.put(fileName, points);
+                textAreaOutput.setText("Locations read from GPX file\n");
             }
             map.showWaypoints(points.getWaypoints());
             jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());

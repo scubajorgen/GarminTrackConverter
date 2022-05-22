@@ -99,6 +99,20 @@ public class TrackPoint implements Comparable<TrackPoint>
     {
         return speed;
     }
+    
+    public double getSpeedNotNull()
+    {
+        double speedValue;
+        if (speed==null)
+        {
+            speedValue=0.0;
+        }
+        else
+        {
+            speedValue=speed.doubleValue();
+        }
+        return speedValue;
+    }
 
     public Double getDistance()
     {
@@ -108,6 +122,20 @@ public class TrackPoint implements Comparable<TrackPoint>
     public Integer getHeartrate()
     {
         return heartrate;
+    }
+    
+    public int getHeartrateNotNull()
+    {
+        int rate;
+        if (heartrate==null)
+        {
+            rate=0;
+        }
+        else
+        {
+            rate=heartrate.intValue();
+        }
+        return rate;
     }
     
     public Integer getGpsAccuracy()

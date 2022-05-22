@@ -576,7 +576,8 @@ public class Track
                              .mapToInt(Integer::valueOf)
                              .sum();
         
-        info+="\nSegments: "+this.segments.size()+", points: "+points+", compressed: "+cpoints+", waypoints: "+waypoints.size();
+        info+="\nSegments: "+this.segments.size()+", points: "+points+", compressed: "+cpoints+" ("+
+               (cpoints*100/points)+"%), waypoints: "+waypoints.size();
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+(100*invalidCoordinates/(invalidCoordinates+validCoordinates))+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
