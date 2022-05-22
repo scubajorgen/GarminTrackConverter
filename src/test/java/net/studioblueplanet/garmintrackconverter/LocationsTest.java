@@ -20,7 +20,8 @@ import static org.junit.Assert.*;
  */
 public class LocationsTest
 {
-    private static Locations instance;
+    private static Locations instanceEdge;
+    private static Locations instanceFenix;
     
     public LocationsTest()
     {
@@ -29,7 +30,8 @@ public class LocationsTest
     @BeforeClass
     public static void setUpClass()
     {
-        instance=new Locations("src/test/resources/Locations.fit");
+        instanceEdge=new Locations("src/test/resources/Locations.fit");
+        instanceFenix=new Locations("src/test/resources/Lctns.fit");
     }
     
     @AfterClass
@@ -54,7 +56,7 @@ public class LocationsTest
     public void testGetNumberOfWaypoints()
     {
         System.out.println("getNumberOfWaypoints");
-        assertEquals(18, instance.getNumberOfWaypoints());
+        assertEquals(18, instanceEdge.getNumberOfWaypoints());
     }
 
     /**
@@ -64,7 +66,7 @@ public class LocationsTest
     public void testGetWaypoints()
     {
         System.out.println("getWaypoints");
-        List<Location> result = instance.getWaypoints();
+        List<Location> result = instanceEdge.getWaypoints();
         assertEquals(18, result.size());
         Location waypoint=result.get(0);
         assertEquals("2022-02-12 09:17:14", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -75,5 +77,30 @@ public class LocationsTest
         assertEquals(53.012594506144524, waypoint.getLatitude(), 0.0000001);
         assertEquals(6.724643586203456, waypoint.getLongitude(), 0.0000001);
     }
-    
+
+    /**
+     * Test of getWaypoints method, of class Locations.
+     */
+    @Test
+    public void testGetWaypointsFenix()
+    {
+        System.out.println("getWaypoints");
+        List<Location> result = instanceFenix.getWaypoints();
+        assertEquals(85, result.size());
+        Location waypoint=result.get(0);
+        assertNull(waypoint.getDateTime());
+        assertEquals("Tra-2-2-Plane spotters nest", waypoint.getName());
+        assertEquals(65535, waypoint.getSymbol());
+        assertNull(waypoint.getDescription());
+        assertEquals(12607.0, waypoint.getElevation(), 0.001);
+        assertEquals(28.940999982878566, waypoint.getLatitude(), 0.0000001);
+        assertEquals(-13.606899976730347, waypoint.getLongitude(), 0.0000001);
+
+        waypoint=result.get(84);
+        assertEquals("05-03 12:36:00", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss")));
+        // To Do: add year test
+        assertEquals("May 03 12:36", waypoint.getName());
+
+    }
+        
 }
