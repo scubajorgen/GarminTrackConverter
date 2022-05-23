@@ -116,14 +116,16 @@ public class Locations
         dateTimeLong=record.getIntValue(index, "timestamp");
         if (dateTimeLong==0xFFFFFFFFL)
         {
-            pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):(\\d{2})$");
+            pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):{0,1}(\\d{2})$");
             matcher=pattern.matcher(name);
             if (matcher.find())
             {
                 // Create dateTime from the name assuming year is current year
                 // We also assume default time zone
                 now=LocalDateTime.now();
-                localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+name, DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
+                localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+
+                                                  matcher.group(1)+" "+matcher.group(2)+" "+matcher.group(3)+":"+matcher.group(4), 
+                                                  DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
                 
                 // If it appears that now is before the dateTime, the assumption was not correct; 
                 // best we can do is assume it was from previous year
