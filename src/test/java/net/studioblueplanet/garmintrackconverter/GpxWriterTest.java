@@ -113,10 +113,63 @@ public class GpxWriterTest
         result=new String(Files.readAllBytes((new File("src/test/resources/result1b.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
-        
-        // TO DO: test compressed GPX writing
     }
 
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile2() throws Exception
+    {
+        TrackSegment    segment;
+        TrackPoint      point;
+        String          result;
+        
+        System.out.println("writeTrackToFile");
+        Track track=new Track();
+        
+        List<TrackSegment> segments=track.getSegments();
+        segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
+                                 ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
+        
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
+                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6);
+        segment.addTrackPoint(point);
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,11, 0, ZoneId.of("UTC")),
+                             53.5, 6.6, 1.0, 2.0, 3.0, 4, 5, 6);
+        segment.addTrackPoint(point);
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,12, 0, ZoneId.of("UTC")),
+                             53.5, 6.7, 1.0, 2.0, 3.0, 4, 5, 6);
+        segment.addTrackPoint(point);
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,13, 0, ZoneId.of("UTC")),
+                             53.7, 6.7, 1.0, 2.0, 3.0, 4, 5, 6);
+        segment.addTrackPoint(point);
+        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,14, 0, ZoneId.of("UTC")),
+                             53.5, 6.8, 1.0, 2.0, 3.0, 4, 5, 6);
+        segment.addTrackPoint(point);
+
+        segments.add(segment);
+        track.compressTrack(0.01);
+        
+        // Non compressed
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3a.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+
+        // Compressed
+        writer=new StringWriter();
+        instance.writeTrackToFile(writer, track, "trackname", "appname", true);
+        System.out.println(writer.toString());
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3b.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
+    
+    
     /**
      * Test of writeWaypointsToFile method, of class GpxWriter.
      */
