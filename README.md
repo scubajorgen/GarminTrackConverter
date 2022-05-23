@@ -31,7 +31,10 @@ in the configuration.
 ```
 {
   "debugLevel":"info",
-  "gpxFilePath": "d:/gps/gpx",
+  "gpxFileDownloadPath": "./development/gpx",
+  "gpxFileUploadPath": "./development/gpxRoutes",
+  "trackCompression": true,
+  "trackCompressionMaxError": 0.01,
   "devices":
   [
     {
@@ -86,7 +89,16 @@ Buttons:
 * Upload: Uploads a .gpx file containing trk, rte or wpt
 * Delete: Delete the selected file
 
-Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers and the Fenix 7. 
+Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers and the **Fenix 7**. 
+
+## Compression
+A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
+
+If on the device a log frequency of trackpoints is set to 'smart', the device compresses the track. However, on the Fenix 7 every second a trackpoint is logged even when 'smart logging' is chosen for Open Water Swimming. Here comes in the compression feature.
+
+Compressing can be switched on by checking the 'Save compressed track' checkbox. The setting 'trackCompression' in the settings file can be used to have it checked by default. 
+
+The algorithm requires a maximum allowable error value. This can be defined in the settings file by 'trackCompressionMaxError': the larger the value the higher the compression ratio but the more deviation occurs. A value of 0.01 gives good results.
 
 ## Development
 The software was developed using Apache Netbeans. The Maven project can be run or debugged from Netbeans. For developement, a directory /development is available. It contains in /development/Garmin a copy of the filestructure from a Garmin Edge830 device, including some logged activities, courses and locations. The folder /development/gpx can be used to store GPX files.
