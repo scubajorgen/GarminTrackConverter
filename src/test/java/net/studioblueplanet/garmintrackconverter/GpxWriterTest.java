@@ -135,6 +135,7 @@ public class GpxWriterTest
         point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
                              53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6);
         segment.addTrackPoint(point);
+        // We expect next point to be omitted
         point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,11, 0, ZoneId.of("UTC")),
                              53.5, 6.6, 1.0, 2.0, 3.0, 4, 5, 6);
         segment.addTrackPoint(point);

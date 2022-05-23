@@ -1052,7 +1052,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.error("Error writing file {}: {}", fileName, e.getMessage());
                 }
-                this.textAreaOutput.setText("File saved to "+fileName+"\n");
+                this.textAreaOutput.setText("File saved to "+fileName);
+                if (jCheckBoxCompress.isSelected())
+                {
+                    this.textAreaOutput.append(" (compressed)");
+                }
+                this.textAreaOutput.append("\n");
                 LOGGER.info("Track saved to {}", fileName);
             }
         }
