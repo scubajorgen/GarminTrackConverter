@@ -168,9 +168,26 @@ public class GpxWriter
     /**
      * Adds a int value to the XML Element
      * @param document Element to add to
-     * @param value Double
+     * @param value Integer value
      */
     private void addChildElement(Element document, String tag, Integer value)
+    {
+        Element element;
+        
+        if (value!=null)
+        {
+            element    = doc.createElement(tag);
+            element.appendChild(doc.createTextNode(String.valueOf(value)));
+            document.appendChild(element);
+        }        
+    }
+    
+    /**
+     * Adds a int value to the XML Element
+     * @param document Element to add to
+     * @param value Boolean value
+     */
+    private void addChildElement(Element document, String tag, Boolean value)
     {
         Element element;
         
@@ -502,6 +519,17 @@ public class GpxWriter
             {
                 description+=".";
             }
+            
+            description+=" Original file: "+track.getFitFileName();
+            if (compressed)
+            {
+                description+=" (compressed).";
+            }
+            else
+            {
+                description+=".";
+            }
+            
             addChildElement(trackElement, "desc", description);
 
             // Add the track segments.
@@ -529,6 +557,8 @@ public class GpxWriter
             addChildElement(extensions, "u-gotMe:device", track.getDeviceName()+" - sw "+track.getSoftwareVersion());
             addChildElement(extensions, "u-gotMe:software", appName);
             addChildElement(extensions, "u-gotMe:activity", activity);
+            addChildElement(extensions, "u-gotMe:sourceFile", track.getFitFileName());
+            addChildElement(extensions, "u-gotMe:compression", compressed);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
             addChildElement(extensions, "u-gotMe:duration_s", track.getElapsedTime());
             addChildElement(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
@@ -539,6 +569,7 @@ public class GpxWriter
             addChildElement(extensions, "u-gotMe:calories_cal", track.getCalories(), 1);
             addChildElement(extensions, "u-gotMe:garminGrit_kgrit", track.getGrit(), 2);
             addChildElement(extensions, "u-gotMe:garminFlow", track.getFlow(), 2);
+            
             Integer jumps=track.getJumpCount();
             if (jumps!=null && jumps!=0xFFFF)
             {
