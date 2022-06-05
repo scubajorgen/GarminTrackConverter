@@ -135,7 +135,11 @@ public class Track
             this.addTrackpointsToSegments(trackMessages);
 
             this.deviceName=deviceName;
-            //repository.dumpMessageDefintions();
+
+            // On the Fenix 7 it has been observed that not always 
+            // trackpoints are stored in chronological order. Therefore
+            // sort the segments after adding trackpoints
+            this.sortSegments();
             
             maxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
             this.compressTrack(maxError);
@@ -459,7 +463,7 @@ public class Track
                                  speed, 
                                  distance);
                 i++;
-            }           
+            }
         }
         LOGGER.info("Good coordinates {}, wrong coordinates: {} ({}%)", validCoordinates, invalidCoordinates, 100*invalidCoordinates/(invalidCoordinates+validCoordinates));
     }
@@ -584,6 +588,14 @@ public class Track
         return info;
     }
 
+    
+    private void sortSegments()
+    {
+        segments.forEach((segment) ->
+        {
+            segment.sortOnDateTime();
+        });        
+    }
     
     /* ******************************************************************************************* *\
      * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM

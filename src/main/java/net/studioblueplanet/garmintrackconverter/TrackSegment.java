@@ -22,8 +22,8 @@ import org.apache.logging.log4j.Logger;
 public class TrackSegment
 {
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
-    private final List<TrackPoint>  trackPoints;
-    private List<TrackPoint>  compressedTrackPoints;
+    private List<TrackPoint>        trackPoints;
+    private List<TrackPoint>        compressedTrackPoints;
     private final ZonedDateTime     startTime;
     private final ZonedDateTime     endTime;
 
@@ -141,6 +141,14 @@ public class TrackSegment
     public ZonedDateTime getEndTime()
     {
         return endTime;
+    }
+    
+    /**
+     * Sort the list of trackpoints on datetime of the trackpoints.
+     */
+    public void sortOnDateTime()
+    {
+        trackPoints=trackPoints.stream().sorted().collect(Collectors.toList());
     }
     
     /**
