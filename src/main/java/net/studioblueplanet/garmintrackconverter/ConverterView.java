@@ -244,6 +244,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         if (trackDirectoryList.updateDirectoryList())
         {
+            this.tracksCache.clear();
+            readWaypoints();
             SwingUtilities.invokeLater(() ->
             {
                 boolean hasSelection=false;
