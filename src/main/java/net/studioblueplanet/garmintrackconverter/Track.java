@@ -249,7 +249,15 @@ public class Track
                 jumpCount   =(int)message.getIntValue(i, "jump_count");
                 calories    =message.getScaledValue(i, "total_calories");
                 ascent      =(int)message.getIntValue(i, "total_ascent");
+                if (ascent==0xffff)
+                {
+                    ascent=null;
+                }
                 descent     =(int)message.getIntValue(i, "total_descent");
+                if (descent==0xffff)
+                {
+                    descent=null;
+                }
                 mode        =message.getStringValue(i, "mode");
                 
                 id=(int)message.getIntValue(0, "sport");
