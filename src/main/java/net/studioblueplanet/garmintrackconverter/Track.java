@@ -61,7 +61,8 @@ public class Track
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    
+    private final double                    maxError;
+
     
     private static final int                TIMEREVENT=0;
     private static final int                TIMEREVENT_TIMERSTARTED=0;
@@ -69,7 +70,6 @@ public class Track
 
     private int                             invalidCoordinates;
     private int                             validCoordinates;
-    private int                             compressedCoordinates;
     
     /**
      * Constructor
@@ -86,7 +86,6 @@ public class Track
         List<FitMessage>        trackMessages;
         FitMessage              message;
         int                     id;
-        double                  maxError;
         
         fitFileName     =new File(trackFileName).getName();
         segments        =new ArrayList<>();
@@ -144,14 +143,18 @@ public class Track
             maxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
             this.compressTrack(maxError);
         }
-        
-        
+        else 
+        {
+            maxError=0.0;
+            
+        }
     }
     
     public Track()
     {
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
+        maxError        =0.0;
     }
     
 
@@ -852,5 +855,14 @@ public class Track
     public int getValidCoordinates()
     {
         return validCoordinates;
+    }
+    
+    /**
+     * Returns the maxError value used for compressing the track
+     * @return The maxError value.
+     */
+    public double getMaxError()
+    {
+        return maxError;
     }
 }

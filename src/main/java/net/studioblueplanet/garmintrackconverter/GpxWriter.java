@@ -491,6 +491,7 @@ public class GpxWriter
         Element trackElement;
         Element element;
         String  description;
+        double  compressionMaxErr;
 
         numberOfSegments=track.getNumberOfSegments();
 
@@ -524,10 +525,12 @@ public class GpxWriter
             if (compressed)
             {
                 description+=" (compressed).";
+                compressionMaxErr=track.getMaxError();
             }
             else
             {
                 description+=".";
+                compressionMaxErr=0.0;
             }
             
             addChildElement(trackElement, "desc", description);
@@ -554,11 +557,13 @@ public class GpxWriter
             gpxElement.appendChild(extensions);
 
             String activity=track.getSportDescription();
-            addChildElement(extensions, "u-gotMe:device", track.getDeviceName()+" - sw "+track.getSoftwareVersion());
+            addChildElement(extensions, "u-gotMe:device", track.getDeviceName());
+            addChildElement(extensions, "u-gotMe:deviceFirmware", track.getSoftwareVersion());
             addChildElement(extensions, "u-gotMe:software", appName);
             addChildElement(extensions, "u-gotMe:activity", activity);
             addChildElement(extensions, "u-gotMe:sourceFile", track.getFitFileName());
             addChildElement(extensions, "u-gotMe:compression", compressed);
+            addChildElement(extensions, "u-gotMe:compressionMaxErr", compressionMaxErr, 4);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
             addChildElement(extensions, "u-gotMe:duration_s", track.getElapsedTime());
             addChildElement(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
