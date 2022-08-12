@@ -246,7 +246,14 @@ public class Track
                 }
                 grit        =message.getFloatValue(i, "total_grit");
                 flow        =message.getFloatValue(i, "avg_flow");
-                jumpCount   =(int)message.getIntValue(i, "jump_count");
+                if (message.hasField("jump_count"))
+                {
+                    jumpCount   =(int)message.getIntValue(i, "jump_count");
+                }
+                else
+                {
+                    jumpCount   =null;
+                }
                 calories    =message.getScaledValue(i, "total_calories");
                 ascent      =(int)message.getIntValue(i, "total_ascent");
                 if (ascent==0xffff)
