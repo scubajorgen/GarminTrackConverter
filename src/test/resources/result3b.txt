@@ -51,8 +51,8 @@
     </trkseg>
   </trk>
   <extensions>
-    <u-gotMe:device>null - sw null</u-gotMe:device>
     <u-gotMe:software>appname</u-gotMe:software>
     <u-gotMe:compression>true</u-gotMe:compression>
+    <u-gotMe:compressionMaxErr>0.0100</u-gotMe:compressionMaxErr>
   </extensions>
 </gpx>

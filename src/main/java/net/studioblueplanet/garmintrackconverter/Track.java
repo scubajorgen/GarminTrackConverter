@@ -61,7 +61,7 @@ public class Track
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    private final double                    maxError;
+    private double                          compressionMaxError;
 
     
     private static final int                TIMEREVENT=0;
@@ -140,12 +140,12 @@ public class Track
             // sort the segments after adding trackpoints
             this.sortSegments();
             
-            maxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
-            this.compressTrack(maxError);
+            compressionMaxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
+            compressTrack(compressionMaxError);
         }
         else 
         {
-            maxError=0.0;
+            compressionMaxError=0.0;
             
         }
     }
@@ -154,7 +154,7 @@ public class Track
     {
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
-        maxError        =0.0;
+        compressionMaxError        =0.0;
     }
     
 
@@ -605,6 +605,7 @@ public class Track
     \* ******************************************************************************************* */
     public void compressTrack(double maxError)
     {
+        compressionMaxError=maxError;
         segments.forEach((segment) ->
         {
             segment.compress(maxError);
@@ -863,6 +864,6 @@ public class Track
      */
     public double getMaxError()
     {
-        return maxError;
+        return compressionMaxError;
     }
 }
