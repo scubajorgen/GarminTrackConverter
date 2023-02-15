@@ -1,6 +1,7 @@
 /target
 /documentation
 /nbproject
+/.idea
 /development/various
 /development/device_fenix7_sync/GARMIN/*.xml
 /development/device_fenix7_sync/GARMIN/*.fit
