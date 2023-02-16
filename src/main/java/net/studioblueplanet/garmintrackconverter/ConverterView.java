@@ -1141,7 +1141,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jTrackList.getSelectedIndex();
             fileName=trackModel.elementAt(index);
-            fullFileName=attachedDevice.getTrackFilePath()+"\\"+fileName;
+            fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
             if (tracksCache.containsKey(fileName))
             {
                 track=tracksCache.get(fileName);
@@ -1185,7 +1185,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             jLocationList.clearSelection();
             index=jRouteList.getSelectedIndex();
             fileName=routeModel.elementAt(index);
-            fullFileName=attachedDevice.getRouteFilePath()+"\\"+fileName;
+            fullFileName=attachedDevice.getRouteFilePath()+File.separator+fileName;
             if (routesCache.containsKey(fileName))
             {
                 track=routesCache.get(fileName);
@@ -1216,7 +1216,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jNewFilesList.getSelectedIndex();
             fileName=newFileModel.getElementAt(index);
-            fullFileName=attachedDevice.getNewFilePath()+"\\"+fileName;
+            fullFileName=attachedDevice.getNewFilePath()+File.separator+fileName;
 
             if (newFilesCache.containsKey(fileName))
             {
@@ -1284,7 +1284,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             
             index=jLocationList.getSelectedIndex();
             fileName=locationModel.getElementAt(index);
-            fullFileName=attachedDevice.getLocationFilePath()+"\\"+fileName;
+            fullFileName=attachedDevice.getLocationFilePath()+File.separator+fileName;
             
             if (locationsCache.containsKey(fileName))
             {
