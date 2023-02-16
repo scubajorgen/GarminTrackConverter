@@ -65,7 +65,7 @@ public class ConverterAbout extends javax.swing.JDialog
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Product Verion:");
+        jLabel3.setText("Product Version:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Author:");
@@ -158,22 +158,22 @@ public class ConverterAbout extends javax.swing.JDialog
     {
         jLabelProduct.setText(version);
     }
-    
+
     public void setAuthor(String author)
     {
         jLabelAuthor.setText(author);
     }
-    
+
     public void setHomePage(String homepageUrl)
     {
         jLabelHomepage.setText(homepageUrl);
     }
-    
+
     public void setGithub(String github)
     {
         jLabelGithub.setText(github);
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAboutClose;
