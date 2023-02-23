@@ -113,10 +113,24 @@ public class TrackTest
      * Test of getNumberOfSegments method, of class Track.
      */
     @Test
-    public void testGetNumberOfSegments()
+    public void testGetNumberOfSegments_fromEvents()
     {
-        System.out.println("getNumberOfSegments");
+        System.out.println("getNumberOfSegments - events");
         assertEquals(1, instance.getNumberOfSegments());
+        assertEquals(2, instanceTwoSegments.getNumberOfSegments());
+    }
+
+    /**
+     * Test of getNumberOfSegments method, of class Track.
+     */
+    @Test
+    public void testGetNumberOfSegments_fromLaps()
+    {
+        System.out.println("getNumberOfSegments - laps");
+        Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", "TestDevice");
+        assertEquals(1, instance2.getNumberOfSegments());
+        assertEquals("2022-11-08T19:00:39Z[UTC]", instance2.getSegments().get(0).getStartTime().toString());
+        assertEquals("2022-11-08T21:52:54Z[UTC]", instance2.getSegments().get(0).getEndTime().toString());
     }
 
     /**

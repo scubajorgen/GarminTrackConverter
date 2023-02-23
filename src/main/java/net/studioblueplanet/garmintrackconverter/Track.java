@@ -124,12 +124,31 @@ public class Track
             softwareVersion =String.format("%.2f", version);
         }
         
-        if (lapMessages!=null && trackMessages!=null)
+        if (trackMessages!=null && trackMessages.size()>0)
         {
-            // Get data from session
-            this.parseSessions(sessionMessages);
-            // Get track segments from timer start/stop
+            // Parse sessions
+            if (sessionMessages!=null && sessionMessages.size()>0)
+            {
+                // Get data from session
+                this.parseSessions(sessionMessages);
+            }            
+            
+            // Get track segments from timer start/stop; only works for tracks
             this.getSegmentsFromEvents(eventMessages);
+
+            // If no segments found, try to get them from the laps
+            if (segments.size()==0)
+            {
+                if (lapMessages!=null && lapMessages.size()>0)
+                {
+                    // Get data from session
+                    this.parseLaps(lapMessages);
+                }
+                else
+                {
+                    LOGGER.error("Unable to extract segments from track or route");
+                }
+            }
             // Add trackpoints to segments
             this.addTrackpointsToSegments(trackMessages);
 
@@ -176,9 +195,10 @@ public class Track
             i=0;
             while (i<size)
             {
-                endTime     =message.getTimeValue(i, "timestamp");
                 startTime   =message.getTimeValue(i, "start_time");
                 elapsedTime =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
+                long timedTime =message.getIntValue(i, "total_timed_time")/MS_PER_S;
+                endTime     =startTime.plusSeconds(elapsedTime);
 
                 segment     =new TrackSegment(startTime, endTime);
                 segments.add(segment);
@@ -466,7 +486,7 @@ public class Track
                     validCoordinates++;
                     if (!found)
                     {
-                        LOGGER.error("No segment found to add trackpoint @ {} to", dateTime.toString());
+                        LOGGER.error("No segment found to add trackpoint @ {} [{}, {}] to", dateTime.toString(), lat, lon);
                     }
                 }
                 else
