@@ -86,7 +86,9 @@ public class Track
         List<FitMessage>        trackMessages;
         FitMessage              message;
         int                     id;
+        boolean                 isCourse;
         
+        isCourse        =false;
         fitFileName     =new File(trackFileName).getName();
         segments        =new ArrayList<>();
         waypoints       =new ArrayList<>();
@@ -109,6 +111,11 @@ public class Track
             serialNumber=message.getIntValue(0, "serial_number");
             id          =(int)message.getIntValue(0, "type");
             fileType    =FitGlobalProfile.getInstance().getTypeValueName("file", id);
+
+            if ("training_center".equals(product))
+            {
+                isCourse=true;
+            }
         }        
 
         //device_info
@@ -149,6 +156,7 @@ public class Track
                     LOGGER.error("Unable to extract segments from track or route");
                 }
             }
+
             // Add trackpoints to segments
             this.addTrackpointsToSegments(trackMessages);
 
@@ -157,7 +165,12 @@ public class Track
             // On the Fenix 7 it has been observed that not always 
             // trackpoints are stored in chronological order. Therefore
             // sort the segments after adding trackpoints
-            this.sortSegments();
+            // For courses we don't want this sorting because timestamps
+            // of the course points may not have a meaning
+            if (!isCourse)
+            {
+                this.sortSegments();
+            }
             
             compressionMaxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
             compressTrack(compressionMaxError);
@@ -185,30 +198,29 @@ public class Track
     {
         int i;
         int size;
-        ZonedDateTime           startTime;
-        ZonedDateTime           endTime;
+        ZonedDateTime           segmentStartTime;
+        ZonedDateTime           segmentEndTime;
         TrackSegment            segment;
         
         for (FitMessage message:lapMessages)
         {
-            size            =message.getNumberOfRecords();
+            size                =message.getNumberOfRecords();
             i=0;
             while (i<size)
             {
-                startTime   =message.getTimeValue(i, "start_time");
-                elapsedTime =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
-                long timedTime =message.getIntValue(i, "total_timed_time")/MS_PER_S;
-                endTime     =startTime.plusSeconds(elapsedTime);
+                segmentStartTime=message.getTimeValue(i, "start_time");
 
-                segment     =new TrackSegment(startTime, endTime);
-                segments.add(segment);
 
-                if (startTime!=null && endTime!=null)
+                if (segmentStartTime!=null)
                 {
+                    elapsedTime     =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
+                    segmentEndTime  =segmentStartTime.plusSeconds(elapsedTime);
+                    segment     =new TrackSegment(segmentStartTime, segmentEndTime);
+                    segments.add(segment);
                     LOGGER.debug("Lap {} {} - {} {} s", 
                                  message.getIntValue(i, "message_index"),
-                                 startTime.toString(),
-                                 endTime.toString(),
+                                 segmentStartTime.toString(),
+                                 segmentEndTime.toString(),
                                  elapsedTime);
                 }
                 else
@@ -320,7 +332,7 @@ public class Track
     }    
     
     /**
-     * This method parses the FIT lap record and destillates the number of sessions.
+     * This method parses the FIT lap record and destilles the number of sessions.
      * @param lapMessages The FIT record holding the 'lap' info
      */
     private void getSegmentsFromEvents(List<FitMessage> eventMessages)

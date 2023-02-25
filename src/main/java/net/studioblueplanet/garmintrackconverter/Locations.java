@@ -62,7 +62,14 @@ public class Locations
             {
                 name        =record.getStringValue(i, "name");
                 dateTime    =extractDateTime(record, i, name);
-                description =record.getStringValue(i, "description");
+                if (record.hasField("description"))
+                {
+                    description =record.getStringValue(i, "description");
+                }
+                else
+                {
+                    description=null;
+                }
                 lat         =record.getLatLonValue(i, "position_lat");
                 lon         =record.getLatLonValue(i, "position_long");
                 ele         =record.getScaledValue(i, "altitude");
