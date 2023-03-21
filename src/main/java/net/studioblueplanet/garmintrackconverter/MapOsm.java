@@ -9,8 +9,11 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +24,6 @@ import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
-import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
@@ -123,12 +125,15 @@ public class MapOsm extends Map
         }
     }
 
-    
-    private class OsmWaypoint extends AbstractBean implements Waypoint 
+    /**
+     * Inner class representing a waypoint on the map
+     */
+    private class OsmWaypoint implements Waypoint 
     {
         private GeoPosition position;
         private String      name;
         private int         symbol;
+        private boolean     focussed;
 
         /** 
          * Creates a new instance of Waypoint 
@@ -136,6 +141,7 @@ public class MapOsm extends Map
         public OsmWaypoint()
         {
             this(new GeoPosition(0, 0));
+            focussed=false;
         }
 
         /**
@@ -173,32 +179,31 @@ public class MapOsm extends Map
             return symbol;
         }
 
-        /**
-         * Set a new GeoPosition for this Waypoint
-         * @param coordinate a new position
-         */
-        public void setPosition(GeoPosition coordinate)
+        public boolean isFocussed()
         {
-            GeoPosition old = getPosition();
-            this.position = coordinate;
-            firePropertyChange("position", old, getPosition());
+            return focussed;
         }
 
+        public void setFocussed(boolean focussed)
+        {
+            this.focussed = focussed;
+        }
     }    
     
     /**
-     * Inner class representing a track to display
+     * Inner class representing a track to display. It basically consists of
+     * the track segments and a list of waypoints
      */
     private class OsmTrack
     {
         private final List<OsmTrackSegment> segments;
-        private final Set<Waypoint>         waypoints;
+        private final Set<OsmWaypoint>      waypoints;
         
         public OsmTrack()
         {
             segments       =new ArrayList<>();
             // Create waypoints from the geo-positions
-            waypoints               = new HashSet<>();
+            waypoints      = new HashSet<>();
         }
         
         public void add(OsmTrackSegment segment)
@@ -206,7 +211,7 @@ public class MapOsm extends Map
             segments.add(segment);
         }
       
-        public void add(Waypoint waypoint)
+        public void add(OsmWaypoint waypoint)
         {
             waypoints.add(waypoint);
         }
@@ -216,7 +221,7 @@ public class MapOsm extends Map
             return segments;
         }
         
-        public Set<Waypoint> getWaypoints()
+        public Set<OsmWaypoint> getWaypoints()
         {
             return waypoints;
         }
@@ -241,7 +246,7 @@ public class MapOsm extends Map
         {
             ArrayList<GeoPosition> bounds;
             
-            bounds=new ArrayList<GeoPosition>();
+            bounds=new ArrayList<>();
             
             for (OsmTrackSegment segment : segments)
             {
@@ -258,10 +263,10 @@ public class MapOsm extends Map
     }
     
     /**
-     * Paints a track
+     * Inner class that Paints a track
      * @author Martin Steiger, Jörgen 
      */
-    private class RoutePainter implements Painter<JXMapViewer>
+    private class OsmRoutePainter implements Painter<JXMapViewer>
     {
         private final Color     color = Color.RED;
         private final boolean   antiAlias = true;
@@ -270,7 +275,7 @@ public class MapOsm extends Map
         /**
          * @param track the track
          */
-        public RoutePainter(OsmTrack track)
+        public OsmRoutePainter(OsmTrack track)
         {
             this.track = track;
         }
@@ -356,8 +361,10 @@ public class MapOsm extends Map
         }
     }
     
-    
-    private class NewWaypointRenderer implements WaypointRenderer<Waypoint>
+    /**
+     * Inner class that renders waypoints
+     */
+    private class OsmWaypointRenderer implements WaypointRenderer<OsmWaypoint>
     {
         private BufferedImage imgWpt    = null;
         private BufferedImage imgStart  = null;
@@ -366,22 +373,21 @@ public class MapOsm extends Map
         /**
          * Uses a default waypoint image
          */
-        public NewWaypointRenderer()
+        public OsmWaypointRenderer()
         {
             try
             {
-                imgStart    = ImageIO.read(NewWaypointRenderer.class.getResource("/images/x1.png"));
-                imgFinish   = ImageIO.read(NewWaypointRenderer.class.getResource("/images/x2.png"));
-                imgWpt      = ImageIO.read(NewWaypointRenderer.class.getResource("/images/RedDot.png"));
+                imgStart    = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/x1.png"));
+                imgFinish   = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/x2.png"));
+                imgWpt      = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/RedDot.png"));
             }
             catch (Exception ex)
             {
-//                LOGGER.error("couldn't read standard_waypoint.png", ex);
             }
         }
 
         @Override
-        public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint w)
+        public void paintWaypoint(Graphics2D g, JXMapViewer map, OsmWaypoint w)
         {
             BufferedImage img;
             
@@ -403,12 +409,74 @@ public class MapOsm extends Map
 
             if(img!=null)
             {
-            int x = (int)point.getX() -img.getWidth()/2;
-            int y = (int)point.getY() -img.getHeight()/2;
-            g.drawImage(img, x, y, null);
+                int x = (int)point.getX() -img.getWidth()/2;
+                int y = (int)point.getY() -img.getHeight()/2;
+                g.drawImage(img, x, y, null);
+                if (((OsmWaypoint)w).isFocussed())
+                {
+                    g.drawString(((OsmWaypoint)w).getName(), x, y);
+                }
             }
         }        
     }
+    
+    /**
+     * Inner class that listens to mouse movement. It focusses the waypoint 
+     * the mouse is moving over
+     */
+    private class MouseMovedListener extends MouseAdapter 
+    {
+        private static final int    AREA=5;
+        private final OsmTrack      track;
+        
+        public MouseMovedListener(OsmTrack track)
+        {
+            this.track=track;
+        }
+        /**
+         * Gets called on mouseClicked events, calculates the GeoPosition and fires
+         * the mapClicked method that the extending class needs to implement.
+         * 
+         * @param evt the mouse event
+         */
+        @Override
+        public void mouseMoved(MouseEvent evt) 
+        {
+            Rectangle bounds = mapViewer.getViewportBounds();
+            int x = bounds.x + evt.getX();
+            int y = bounds.y + evt.getY();
+            Point pixelCoordinates = new Point(x, y);
+
+            Set<OsmWaypoint> points=track.getWaypoints();
+            
+            boolean found       =false;
+            for(OsmWaypoint point : points)
+            {
+                GeoPosition position=point.getPosition();
+                Point2D xy          =mapViewer.getTileFactory().geoToPixel(position, mapViewer.getZoom());
+                if (xy.getX()-x<AREA && xy.getX()-x>-AREA && 
+                    xy.getY()-y<AREA && xy.getY()-y>-AREA)
+                {
+                    if (!found)
+                    {
+                        // Only focus on the 1st in the list when overlapping waypoints
+                        point.setFocussed(true);
+                        found=true;
+                    }
+                    else
+                    {
+                        point.setFocussed(false);
+                    }
+                    
+                }
+                else
+                {
+                    point.setFocussed(false);
+                }
+            }
+            evt.getComponent().repaint();
+        }
+    }      
     
     
     private JXMapViewer             mapViewer;    
@@ -434,28 +502,28 @@ public class MapOsm extends Map
         mapViewer.addMouseMotionListener(mia);
         mapViewer.addMouseListener(new CenterMapListener(mapViewer));
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
-        mapViewer.addKeyListener(new PanKeyListener(mapViewer));        
+        mapViewer.addKeyListener(new PanKeyListener(mapViewer));      
+
         panel.add(mapViewer);
 
         hideTrack();
     }
             
-    
-    
-    
-    
+    /**
+     * Initializes the overlay painter
+     * @param track Track to paint
+     */
     private void initializeOverlayPainter(OsmTrack track)
     {
-        RoutePainter                    routePainter;
-        WaypointPainter<Waypoint>       waypointPainter;
+        OsmRoutePainter                 routePainter;
+        WaypointPainter<OsmWaypoint>    waypointPainter;
         
         // Create a waypoint painter that takes all the waypoints
         waypointPainter = new WaypointPainter<>();
         waypointPainter.setWaypoints(track.getWaypoints());  
-        waypointPainter.setRenderer(new NewWaypointRenderer());
-
-        routePainter    = new RoutePainter(track);        
+        waypointPainter.setRenderer(new OsmWaypointRenderer());
         
+        routePainter    = new OsmRoutePainter(track);                
         // Set the focus
         mapViewer.zoomToBestFit(new HashSet<>(track.getBounds()), 0.9);
         
@@ -466,7 +534,9 @@ public class MapOsm extends Map
         painters.add(waypointPainter);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<>(painters);
-        mapViewer.setOverlayPainter(painter);         
+        mapViewer.setOverlayPainter(painter);   
+        
+        mapViewer.addMouseMotionListener(new MouseMovedListener(track));        
     }
     
     
@@ -575,7 +645,6 @@ public class MapOsm extends Map
         }
         return "";
     }
-
 
     /**
      * Hides the track
