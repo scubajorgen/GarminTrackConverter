@@ -6,6 +6,7 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import java.awt.BasicStroke;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -14,6 +15,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import org.jxmapviewer.beans.AbstractBean;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -24,6 +26,9 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
+import org.jxmapviewer.viewer.WaypointRenderer;
+
+import javax.imageio.ImageIO;
 
 import java.util.List;
 import javax.swing.JPanel;
@@ -118,6 +123,68 @@ public class MapOsm extends Map
         }
     }
 
+    
+    private class OsmWaypoint extends AbstractBean implements Waypoint 
+    {
+        private GeoPosition position;
+        private String      name;
+        private int         symbol;
+
+        /** 
+         * Creates a new instance of Waypoint 
+         */
+        public OsmWaypoint()
+        {
+            this(new GeoPosition(0, 0));
+        }
+
+        /**
+         * @param latitude the latitude
+         * @param longitude the longitude
+         */
+        public OsmWaypoint(double latitude, double longitude, String name, int symbol)
+        {
+            this(new GeoPosition(latitude, longitude));
+            this.name   =name;
+            this.symbol =symbol;
+        }
+
+        /**
+         * @param coord the geo coordinate
+         */
+        public OsmWaypoint(GeoPosition coord)
+        {
+            this.position = coord;
+        }
+
+        @Override
+        public GeoPosition getPosition()
+        {
+            return position;
+        }
+        
+        public String getName()
+        {
+            return name;                  
+        }
+        
+        public int getSymbol()
+        {
+            return symbol;
+        }
+
+        /**
+         * Set a new GeoPosition for this Waypoint
+         * @param coordinate a new position
+         */
+        public void setPosition(GeoPosition coordinate)
+        {
+            GeoPosition old = getPosition();
+            this.position = coordinate;
+            firePropertyChange("position", old, getPosition());
+        }
+
+    }    
     
     /**
      * Inner class representing a track to display
@@ -289,6 +356,61 @@ public class MapOsm extends Map
         }
     }
     
+    
+    private class NewWaypointRenderer implements WaypointRenderer<Waypoint>
+    {
+        private BufferedImage imgWpt    = null;
+        private BufferedImage imgStart  = null;
+        private BufferedImage imgFinish = null;
+
+        /**
+         * Uses a default waypoint image
+         */
+        public NewWaypointRenderer()
+        {
+            try
+            {
+                imgStart    = ImageIO.read(NewWaypointRenderer.class.getResource("/images/x1.png"));
+                imgFinish   = ImageIO.read(NewWaypointRenderer.class.getResource("/images/x2.png"));
+                imgWpt      = ImageIO.read(NewWaypointRenderer.class.getResource("/images/RedDot.png"));
+            }
+            catch (Exception ex)
+            {
+//                LOGGER.error("couldn't read standard_waypoint.png", ex);
+            }
+        }
+
+        @Override
+        public void paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint w)
+        {
+            BufferedImage img;
+            
+            int symbol=((OsmWaypoint)w).getSymbol();
+            
+            if (symbol==254)
+            {
+                img=imgStart;
+            }
+            else if (symbol==255)
+            {
+                img=imgFinish;
+            }
+            else
+            {
+                img=imgWpt;
+            }
+            Point2D point = map.getTileFactory().geoToPixel(w.getPosition(), map.getZoom());
+
+            if(img!=null)
+            {
+            int x = (int)point.getX() -img.getWidth()/2;
+            int y = (int)point.getY() -img.getHeight()/2;
+            g.drawImage(img, x, y, null);
+            }
+        }        
+    }
+    
+    
     private JXMapViewer             mapViewer;    
     
     /**
@@ -324,12 +446,13 @@ public class MapOsm extends Map
     
     private void initializeOverlayPainter(OsmTrack track)
     {
-        RoutePainter                routePainter;
-        WaypointPainter<Waypoint>   waypointPainter;
+        RoutePainter                    routePainter;
+        WaypointPainter<Waypoint>       waypointPainter;
         
         // Create a waypoint painter that takes all the waypoints
         waypointPainter = new WaypointPainter<>();
-        waypointPainter.setWaypoints(track.getWaypoints());         
+        waypointPainter.setWaypoints(track.getWaypoints());  
+        waypointPainter.setRenderer(new NewWaypointRenderer());
 
         routePainter    = new RoutePainter(track);        
         
@@ -397,7 +520,7 @@ public class MapOsm extends Map
                     // Show first point of each segment
                     if (!firstWaypointShown)
                     {
-                        track.add(new DefaultWaypoint(lat, lon));
+                        track.add(new OsmWaypoint(lat, lon, "Start", 254));
                         firstWaypointShown=true;
                     }
                     points++;
@@ -411,12 +534,12 @@ public class MapOsm extends Map
         // Show last waypoint
         if (firstWaypointShown && lat!=0.0 && lon!=0.0)
         {
-            track.add(new DefaultWaypoint(lat, lon));
+            track.add(new OsmWaypoint(lat, lon, "Finish", 255));
         }
         
         for (Location point : activity.getWaypoints())
         {
-            track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
+            track.add(new OsmWaypoint(point.getLatitude(), point.getLongitude(), point.getName(), point.getSymbol()));
         }
         
         // No points = show default image
@@ -442,7 +565,7 @@ public class MapOsm extends Map
         {
             waypoints.forEach((point) ->
             {
-                track.add(new DefaultWaypoint(point.getLatitude(), point.getLongitude()));
+                track.add(new OsmWaypoint(point.getLatitude(), point.getLongitude(), point.getName(), point.getSymbol()));
             });
             this.initializeOverlayPainter(track);
         }
