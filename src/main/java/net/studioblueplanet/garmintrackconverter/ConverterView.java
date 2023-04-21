@@ -179,7 +179,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         this.textAreaOutput.setText("Initializing "+attachedDevice.getName()+"...\n");
         readDevice();
 
-        readWaypoints();
         jTextFieldDevice.setText(device.getDeviceDescription());
 
         SwingUtilities.invokeLater(() ->
@@ -243,8 +242,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         if (trackDirectoryList.updateDirectoryList())
         {
+            LOGGER.info("Track list updated");
             this.tracksCache.clear();
-            readWaypoints();
             SwingUtilities.invokeLater(() ->
             {
                 boolean hasSelection=false;
@@ -269,6 +268,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         if (locationDirectoryList.updateDirectoryList())
         {
+            LOGGER.info("Location list updated");
             SwingUtilities.invokeLater(() ->
             {
                 boolean hasSelection=false;
@@ -293,6 +293,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         if (routeDirectoryList.updateDirectoryList())
         {
+            LOGGER.info("Route list updated");
             SwingUtilities.invokeLater(() ->
             {
                 boolean hasSelection=false;
@@ -317,6 +318,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         if (newFileDirectoryList.updateDirectoryList())
         {
+            LOGGER.info("New files list updated");
             SwingUtilities.invokeLater(() ->
             {
                 boolean hasSelection=false;
@@ -1136,28 +1138,35 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         
         if (!evt.getValueIsAdjusting() && jTrackList.getSelectedIndex()>=0)
         {
-            jRouteList.clearSelection();
-            jNewFilesList.clearSelection();
-            jLocationList.clearSelection();
-            index=jTrackList.getSelectedIndex();
-            fileName=trackModel.elementAt(index);
-            fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
-            if (tracksCache.containsKey(fileName))
+            synchronized(this)
             {
-                track=tracksCache.get(fileName);
-                textAreaOutput.setText("Track retrieved from cache\n");
+                LOGGER.info("Reading waypoints for track");
+                readWaypoints();
+                jRouteList.clearSelection();
+                jNewFilesList.clearSelection();
+                jLocationList.clearSelection();
+                index=jTrackList.getSelectedIndex();
+                fileName=trackModel.elementAt(index);
+                fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
+                if (tracksCache.containsKey(fileName))
+                {
+                    LOGGER.info("Retrieving track {} from cache", fileName);
+                    track=tracksCache.get(fileName);
+                    textAreaOutput.setText("Track retrieved from cache\n");
+                }
+                else
+                {
+                    LOGGER.info("Reading track file {}", fileName);
+                    track=readTrack(fullFileName, true);
+                    tracksCache.put(fileName, track);
+
+                    textAreaOutput.setText("Track read from FIT file\n");
+
+                }
+                textAreaOutput.append(track.getTrackInfo2()+"\n");
+                jTextInfo.setText(track.getTrackInfo());
+                map.showTrack(track);
             }
-            else
-            {
-                track=readTrack(fullFileName, true);
-                tracksCache.put(fileName, track);
-                
-                textAreaOutput.setText("Track read from FIT file\n");
-                
-            }
-            textAreaOutput.append(track.getTrackInfo2()+"\n");
-            jTextInfo.setText(track.getTrackInfo());
-            map.showTrack(track);
         }
     }//GEN-LAST:event_jTrackListValueChanged
 
@@ -1180,24 +1189,29 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         
         if (!evt.getValueIsAdjusting() && jRouteList.getSelectedIndex()>=0)
         {
-            jTrackList.clearSelection();
-            jNewFilesList.clearSelection();
-            jLocationList.clearSelection();
-            index=jRouteList.getSelectedIndex();
-            fileName=routeModel.elementAt(index);
-            fullFileName=attachedDevice.getRouteFilePath()+File.separator+fileName;
-            if (routesCache.containsKey(fileName))
+            synchronized(this)
             {
-                track=routesCache.get(fileName);
-                textAreaOutput.setText("Route retrieved from cache\n");
+                jTrackList.clearSelection();
+                jNewFilesList.clearSelection();
+                jLocationList.clearSelection();
+                index=jRouteList.getSelectedIndex();
+                fileName=routeModel.elementAt(index);
+                fullFileName=attachedDevice.getRouteFilePath()+File.separator+fileName;
+                if (routesCache.containsKey(fileName))
+                {
+                    LOGGER.info("Retrieving route file {} from cache", fileName);
+                    track=routesCache.get(fileName);
+                    textAreaOutput.setText("Route retrieved from cache\n");
+                }
+                else
+                {
+                    LOGGER.info("Reading route file {}", fileName);
+                    track=readTrack(fullFileName, false);
+                    routesCache.put(fileName, track);
+                    textAreaOutput.setText("Route read from FIT file\n");
+                }
+                trackToMap(track);
             }
-            else
-            {
-                track=readTrack(fullFileName, false);
-                routesCache.put(fileName, track);
-                textAreaOutput.setText("Route read from FIT file\n");
-            }
-            trackToMap(track);
         }
     }//GEN-LAST:event_jRouteListValueChanged
 
@@ -1210,26 +1224,31 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         
         if (!evt.getValueIsAdjusting() && jNewFilesList.getSelectedIndex()>=0)
         {
-            jTrackList.clearSelection();
-            jRouteList.clearSelection();
-            jLocationList.clearSelection();
-            
-            index=jNewFilesList.getSelectedIndex();
-            fileName=newFileModel.getElementAt(index);
-            fullFileName=attachedDevice.getNewFilePath()+File.separator+fileName;
+            synchronized(this)
+            {
+                jTrackList.clearSelection();
+                jRouteList.clearSelection();
+                jLocationList.clearSelection();
 
-            if (newFilesCache.containsKey(fileName))
-            {
-                track=newFilesCache.get(fileName);
-                textAreaOutput.setText("New file retrieved from cache\n");
+                index=jNewFilesList.getSelectedIndex();
+                fileName=newFileModel.getElementAt(index);
+                fullFileName=attachedDevice.getNewFilePath()+File.separator+fileName;
+
+                if (newFilesCache.containsKey(fileName))
+                {
+                    LOGGER.info("Retrieving new file {} from cache", fileName);
+                    track=newFilesCache.get(fileName);
+                    textAreaOutput.setText("New file retrieved from cache\n");
+                }
+                else
+                {
+                    LOGGER.info("Reading new file {}", fileName);
+                    track=GpxReader.getInstance().readRouteFromFile(fullFileName);
+                    newFilesCache.put(fileName, track);
+                    textAreaOutput.setText("New file read from GPX file\n");
+                }
+                trackToMap(track);
             }
-            else
-            {
-                track=GpxReader.getInstance().readRouteFromFile(fullFileName);
-                newFilesCache.put(fileName, track);
-                textAreaOutput.setText("New file read from GPX file\n");
-            }
-            trackToMap(track);
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
 
@@ -1273,34 +1292,37 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {//GEN-HEADEREND:event_jLocationListValueChanged
         if (!evt.getValueIsAdjusting() && jLocationList.getSelectedIndex()>=0)
         {
-            Locations       points;
-            String          fileName;
-            String          fullFileName;
-            int             index;
-            
-            jTrackList.clearSelection();
-            jRouteList.clearSelection();
-            jNewFilesList.clearSelection();
-            
-            index=jLocationList.getSelectedIndex();
-            fileName=locationModel.getElementAt(index);
-            fullFileName=attachedDevice.getLocationFilePath()+File.separator+fileName;
-            
-            if (locationsCache.containsKey(fileName))
+            synchronized(this)
             {
-                points=locationsCache.get(fileName);
-                textAreaOutput.setText("Locations retrieved from cache\n");
-            }
-            else
-            {
-                LOGGER.info("Reading waypoints from {}", fullFileName);
-                points=new Locations(fullFileName);
-                locationsCache.put(fileName, points);
-                textAreaOutput.setText("Locations read from GPX file\n");
-            }
-            map.showWaypoints(points.getWaypoints());
-            jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
+                Locations       points;
+                String          fileName;
+                String          fullFileName;
+                int             index;
 
+                jTrackList.clearSelection();
+                jRouteList.clearSelection();
+                jNewFilesList.clearSelection();
+
+                index=jLocationList.getSelectedIndex();
+                fileName=locationModel.getElementAt(index);
+                fullFileName=attachedDevice.getLocationFilePath()+File.separator+fileName;
+
+                if (locationsCache.containsKey(fileName))
+                {
+                    LOGGER.info("Retrieving waypoints file {} from cache", fileName);
+                    points=locationsCache.get(fileName);
+                    textAreaOutput.setText("Locations retrieved from cache\n");
+                }
+                else
+                {
+                    LOGGER.info("Reading waypoints file {}", fullFileName);
+                    points=new Locations(fullFileName);
+                    locationsCache.put(fileName, points);
+                    textAreaOutput.setText("Locations read from GPX file\n");
+                }
+                map.showWaypoints(points.getWaypoints());
+                jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
+            }
         }
     }//GEN-LAST:event_jLocationListValueChanged
 
