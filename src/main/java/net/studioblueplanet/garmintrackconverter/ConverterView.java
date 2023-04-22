@@ -6,6 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -127,6 +128,47 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         thread          =new Thread(this);
         thread.start();
     }
+
+    /**
+     * This method redefines the fonts on the UI. It replaces the fonts by
+     * fonts incorporated in the application.
+     */
+    public void setFont()
+    {
+        Font monospace15pt;
+        Font proportional16pt;
+        
+        proportional16pt=new Font("Raleway", Font.PLAIN, 16);
+        monospace15pt   =new Font("DejaVu Sans Mono", Font.PLAIN, 15);
+        
+        buttonDelete.setFont(proportional16pt);  
+        buttonSave.setFont(proportional16pt);
+        buttonUpload.setFont(proportional16pt);
+        buttonSync.setFont(proportional16pt);
+        jCheckBoxCompress.setFont(proportional16pt);
+
+        textAreaOutput.setFont(proportional16pt);
+
+        jNewFilesList.setFont(monospace15pt);
+        jRouteList.setFont(monospace15pt);
+        jLocationList.setFont(monospace15pt);
+        jTrackList.setFont(monospace15pt);
+
+        jTextFieldDevice.setFont(proportional16pt);
+        jTextFieldInfo.setFont(proportional16pt);
+
+        jLabelDevice.setFont(proportional16pt);
+        jLabelInfo.setFont(proportional16pt);
+        jLabelLocations.setFont(proportional16pt);
+        jLabelNewFiles.setFont(proportional16pt);
+        jLabelRoutes.setFont(proportional16pt);
+        jLabelTracks.setFont(proportional16pt);
+
+        jMenuFile.setFont(proportional16pt);
+        jMenuHelp.setFont(proportional16pt);
+        jMenuItemAbout.setFont(proportional16pt);
+        jMenuItemExit.setFont(proportional16pt);
+    }
     
     /**
      * Exit procedure. If we have a device depending on syncing, check
@@ -185,12 +227,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {                      
             if (attachedDevice.getSyncCommand()!=null && !attachedDevice.getSyncCommand().equals(""))
             {
-                jButtonSync.setVisible(true);
+                buttonSync.setVisible(true);
                 hasSync=true;
             }
             else
             {
-                jButtonSync.setVisible(false);
+                buttonSync.setVisible(false);
                 hasSync=false;
             }
             isDirty=true;
@@ -219,7 +261,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         SwingUtilities.invokeLater(() ->
         {                        
-            jButtonSync.setVisible(false);
+            buttonSync.setVisible(false);
             hasSync=false;
             trackModel.clear();
             routeModel.clear();
@@ -436,46 +478,36 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        jFrame1 = new javax.swing.JFrame();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        textAreaOutput1 = new javax.swing.JTextArea();
-        jLabel5 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
-        jMapPanel1 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jLabel6 = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaOutput = new javax.swing.JTextArea();
         buttonSave = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTrackList = new javax.swing.JList<>();
         jMapPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelTracks = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jRouteList = new javax.swing.JList<>();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelRoutes = new javax.swing.JLabel();
         buttonUpload = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         jNewFilesList = new javax.swing.JList<>();
         buttonDelete = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        jLabelNewFiles = new javax.swing.JLabel();
+        jLabelLocations = new javax.swing.JLabel();
+        jLabelDevice = new javax.swing.JLabel();
         jTextFieldDevice = new javax.swing.JTextField();
         jScrollPane8 = new javax.swing.JScrollPane();
         jLocationList = new javax.swing.JList<>();
-        jLabel9 = new javax.swing.JLabel();
-        jTextInfo = new javax.swing.JTextField();
-        jButtonSync = new javax.swing.JButton();
+        jLabelInfo = new javax.swing.JLabel();
+        jTextFieldInfo = new javax.swing.JTextField();
+        buttonSync = new javax.swing.JButton();
         jCheckBoxCompress = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
         jMenuHelp = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemAbout = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -486,79 +518,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        textAreaOutput1.setColumns(20);
-        textAreaOutput1.setRows(5);
-        jScrollPane4.setViewportView(textAreaOutput1);
-
-        jMapPanel1.setBackground(new java.awt.Color(200, 200, 240));
-
-        javax.swing.GroupLayout jMapPanel1Layout = new javax.swing.GroupLayout(jMapPanel1);
-        jMapPanel1.setLayout(jMapPanel1Layout);
-        jMapPanel1Layout.setHorizontalGroup(
-            jMapPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 513, Short.MAX_VALUE)
-        );
-        jMapPanel1Layout.setVerticalGroup(
-            jMapPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane6.setViewportView(jList2);
-
-        jLabel6.setText("Routes");
-
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator4)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jFrame1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jFrame1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jMapPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)))
-                .addContainerGap())
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame1Layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jFrame1Layout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                    .addComponent(jMapPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -594,7 +553,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Tracks");
+        jLabelTracks.setText("Tracks");
 
         jRouteList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -603,7 +562,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         });
         jScrollPane3.setViewportView(jRouteList);
 
-        jLabel2.setText("Routes");
+        jLabelRoutes.setText("Routes");
 
         buttonUpload.setText("Upload GPX");
         buttonUpload.addActionListener(new java.awt.event.ActionListener() {
@@ -626,11 +585,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             }
         });
 
-        jLabel3.setText("New files");
+        jLabelNewFiles.setText("New files");
 
-        jLabel7.setText("Locations");
+        jLabelLocations.setText("Locations");
 
-        jLabel8.setText("Device:");
+        jLabelDevice.setText("Device:");
 
         jTextFieldDevice.setEnabled(false);
 
@@ -646,20 +605,20 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         });
         jScrollPane8.setViewportView(jLocationList);
 
-        jLabel9.setText("Info:");
+        jLabelInfo.setText("Info:");
 
-        jTextInfo.setEnabled(false);
+        jTextFieldInfo.setEnabled(false);
 
-        jButtonSync.setText("Sync");
-        jButtonSync.addActionListener(new java.awt.event.ActionListener() {
+        buttonSync.setText("Sync");
+        buttonSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSyncActionPerformed(evt);
+                buttonSyncActionPerformed(evt);
             }
         });
 
         jCheckBoxCompress.setText("Compress");
 
-        jMenu1.setText("File");
+        jMenuFile.setText("File");
 
         jMenuItemExit.setText("Exit");
         jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
@@ -667,19 +626,19 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 jMenuItemExitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItemExit);
+        jMenuFile.add(jMenuItemExit);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenuFile);
 
         jMenuHelp.setText("Help");
 
-        jMenuItem1.setText("About");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemAbout.setText("About");
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemAboutActionPerformed(evt);
             }
         });
-        jMenuHelp.add(jMenuItem1);
+        jMenuHelp.add(jMenuItemAbout);
 
         jMenuBar1.add(jMenuHelp);
 
@@ -694,21 +653,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane8))
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buttonSave)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -716,38 +663,51 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buttonDelete)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonSync)))
+                                .addComponent(buttonSync))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelLocations)
+                                            .addComponent(jLabelTracks)
+                                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabelNewFiles, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelRoutes, javax.swing.GroupLayout.Alignment.LEADING))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
+                                .addComponent(jLabelInfo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextInfo))
+                                .addComponent(jTextFieldInfo))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
+                                .addComponent(jLabelDevice)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE))
                             .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {buttonDelete, buttonSave, buttonUpload, jButtonSync});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {buttonDelete, buttonSave, buttonSync, buttonUpload});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(107, 107, 107)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelDevice)
+                        .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelRoutes)
+                        .addComponent(jLabelTracks)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -756,8 +716,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                             .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabelNewFiles)
+                            .addComponent(jLabelLocations))
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane7)
@@ -768,10 +728,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     .addComponent(buttonSave)
                     .addComponent(buttonUpload)
                     .addComponent(buttonDelete)
-                    .addComponent(jButtonSync)
+                    .addComponent(buttonSync)
                     .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelInfo)
+                    .addComponent(jTextFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -868,12 +828,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (track.getNumberOfSegments()>0)
             {
                 map.showTrack(track);
-                jTextInfo.setText(track.getTrackInfo());
+                jTextFieldInfo.setText(track.getTrackInfo());
             }
             else if (track.getWaypoints().size()>0)
             {
                 map.showWaypoints(track.getWaypoints());
-                jTextInfo.setText("Locations: "+track.getWaypoints().size());
+                jTextFieldInfo.setText("Locations: "+track.getWaypoints().size());
             }
         }
     }
@@ -1123,7 +1083,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
                 }
                 textAreaOutput.append(track.getTrackInfo2()+"\n");
-                jTextInfo.setText(track.getTrackInfo());
+                jTextFieldInfo.setText(track.getTrackInfo());
                 map.showTrack(track);
             }
         }
@@ -1270,7 +1230,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("Locations read from GPX file\n");
                 }
                 map.showWaypoints(points.getWaypoints());
-                jTextInfo.setText("Locations: "+points.getNumberOfWaypoints());
+                jTextFieldInfo.setText("Locations: "+points.getNumberOfWaypoints());
             }
         }
     }//GEN-LAST:event_jLocationListValueChanged
@@ -1331,8 +1291,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         exitProcedure();
     }//GEN-LAST:event_jMenuItemExitActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
-    {//GEN-HEADEREND:event_jMenuItem1ActionPerformed
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItemAboutActionPerformed
+    {//GEN-HEADEREND:event_jMenuItemAboutActionPerformed
         GarminTrackConverter    app;
         GitBuildInfo            build;
         ResourceMap             appResourceMap;
@@ -1354,13 +1314,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         GarminTrackConverter.getApplication().show(aboutBox);
 
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
-    private void jButtonSyncActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonSyncActionPerformed
-    {//GEN-HEADEREND:event_jButtonSyncActionPerformed
+    private void buttonSyncActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSyncActionPerformed
+    {//GEN-HEADEREND:event_buttonSyncActionPerformed
         executeSyncCommand();
         isDirty=false;
-    }//GEN-LAST:event_jButtonSyncActionPerformed
+    }//GEN-LAST:event_buttonSyncActionPerformed
 
     
 
@@ -1368,43 +1328,33 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private javax.swing.JButton buttonDelete;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton buttonSave;
+    private javax.swing.JButton buttonSync;
     private javax.swing.JButton buttonUpload;
-    private javax.swing.JButton jButtonSync;
     private javax.swing.JCheckBox jCheckBoxCompress;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList2;
+    private javax.swing.JLabel jLabelDevice;
+    private javax.swing.JLabel jLabelInfo;
+    private javax.swing.JLabel jLabelLocations;
+    private javax.swing.JLabel jLabelNewFiles;
+    private javax.swing.JLabel jLabelRoutes;
+    private javax.swing.JLabel jLabelTracks;
     private javax.swing.JList<String> jLocationList;
     private javax.swing.JPanel jMapPanel;
-    private javax.swing.JPanel jMapPanel1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenu jMenuHelp;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemAbout;
     private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JList<String> jNewFilesList;
     private javax.swing.JList<String> jRouteList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextField jTextFieldDevice;
-    private javax.swing.JTextField jTextInfo;
+    private javax.swing.JTextField jTextFieldInfo;
     private javax.swing.JList<String> jTrackList;
     private javax.swing.JTextArea textAreaOutput;
-    private javax.swing.JTextArea textAreaOutput1;
     // End of variables declaration//GEN-END:variables
 }
