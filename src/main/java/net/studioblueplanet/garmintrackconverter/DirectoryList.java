@@ -38,7 +38,8 @@ public class DirectoryList
     }
     
     /**
-     * Retrieves a list of files
+     * Retrieves a list of files. Filter only files that have a size>0
+     * to filter out files that are being transferred
      * @return The list of file names (without path)
      */
     private List<String> retrieveDirectoryFileList()
@@ -54,9 +55,10 @@ public class DirectoryList
             c=c.reversed();
         }
         Stream.of(directoryFile.listFiles())
-                .filter(file -> !file.isDirectory())
+                .filter(file -> !file.isDirectory() && file.length()>0 && file.getAbsolutePath().endsWith(".fit"))
                 .sorted(c)
-                .map(File::getName).forEach(file -> {files.add(file);});          
+                .map(File::getName)
+                .forEach(file -> {files.add(file);});          
         return files;
     }      
     

@@ -433,14 +433,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jFrame1 = new javax.swing.JFrame();
         jScrollPane4 = new javax.swing.JScrollPane();
         textAreaOutput1 = new javax.swing.JTextArea();
-        buttonSave1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
         jMapPanel1 = new javax.swing.JPanel();
@@ -496,15 +494,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         textAreaOutput1.setRows(5);
         jScrollPane4.setViewportView(textAreaOutput1);
 
-        buttonSave1.setText("Save GPX");
-        buttonSave1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                buttonSave1ActionPerformed(evt);
-            }
-        });
-
         jMapPanel1.setBackground(new java.awt.Color(200, 200, 240));
 
         javax.swing.GroupLayout jMapPanel1Layout = new javax.swing.GroupLayout(jMapPanel1);
@@ -518,8 +507,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>()
-        {
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -548,10 +536,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jMapPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame1Layout.createSequentialGroup()
-                        .addComponent(buttonSave1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel5)))
                 .addContainerGap())
         );
         jFrame1Layout.setVerticalGroup(
@@ -571,7 +556,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonSave1)
                 .addGap(23, 23, 23)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -584,18 +568,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jScrollPane1.setViewportView(textAreaOutput);
 
         buttonSave.setText("Save GPX");
-        buttonSave.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonSaveActionPerformed(evt);
             }
         });
 
-        jTrackList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
-        {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
-            {
+        jTrackList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jTrackListValueChanged(evt);
             }
         });
@@ -616,10 +596,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         jLabel1.setText("Tracks");
 
-        jRouteList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
-        {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
-            {
+        jRouteList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jRouteListValueChanged(evt);
             }
         });
@@ -628,28 +606,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jLabel2.setText("Routes");
 
         buttonUpload.setText("Upload GPX");
-        buttonUpload.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        buttonUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonUploadActionPerformed(evt);
             }
         });
 
-        jNewFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
-        {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
-            {
+        jNewFilesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jNewFilesListValueChanged(evt);
             }
         });
         jScrollPane7.setViewportView(jNewFilesList);
 
         buttonDelete.setText("Delete");
-        buttonDelete.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonDeleteActionPerformed(evt);
             }
         });
@@ -662,16 +634,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         jTextFieldDevice.setEnabled(false);
 
-        jLocationList.setModel(new javax.swing.AbstractListModel<String>()
-        {
+        jLocationList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jLocationList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
-        {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
-            {
+        jLocationList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jLocationListValueChanged(evt);
             }
         });
@@ -682,23 +651,19 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jTextInfo.setEnabled(false);
 
         jButtonSync.setText("Sync");
-        jButtonSync.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSyncActionPerformed(evt);
             }
         });
 
-        jCheckBoxCompress.setText("Save compressed track");
+        jCheckBoxCompress.setText("Compress");
 
         jMenu1.setText("File");
 
         jMenuItemExit.setText("Exit");
-        jMenuItemExit.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemExitActionPerformed(evt);
             }
         });
@@ -709,10 +674,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jMenuHelp.setText("Help");
 
         jMenuItem1.setText("About");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
@@ -726,27 +689,26 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane8))
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jCheckBoxCompress)
+                                .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buttonSave)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -758,19 +720,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldDevice, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 295, Short.MAX_VALUE))
-                                    .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextInfo)))))
+                                .addComponent(jTextInfo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE))
+                            .addComponent(jMapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
                 .addContainerGap())
         );
 
@@ -793,7 +752,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                             .addComponent(jScrollPane2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1170,16 +1129,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
     }//GEN-LAST:event_jTrackListValueChanged
 
-    private void buttonSave1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buttonSave1ActionPerformed
-    {//GEN-HEADEREND:event_buttonSave1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buttonSave1ActionPerformed
-
-    private void jTrackList1ValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jTrackList1ValueChanged
-    {//GEN-HEADEREND:event_jTrackList1ValueChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTrackList1ValueChanged
-
     private void jRouteListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jRouteListValueChanged
     {//GEN-HEADEREND:event_jRouteListValueChanged
         int     index;
@@ -1419,7 +1368,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private javax.swing.JButton buttonDelete;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton buttonSave;
-    private javax.swing.JButton buttonSave1;
     private javax.swing.JButton buttonUpload;
     private javax.swing.JButton jButtonSync;
     private javax.swing.JCheckBox jCheckBoxCompress;
