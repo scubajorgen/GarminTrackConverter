@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager;
  * a number of logged waypoints
  * @author Jorgen
  */
-public class Track
+public class Track extends CacheableItem
 {
     public static final int                 MS_PER_S    =1000;
     public static final int                 CM_PER_M    =100;
@@ -515,7 +515,7 @@ public class Track
                 i++;
             }
         }
-        LOGGER.info("Good coordinates {}, wrong coordinates: {} ({}%)", validCoordinates, invalidCoordinates, 100*invalidCoordinates/(invalidCoordinates+validCoordinates));
+        LOGGER.info("Good coordinates {}, wrong coordinates: {}", validCoordinates, invalidCoordinates);
     }
     
     /**
@@ -629,11 +629,25 @@ public class Track
                              .map(seg -> seg.getNumberOfCompressedTrackPoints())
                              .mapToInt(Integer::valueOf)
                              .sum();
-        
+        int percentage=0;
+        if (points>0)
+        {
+            percentage=(cpoints*100/points);
+        }
         info+="\nSegments: "+this.segments.size()+", points: "+points+", compressed: "+cpoints+" ("+
-               (cpoints*100/points)+"%), waypoints: "+waypoints.size();
+               percentage+"%), waypoints: "+waypoints.size();
+        
+        if (invalidCoordinates+validCoordinates>0)
+        {
+            percentage=100*invalidCoordinates/(invalidCoordinates+validCoordinates);
+        }
+        else
+        {
+            percentage=0;
+        }
+        
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
-              " ("+(100*invalidCoordinates/(invalidCoordinates+validCoordinates))+"%, omitted)";
+              " ("+percentage+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
         return info;
     }

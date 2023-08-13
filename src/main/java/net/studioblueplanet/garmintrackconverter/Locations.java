@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
  * This file represents the list of locations
  * @author Jorgen
  */
-public class Locations
+public class Locations extends CacheableItem
 {
     private final static Logger         LOGGER = LogManager.getLogger(Locations.class);
     private final List<Location>        locations;
