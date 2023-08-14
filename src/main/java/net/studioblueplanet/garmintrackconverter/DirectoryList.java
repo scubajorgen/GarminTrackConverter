@@ -138,6 +138,7 @@ public class DirectoryList
      */
     public void addFilesToListModel(String extension)
     {
+        model.clear();
         fileList.stream()
                 .filter(file -> file.getFilename().toLowerCase().endsWith(extension))
                 .forEach(file -> {model.addElement(file.getDescription());});
@@ -150,7 +151,7 @@ public class DirectoryList
     {
         model.clear();
     }
-    
+ 
     /**
      * Set the index in the file list
      * @param index The index to set
@@ -175,15 +176,6 @@ public class DirectoryList
     public boolean hasSelection()
     {
         return (list.getSelectedIndex()>=0);
-    }
-    
-    /**
-     * Retrieve the number of items in the list
-     * @return The number of items
-     */
-    public int size()
-    {
-        return model.size();
     }
     
     /**
@@ -218,7 +210,6 @@ public class DirectoryList
             fileList.get(index).setCachedItem(item);
      
             model.setElementAt(fileList.get(index).getDescription(), index);
-
         }       
     }
     
@@ -274,5 +265,29 @@ public class DirectoryList
             }
         }
         return index;
+    }
+    
+    /**
+     * Update the jList
+     * @return true if after update the list is empty when previously selected
+     */
+    public boolean updateListModel()
+    {
+        boolean isEmpty=false;
+
+        boolean hasSelection=(list.getSelectedIndex()>=0);
+        addFilesToListModel("fit"); 
+        if (hasSelection)
+        {
+            if (model.size()>0)
+            {
+                list.setSelectedIndex(0);
+            }
+            else
+            {
+                isEmpty=true;
+            }
+        }
+        return isEmpty;
     }
 }

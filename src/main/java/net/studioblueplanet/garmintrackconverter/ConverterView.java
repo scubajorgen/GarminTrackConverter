@@ -225,19 +225,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             }
             isDirty=true;
                 
-            trackDirectoryList.clear();
-            trackDirectoryList.addFilesToListModel("fit");
+            trackDirectoryList.updateListModel();
             trackDirectoryList.setSelectedIndex(0);
-            
-            locationDirectoryList.clear();
-            locationDirectoryList.addFilesToListModel("fit");
-            
-            routeDirectoryList.clear();
-            routeDirectoryList.addFilesToListModel("fit");
-
-            newFileDirectoryList.clear();
-            newFileDirectoryList.addFilesToListModel("gpx");
-
+            locationDirectoryList.updateListModel();
+            routeDirectoryList.updateListModel();
+            newFileDirectoryList.updateListModel();
             textAreaOutput.append("Done!\n");
 
             synchronized(this)
@@ -280,18 +272,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             LOGGER.info("Track list updated");
             SwingUtilities.invokeLater(() ->
             {
-                trackDirectoryList.clear();
-                trackDirectoryList.addFilesToListModel("fit");
-                if (trackDirectoryList.hasSelection())
+                if (trackDirectoryList.updateListModel())
                 {
-                    if (trackDirectoryList.size()>0)
-                    {
-                        trackDirectoryList.setSelectedIndex(0);
-                    }
-                    else
-                    {
-                        map.hideTrack();
-                    }
+                    map.hideTrack();
                 }
             });
         }
@@ -300,19 +283,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             LOGGER.info("Location list updated");
             SwingUtilities.invokeLater(() ->
             {
-                locationDirectoryList.clear();
-                locationDirectoryList.addFilesToListModel("fit"); 
-                if (locationDirectoryList.hasSelection())
+                if (locationDirectoryList.updateListModel())
                 {
-                    if (locationDirectoryList.size()>0)
-                    {
-                        locationDirectoryList.setSelectedIndex(0);
-                    }
-                    else
-                    {
-                        map.hideTrack();
-                    }
+                    map.hideTrack();
                 }
+
             });
         }
         if (routeDirectoryList.updateDirectoryList())
@@ -320,19 +295,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             LOGGER.info("Route list updated");
             SwingUtilities.invokeLater(() ->
             {
-                routeDirectoryList.clear();
-                routeDirectoryList.addFilesToListModel("fit");  
-                if (routeDirectoryList.hasSelection())
+                if (routeDirectoryList.updateListModel())
                 {
-                    if (routeDirectoryList.size()>0)
-                    {
-                        routeDirectoryList.setSelectedIndex(0);
-                    }
-                    else
-                    {
-                        map.hideTrack();
-                    }
+                    map.hideTrack();
                 }
+
             });
         }
         if (newFileDirectoryList.updateDirectoryList())
@@ -340,19 +307,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             LOGGER.info("New files list updated");
             SwingUtilities.invokeLater(() ->
             {
-                newFileDirectoryList.clear();
-                newFileDirectoryList.addFilesToListModel("gpx");
-                if (newFileDirectoryList.hasSelection())
+                if (newFileDirectoryList.updateListModel())
                 {
-                    if (newFileDirectoryList.size()>0)
-                    {
-                        newFileDirectoryList.setSelectedIndex(0);
-                    }
-                    else
-                    {
-                        map.hideTrack();
-                    }
+                    map.hideTrack();
                 }
+
             });
         }
     }

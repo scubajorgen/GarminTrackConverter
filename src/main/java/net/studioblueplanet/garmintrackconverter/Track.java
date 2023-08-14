@@ -234,7 +234,7 @@ public class Track extends CacheableItem
     }
     
     /**
-     * This method parses the FIT lap record and destillates the number of sessions.
+     * This method parses the FIT lap record and distils the number of sessions.
      * @param lapMessages The FIT record holding the 'lap' info
      */
     private void parseSessions(List<FitMessage> sessionMessages)
@@ -396,7 +396,7 @@ public class Track extends CacheableItem
         ZonedDateTime           dateTime;
 
         Double                  speed;
-        Double                  distance;
+        Double                  dist;
         Integer                 temp;
         Integer                 heartrate;
         Integer                 gpsAccuracy;
@@ -456,11 +456,11 @@ public class Track extends CacheableItem
                     
                 if (message.hasField("distance"))
                 {
-                    distance    =message.getScaledValue(i, "distance");
+                    dist    =message.getScaledValue(i, "distance");
                 }
                 else
                 {
-                    distance    =null;
+                    dist    =null;
                 }
                 if (message.hasField("heart_rate"))
                 {
@@ -482,7 +482,7 @@ public class Track extends CacheableItem
 
                 if (Math.round(lat)!=180 && Math.round(lon)!=180)
                 {
-                    point       =new TrackPoint(dateTime, lat, lon, ele, speed, distance, temp, heartrate, gpsAccuracy);
+                    point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
 
                     found=false;
                     it=this.segments.iterator();
@@ -511,7 +511,7 @@ public class Track extends CacheableItem
                                  lat, lon,
                                  ele, 
                                  speed, 
-                                 distance);
+                                 dist);
                 i++;
             }
         }
