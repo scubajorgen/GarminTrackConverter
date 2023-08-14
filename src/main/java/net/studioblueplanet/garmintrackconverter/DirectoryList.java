@@ -84,6 +84,18 @@ public class DirectoryList
     }
     
     /**
+     * Add the files to the model
+     * @param extension Extension of the files to add
+     */
+    private void addFilesToListModel(String extension)
+    {
+        model.clear();
+        fileList.stream()
+                .filter(file -> file.getFilename().toLowerCase().endsWith(extension))
+                .forEach(file -> {model.addElement(file.getDescription());});
+    }
+        
+    /**
      * Updates the file list
      * @return True if the current set of files differ from the previously retrieved
      *         list, false if they are equal
@@ -132,18 +144,7 @@ public class DirectoryList
         return isUpdated;
     }
     
-    /**
-     * Add the files to the model
-     * @param extension Extension of the files to add
-     */
-    public void addFilesToListModel(String extension)
-    {
-        model.clear();
-        fileList.stream()
-                .filter(file -> file.getFilename().toLowerCase().endsWith(extension))
-                .forEach(file -> {model.addElement(file.getDescription());});
-    }
-    
+
     /**
      * Clear the list model
      */

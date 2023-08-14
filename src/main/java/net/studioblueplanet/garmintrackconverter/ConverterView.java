@@ -231,7 +231,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             routeDirectoryList.updateListModel();
             newFileDirectoryList.updateListModel();
             textAreaOutput.append("Done!\n");
-
             synchronized(this)
             {
                 uiUpdated=true;
