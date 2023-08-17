@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -62,7 +63,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     public ConverterView()
     {
         LOGGER.debug("Starting ConverterView");
-        //DefaultListModel<String> model;
         GitBuildInfo build;
         
         settings=ApplicationSettings.getInstance();
@@ -70,8 +70,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         initComponents();
         hasSync         =false;
         isDirty         =true;
-        //jButtonSync.setVisible(false);
-        
+       
         jCheckBoxCompress.setSelected(ApplicationSettings.getInstance().isTrackCompression());
         
         // Initialize the map
@@ -178,6 +177,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }           
     }
     
+    /**
+     * This method loads each track that not has been loaded into memory
+     */
     private void fillCache()
     {
         boolean done=false;
@@ -268,7 +270,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         if (trackDirectoryList.updateDirectoryList())
         {
-            LOGGER.info("Track list updated");
             SwingUtilities.invokeLater(() ->
             {
                 if (trackDirectoryList.updateListModel())
@@ -279,38 +280,32 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         }
         if (locationDirectoryList.updateDirectoryList())
         {
-            LOGGER.info("Location list updated");
             SwingUtilities.invokeLater(() ->
             {
                 if (locationDirectoryList.updateListModel())
                 {
                     map.hideTrack();
                 }
-
             });
         }
         if (routeDirectoryList.updateDirectoryList())
         {
-            LOGGER.info("Route list updated");
             SwingUtilities.invokeLater(() ->
             {
                 if (routeDirectoryList.updateListModel())
                 {
                     map.hideTrack();
                 }
-
             });
         }
         if (newFileDirectoryList.updateDirectoryList())
         {
-            LOGGER.info("New files list updated");
             SwingUtilities.invokeLater(() ->
             {
                 if (newFileDirectoryList.updateListModel())
                 {
                     map.hideTrack();
                 }
-
             });
         }
     }
@@ -369,10 +364,19 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 // We found a new device or device was removed
                 if (deviceFound!=null)
                 {
-                    trackDirectoryList      =new DirectoryList(attachedDevice.getTrackFilePath(), jTrackList, false);
-                    locationDirectoryList   =new DirectoryList(attachedDevice.getLocationFilePath(), jLocationList, true);
-                    routeDirectoryList      =new DirectoryList(attachedDevice.getRouteFilePath(), jRouteList, true);
-                    newFileDirectoryList    =new DirectoryList(attachedDevice.getNewFilePath(), jNewFilesList, true);
+                    trackDirectoryList      =new DirectoryList(new File(attachedDevice.getTrackFilePath())   , 
+                                                                jTrackList   , new DefaultListModel<>(), false);
+                    locationDirectoryList   =new DirectoryList(new File(attachedDevice.getLocationFilePath()), 
+                                                                jLocationList, new DefaultListModel<>(), true);
+                    routeDirectoryList      =new DirectoryList(new File(attachedDevice.getRouteFilePath())   , 
+                                                                jRouteList   , new DefaultListModel<>(), true);
+                    newFileDirectoryList    =new DirectoryList(new File(attachedDevice.getNewFilePath())     , 
+                                                                jNewFilesList, new DefaultListModel<>(), true);
+                    trackDirectoryList.updateDirectoryList();
+                    locationDirectoryList.updateDirectoryList();
+                    routeDirectoryList.updateDirectoryList();
+                    newFileDirectoryList.updateDirectoryList();
+                    
                     synchronized(this)
                     {
                         uiUpdated=false;

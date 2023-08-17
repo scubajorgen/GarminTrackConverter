@@ -11,9 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 public class DirectoryList
 {
     private final static Logger             LOGGER = LogManager.getLogger(DirectoryList.class);
-    private final String                    directory;
     private final List<DirectoryListItem>   fileList;
     private final File                      directoryFile;
     private final boolean                   sortAscending;
@@ -33,18 +33,18 @@ public class DirectoryList
     
     /**
      * Constructor; retrieves the files in given directory in the order indicated
-     * @param directory Directory path
+     * @param directoryFile File representing Directory path
+     * @param list List widget on the screen
+     * @param model List model
      * @param sortAscending True if the files must be sorted in ascending order, false
      *                      if to be sorted in REVERSE order
      */
-    public DirectoryList(String directory, JList<String> list, boolean sortAscending)
+    public DirectoryList(File directoryFile, JList<String> list, DefaultListModel<String> model, boolean sortAscending)
     {
-        this.directory      =directory;
-        this.directoryFile  =new File(directory);   
+        this.directoryFile  =directoryFile;   
         fileList=new ArrayList<>();
-        this.updateDirectoryList();
         this.list           =list;
-        this.model          =new DefaultListModel<>();
+        this.model          =model;
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setModel(model);
         this.sortAscending  =sortAscending;
@@ -66,6 +66,33 @@ public class DirectoryList
                 .forEach(file -> {files.add(file);});          
         return files;
     }      
+
+    /**
+     * Update the jList model
+     * @return If originally a row was selected and now the model is empty, 
+     *         it will be true; otherwise false
+     */
+    public boolean updateListModel()
+    {
+        boolean isEmpty=false;
+        boolean hasSelection=(list.getSelectedIndex()>=0);
+        model.clear();
+        fileList.stream()
+                .filter(file -> file.getFilename().toLowerCase().endsWith(".fit"))
+                .forEach(file -> {model.addElement(file.getDescription());});
+        if (hasSelection)
+        {
+            if (model.size()>0)
+            {
+                list.setSelectedIndex(0);
+            }
+            else
+            {
+                isEmpty=true;
+            }
+        } 
+        return isEmpty;
+    }
     
     /**
      * 
@@ -82,27 +109,16 @@ public class DirectoryList
         }
         return files.size()>0;
     }
-    
-    /**
-     * Add the files to the model
-     * @param extension Extension of the files to add
-     */
-    private void addFilesToListModel(String extension)
-    {
-        model.clear();
-        fileList.stream()
-                .filter(file -> file.getFilename().toLowerCase().endsWith(extension))
-                .forEach(file -> {model.addElement(file.getDescription());});
-    }
         
     /**
      * Updates the file list
-     * @return True if the current set of files differ from the previously retrieved
-     *         list, false if they are equal
+     * @return True if the list is empty, otherwise false
      */
     public boolean updateDirectoryList()
     {
         boolean         isUpdated=false;
+        
+        // Get the current contents of the directory and compare it to the fileList
         List<String>    files=retrieveDirectoryFileList();
                
         // Keep existing items (inner join)
@@ -111,6 +127,7 @@ public class DirectoryList
                 .filter(item -> files.contains(item.getFilename()))
                 .collect(Collectors.toList());
         
+        // If there is any change, update the fileList and list model
         if (existingItems.size()!=files.size() || files.size()!=fileList.size())
         {
             // New files found        
@@ -140,7 +157,6 @@ public class DirectoryList
                     .forEach(item -> fileList.add(item));
             isUpdated=true;
         }
-
         return isUpdated;
     }
     
@@ -266,29 +282,5 @@ public class DirectoryList
             }
         }
         return index;
-    }
-    
-    /**
-     * Update the jList
-     * @return true if after update the list is empty when previously selected
-     */
-    public boolean updateListModel()
-    {
-        boolean isEmpty=false;
-
-        boolean hasSelection=(list.getSelectedIndex()>=0);
-        addFilesToListModel("fit"); 
-        if (hasSelection)
-        {
-            if (model.size()>0)
-            {
-                list.setSelectedIndex(0);
-            }
-            else
-            {
-                isEmpty=true;
-            }
-        }
-        return isEmpty;
     }
 }

@@ -339,16 +339,16 @@ public class Track extends CacheableItem
     {
         int i;
         int size;
-        ZonedDateTime           startTime;
-        ZonedDateTime           endTime;
+        ZonedDateTime           start;
+        ZonedDateTime           end;
         TrackSegment            segment;
         boolean                 started;
         int                     event;
         int                     eventType;
         
         started     =false;
-        startTime   =null;
-        endTime =null;
+        start       =null;
+        end         =null;
         for (FitMessage message:eventMessages)
         {
             size            =message.getNumberOfRecords();
@@ -364,10 +364,10 @@ public class Track extends CacheableItem
                         if (eventType==TIMEREVENT_TIMERSTOPPED)
                         {
                             started=false;
-                            endTime=message.getTimeValue(i, "timestamp");
-                            segment     =new TrackSegment(startTime, endTime);
+                            end=message.getTimeValue(i, "timestamp");
+                            segment     =new TrackSegment(start, end);
                             segments.add(segment);
-                            LOGGER.info("Segment found: {} - {}", startTime.toString(), endTime.toString());
+                            LOGGER.info("Segment found: {} - {}", start.toString(), end.toString());
                         }
                     }
                     else
@@ -375,7 +375,7 @@ public class Track extends CacheableItem
                         if (eventType==TIMEREVENT_TIMERSTARTED)
                         {
                             started=true;
-                            startTime=message.getTimeValue(i, "timestamp");
+                            start=message.getTimeValue(i, "timestamp");
                         }
                     }
                 }

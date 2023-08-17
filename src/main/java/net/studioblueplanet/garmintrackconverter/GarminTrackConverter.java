@@ -11,10 +11,8 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import org.jdesktop.application.SingleFrameApplication;
 import javax.swing.ImageIcon;
-import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.application.Application;
@@ -35,12 +33,13 @@ public class GarminTrackConverter extends SingleFrameApplication
     {
         ConverterView       view;
         
+        // Register new fonts and apply them to the UI
+        loadFonts(); 
+
+        // Create the view
         view=new ConverterView();
         view.setVisible(true);
         view.setIconImage(new ImageIcon(getClass().getResource("/net/studioblueplanet/garmintrackconverter/resources/icon48.png")).getImage());
-
-        // Register new fonts and apply them to the UI
-        loadFonts(); 
         view.setFont();
     }
     
@@ -56,7 +55,6 @@ public class GarminTrackConverter extends SingleFrameApplication
         boolean registered;
         GraphicsEnvironment ge;
         
-        font=null;
         try 
         {
             ge          = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -83,7 +81,6 @@ public class GarminTrackConverter extends SingleFrameApplication
             System.exit(-1);
         }
     }    
-
  
     /**
      * This method is to initialize the specified window by injecting resources.
@@ -110,5 +107,4 @@ public class GarminTrackConverter extends SingleFrameApplication
         launch(GarminTrackConverter.class, args);
         // TODO code application logic here
     }
-    
 }

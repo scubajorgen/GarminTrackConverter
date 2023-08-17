@@ -11,7 +11,7 @@ package net.studioblueplanet.garmintrackconverter;
  */
 public class DirectoryListItem
 {
-    private String           filename;
+    private final String     filename;
     private CacheableItem    cachedItem;
 
     
@@ -69,10 +69,18 @@ public class DirectoryListItem
                 {
                     description+=String.format("%10s %5.1f km", sport, dist/1000);
                 }
+                else if (dist!=null)
+                {
+                    description+=String.format("%5.1f km", dist/1000);
+                }
                 else
                 {
                     description+=" c";
                 }
+            }
+            else
+            {
+                description+=" c";
             }
         }
         return description;
