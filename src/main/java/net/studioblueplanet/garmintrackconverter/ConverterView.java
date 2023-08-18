@@ -180,7 +180,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     /**
      * This method loads each track that not has been loaded into memory
      */
-    private void fillCache()
+    private void updateUiForDevice()
     {
         boolean done=false;
         
@@ -199,6 +199,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 Track track=readTrack(fullFileName, true);
                 trackDirectoryList.addCacheableItem(track, index);   
             }
+            checkForDirectoryUpdates();
         }
     }
     
@@ -390,20 +391,19 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             }
             else
             {
-                // Same device still attached: check directories
-                checkForDirectoryUpdates();
-            }
-            
-            try
-            {
                 synchronized(this)
                 {
                     localUiUpdated=uiUpdated;
                 }
                 if (localUiUpdated)
                 {
-                    fillCache();                      
+                    // Update the directory list and the cache
+                    updateUiForDevice();                      
                 }
+            }
+            
+            try
+            {
                 Thread.sleep(1000);
             }
             catch (InterruptedException e)
