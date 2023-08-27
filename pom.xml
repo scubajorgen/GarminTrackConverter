@@ -178,35 +178,30 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>GarminTrackConverter</finalName>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
-                                    <manifestEntries>
-                                        <Main-Class>net.studioblueplanet.garmintrackconverter.GarminTrackConverter</Main-Class>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
-                            <filters>
-                                <filter>
-                                    <artifact>*:FitReader</artifact>
-                                    <excludes>
-                                        <exclude>log4j2.xml</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        net.studioblueplanet.garmintrackconverter.GarminTrackConverter
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>   
 
             <plugin>
                 <groupId>pl.project13.maven</groupId>
