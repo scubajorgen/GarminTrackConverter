@@ -143,6 +143,17 @@ public class TrackPoint implements Comparable<TrackPoint>
         return gpsAccuracy;
     }
     
+    /**
+     * It has been encountered that the FIT file contains records with 
+     * latitude and longitude equal to 0.0 or 180, 180
+     * @return True if the point appears valid, false if it is an erronous point
+     */
+    public boolean isValid()
+    {
+        return (Math.round(latitude)!=180 && Math.round(longitude)!=180 && 
+                latitude!=0.0 && longitude!=0.0);
+    }
+    
     @Override
     public int compareTo(TrackPoint other)
     {

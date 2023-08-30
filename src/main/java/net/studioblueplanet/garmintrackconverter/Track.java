@@ -480,10 +480,9 @@ public class Track extends CacheableItem
                     gpsAccuracy =null;
                 }
 
-                if (Math.round(lat)!=180 && Math.round(lon)!=180)
+                point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
+                if (point.isValid())
                 {
-                    point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
-
                     found=false;
                     it=this.segments.iterator();
                     while (it.hasNext() && !found)
