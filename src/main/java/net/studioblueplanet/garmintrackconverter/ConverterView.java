@@ -182,10 +182,15 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     private void updateUiForDevice()
     {
-        boolean done=false;
+        boolean done            =false;
         
         while (!done)
         {
+            if (waypoints==null)
+            {
+                LOGGER.info("Reading waypoints for track");
+                readWaypoints();
+            }
             int index=trackDirectoryList.getNextNonCache();
             if (index<0)
             {
@@ -382,6 +387,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     {
                         uiUpdated=false;
                     }
+                    waypoints=null;
                     initializeUiForDevice();
                 }
                 else
@@ -398,7 +404,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (localUiUpdated)
                 {
                     // Update the directory list and the cache
-                    updateUiForDevice();                      
+                    updateUiForDevice();         
                 }
             }
             
@@ -1025,8 +1031,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             synchronized(this)
             {
-                LOGGER.info("Reading waypoints for track");
-                readWaypoints();
                 routeDirectoryList.clearSelection();
                 newFileDirectoryList.clearSelection();
                 locationDirectoryList.clearSelection();
@@ -1040,6 +1044,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
                 else
                 {
+                    if (waypoints==null)
+                    {
+                        LOGGER.info("Reading waypoints for track");
+                        readWaypoints();
+                    }
                     LOGGER.info("Reading track file {}", fileName);
                     track=readTrack(fullFileName, true);
                     trackDirectoryList.addCacheableItem(track);
