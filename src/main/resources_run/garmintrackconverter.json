@@ -3,7 +3,7 @@
   "gpxFileDownloadPath": "d:/gps/gpx",
   "gpxFileUploadPath": "d:/gps/routes",
   "trackCompression": false,
-  "trackCompressionMaxError": 0.01,
+  "trackCompressionMaxError": 0.3,
   "devices":
   [
     {

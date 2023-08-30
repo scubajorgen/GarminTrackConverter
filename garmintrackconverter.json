@@ -3,7 +3,7 @@
     "gpxFileDownloadPath": "./development/gpx",
     "gpxFileUploadPath": "./development/gpxRoutes",
     "trackCompression": true,
-    "trackCompressionMaxError": 0.01,
+    "trackCompressionMaxError": 0.3,
     "devices":
     [
       {

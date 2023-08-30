@@ -108,7 +108,7 @@ public class ApplicationSettingsTest
     public void testGetTrackCompressionMaxError()
     {
         System.out.println("getTrackCompressionMaxError");
-        assertEquals(0.01, instance.getTrackCompressionMaxError(), 0.00001);
+        assertEquals(0.3, instance.getTrackCompressionMaxError(), 0.00001);
     }    
 
 }

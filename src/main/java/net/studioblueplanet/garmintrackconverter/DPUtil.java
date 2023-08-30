@@ -10,11 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
- * @author jorgen
- */
-
-/**
  * Implementation of the Douglas-Peucker algorithm.
  * @author https://programmersought.com/article/54684929685/
  */
@@ -24,7 +19,8 @@ public class DPUtil
      * The default error threshold of the maximum distance between the point and
      * the track line (unit: meter)
      */
-    private static final double defaultDMax = 3.0;
+    private static final double DEFAULT_DMAX    = 3.0;
+    private static final double EARTH_RADIUS_M  = 6378137.0;    // WGS84
 
     /**
      * DP algorithm entry Pass in the set of track points before compression
@@ -42,7 +38,7 @@ public class DPUtil
         //Maximum distance error threshold
         if (dMax == null)
         {
-            dMax = defaultDMax;
+            dMax = DEFAULT_DMAX;
         }
         int start = 0;
         int end   = originPoints.size() - 1;
@@ -65,7 +61,7 @@ public class DPUtil
      * @param end: end subscript
      * @param dMax: pre-specified maximum distance error calculation
      */
-    public static void compression(List<TrackPoint> originPoints, List<TrackPoint> resultPoints,
+    private static void compression(List<TrackPoint> originPoints, List<TrackPoint> resultPoints,
             int start, int end, double dMax)
     {
         if (start < end)
@@ -97,12 +93,13 @@ public class DPUtil
      * Function: use the triangle area (calculated by Helen's formula) equal
      * method to calculate the distance from point pX to the straight line
      * determined by points pA and pB
-     *
+     * Note: Due to real distances on the globe are curved this approximation
+     * by straight lines is accurate to ~5 cm for small dLat, dLon &lt; 0.1 degree
      * @param pA: starting point
      * @param pB: end point
      * @param pX: The third point
      * @return distance: the distance from point pX to the line where pA and pB
-     * are located
+     * are located, in m
      */
     public static double distToSegment(TrackPoint pA, TrackPoint pB, TrackPoint pX)
     {
@@ -110,43 +107,80 @@ public class DPUtil
         double b = Math.abs(geoDist(pA, pX));
         double c = Math.abs(geoDist(pB, pX));
         double p = (a + b + c) / 2.0;
-        double s = Math.sqrt(Math.abs(p * (p - a) * (p - b) * (p - c)));
-        double d = s * 2.0 / a;
-        return d;
+        double surface=  Math.sqrt(Math.abs(p * (p - a) * (p - b) * (p - c)));
+        double distance = surface * 2.0 / a;
+        return distance;
     }
 
     /**
      * Function: Find the distance between two latitude and longitude points
      * according to mathematical formulas
+     * Unknown method...
      * @param pA: starting point
      * @param pB: end point
      * @return distance: distance in m
      */
     public static double geoDist(TrackPoint pA, TrackPoint pB)
     {
-        double radLat1 = Rad((pA).getLatitude());
-        double radLat2 = Rad((pB).getLatitude());
-        double radLon1 = Rad((pA).getLongitude());
-        double radLon2 = Rad((pB).getLongitude());
-        double delta_lon = Rad(radLon2 - radLon1);
+        double radLat1  = Math.toRadians((pA).getLatitude());
+        double radLat2  = Math.toRadians((pB).getLatitude());
+        double radLon1  = Math.toRadians((pA).getLongitude());
+        double radLon2  = Math.toRadians((pB).getLongitude());
+        double delta_lon= radLon2 - radLon1;
         double top_1 = Math.cos(radLat2) * Math.sin(delta_lon);
         double top_2 = Math.cos(radLat1) * Math.sin(radLat2) - Math.sin(radLat1) * Math.cos(radLat2) * Math.cos(delta_lon);
         double top = Math.sqrt(top_1 * top_1 + top_2 * top_2);
         double bottom = Math.sin(radLat1) * Math.sin(radLat2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(delta_lon);
         double delta_sigma = Math.atan2(top, bottom);
-        double distance = delta_sigma * 6378137.0;
+        double distance = delta_sigma * EARTH_RADIUS_M;
         return distance;
     }
 
     /**
-     * Function: angle to radians
-     *
-     * @param d: angle
-     * @return returns radians
+     * Calculate distance between two points in latitude and longitude
+     * Uses Haversine method.
+     * @param pA: starting point
+     * @param pB: end point
+     * @return Distance in Meters
      */
-    public static double Rad(double d)
+    public static double geoDist2(TrackPoint pA, TrackPoint pB) 
     {
-        return d * Math.PI / 180.0;
+        double lat1=pA.getLatitude();
+        double lon1=pA.getLongitude();
+                
+        double lat2=pB.getLatitude();
+        double lon2=pB.getLongitude();
+                
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = EARTH_RADIUS_M * c;
+        return distance;
     }
     
+    /**
+     * Calculate distance between two points in latitude and longitude
+     * Uses Spherical Law of Cosines.
+     * @param pA: starting point
+     * @param pB: end point
+     * @return Distance in Meters
+     */
+    public static double geoDist3(TrackPoint pA, TrackPoint pB) 
+    {
+        double lat1=Math.toRadians(pA.getLatitude());   // lambda
+        double lon1=Math.toRadians(pA.getLongitude());
+                
+        double lat2=Math.toRadians(pB.getLatitude());   // phi
+        double lon2=Math.toRadians(pB.getLongitude());
+                
+
+        double lonDistance = lon2 - lon1;
+
+        double distance= Math.acos( Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2) * Math.cos(lonDistance) ) * EARTH_RADIUS_M;
+
+        return distance;
+    }    
 }

@@ -132,28 +132,23 @@ public class GpxWriterTest
         Track track=new Track();
         
         List<TrackSegment> segments=track.getSegments();
-        segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
-                                 ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
-        
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
-                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6);
-        segment.addTrackPoint(point);
-        // We expect next point to be omitted
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,11, 0, ZoneId.of("UTC")),
-                             53.5, 6.6, 1.0, 2.0, 3.0, 4, 5, 6);
-        segment.addTrackPoint(point);
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,12, 0, ZoneId.of("UTC")),
-                             53.5, 6.7, 1.0, 2.0, 3.0, 4, 5, 6);
-        segment.addTrackPoint(point);
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,13, 0, ZoneId.of("UTC")),
-                             53.7, 6.7, 1.0, 2.0, 3.0, 4, 5, 6);
-        segment.addTrackPoint(point);
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,14, 0, ZoneId.of("UTC")),
-                             53.5, 6.8, 1.0, 2.0, 3.0, 4, 5, 6);
-        segment.addTrackPoint(point);
+        ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
+        segment=new TrackSegment(zdt, zdt.plusSeconds(12));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 0), 53.012544,   6.725102, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 1), 53.013256,   6.727270, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 2), 53.013863,   6.729256, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 3), 53.013552,   6.729753, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 4), 53.013241,   6.730250, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 5), 53.013615,   6.730530, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 6), 53.014080,   6.730753, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 7), 53.014669,   6.731129, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 8), 53.014935,   6.729826, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 9), 53.015219,   6.730103, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds(10), 53.015483,   6.730677, 0.0, 0.0, 0.0, 0,0,0));
+        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds(11), 53.015694,   6.731101, 0.0, 0.0, 0.0, 0,0,0));  
 
         segments.add(segment);
-        track.compressTrack(0.01);
+        track.compressTrack(4.0);
         
         // Non compressed
         StringWriter writer=new StringWriter();
