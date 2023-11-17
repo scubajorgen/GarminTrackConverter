@@ -53,15 +53,17 @@ public class DirectoryList
     /**
      * Retrieves a list of files. Filter only files that have a size>0
      * to filter out files that are being transferred
+     * @param extension Extension of the files to filter from the directory like ".fit" or ".gpx"
      * @return The list of file names (without path)
      */
-    private List<String> retrieveDirectoryFileList()
+    private List<String> retrieveDirectoryFileList(String extension)
     {
         List<String> files;
                
         files=new ArrayList<>();
         Stream.of(directoryFile.listFiles())
-                .filter(file -> !file.isDirectory() && file.length()>0 && file.getAbsolutePath().endsWith(".fit"))
+                .filter(file -> !file.isDirectory() && file.length()>0 && 
+                        file.getAbsolutePath().toLowerCase().endsWith(extension))
                 .map(File::getName)
                 .forEach(file -> {files.add(file);});          
         return files;
@@ -78,7 +80,6 @@ public class DirectoryList
         boolean hasSelection=(list.getSelectedIndex()>=0);
         model.clear();
         fileList.stream()
-                .filter(file -> file.getFilename().toLowerCase().endsWith(".fit"))
                 .forEach(file -> {model.addElement(file.getDescription());});
         if (hasSelection)
         {
@@ -114,12 +115,12 @@ public class DirectoryList
      * Updates the file list
      * @return True if the list is empty, otherwise false
      */
-    public boolean updateDirectoryList()
+    public boolean updateDirectoryList(String extension)
     {
         boolean         isUpdated=false;
         
         // Get the current contents of the directory and compare it to the fileList
-        List<String>    files=retrieveDirectoryFileList();
+        List<String>    files=retrieveDirectoryFileList(extension);
                
         // Keep existing items (inner join)
         List<DirectoryListItem> existingItems= fileList
@@ -176,6 +177,27 @@ public class DirectoryList
     public void setSelectedIndex(int index)
     {
         list.setSelectedIndex(index);
+    }
+    
+    /**
+     * Set the index in the file list to the given file
+     * @param fileName to which the index should be set
+     */
+    public void setSelectedIndex(String fileName)
+    {
+        boolean exit=false;
+        for(int i=0; i<fileList.size() && !exit;i++)
+        {
+            if (fileName.equals(fileList.get(i).getFilename()))
+            {
+                list.setSelectedIndex(i);
+                exit=true;
+            }
+        }
+        if (!exit)
+        {
+            LOGGER.error("Filename {} not found in list", fileName);
+        }
     }
     
     /**

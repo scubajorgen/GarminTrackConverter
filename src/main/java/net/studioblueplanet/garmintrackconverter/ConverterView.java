@@ -274,7 +274,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     private void checkForDirectoryUpdates()
     {
-        if (trackDirectoryList.updateDirectoryList())
+        if (trackDirectoryList.updateDirectoryList(".fit"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -284,7 +284,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
             });
         }
-        if (locationDirectoryList.updateDirectoryList())
+        if (locationDirectoryList.updateDirectoryList(".fit"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -294,7 +294,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
             });
         }
-        if (routeDirectoryList.updateDirectoryList())
+        if (routeDirectoryList.updateDirectoryList(".fit"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -304,7 +304,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
             });
         }
-        if (newFileDirectoryList.updateDirectoryList())
+        if (newFileDirectoryList.updateDirectoryList(".gpx"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -378,10 +378,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                                                                 jRouteList   , new DefaultListModel<>(), true);
                     newFileDirectoryList    =new DirectoryList(new File(attachedDevice.getNewFilePath())     , 
                                                                 jNewFilesList, new DefaultListModel<>(), true);
-                    trackDirectoryList.updateDirectoryList();
-                    locationDirectoryList.updateDirectoryList();
-                    routeDirectoryList.updateDirectoryList();
-                    newFileDirectoryList.updateDirectoryList();
+                    trackDirectoryList.updateDirectoryList(".fit");
+                    locationDirectoryList.updateDirectoryList(".fit");
+                    routeDirectoryList.updateDirectoryList(".fit");
+                    newFileDirectoryList.updateDirectoryList(".gpx");
                     
                     synchronized(this)
                     {
@@ -1153,9 +1153,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     Track route=GpxReader.getInstance().readRouteFromFile(fileName);
                     if (route!=null)
                     {
-                        trackToMap(route);
-                        // TO DO: set index in file list, somewhere
+                        // Update the new files list and set the index to the file
+                        // just uploaded.
+                        if (newFileDirectoryList.updateDirectoryList(".gpx"))
+                        {
+                            if (newFileDirectoryList.updateListModel())
+                            {
+                                map.hideTrack();
+                            }
+                        }    
                     }
+                    newFileDirectoryList.setSelectedIndex(new File(fileName).getName());
+
                     textAreaOutput.setText("Uploaded "+fileName+"\n");
                     isDirty=true;
                 }
