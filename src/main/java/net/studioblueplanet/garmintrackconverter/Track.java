@@ -31,20 +31,28 @@ public class Track extends CacheableItem
     public static final int                 MS_PER_S    =1000;
     public static final int                 CM_PER_M    =100;
     public static final double              KMH_PER_MS  =3.6;
+    private static final int                TIMEREVENT=0;
+    private static final int                TIMEREVENT_TIMERSTARTED=0;
+    private static final int                TIMEREVENT_TIMERSTOPPED=4;
+
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
+
     private final List<TrackSegment>        segments;
     private final List<Location>            waypoints;
-
+    
     private String                          fitFileName;
+    
+    // Info from device_info and file_id
     private String                          deviceName;
-    private String                          sport;
-    private String                          subSport;
     private String                          manufacturer;
     private String                          product;
     private Long                            serialNumber;
     private String                          fileType;
     private String                          softwareVersion;
 
+    // Info from session
+    private String                          sport;
+    private String                          subSport;
     private ZonedDateTime                   startTime;
     private ZonedDateTime                   endTime;
     private Long                            elapsedTime;    // s
@@ -61,13 +69,9 @@ public class Track extends CacheableItem
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    private double                          compressionMaxError;
-
     
-    private static final int                TIMEREVENT=0;
-    private static final int                TIMEREVENT_TIMERSTARTED=0;
-    private static final int                TIMEREVENT_TIMERSTOPPED=4;
-
+    private double                          compressionMaxError;
+    
     private int                             invalidCoordinates;
     private int                             validCoordinates;
     
@@ -184,9 +188,9 @@ public class Track extends CacheableItem
     
     public Track()
     {
-        segments        =new ArrayList<>();
-        waypoints       =new ArrayList<>();
-        compressionMaxError        =0.0;
+        segments            =new ArrayList<>();
+        waypoints           =new ArrayList<>();
+        compressionMaxError =0.0;
     }
     
 
@@ -196,7 +200,6 @@ public class Track extends CacheableItem
      */
     private void parseLaps(List<FitMessage> lapMessages)
     {
-        int i;
         int size;
         ZonedDateTime           segmentStartTime;
         ZonedDateTime           segmentEndTime;
@@ -205,8 +208,7 @@ public class Track extends CacheableItem
         for (FitMessage message:lapMessages)
         {
             size                =message.getNumberOfRecords();
-            i=0;
-            while (i<size)
+            for (int i=0; i<size; i++)
             {
                 segmentStartTime=message.getTimeValue(i, "start_time");
 
@@ -227,7 +229,6 @@ public class Track extends CacheableItem
                 {
                     LOGGER.error("Lap does not contain start and end time");
                 }
-                i++;
             }   
         }
         
@@ -239,16 +240,13 @@ public class Track extends CacheableItem
      */
     private void parseSessions(List<FitMessage> sessionMessages)
     {
-        int                     i;
         int                     size;
-        TrackSegment            segment;
         int                     id;
         
         for (FitMessage message:sessionMessages)
         {
             size            =message.getNumberOfRecords();
-            i=0;
-            while (i<size)
+            for(int i=0; i<size; i++)
             {
                 endTime     =message.getTimeValue(i, "timestamp");
                 startTime   =message.getTimeValue(i, "start_time");
@@ -326,7 +324,6 @@ public class Track extends CacheableItem
                 {
                     LOGGER.error("Session does not contain start and end time");
                 }
-                i++;
             }   
         }
     }    
@@ -337,8 +334,7 @@ public class Track extends CacheableItem
      */
     private void getSegmentsFromEvents(List<FitMessage> eventMessages)
     {
-        int i;
-        int size;
+        int                     size;
         ZonedDateTime           start;
         ZonedDateTime           end;
         TrackSegment            segment;
@@ -352,8 +348,7 @@ public class Track extends CacheableItem
         for (FitMessage message:eventMessages)
         {
             size            =message.getNumberOfRecords();
-            i=0;
-            while (i<size)
+            for(int i=0; i<size; i++)
             {
                 event       =(int)message.getIntValue(i, "event");
                 eventType   =(int)message.getIntValue(i, "event_type");
@@ -379,7 +374,6 @@ public class Track extends CacheableItem
                         }
                     }
                 }
-                i++;
             }   
         }
     }    
@@ -400,10 +394,8 @@ public class Track extends CacheableItem
         Integer                 temp;
         Integer                 heartrate;
         Integer                 gpsAccuracy;
-        int                     i;
         int                     size;
         TrackPoint              point;
-        Iterator<TrackSegment>  it;
         boolean                 found;
         TrackSegment            segment;
 
@@ -412,8 +404,7 @@ public class Track extends CacheableItem
         for (FitMessage message:trackMessages)
         {
             size            =message.getNumberOfRecords();
-            i=0;
-            while (i<size)
+            for (int i=0; i<size; i++)
             {
                 dateTime    =message.getTimeValue(i, "timestamp");
                 lat         =message.getLatLonValue(i, "position_lat");
@@ -484,10 +475,9 @@ public class Track extends CacheableItem
                 if (point.isValid())
                 {
                     found=false;
-                    it=this.segments.iterator();
-                    while (it.hasNext() && !found)
+                    for (int j=0; j<segments.size() && !found; j++)
                     {
-                        segment=it.next();
+                        segment=segments.get(j);
                         if (segment.isInSegment(dateTime))
                         {
                             segment.addTrackPoint(point);
@@ -497,12 +487,14 @@ public class Track extends CacheableItem
                     validCoordinates++;
                     if (!found)
                     {
-                        LOGGER.error("No segment found to add trackpoint @ {} [{}, {}] to", dateTime.toString(), lat, lon);
+                        LOGGER.error(String.format("No segment found to add trackpoint @%s} [%7.4f, %7.4f] to", 
+                                     dateTime.toString(), lat, lon));
                     }
                 }
                 else
                 {
-                    LOGGER.error("Illegal lat/lon at {} [{}, {}]", dateTime.toString(), lat, lon);
+                    LOGGER.error(String.format("Illegal lat/lon at %s [%7.4f, %7.4f]", 
+                                 dateTime.toString(), lat, lon));
                     invalidCoordinates++;
                 }
                 LOGGER.debug("Trackpoint {} ({}, {}) ele {}, {} km/h, {} m",
@@ -511,7 +503,6 @@ public class Track extends CacheableItem
                                  ele, 
                                  speed, 
                                  dist);
-                i++;
             }
         }
         LOGGER.info("Good coordinates {}, wrong coordinates: {}", validCoordinates, invalidCoordinates);
@@ -526,16 +517,12 @@ public class Track extends CacheableItem
     public void addTrackWaypoints(List<Location> allWaypoints)
     {
         ZonedDateTime           dateTime;
-        Iterator<Location>      waypointIterator;
         Iterator<TrackSegment>  segmentIterator;
-        Location                waypoint;
         TrackSegment            segment;
         boolean                 found;
         
-        waypointIterator=allWaypoints.iterator();
-        while (waypointIterator.hasNext())
+        for (Location waypoint : allWaypoints)
         {
-            waypoint=waypointIterator.next();
             dateTime=waypoint.getDateTime();
             segmentIterator=segments.iterator();
             found=false;
@@ -560,7 +547,6 @@ public class Track extends CacheableItem
     public String getTrackInfo()
     {
         String          info;
-        int             i;
         int             noOfSegments;
         TrackSegment    segment;
         
@@ -577,8 +563,7 @@ public class Track extends CacheableItem
             info+=") ";
         }
         info+="with "+this.segments.size()+" segments (";
-        i=0;
-        while (i<noOfSegments)
+        for (int i=0; i<noOfSegments; i++)
         {
             segment=segments.get(i);
             info+=segment.getNumberOfTrackPoints();
@@ -586,7 +571,6 @@ public class Track extends CacheableItem
             {
                 info+=", ";
             }
-            i++;
         }
         info+=" points)";
         info+=" and "+waypoints.size()+" waypoints";
