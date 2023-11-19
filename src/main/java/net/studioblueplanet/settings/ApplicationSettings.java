@@ -7,7 +7,6 @@ package net.studioblueplanet.settings;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -93,6 +92,18 @@ public class ApplicationSettings
     {
         return settings.getDebugLevel();
     }
+    
+    public boolean isTrackSmoothing()
+    {
+        return settings.isTrackSmoothing();
+    }
+    
+    public int getTrackSmoothingAccuracy()
+    {
+        return settings.getTrackSmoothingAccuracy();
+    }
+    
+    
     
     public boolean isTrackCompression()
     {

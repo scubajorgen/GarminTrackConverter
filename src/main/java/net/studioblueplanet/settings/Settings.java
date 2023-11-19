@@ -19,6 +19,10 @@ public class Settings
     private String               gpxFileDownloadPath;
     @JsonProperty("gpxFileUploadPath")
     private String               gpxFileUploadPath;
+    @JsonProperty("trackSmoothing")
+    private boolean              trackSmoothing;
+    @JsonProperty("trackSmoothingAccuracy")
+    private int                  trackSmoothingAccuracy;
     @JsonProperty("trackCompression")
     private boolean              trackCompression;
     @JsonProperty("trackCompressionMaxError")
@@ -64,6 +68,26 @@ public class Settings
     public void setDevices(List<SettingsDevice> devices)
     {
         this.devices = devices;
+    }
+
+    public boolean isTrackSmoothing()
+    {
+        return trackSmoothing;
+    }
+
+    public void setTrackSmoothing(boolean trackSmoothing)
+    {
+        this.trackSmoothing = trackSmoothing;
+    }
+
+    public int getTrackSmoothingAccuracy()
+    {
+        return trackSmoothingAccuracy;
+    }
+
+    public void setTrackSmoothingAccuracy(int trackSmoothingAccuracy)
+    {
+        this.trackSmoothingAccuracy = trackSmoothingAccuracy;
     }
 
     public boolean isTrackCompression()

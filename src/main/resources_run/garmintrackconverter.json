@@ -4,6 +4,8 @@
   "gpxFileUploadPath": "d:/gps/routes",
   "trackCompression": false,
   "trackCompressionMaxError": 0.3,
+  "trackSmoothing": false,
+  "trackSmoothingAccuracy": 1500,
   "devices":
   [
     {

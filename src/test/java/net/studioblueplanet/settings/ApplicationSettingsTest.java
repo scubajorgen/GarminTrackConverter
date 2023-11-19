@@ -111,4 +111,44 @@ public class ApplicationSettingsTest
         assertEquals(0.3, instance.getTrackCompressionMaxError(), 0.00001);
     }    
 
+    /**
+     * Test of getGpxFileUploadPath method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetGpxFileUploadPath()
+    {
+        System.out.println("getGpxFileUploadPath");
+        assertEquals("./development/gpxRoutes", instance.getGpxFileUploadPath());
+    }
+
+    /**
+     * Test of getGpxFileDownloadPath method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetGpxFileDownloadPath()
+    {
+        System.out.println("getGpxFileDownloadPath");
+        assertEquals("./development/gpx", instance.getGpxFileDownloadPath());
+    }
+
+    /**
+     * Test of isTrackSmoothing method, of class ApplicationSettings.
+     */
+    @Test
+    public void testIsTrackSmoothing()
+    {
+        System.out.println("isTrackSmoothing");
+        assertEquals(false, instance.isTrackSmoothing());
+    }
+
+    /**
+     * Test of getTrackSmoothingAccuracy method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetTrackSmoothingAccuracy()
+    {
+        System.out.println("getTrackSmoothingAccuracy");
+        assertEquals(1500, instance.getTrackSmoothingAccuracy());
+    }
+
 }
