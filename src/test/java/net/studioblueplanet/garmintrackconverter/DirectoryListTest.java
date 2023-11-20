@@ -378,7 +378,7 @@ public class DirectoryListTest
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
-        Track t=new Track();
+        Track t=new Track(0.0, 0);
         when(listMock.getSelectedIndex()).thenReturn(1);
         instance.addCacheableItem(t);
         when(listMock.getSelectedIndex()).thenReturn(0);
@@ -422,7 +422,7 @@ public class DirectoryListTest
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
-        Track t=new Track();
+        Track t=new Track(0.0, 0);
         when(listMock.getSelectedIndex()).thenReturn(0);
         instance.addCacheableItem(t, 1);
         when(listMock.getSelectedIndex()).thenReturn(0);
@@ -452,7 +452,7 @@ public class DirectoryListTest
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
         assertEquals(0, instance.getNextNonCache());
-        Track t=new Track();
+        Track t=new Track(0.0, 0);
         instance.addCacheableItem(t, 0);
         assertEquals(1, instance.getNextNonCache());
     }

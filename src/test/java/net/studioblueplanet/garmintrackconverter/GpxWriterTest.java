@@ -89,7 +89,7 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile");
-        Track track=new Track();
+        Track track=new Track(0.0, 0);
         
         List<TrackSegment> segments=track.getSegments();
         segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
@@ -103,7 +103,8 @@ public class GpxWriterTest
         
         StringWriter writer=new StringWriter();
         instance.setGpxVersion("1.1");
-        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
         System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result1a.txt")).toPath()));
         assertEquals(result, writer.toString());
@@ -111,7 +112,7 @@ public class GpxWriterTest
 
         writer=new StringWriter();
         instance.setGpxVersion("1.0");
-        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
         System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result1b.txt")).toPath()));
         assertEquals(result, writer.toString());
@@ -129,41 +130,45 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile");
-        Track track=new Track();
+        Track track=TestTrack.testTrack();
         
-        List<TrackSegment> segments=track.getSegments();
-        ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
-        segment=new TrackSegment(zdt, zdt.plusSeconds(12));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 0), 53.012544,   6.725102, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 1), 53.013256,   6.727270, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 2), 53.013863,   6.729256, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 3), 53.013552,   6.729753, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 4), 53.013241,   6.730250, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 5), 53.013615,   6.730530, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 6), 53.014080,   6.730753, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 7), 53.014669,   6.731129, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 8), 53.014935,   6.729826, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds( 9), 53.015219,   6.730103, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds(10), 53.015483,   6.730677, 0.0, 0.0, 0.0, 0,0,0));
-        segment.addTrackPoint(new TrackPoint(zdt.plusSeconds(11), 53.015694,   6.731101, 0.0, 0.0, 0.0, 0,0,0));  
-
-        segments.add(segment);
-        track.compressTrack(4.0);
-        
-        // Non compressed
+        // Non compressed, non smoothed: 14 points
         StringWriter writer=new StringWriter();
         instance.setGpxVersion("1.1");
-        instance.writeTrackToFile(writer, track, "trackname", "appname", false);
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
         System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result3a.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
 
-        // Compressed
+        // Compressed, non smoothed: 3 points
         writer=new StringWriter();
-        instance.writeTrackToFile(writer, track, "trackname", "appname", true);
+        track.setBehaviour(false, true);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
         System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result3b.txt")).toPath()));
+        System.out.println(writer.toString());       
+        assertEquals(result, writer.toString());
+        writer.close();
+        
+        // Non compressed, non smoothed:14 points
+        writer=new StringWriter();
+        track.setBehaviour(true, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3c.txt")).toPath()));
+        System.out.println(writer.toString());       
+        assertEquals(result, writer.toString());
+        writer.close();
+
+        // Compressed, non smoothed: 7 points
+        writer=new StringWriter();
+        track.setBehaviour(true, true);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3d.txt")).toPath()));
+        System.out.println(writer.toString());       
         assertEquals(result, writer.toString());
         writer.close();
     }
@@ -205,7 +210,5 @@ public class GpxWriterTest
         result=new String(Files.readAllBytes((new File("src/test/resources/result2b.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
-
-
     }    
 }

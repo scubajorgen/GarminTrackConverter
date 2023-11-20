@@ -67,12 +67,12 @@ public class TrackSmootherTest
         // We create a segment of 14 points, at 9 sec interval; speed is about 22 km/h = 6 m/s
         // The segment contains a straight angle
         // Accuracy is 500 cm
-        List<TrackPoint> segment=TestPoints.testPoints();
+        List<TrackPoint> segmentTrackPoints=TestTrack.testPoints();
         
-        List<TrackPoint> smoothedSegment=instance.smoothSegment(segment);
+        List<TrackPoint> smoothedSegment=instance.smoothSegment(segmentTrackPoints);
 
         System.out.println("Original:");
-        for (TrackPoint sp : segment)
+        for (TrackPoint sp : segmentTrackPoints)
         {
             System.out.println(sp.getLatitude()+", "+sp.getLongitude());
         }

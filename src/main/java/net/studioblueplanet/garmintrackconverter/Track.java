@@ -16,7 +16,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.studioblueplanet.settings.ApplicationSettings;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
         
@@ -37,6 +36,8 @@ public class Track extends CacheableItem
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 
+    private boolean                         behaviourSmoothed;
+    private boolean                         behaviourCompressed;
     private final List<TrackSegment>        segments;
     private final List<Location>            waypoints;
     
@@ -70,7 +71,8 @@ public class Track extends CacheableItem
     private Integer                         jumpCount;      // 
     private String                          mode;           //
     
-    private double                          compressionMaxError;
+    private int                             smoothingAccuracy;   // cm
+    private double                          compressionMaxError; // ?
     
     private int                             invalidCoordinates;
     private int                             validCoordinates;
@@ -79,8 +81,10 @@ public class Track extends CacheableItem
      * Constructor
      * @param trackFileName Track file
      * @param deviceName Description of the device that recorded the track
+     * @param compressionMaxError Maximum allowed error in m when compressing track
+     * @param smoothingAccuracy Assumed default value of GPS accuracy in cm when the GPS does not provide it
      */
-    public Track(String trackFileName, String deviceName)
+    public Track(String trackFileName, String deviceName, double compressionMaxError, int smoothingAccuracy)
     {
         FitReader               reader;
         FitMessageRepository    repository;
@@ -91,6 +95,9 @@ public class Track extends CacheableItem
         FitMessage              message;
         int                     id;
         boolean                 isCourse;
+        
+        this.compressionMaxError =compressionMaxError;
+        this.smoothingAccuracy   =smoothingAccuracy;
         
         isCourse        =false;
         fitFileName     =new File(trackFileName).getName();
@@ -173,29 +180,62 @@ public class Track extends CacheableItem
             // of the course points may not have a meaning
             if (!isCourse)
             {
-                this.sortSegments();
+                sortSegments();
             }
             
-            compressionMaxError=ApplicationSettings.getInstance().getTrackCompressionMaxError();
+            smoothTrack();
+            
             compressTrack(compressionMaxError);
         }
         else 
         {
             compressionMaxError=0.0;
-            
         }
     }
     
-    public Track()
+    /**
+     * Constructor for a simple track.
+     * @param compressionMaxError Maximum allowed error in m when compressing 
+     *        track; not used
+     * @param smoothingAccuracy Assumed default value of GPS accuracy in cm when 
+     *        the GPS does not provide it; not used
+     */
+    public Track(double compressionMaxError, int smoothingAccuracy)
     {
-        segments            =new ArrayList<>();
-        waypoints           =new ArrayList<>();
-        compressionMaxError =0.0;
+        segments                =new ArrayList<>();
+        waypoints               =new ArrayList<>();
+        this.compressionMaxError=compressionMaxError;
+        this.smoothingAccuracy  =smoothingAccuracy;
+        setBehaviour(false, false);
     }
     
+    /**
+     * This method sets the behaviour of the track. Both parameters may be set.
+     * @param smoothed The track is smoothed
+     * @param compressed The track is compressed
+     */
+    public void setBehaviour(boolean smoothed, boolean compressed)
+    {
+        behaviourSmoothed   =smoothed;
+        behaviourCompressed =compressed;
+        for (TrackSegment segment : segments)
+        {
+            segment.setBehaviour(smoothed, compressed);
+        }
+    }
+    
+    public boolean getBehaviourSmoothing()
+    {
+        return behaviourSmoothed;
+    }
+
+    public boolean getBehaviourCompression()
+    {
+        return behaviourCompressed;
+    }
 
     /**
-     * This method parses the FIT lap record and destilates the number of laps.
+     * This method parses the FIT lap record and distils the number of laps.
      * @param lapMessages The FIT record holding the 'lap' info
      */
     private void parseLaps(List<FitMessage> lapMessages)
@@ -254,7 +294,7 @@ public class Track extends CacheableItem
                 timedTime   =message.getIntValue(i, "total_timer_time")/MS_PER_S;
 
                 startLat    =message.getLatLonValue(i, "start_position_lat");
-                startLon    =message.getLatLonValue(i, "start_position_lon");
+                startLon    =message.getLatLonValue(i, "start_position_long");
                 
                 distance    =message.getScaledValue(i, "total_distance");
                 
@@ -468,7 +508,8 @@ public class Track extends CacheableItem
                 }
                 else
                 {
-                    gpsAccuracy =null;
+                    // If no gps accuracy, use the default value set
+                    gpsAccuracy =smoothingAccuracy;
                 }
 
                 point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
@@ -603,13 +644,17 @@ public class Track extends CacheableItem
         {
             info+=" unknown";
         }
+        if (behaviourSmoothed)
+        {
+            info+=" (smoothed)";
+        }
         
         int points  =segments.stream()
-                             .map(seg -> seg.getNumberOfTrackPoints())
+                             .map(seg -> seg.getNumberOfTrackPointsUncompressed())
                              .mapToInt(Integer::valueOf)
                              .sum();
         int cpoints =segments.stream()
-                             .map(seg -> seg.getNumberOfCompressedTrackPoints())
+                             .map(seg -> seg.getNumberOfTrackPointsCompressed())
                              .mapToInt(Integer::valueOf)
                              .sum();
         int percentage=0;
@@ -644,10 +689,20 @@ public class Track extends CacheableItem
         });        
     }
     
+    private void smoothTrack()
+    {
+        segments.forEach((segment) ->
+        {
+            segment.smooth();
+        });
+    }
+    
+    
     /* ******************************************************************************************* *\
      * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
     \* ******************************************************************************************* */
-    public void compressTrack(double maxError)
+    
+    private void compressTrack(double maxError)
     {
         compressionMaxError=maxError;
         segments.forEach((segment) ->
@@ -685,26 +740,6 @@ public class Track extends CacheableItem
         if (segment>=0 && segment<segments.size())
         {
             points=segments.get(segment).getTrackPoints();
-        }
-        else
-        {
-            LOGGER.error("Illegal segment number {} while requesting trackpoints", segment);
-            points=null;
-        }
-        return points;
-    }
-
-    /**
-     * Returns the array list with track points belonging to indicated segment
-     * @param segment The segment to request the track points for
-     * @return The array list with track points
-     */
-    public List<TrackPoint> getCompressedTrackPoints(int segment)
-    {
-        List<TrackPoint> points;
-        if (segment>=0 && segment<segments.size())
-        {
-            points=segments.get(segment).getCompressedTrackPoints();
         }
         else
         {
@@ -906,7 +941,7 @@ public class Track extends CacheableItem
      * Returns the maxError value used for compressing the track
      * @return The maxError value.
      */
-    public double getMaxError()
+    public double getCompressionMaxError()
     {
         return compressionMaxError;
     }

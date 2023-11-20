@@ -56,6 +56,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private DirectoryList                   locationDirectoryList;
     
     private ConverterAbout                  aboutBox;
+    
+    private Track                           currentTrack;
 
     /**
      * Creates new form ConverterView
@@ -70,8 +72,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         initComponents();
         hasSync         =false;
         isDirty         =true;
+        currentTrack    =null;
        
         jCheckBoxCompress.setSelected(ApplicationSettings.getInstance().isTrackCompression());
+        jCheckBoxSmooth.setSelected(ApplicationSettings.getInstance().isTrackSmoothing());
         
         // Initialize the map
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
@@ -281,6 +285,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (trackDirectoryList.updateListModel())
                 {
                     map.hideTrack();
+                    currentTrack=null;
                 }
             });
         }
@@ -291,6 +296,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (locationDirectoryList.updateListModel())
                 {
                     map.hideTrack();
+                    currentTrack=null;
                 }
             });
         }
@@ -301,6 +307,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (routeDirectoryList.updateListModel())
                 {
                     map.hideTrack();
+                    currentTrack=null;
                 }
             });
         }
@@ -311,6 +318,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (newFileDirectoryList.updateListModel())
                 {
                     map.hideTrack();
+                    currentTrack=null;
                 }
             });
         }
@@ -337,6 +345,15 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             devices=settings.getDevices();
         }        
+
+        // Ugly work-around to give the UI thread a chance to start the UI
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch(Exception e)
+        {
+        }
 
         LOGGER.info("Thread started");
         do
@@ -457,6 +474,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jTextFieldInfo = new javax.swing.JTextField();
         buttonSync = new javax.swing.JButton();
         jCheckBoxCompress = new javax.swing.JCheckBox();
+        jCheckBoxSmooth = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
@@ -588,6 +606,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         });
 
         jCheckBoxCompress.setText("Compress");
+        jCheckBoxCompress.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jCheckBoxCompressActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxSmooth.setText("Smooth");
+        jCheckBoxSmooth.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jCheckBoxSmoothActionPerformed(evt);
+            }
+        });
 
         jMenuFile.setText("File");
 
@@ -629,9 +663,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(14, 14, 14)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jCheckBoxCompress)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxSmooth)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(buttonSave)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(buttonUpload)
@@ -672,7 +708,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelDevice)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)))))
+                                .addComponent(jTextFieldDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
 
@@ -712,7 +748,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     .addComponent(buttonSync)
                     .addComponent(jCheckBoxCompress, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelInfo)
-                    .addComponent(jTextFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxSmooth))
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -816,6 +853,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 map.showWaypoints(track.getWaypoints());
                 jTextFieldInfo.setText("Locations: "+track.getWaypoints().size());
             }
+            currentTrack=track;
         }
     }
     
@@ -829,7 +867,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private Track readTrack(String fileName, boolean addWaypoints)
     {
         Track theTrack;
-        theTrack=new Track(fileName, device.getDeviceDescription());
+        double  compressionMaxError =ApplicationSettings.getInstance().getTrackCompressionMaxError();
+        int     smoothingAccuracy   =ApplicationSettings.getInstance().getTrackSmoothingAccuracy();
+        theTrack=new Track(fileName, device.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
 
         if(addWaypoints && waypoints!=null)
         {
@@ -940,7 +980,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 try
                 {
                     fileWriter=new FileWriter(fileName);
-                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName, jCheckBoxCompress.isSelected());
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
                     fileWriter.close();
                  }
                 catch (IOException e)
@@ -966,7 +1006,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 try
                 {
                     fileWriter=new FileWriter(fileName);
-                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName, false);
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
                     fileWriter.close();
                 }
                 catch (IOException e)
@@ -1008,7 +1048,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 try
                 {
                     fileWriter=new FileWriter(fileName);
-                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName, false);
+                    gpsWriter.writeTrackToFile(fileWriter, track, "Track", appName);
                     fileWriter.close();
                 }
                 catch (IOException e)
@@ -1057,8 +1097,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
                 }
                 textAreaOutput.append(track.getTrackInfo2()+"\n");
-                jTextFieldInfo.setText(track.getTrackInfo());
-                map.showTrack(track);
+                trackToMap(track);
+                currentTrack=track;
             }
         }
     }//GEN-LAST:event_jTrackListValueChanged
@@ -1093,6 +1133,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("Route read from FIT file\n");
                 }
                 trackToMap(track);
+                currentTrack=null;
             }
         }
     }//GEN-LAST:event_jRouteListValueChanged
@@ -1129,6 +1170,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("New file read from GPX file\n");
                 }
                 trackToMap(track);
+                currentTrack=null;
             }
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
@@ -1211,6 +1253,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("Locations read from GPX file\n");
                 }
                 map.showWaypoints(points.getWaypoints());
+                currentTrack=null;
                 jTextFieldInfo.setText("Locations: "+points.getNumberOfWaypoints());
             }
         }
@@ -1302,6 +1345,27 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         isDirty=false;
     }//GEN-LAST:event_buttonSyncActionPerformed
 
+    private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
+    {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
+        if (currentTrack!=null)
+        {
+            currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
+            textAreaOutput.setText("Track retrieved from cache\n");
+            textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
+            trackToMap(currentTrack);
+        }
+    }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
+
+    private void jCheckBoxCompressActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxCompressActionPerformed
+    {//GEN-HEADEREND:event_jCheckBoxCompressActionPerformed
+        if (currentTrack!=null)
+        {
+            currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
+            textAreaOutput.setText("Track retrieved from cache\n");
+            textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
+            trackToMap(currentTrack);
+        }
+    }//GEN-LAST:event_jCheckBoxCompressActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1311,6 +1375,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private javax.swing.JButton buttonSync;
     private javax.swing.JButton buttonUpload;
     private javax.swing.JCheckBox jCheckBoxCompress;
+    private javax.swing.JCheckBox jCheckBoxSmooth;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelDevice;
     private javax.swing.JLabel jLabelInfo;

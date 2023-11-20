@@ -18,14 +18,14 @@ public class TrackPoint implements Comparable<TrackPoint>
 {
     private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
     private final ZonedDateTime   dateTime;
-    private final Double          latitude;     // degree
-    private final Double          longitude;    // degree
-    private final Double          elevation;    // m
-    private final Double          speed;        // m/s
-    private final Double          distance;     // m
-    private final Integer         temperature;  // deg C
-    private final Integer         heartrate;    // bpm
-    private final Integer         gpsAccuracy;  // cm
+    private Double                latitude;         // degree
+    private Double                longitude;        // degree
+    private final Double          elevation;        // m
+    private final Double          speed;            // m/s
+    private final Double          distance;         // m
+    private final Integer         temperature;      // deg C
+    private final Integer         heartrate;        // bpm
+    private final Integer         gpsAccuracy;      // cm
   
     /**
      * Constructor, simple version
@@ -57,7 +57,8 @@ public class TrackPoint implements Comparable<TrackPoint>
      * @param heartrate Heart rate in bpm
      * @param gpsAccuracy Accuracy of gps in m
      */
-    public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
+    public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, 
+                      Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
     {
         this.dateTime       =dateTime;
         this.latitude       =lat;
@@ -70,11 +71,36 @@ public class TrackPoint implements Comparable<TrackPoint>
         this.gpsAccuracy    =gpsAccuracy;
     }
 
+    /**
+     * Update the coordinate
+     * @param lat New latitude
+     * @param lon New longitude
+     */
+    public void updateCoordinate(Double lat, Double lon)
+    {
+        this.latitude=lat;
+        this.longitude=lon;
+    }
+    
+    /**
+     * Returns a clone of the track point
+     * @return New instance of the track point
+     */
+    @Override
+    public TrackPoint clone()
+    {
+        TrackPoint point=new TrackPoint(dateTime, latitude, longitude, elevation, speed, distance, 
+                                        temperature, heartrate, gpsAccuracy);
+        return point;
+    }
+    
+    
     public ZonedDateTime getDateTime()
     {
         return dateTime;
     }
 
+  
     public Double getLatitude()
     {
         return latitude;
@@ -82,7 +108,7 @@ public class TrackPoint implements Comparable<TrackPoint>
 
     public Double getLongitude()
     {
-        return longitude; 
+        return longitude;
     }
 
     public Double getElevation()

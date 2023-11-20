@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author jorgen
  */
-public class TestPoints
+public class TestTrack
 {
     /**
      * Returns a list of points we can use for testing compression and smoothing.
@@ -59,5 +59,26 @@ public class TestPoints
         segment.add(point);  
         
         return segment;
+    }
+    
+    /**
+     * Creates a simple track with one segment consisting of the points above
+     */
+    public static Track testTrack()
+    {
+        Track track=new Track(3.0, 5000);
+        
+        List<TrackSegment> segments=track.getSegments();
+        ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, ZoneId.of("UTC"));
+        TrackSegment segment=new TrackSegment(zdt, zdt.plusSeconds(12));
+        List<TrackPoint> points=testPoints();
+        for (TrackPoint p : points)
+        {
+            segment.addTrackPoint(p);
+        }
+        segment.smooth();
+        segment.compress(3.0);
+        segments.add(segment);  
+        return track;
     }
 }

@@ -22,8 +22,15 @@ import org.apache.logging.log4j.Logger;
 public class TrackSegment
 {
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
-    private List<TrackPoint>        trackPoints;
-    private List<TrackPoint>        compressedTrackPoints;
+
+    private boolean                 behaviourSmoothed;
+    private boolean                 behaviourCompressed;
+
+    private List<TrackPoint>        trackPointsRaw;                 // raw segment
+    private List<TrackPoint>        trackPointsSmoothed;            // smoothed segment
+    private List<TrackPoint>        trackPointsRawCompressed;       // compressed segment
+    private List<TrackPoint>        trackPointsSmoothedCompressed;  // compressed smoothed segment
+    private List<TrackPoint>        currentPoints;
     private final ZonedDateTime     startTime;
     private final ZonedDateTime     endTime;
 
@@ -34,9 +41,11 @@ public class TrackSegment
      */
     public TrackSegment(ZonedDateTime startTime, ZonedDateTime endTime)
     {
-        this.startTime  =startTime;
-        this.endTime    =endTime;
-        trackPoints     =new ArrayList<>();
+        this.startTime      =startTime;
+        this.endTime        =endTime;
+        trackPointsRaw      =new ArrayList<>();
+        trackPointsSmoothed =new ArrayList<>();
+        setBehaviour(false, false);
     }
     
     /**
@@ -44,11 +53,46 @@ public class TrackSegment
      */
     public TrackSegment()
     {
-        this.startTime  =null;
-        this.endTime    =null;
-        trackPoints     =new ArrayList<>();        
+        this.startTime      =null;
+        this.endTime        =null;
+        trackPointsRaw         =new ArrayList<>();        
+        trackPointsSmoothed =new ArrayList<>();
+        setBehaviour(false, false);
     }
     
+    /**
+     * This method sets the behaviour of the track. Both parameters may be set.
+     * @param smoothed The track is smoothed
+     * @param compressed The track is compressed
+     */
+    public void setBehaviour(boolean smoothed, boolean compressed)
+    {
+        behaviourSmoothed   =smoothed;
+        behaviourCompressed =compressed;
+        if (compressed)
+        {
+            if (smoothed)
+            {
+                currentPoints=trackPointsSmoothedCompressed;
+            }
+            else
+            {
+                currentPoints=trackPointsRawCompressed;
+            }
+        }
+        else
+        {
+            if (smoothed)
+            {
+                currentPoints=trackPointsSmoothed;
+            }
+            else
+            {
+                currentPoints=trackPointsRaw;
+            }
+        }
+    }
+
     /**
      * This method returns whether the indicated timestamp lies within the lap.
      * @param time Timestamp to check
@@ -69,12 +113,12 @@ public class TrackSegment
     }
     
     /**
-     * Add a track point to the segment
+     * Add a raw track point to the segment. 
      * @param trackPoint Track point to add
      */
     public void addTrackPoint(TrackPoint trackPoint)
     {
-        trackPoints.add(trackPoint);
+        trackPointsRaw.add(trackPoint);
     }
 
     /**
@@ -86,9 +130,10 @@ public class TrackSegment
     {
         TrackPoint point;
         
-        if (index>=0 && index<trackPoints.size())
+        currentPoints=getTrackPoints();
+        if (index>=0 && index<currentPoints.size())
         {
-            point=trackPoints.get(index);
+            point=currentPoints.get(index);
         }
         else
         {
@@ -103,16 +148,7 @@ public class TrackSegment
      */
     public List<TrackPoint> getTrackPoints()
     {
-        return this.trackPoints;
-    }
-    
-    /**
-     * Get the array list with track points belonging to this segment
-     * @return The array list with track points
-     */
-    public List<TrackPoint> getCompressedTrackPoints()
-    {
-        return this.compressedTrackPoints;
+        return currentPoints;
     }
     
     /**
@@ -121,17 +157,46 @@ public class TrackSegment
      */
     public int getNumberOfTrackPoints()
     {
-        return this.trackPoints.size();
+        return currentPoints.size();
+    }
+    
+    /**
+     * Returns the number of uncompressed track points in this segment
+     * @return Number of points.
+     */
+    public int getNumberOfTrackPointsUncompressed()
+    {
+        int size;
+        if (behaviourSmoothed)
+        {
+            size=trackPointsSmoothed.size();
+        }
+        else
+        {
+            size=trackPointsRaw.size();
+        }
+        return size;
     }
     
     /**
      * Returns the number of compressed track points in this segment
      * @return Number of points.
      */
-    public int getNumberOfCompressedTrackPoints()
+    public int getNumberOfTrackPointsCompressed()
     {
-        return this.compressedTrackPoints.size();
+        int size;
+        if (behaviourSmoothed)
+        {
+            size=trackPointsSmoothedCompressed.size();
+        }
+        else
+        {
+            size=trackPointsRawCompressed.size();
+        }
+        return size;
     }
+    
+    
     
     public ZonedDateTime getStartTime()
     {
@@ -144,64 +209,94 @@ public class TrackSegment
     }
     
     /**
-     * Sort the list of trackpoints on datetime of the trackpoints.
+     * Sort the list of track points on datetime of the track points.
+     * Note: this only applies to the raw points.
      */
     public void sortOnDateTime()
     {
-        trackPoints=trackPoints.stream().sorted().collect(Collectors.toList());
+        trackPointsRaw.sort((o1, o2) -> o1.compareTo(o2));
     }
     
     /**
-     * Compress segment using the Douglas-Peucker method.
-     * Note: this results in a list containing only records that contain
-     * latitude and longitude. Other records are removed.
+     * Smooth the track points of the segment. This results in a new list of track points.
+     */
+    public void smooth()
+    {
+        // Create a copy of the trackpoints
+        for (TrackPoint point : trackPointsRaw)
+        {
+            trackPointsSmoothed.add(point.clone());
+        }
+        TrackSmoother s     =TrackSmoother.getInstance();
+        trackPointsSmoothed =s.smoothSegment(trackPointsRaw);            
+    }
+    
+    /**
+     * Compresses the segment using the Douglas-Peucker method.
+     * The raw as well as the smoothed segment are compressed.
+     * Hence it must be called after smooth().
      * @param maxError Measure for the maximum error
      */
     public void compress(double maxError)
+    {
+        this.trackPointsRawCompressed       =compress(trackPointsRaw, maxError);
+        this.trackPointsSmoothedCompressed  =compress(trackPointsSmoothed, maxError);
+    }
+    
+    /**
+     * 
+     * @param points
+     * @param maxError
+     * @return 
+     */
+    private List<TrackPoint> compress(List<TrackPoint> points, double maxError)
     {
         int                     before;
         int                     after;
         TrackPoint              maxSpeed;
         TrackPoint              maxHeartrate;
-        List<TrackPoint>    recs;
+        List<TrackPoint>        recs;
+        
+        
+        List<TrackPoint> compressedPoints=new ArrayList<>();
         
         // Find the max speed in the original data
-        maxSpeed    =trackPoints.stream()
+        maxSpeed    =points.stream()
                         .max(Comparator.nullsFirst(Comparator.comparing(TrackPoint::getSpeedNotNull)))
                         .orElse(null);
-        maxHeartrate=trackPoints.stream()
+        maxHeartrate=points.stream()
                         .max(Comparator.nullsFirst(Comparator.comparing(TrackPoint::getHeartrateNotNull)))
                         .orElse(null);
-        recs=trackPoints.stream()
+        recs=points.stream()
                 .collect(Collectors.toList());
         
         if (maxError>0.0 && recs.size()>0)
         {
-            before=trackPoints.size();
+            before=points.size();
             // Douglas Peucker compression
-            compressedTrackPoints=DPUtil.dpAlgorithm(recs, maxError);
+            compressedPoints=DPUtil.dpAlgorithm(recs, maxError);
             
             // Check if the max speed record is included in the result
-            if (maxSpeed!=null && compressedTrackPoints.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
+            if (maxSpeed!=null && compressedPoints.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)
             {
                 // add if not
-                compressedTrackPoints.add(maxSpeed);
-                Collections.sort(compressedTrackPoints); // sort points on datetime
+                compressedPoints.add(maxSpeed);
+                Collections.sort(compressedPoints); // sort points on datetime
             }
             // Check if the max speed heartrate is included in the result
-            if (maxHeartrate!=null && compressedTrackPoints.stream().filter(r -> r.getDateTime().equals(maxHeartrate.getDateTime())).count()==0)
+            if (maxHeartrate!=null && compressedPoints.stream().filter(r -> r.getDateTime().equals(maxHeartrate.getDateTime())).count()==0)
             {
                 // add if not
-                compressedTrackPoints.add(maxHeartrate);
-                Collections.sort(compressedTrackPoints); // sort points on datetime
+                compressedPoints.add(maxHeartrate);
+                Collections.sort(compressedPoints); // sort points on datetime
             }
-            after=compressedTrackPoints.size();
+            after=compressedPoints.size();
             LOGGER.info("DP Compression applied. Size before {}, after {} ({}%)", before, after, (100*after/before));
         }
         else
         {
             LOGGER.error("Compression maximum error value must be larger than 0.0");
         }
+        return compressedPoints;
     }
-    
 }

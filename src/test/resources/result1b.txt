@@ -2,7 +2,7 @@
 <gpx xmlns="http://www.topografix.com/GPX/1/0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.0" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd ">
   <trk>
     <name>trackname</name>
-    <desc>Created by: appname. Logged by: null. Original file: null.</desc>
+    <desc>Created by: appname. Logged by: null. Original file: null (raw, uncompressed).</desc>
     <trkseg>
       <trkpt lat="53.5000000" lon="6.5000000">
         <ele>1.0</ele>
@@ -13,6 +13,7 @@
   </trk>
   <extensions>
     <u-gotMe:software>appname</u-gotMe:software>
+    <u-gotMe:smoothing>false</u-gotMe:smoothing>
     <u-gotMe:compression>false</u-gotMe:compression>
     <u-gotMe:compressionMaxErr>0.0000</u-gotMe:compressionMaxErr>
   </extensions>

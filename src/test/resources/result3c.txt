@@ -2,9 +2,9 @@
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd">
   <trk>
     <name>trackname</name>
-    <desc>Created by: appname. Logged by: null. Original file: null (raw, uncompressed).</desc>
+    <desc>Created by: appname. Logged by: null. Original file: null (smoothed, uncompressed).</desc>
     <trkseg>
-      <trkpt lat="53.0125620" lon="6.7250730">
+      <trkpt lat="53.0125618" lon="6.7250729">
         <ele>0.0</ele>
         <time>2015-11-30T22:45:59Z</time>
         <extensions>
@@ -15,7 +15,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0122830" lon="6.7242600">
+      <trkpt lat="53.0124141" lon="6.7246416">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:08Z</time>
         <extensions>
@@ -26,7 +26,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0120580" lon="6.7235370">
+      <trkpt lat="53.0122726" lon="6.7242024">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:17Z</time>
         <extensions>
@@ -37,7 +37,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0118320" lon="6.7228750">
+      <trkpt lat="53.0121209" lon="6.7237442">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:26Z</time>
         <extensions>
@@ -48,7 +48,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0115890" lon="6.7220630">
+      <trkpt lat="53.0119497" lon="6.7232030">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:35Z</time>
         <extensions>
@@ -59,7 +59,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0113460" lon="6.7213400">
+      <trkpt lat="53.0117616" lon="6.7226235">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:44Z</time>
         <extensions>
@@ -70,7 +70,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0111380" lon="6.7206480">
+      <trkpt lat="53.0115711" lon="6.7220192">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:53Z</time>
         <extensions>
@@ -81,7 +81,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0115740" lon="6.7201850">
+      <trkpt lat="53.0115719" lon="6.7214627">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:02Z</time>
         <extensions>
@@ -92,7 +92,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0119380" lon="6.7198080">
+      <trkpt lat="53.0116820" lon="6.7209628">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:11Z</time>
         <extensions>
@@ -103,7 +103,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0123380" lon="6.7193740">
+      <trkpt lat="53.0118794" lon="6.7204837">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:20Z</time>
         <extensions>
@@ -114,7 +114,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0127740" lon="6.7189700">
+      <trkpt lat="53.0121494" lon="6.7200276">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:29Z</time>
         <extensions>
@@ -125,7 +125,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0131930" lon="6.7185060">
+      <trkpt lat="53.0123906" lon="6.7196753">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:38Z</time>
         <extensions>
@@ -136,7 +136,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0135750" lon="6.7181000">
+      <trkpt lat="53.0126135" lon="6.7193792">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:47Z</time>
         <extensions>
@@ -147,7 +147,7 @@
           <u-gotMe:ehpe>5000</u-gotMe:ehpe>
         </extensions>
       </trkpt>
-      <trkpt lat="53.0139740" lon="6.7177250">
+      <trkpt lat="53.0128287" lon="6.7191174">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:56Z</time>
         <extensions>
@@ -162,7 +162,7 @@
   </trk>
   <extensions>
     <u-gotMe:software>appname</u-gotMe:software>
-    <u-gotMe:smoothing>false</u-gotMe:smoothing>
+    <u-gotMe:smoothing>true</u-gotMe:smoothing>
     <u-gotMe:compression>false</u-gotMe:compression>
     <u-gotMe:compressionMaxErr>0.0000</u-gotMe:compressionMaxErr>
   </extensions>

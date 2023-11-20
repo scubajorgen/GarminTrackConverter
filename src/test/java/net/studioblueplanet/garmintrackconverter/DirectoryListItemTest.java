@@ -28,7 +28,7 @@ public class DirectoryListItemTest
     @BeforeClass
     public static void setUpClass()
     {
-        track=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice");
+        track=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 500);
     }
     
     @AfterClass
@@ -65,7 +65,7 @@ public class DirectoryListItemTest
     {
         System.out.println("get/setCachedItem");
         assertNull(instance.getCachedItem());
-        Track track=new Track();
+        Track track=new Track(3.0, 500);
         instance.setCachedItem(track);
         assertEquals(track, instance.getCachedItem());
         Locations locations=new Locations();

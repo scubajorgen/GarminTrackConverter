@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -113,6 +112,7 @@ public class DirectoryList
         
     /**
      * Updates the file list
+     * @param extension File extension to filter on
      * @return True if the list is empty, otherwise false
      */
     public boolean updateDirectoryList(String extension)

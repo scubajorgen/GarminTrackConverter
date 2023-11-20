@@ -5,7 +5,6 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -29,8 +28,6 @@ import org.w3c.dom.Element;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-
 /**
  * This class writes tracks and waypoints to GPX file.
  * The major difference between GPX 1.0 and GPX 1.1 is the &lt;extensions&gt; element.
@@ -52,7 +49,6 @@ public class GpxWriter
 
     Document                    doc;
     Element                     gpxElement;
-
 
     /**
      * Constructor
@@ -314,7 +310,7 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo, boolean compressed)
+    private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo)
     {
         Element                     pointElement;
         Element                     element;
@@ -323,15 +319,8 @@ public class GpxWriter
         String                      dateTimeString;
         List<TrackPoint>            segmentPoints;
 
-        if (compressed)
-        {
-            segmentPoints=track.getCompressedTrackPoints(segmentNo);
-        }
-        else
-        {
-            segmentPoints=track.getTrackPoints(segmentNo);
-        }
 
+        segmentPoints=track.getTrackPoints(segmentNo);
         for(TrackPoint point : segmentPoints)
         {
             pointElement    = doc.createElement("trkpt");
@@ -361,7 +350,6 @@ public class GpxWriter
             pointElement.setAttributeNode(attr);
 
             trackPoints++;
-
         }
     }
 
@@ -375,24 +363,16 @@ public class GpxWriter
      * @param trackNo The track
      * @param segmentNo The segment
      */
-    private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo, boolean compressed)
+    private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo)
     {
         Element                     pointElement;
-        Element                     element;
         Element                     extensionsElement;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
         List<TrackPoint>            segmentPoints;
 
-        if (compressed)
-        {
-            segmentPoints=track.getCompressedTrackPoints(segmentNo);
-        }
-        else
-        {
-            segmentPoints=track.getTrackPoints(segmentNo);
-        }
 
+        segmentPoints=track.getTrackPoints(segmentNo);
         for(TrackPoint point : segmentPoints)
         {
             pointElement    = doc.createElement("trkpt");
@@ -480,16 +460,14 @@ public class GpxWriter
      * This method adds the track segments to the track.
      * @param doc XML document
      * @param gpxElement The GPX element
-     * @param trackNo The track identification
+     * @param track The track to write
      * @param trackName The track name
-     * @param compressed Indicates to write the compressed track (true) or uncompressed (false)
      */
-    private void addTrack(Document doc, Element gpxElement, Track track, String trackName, boolean compressed)
+    private void addTrack(Document doc, Element gpxElement, Track track, String trackName)
     {
         int     i;
         int     numberOfSegments;
         Element trackElement;
-        Element element;
         String  description;
         double  compressionMaxErr;
 
@@ -522,14 +500,24 @@ public class GpxWriter
             }
             
             description+=" Original file: "+track.getFitFileName();
-            if (compressed)
+
+            if (track.getBehaviourSmoothing())
             {
-                description+=" (compressed).";
-                compressionMaxErr=track.getMaxError();
+                description+=" (smoothed, ";
             }
             else
             {
-                description+=".";
+                description+=" (raw, ";
+            }
+            
+            if (track.getBehaviourCompression())
+            {
+                description+="compressed).";
+                compressionMaxErr=track.getCompressionMaxError();
+            }
+            else
+            {
+                description+="uncompressed).";
                 compressionMaxErr=0.0;
             }
             
@@ -545,11 +533,11 @@ public class GpxWriter
 
                 if (gpxVersion.equals("1.0"))
                 {
-                    appendTrackGpx1_0(doc, segmentElement, track, i, compressed);
+                    appendTrackGpx1_0(doc, segmentElement, track, i);
                 }
                 else if (gpxVersion.equals("1.1"))
                 {
-                    appendTrackGpx1_1(doc, segmentElement, track, i, compressed);
+                    appendTrackGpx1_1(doc, segmentElement, track, i);
                 }
                 i++;
             }
@@ -557,12 +545,13 @@ public class GpxWriter
             gpxElement.appendChild(extensions);
 
             String activity=track.getSportDescription();
-            addChildElement(extensions, "u-gotMe:device", track.getDeviceName());
-            addChildElement(extensions, "u-gotMe:deviceFirmware", track.getSoftwareVersion());
-            addChildElement(extensions, "u-gotMe:software", appName);
-            addChildElement(extensions, "u-gotMe:activity", activity);
+            addChildElement(extensions, "u-gotMe:device"            , track.getDeviceName());
+            addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
+            addChildElement(extensions, "u-gotMe:software"          , appName);
+            addChildElement(extensions, "u-gotMe:activity"          , activity);
             addChildElement(extensions, "u-gotMe:sourceFile", track.getFitFileName());
-            addChildElement(extensions, "u-gotMe:compression", compressed);
+            addChildElement(extensions, "u-gotMe:smoothing", track.getBehaviourSmoothing());
+            addChildElement(extensions, "u-gotMe:compression", track.getBehaviourCompression());
             addChildElement(extensions, "u-gotMe:compressionMaxErr", compressionMaxErr, 4);
             addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
             addChildElement(extensions, "u-gotMe:duration_s", track.getElapsedTime());
@@ -592,9 +581,8 @@ public class GpxWriter
      * @param track Track to write
      * @param trackName Name for the track to use inside the GPX file 
      * @param appName Name of this application
-     * @param compressed Indicates to write the compressed track (true) or uncompressed (false)
      */
-    public void writeTrackToFile(Writer writer, Track track, String trackName, String appName, boolean compressed)
+    public void writeTrackToFile(Writer writer, Track track, String trackName, String appName)
     {
         Element     trackElement;
         Element     element;
@@ -611,7 +599,7 @@ public class GpxWriter
             // create the GPX file
             createGpxDocument(track.getDeviceName());
 
-            addTrack(doc, gpxElement, track, trackName, compressed);
+            addTrack(doc, gpxElement, track, trackName);
 
             // write the content into xml file
             writeGpxDocument(writer);
