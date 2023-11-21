@@ -5,7 +5,7 @@
     "trackCompression": true,
     "trackCompressionMaxError": 0.3,
     "trackSmoothing": false,
-    "trackSmoothingAccuracy": 1.5,
+    "trackSmoothingAccuracy": 15.0,
     "devices":
     [
       {
