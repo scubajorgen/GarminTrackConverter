@@ -22,7 +22,9 @@ import org.apache.logging.log4j.LogManager;
 
 /**
  * This class represents a track consisting of track segments and optional
- * a number of logged waypoints
+ * a number of logged waypoints. Four sets of segments are maintained:
+ * raw, raw compressed, smoothed, smoothed compressed. By means of setting 
+ * the behaviour of the track, it behaves like one of them.
  * @author Jorgen
  */
 public class Track extends CacheableItem
@@ -58,8 +60,8 @@ public class Track extends CacheableItem
     private ZonedDateTime                   endTime;
     private Long                            elapsedTime;    // s
     private Long                            timedTime;      // s
-    private Double                          startLat;
-    private Double                          startLon;
+    private Double                          startLat;       // degrees
+    private Double                          startLon;       // degrees
     private Double                          distance;       // m
     private Double                          averageSpeed;   // km/h
     private Double                          maxSpeed;       // km/h
@@ -72,7 +74,7 @@ public class Track extends CacheableItem
     private String                          mode;           //
     
     private int                             smoothingAccuracy;   // cm
-    private double                          compressionMaxError; // ?
+    private double                          compressionMaxError; // m
     
     private int                             invalidCoordinates;
     private int                             validCoordinates;
@@ -224,11 +226,19 @@ public class Track extends CacheableItem
         }
     }
     
+    /**
+     * Returns whether this track behaves like a smoothed track
+     * @return True if smoothed, false if not
+     */
     public boolean getBehaviourSmoothing()
     {
         return behaviourSmoothed;
     }
 
+    /**
+     * Returns whether this track behaves like a compressed track
+     * @return True if compressed, false if not
+     */
     public boolean getBehaviourCompression()
     {
         return behaviourCompressed;

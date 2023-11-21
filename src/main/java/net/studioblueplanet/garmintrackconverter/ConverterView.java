@@ -1106,7 +1106,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
     private void jRouteListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jRouteListValueChanged
     {//GEN-HEADEREND:event_jRouteListValueChanged
-        int     index;
         String  fullFileName;
         String  fileName;
         Track   track;
@@ -1142,7 +1141,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
     private void jNewFilesListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_jNewFilesListValueChanged
     {//GEN-HEADEREND:event_jNewFilesListValueChanged
-        int     index;
         String  fullFileName;
         String  fileName;
         Track   track;
