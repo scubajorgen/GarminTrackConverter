@@ -115,6 +115,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         buttonUpload.setFont(proportional16pt);
         buttonSync.setFont(proportional16pt);
         jCheckBoxCompress.setFont(proportional16pt);
+        jCheckBoxSmooth.setFont(proportional16pt);
 
         textAreaOutput.setFont(proportional16pt);
 
