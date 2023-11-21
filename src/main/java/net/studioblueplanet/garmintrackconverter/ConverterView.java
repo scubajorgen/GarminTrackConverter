@@ -1096,6 +1096,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("Track read from FIT file\n");
 
                 }
+                track.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
                 textAreaOutput.append(track.getTrackInfo2()+"\n");
                 trackToMap(track);
                 currentTrack=track;
@@ -1132,6 +1133,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     routeDirectoryList.addCacheableItem(track);
                     textAreaOutput.setText("Route read from FIT file\n");
                 }
+                track.setBehaviour(false, false);
                 trackToMap(track);
                 currentTrack=null;
             }
@@ -1169,6 +1171,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     newFileDirectoryList.addCacheableItem(track);
                     textAreaOutput.setText("New file read from GPX file\n");
                 }
+                track.setBehaviour(false, false);
                 trackToMap(track);
                 currentTrack=null;
             }

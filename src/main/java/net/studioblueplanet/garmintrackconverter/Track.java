@@ -701,7 +701,6 @@ public class Track extends CacheableItem
     /* ******************************************************************************************* *\
      * TRACK COMPRESSING - DOUGLASS-PEUCKER ALGORITHM
     \* ******************************************************************************************* */
-    
     private void compressTrack(double maxError)
     {
         compressionMaxError=maxError;
