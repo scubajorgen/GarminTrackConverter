@@ -1,11 +1,12 @@
 # Garmin Track Converter
 ## Introduction
-The Garmin Track Converter is an application intended to convert ANT/Garmin .FIT track log files from an attached Garmin device to GPX 1.1 format. 
+The Garmin Track Converter is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to GPX 1.1 format. 
 It has been created for and tested with the Garmin Edge 810/830 bike computer and Garmin Fenix 7, but it might be useful for other Garmins devices as well.
 
-Garmin .FIT tracks do not contain marked waypoints. These are stored in a separate file(max. 100 waypoints).
-On the Garmin Edge810 this file is Locations.fit, on the Fenix Lctns.fit.
+Garmin .FIT tracks do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge810 this file is Locations.fit, on the Fenix Lctns.fit.
 During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track.
+
+Garmin Track Converter can also be used to check the routes that are stored on the device and can be used to upload new waypoint or route files (new files).
 
 ![](image/GarminTrackConverter.png)
 
@@ -14,7 +15,8 @@ Features
 * Including waypoints logged during the activity
 * Start/stop events are written to trkseg GPX segments
 * Device ID/serial is included in the GPX
-* Upload of waypoints and routers in GPX format (New Files)
+* Upload of waypoints and routes in GPX format (New Files)
+* Smoothing and compression of activity tracks
 
 ## Building
 Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first. Manually building:
@@ -34,7 +36,9 @@ in the configuration.
   "gpxFileDownloadPath": "./development/gpx",
   "gpxFileUploadPath": "./development/gpxRoutes",
   "trackCompression": true,
-  "trackCompressionMaxError": 0.01,
+  "trackCompressionMaxError": 0.3,
+  "trackSmoothing": false,
+  "trackSmoothingAccuracy": 15.0,
   "devices":
   [
     {
@@ -72,7 +76,7 @@ It requires from the device:
 In the directory /development example file structures are available for the Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7). The files and directories are (partly) copied from real devices.
 
 ## Executing
-Go to /target directory. Run 'java -jar GarminTrackConverter<x.y>.jar, where x.y is the version. There is also a jar file containing all depenedencies.
+Go to /target directory. Run 'java -jar GarminTrackConverter.jar. The jar file is containing all depenedencies.
 
 If all is configured properly, you see four panels to the left, one map panel to the right and one info box at the bottom.
 
@@ -94,11 +98,32 @@ Note that this program has only be tested with the Garmin **Edge810** and **Edge
 ## Compression
 A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
 
-If on the device a log frequency of trackpoints is set to 'smart', the device compresses the track. However, on the Fenix 7 every second a trackpoint is logged even when 'smart logging' is chosen for Open Water Swimming. Here comes in the compression feature.
+On the Fenix 7, the frequency of trackpoints can be set to 'smart'. The device compresses the track. For Open Water Swimming however it does not seem to have effect: every second a point is logged. Here comes in the compression feature.
 
 Compressing can be switched on by checking the 'Save compressed track' checkbox. The setting 'trackCompression' in the settings file can be used to have it checked by default. 
 
-The algorithm requires a maximum allowable error value. This can be defined in the settings file by 'trackCompressionMaxError': the larger the value the higher the compression ratio but the more deviation occurs. A value of 0.01 gives good results.
+The algorithm requires a maximum allowable error value. This can be defined in the settings file by 'trackCompressionMaxError', in m: the larger the value the higher the compression ratio but the more deviation occurs. A value of 0.3 m gives good results.
+
+```
+  "trackCompression": true,
+  "trackCompressionMaxError": 0.3
+```
+
+## Smoothing
+The software offers the feature _smoothing_, based on a Kalman filter. Normally track smoothing is not necessary, because the Garmins are quite accurate. However, in exceptional cases it may come handy. In next picture I used the Fenix 7 on my wrist to log a swim using a generic activity. This results in a fairly jagged track (blue), because half the time the GPS is under water. Using the smoothing feature it results in a smoothed track (red) pretty good matching the curve of a TomTom GPS attached to the swimming buoy (green). 
+
+![](image/smooth.png)
+
+Distances logged:
+* TomTom reference (green): 1.65 km 
+* Original Fenix (red): 3.74 km (+127%)
+* Smoothed Fenix (blue): 1.72 km (+4%)
+
+If the GPS provides the accuracy of the GPS (ehpe), this is used. Most likely your GPS does not. Than you can set the accuray in the configuration file, in m:
+```
+"trackSmoothingAccuracy": 15.0
+```
+Only use smoothing for cases like the case above. Applying it to normal tracks makes it cut corners.
 
 ## Development
 The software was developed using Apache Netbeans. The Maven project can be run or debugged from Netbeans. For developement, a directory /development is available. It contains in /development/Garmin a copy of the filestructure from a Garmin Edge830 device, including some logged activities, courses and locations. The folder /development/gpx can be used to store GPX files.
@@ -114,7 +139,7 @@ The software uses
 - ...
 
 ## Remark on the Fenix 7
-Unfortunatelly, the Fenix 7 cannot be attached to USB as mass storage device. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and **not** accessible from Java programs. 
+Unfortunatelly, the Fenix 7 cannot be attached to USB as _mass storage device_. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and **not** accessible from Java programs. 
 
 I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
 
