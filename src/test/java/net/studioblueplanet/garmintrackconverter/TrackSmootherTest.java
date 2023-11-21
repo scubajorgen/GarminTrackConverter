@@ -66,7 +66,7 @@ public class TrackSmootherTest
         
         // We create a segment of 14 points, at 9 sec interval; speed is about 22 km/h = 6 m/s
         // The segment contains a straight angle
-        // Accuracy is 500 cm
+        // Accuracy is 5000 cm
         List<TrackPoint> segmentTrackPoints=TestTrack.testPoints();
         
         List<TrackPoint> smoothedSegment=instance.smoothSegment(segmentTrackPoints);

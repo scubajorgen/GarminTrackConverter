@@ -31,7 +31,7 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceTwoSegments=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 500);
+        instanceTwoSegments=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
     }
     
     @AfterClass
@@ -46,7 +46,7 @@ public class TrackTest
         Location location=new Location("test", "", ZonedDateTime.parse("2021-05-08T08:20:00Z"), 5.0, 5.0, 0.0, 0);
         locations.add(location);
 
-        instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", "TestDevice", 3.0, 500);
+        instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", "TestDevice", 3.0, 0.5);
         instance.addTrackWaypoints(locations);
     }
     
@@ -120,7 +120,7 @@ public class TrackTest
         assertEquals(2, instanceTwoSegments.getNumberOfSegments());
 
         System.out.println("getNumberOfSegments - laps");
-        Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", "TestDevice", 3.0, 500);
+        Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", "TestDevice", 3.0, 0.5);
         assertEquals(1, instance2.getNumberOfSegments());
         assertEquals("2022-11-08T19:00:39Z[UTC]", instance2.getSegments().get(0).getStartTime().toString());
         assertEquals("2022-11-08T21:52:54Z[UTC]", instance2.getSegments().get(0).getEndTime().toString());

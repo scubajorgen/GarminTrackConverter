@@ -93,23 +93,38 @@ public class ApplicationSettings
         return settings.getDebugLevel();
     }
     
+    /**
+     * Indicates the default setting for track smoothing checkbox
+     * @return True if enabled
+     */
     public boolean isTrackSmoothing()
     {
         return settings.isTrackSmoothing();
     }
     
-    public int getTrackSmoothingAccuracy()
+    /**
+     * Returns the default GPS accuracy to be used if the GPS does not provide
+     * it. 
+     * @return The accuracy in m 
+     */
+    public double getTrackSmoothingAccuracy()
     {
         return settings.getTrackSmoothingAccuracy();
     }
     
-    
-    
+    /**
+     * Indicates the default setting for track smoothing checkbox
+     * @return True if enabled
+     */
     public boolean isTrackCompression()
     {
         return settings.isTrackCompression();
     }
     
+    /**
+     * Returns the maximum allowed error when compressing the track
+     * @return The maximum error in m
+     */
     public double getTrackCompressionMaxError()
     {
         return settings.getTrackCompressionMaxError();

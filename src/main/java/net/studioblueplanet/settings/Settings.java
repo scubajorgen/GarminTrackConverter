@@ -22,7 +22,7 @@ public class Settings
     @JsonProperty("trackSmoothing")
     private boolean              trackSmoothing;
     @JsonProperty("trackSmoothingAccuracy")
-    private int                  trackSmoothingAccuracy;
+    private double               trackSmoothingAccuracy;
     @JsonProperty("trackCompression")
     private boolean              trackCompression;
     @JsonProperty("trackCompressionMaxError")
@@ -80,12 +80,12 @@ public class Settings
         this.trackSmoothing = trackSmoothing;
     }
 
-    public int getTrackSmoothingAccuracy()
+    public double getTrackSmoothingAccuracy()
     {
         return trackSmoothingAccuracy;
     }
 
-    public void setTrackSmoothingAccuracy(int trackSmoothingAccuracy)
+    public void setTrackSmoothingAccuracy(double trackSmoothingAccuracy)
     {
         this.trackSmoothingAccuracy = trackSmoothingAccuracy;
     }
@@ -109,6 +109,4 @@ public class Settings
     {
         this.trackCompressionMaxError = trackCompressionMaxError;
     }
-    
-   
 }

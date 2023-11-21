@@ -59,7 +59,7 @@ public class DPUtil
      * @param resultPoints: keep the filtered point coordinate array
      * @param start: starting subscript
      * @param end: end subscript
-     * @param dMax: pre-specified maximum distance error calculation
+     * @param dMax: pre-specified maximum distance error calculation in m
      */
     private static void compression(List<TrackPoint> originPoints, List<TrackPoint> resultPoints,
             int start, int end, double dMax)

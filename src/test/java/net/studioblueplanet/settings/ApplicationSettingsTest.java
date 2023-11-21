@@ -148,7 +148,7 @@ public class ApplicationSettingsTest
     public void testGetTrackSmoothingAccuracy()
     {
         System.out.println("getTrackSmoothingAccuracy");
-        assertEquals(1500, instance.getTrackSmoothingAccuracy());
+        assertEquals(1.5, instance.getTrackSmoothingAccuracy(), 0.001);
     }
 
 }

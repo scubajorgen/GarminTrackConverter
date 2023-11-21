@@ -55,7 +55,7 @@ public class TrackPoint implements Comparable<TrackPoint>
      * @param distance Distance in m
      * @param temp Temperature in degC
      * @param heartrate Heart rate in bpm
-     * @param gpsAccuracy Accuracy of gps in m
+     * @param gpsAccuracy Accuracy of gps in cm
      */
     public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, 
                       Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)

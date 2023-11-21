@@ -868,7 +868,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         Track theTrack;
         double  compressionMaxError =ApplicationSettings.getInstance().getTrackCompressionMaxError();
-        int     smoothingAccuracy   =ApplicationSettings.getInstance().getTrackSmoothingAccuracy();
+        double  smoothingAccuracy   =ApplicationSettings.getInstance().getTrackSmoothingAccuracy();
         theTrack=new Track(fileName, device.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
 
         if(addWaypoints && waypoints!=null)

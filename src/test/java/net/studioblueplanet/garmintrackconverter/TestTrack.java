@@ -23,7 +23,7 @@ public class TestTrack
     {
         // We create a segment of 14 points, at 9 sec interval; speed is about 22 km/h = 6 m/s
         // The segment contains a straight angle
-        // Accuracy is 500 cm
+        // Accuracy is 5000 cm = 50 m
         List<TrackPoint> segment=new ArrayList<>();
         TrackPoint point;
         ZoneId zoneId = ZoneId.of("UTC+1");
@@ -66,7 +66,7 @@ public class TestTrack
      */
     public static Track testTrack()
     {
-        Track track=new Track(3.0, 5000);
+        Track track=new Track(3.0, 50.0);
         
         List<TrackSegment> segments=track.getSegments();
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, ZoneId.of("UTC"));

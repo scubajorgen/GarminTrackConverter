@@ -73,7 +73,7 @@ public class Track extends CacheableItem
     private Integer                         jumpCount;      // 
     private String                          mode;           //
     
-    private int                             smoothingAccuracy;   // cm
+    private double                          smoothingAccuracy;   // m
     private double                          compressionMaxError; // m
     
     private int                             invalidCoordinates;
@@ -84,9 +84,9 @@ public class Track extends CacheableItem
      * @param trackFileName Track file
      * @param deviceName Description of the device that recorded the track
      * @param compressionMaxError Maximum allowed error in m when compressing track
-     * @param smoothingAccuracy Assumed default value of GPS accuracy in cm when the GPS does not provide it
+     * @param smoothingAccuracy Assumed default value of GPS accuracy in m when the GPS does not provide it
      */
-    public Track(String trackFileName, String deviceName, double compressionMaxError, int smoothingAccuracy)
+    public Track(String trackFileName, String deviceName, double compressionMaxError, double smoothingAccuracy)
     {
         FitReader               reader;
         FitMessageRepository    repository;
@@ -199,10 +199,10 @@ public class Track extends CacheableItem
      * Constructor for a simple track.
      * @param compressionMaxError Maximum allowed error in m when compressing 
      *        track; not used
-     * @param smoothingAccuracy Assumed default value of GPS accuracy in cm when 
+     * @param smoothingAccuracy Assumed default value of GPS accuracy in m when 
      *        the GPS does not provide it; not used
      */
-    public Track(double compressionMaxError, int smoothingAccuracy)
+    public Track(double compressionMaxError, double smoothingAccuracy)
     {
         segments                =new ArrayList<>();
         waypoints               =new ArrayList<>();
@@ -519,9 +519,8 @@ public class Track extends CacheableItem
                 else
                 {
                     // If no gps accuracy, use the default value set
-                    gpsAccuracy =smoothingAccuracy;
+                    gpsAccuracy =(int)(smoothingAccuracy*CM_PER_M); // in cm
                 }
-
                 point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
                 if (point.isValid())
                 {

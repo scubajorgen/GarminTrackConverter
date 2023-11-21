@@ -63,7 +63,7 @@ public class TrackSmoother
          * @param lat_measurement New measurement of latitude
          * @param lng_measurement New measurement of longitude
          * @param speed Speed in m/s
-         * @param accuracy Accuracy of the measurement in cm
+         * @param accuracy Accuracy of the measurement in m
          * @param timetamp Timestamp in ms
          */
         public void process(double lat_measurement, double lng_measurement, float speed, float accuracy, long timetamp) 
@@ -159,7 +159,7 @@ public class TrackSmoother
                 // The timestamp in ms. The timezone doesn't matter actually...
                 timeInMs           =gpsRecord.getDateTime().toEpochSecond()*1000;
 
-                // Do the filter.
+                // Do the filter. ehpe from cm -> m
                 filter.process((float)lat, (float)lon, (float)speed ,(float)ehpe/100.0f, timeInMs);
 
                 // Get the filtered value and replace the original coordinate with it
