@@ -72,6 +72,7 @@ public class Track extends CacheableItem
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
+    private String                          externalHrSensor;
     
     private double                          smoothingAccuracy;   // m
     private double                          compressionMaxError; // m
@@ -97,6 +98,10 @@ public class Track extends CacheableItem
         FitMessage              message;
         int                     id;
         boolean                 isCourse;
+        String                  deviceType;
+        String                  source;
+        String                  deviceIndex;
+        String                  antNetwork;
         
         this.compressionMaxError =compressionMaxError;
         this.smoothingAccuracy   =smoothingAccuracy;
@@ -135,13 +140,44 @@ public class Track extends CacheableItem
         message    =repository.getFitMessage("device_info");
         if (message!=null)
         {
-            id              =(int)message.getIntValue(0, "manufacturer");
-            manufacturer    =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
-            id              =(int)message.getIntValue(0, "product");
-            product         =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
-            serialNumber    =message.getIntValue(0, "serial_number");
-            double version  =message.getScaledValue(0, "software_version");
-            softwareVersion =String.format("%.2f", version);
+            for (int i=0; i<message.getNumberOfRecords();i++)
+            {
+                id              =(int)message.getIntValue(i, "device_index");
+                deviceIndex     =FitGlobalProfile.getInstance().getTypeValueName("device_index", id);
+                id              =(int)message.getIntValue(i, "source_type");
+                source          =FitGlobalProfile.getInstance().getTypeValueName("source_type", id);
+                id              =(int)message.getIntValue(i, "device_type");
+
+                if ("local".equals(source))
+                {
+                    deviceType=FitGlobalProfile.getInstance().getTypeValueName("local_device_type", id);
+
+                    if ("creator".equals(deviceIndex))
+                    {
+                        id              =(int)message.getIntValue(i, "manufacturer");
+                        manufacturer    =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+                        id              =(int)message.getIntValue(i, "product");
+                        product         =FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+                        serialNumber    =message.getIntValue(i, "serial_number");
+                        double version  =message.getScaledValue(i, "software_version");
+                        softwareVersion =String.format("%.2f", version);                    
+                    }
+                }
+                else if ("bluetooth_low_energy".equals(source))
+                {
+                    deviceType=FitGlobalProfile.getInstance().getTypeValueName("ble_device_type", id);
+                    if ("heart_rate".equals(deviceType))
+                    {
+                        id              =(int)message.getIntValue(i, "ant_network");
+                        antNetwork      =FitGlobalProfile.getInstance().getTypeValueName("ant_network", id);
+
+                        externalHrSensor="serial: "+message.getIntValue(i, "serial_number")+
+                                         " battery: "+message.getIntValue(i, "battery_level")+
+                                         "% source: "+source+
+                                         "/"+antNetwork;
+                    }
+                }
+            }
         }
         
         if (trackMessages!=null && trackMessages.size()>0)
@@ -521,6 +557,13 @@ public class Track extends CacheableItem
                     // If no gps accuracy, use the default value set
                     gpsAccuracy =(int)(smoothingAccuracy*CM_PER_M); // in cm
                 }
+                System.out.println(message.getIntValue(i, "timestamp")+", "+
+                                   message.getIntValue(i, "not found 107")+", "+
+                                   message.getIntValue(i, "not found 134")+", "+
+                                   message.getIntValue(i, "heart_rate")+", "+
+                                   message.getIntValue(i, "stamina")+", "+
+                                   message.getIntValue(i, "stamina_potential")+" "
+                                   );
                 point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
                 if (point.isValid())
                 {
@@ -686,6 +729,10 @@ public class Track extends CacheableItem
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+percentage+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
+        if (externalHrSensor!=null)
+        {
+            info+=" with external HR sensor: "+externalHrSensor;
+        }
         return info;
     }
 
@@ -943,6 +990,11 @@ public class Track extends CacheableItem
     public int getValidCoordinates()
     {
         return validCoordinates;
+    }
+    
+    public String getExternalHrSensor()
+    {
+        return this.externalHrSensor;
     }
     
     /**

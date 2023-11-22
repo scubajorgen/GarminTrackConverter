@@ -24,6 +24,8 @@ public class TrackTest
 {
     private Track instance;
     private static Track instanceTwoSegments;
+    private static Track instanceExternalHr;
+    
     public TrackTest()
     {
     }
@@ -31,7 +33,8 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceTwoSegments=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
+        instanceTwoSegments     =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
+        instanceExternalHr     =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
     }
     
     @AfterClass
@@ -299,6 +302,13 @@ public class TrackTest
                      "Segments: 1, points: 5023, compressed: 545 (10%), waypoints: 1\n" +
                      "Valid points: 5023, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 7.10", instance.getTrackInfo2());
+        instance.setBehaviour(false, false);
+        assertEquals("Activity: cycling - mountain\n" +
+                     "Segments: 1, points: 123, compressed: 5 (4%), waypoints: 0\n" +
+                     "Valid points: 123, invalid points: 0 (0%, omitted)\n" +
+                     "Device: TestDevice, sw: 14.68 "+
+                     "with external HR sensor: serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
+                     instanceExternalHr.getTrackInfo2());
     }
 
     /**
@@ -514,6 +524,20 @@ public class TrackTest
     {
         System.out.println("getInvalidCoordinates");
         assertEquals(0, instance.getInvalidCoordinates());
+        Track instanceInvalidPoints   =new Track("src/test/resources/2023-06-06-17-18-00.fit", "TestDevice", 3.0, 0.5);
+        assertEquals(748, instanceInvalidPoints.getInvalidCoordinates());
+    }
+
+    /**
+     * Test of getExternalHrSensor method, of class Track.
+     */
+    @Test
+    public void testGetExternalHrSensor()
+    {
+        System.out.println("getExternalHrSensor");
+        assertNull(instance.getExternalHrSensor());
+        assertEquals("serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
+                     instanceExternalHr.getExternalHrSensor());
     }
 
     /**

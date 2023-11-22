@@ -549,20 +549,25 @@ public class GpxWriter
             addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
             addChildElement(extensions, "u-gotMe:software"          , appName);
             addChildElement(extensions, "u-gotMe:activity"          , activity);
-            addChildElement(extensions, "u-gotMe:sourceFile", track.getFitFileName());
-            addChildElement(extensions, "u-gotMe:smoothing", track.getBehaviourSmoothing());
-            addChildElement(extensions, "u-gotMe:compression", track.getBehaviourCompression());
-            addChildElement(extensions, "u-gotMe:compressionMaxErr", compressionMaxErr, 4);
-            addChildElement(extensions, "u-gotMe:distance_m", track.getDistance(), 1);
-            addChildElement(extensions, "u-gotMe:duration_s", track.getElapsedTime());
-            addChildElement(extensions, "u-gotMe:timedDuration_s", track.getTimedTime());
-            addChildElement(extensions, "u-gotMe:aveSpeed_kmh", track.getAverageSpeed(), 2);
-            addChildElement(extensions, "u-gotMe:maxSpeed_kmh", track.getMaxSpeed(), 2);
-            addChildElement(extensions, "u-gotMe:ascent_m", track.getAscent());
-            addChildElement(extensions, "u-gotMe:descent_m", track.getDescent());
-            addChildElement(extensions, "u-gotMe:calories_cal", track.getCalories(), 1);
-            addChildElement(extensions, "u-gotMe:garminGrit_kgrit", track.getGrit(), 2);
-            addChildElement(extensions, "u-gotMe:garminFlow", track.getFlow(), 2);
+            addChildElement(extensions, "u-gotMe:sourceFile"        , track.getFitFileName());
+            addChildElement(extensions, "u-gotMe:smoothing"         , track.getBehaviourSmoothing());
+            addChildElement(extensions, "u-gotMe:compression"       , track.getBehaviourCompression());
+            addChildElement(extensions, "u-gotMe:compressionMaxErr" , compressionMaxErr, 4);
+            addChildElement(extensions, "u-gotMe:distance_m"        , track.getDistance(), 1);
+            addChildElement(extensions, "u-gotMe:duration_s"        , track.getElapsedTime());
+            addChildElement(extensions, "u-gotMe:timedDuration_s"   , track.getTimedTime());
+            addChildElement(extensions, "u-gotMe:aveSpeed_kmh"      , track.getAverageSpeed(), 2);
+            addChildElement(extensions, "u-gotMe:maxSpeed_kmh"      , track.getMaxSpeed(), 2);
+            addChildElement(extensions, "u-gotMe:ascent_m"          , track.getAscent());
+            addChildElement(extensions, "u-gotMe:descent_m"         , track.getDescent());
+            addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
+            addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
+            addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
+            String externalHr=track.getExternalHrSensor();
+            if (externalHr!=null)
+            {
+                addChildElement(extensions, "u-gotMe:externalHr"    , externalHr);
+            }
             
             Integer jumps=track.getJumpCount();
             if (jumps!=null && jumps!=0xFFFF)
