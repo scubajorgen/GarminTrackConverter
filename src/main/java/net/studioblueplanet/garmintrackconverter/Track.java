@@ -992,7 +992,7 @@ public class Track extends CacheableItem
         return validCoordinates;
     }
     
-    public String getExternalHrSensor()
+    public String getDeviceInfoExternalHr()
     {
         return this.externalHrSensor;
     }

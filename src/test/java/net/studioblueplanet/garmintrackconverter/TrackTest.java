@@ -535,9 +535,9 @@ public class TrackTest
     public void testGetExternalHrSensor()
     {
         System.out.println("getExternalHrSensor");
-        assertNull(instance.getExternalHrSensor());
+        assertNull(instance.getDeviceInfoExternalHr());
         assertEquals("serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
-                     instanceExternalHr.getExternalHrSensor());
+                     instanceExternalHr.getDeviceInfoExternalHr());
     }
 
     /**

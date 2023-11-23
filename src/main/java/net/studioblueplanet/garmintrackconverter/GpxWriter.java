@@ -563,10 +563,10 @@ public class GpxWriter
             addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
             addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
             addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
-            String externalHr=track.getExternalHrSensor();
+            String externalHr=track.getDeviceInfoExternalHr();
             if (externalHr!=null)
             {
-                addChildElement(extensions, "u-gotMe:externalHr"    , externalHr);
+                addChildElement(extensions, "u-gotMe:deviceInfoExternalHr", externalHr);
             }
             
             Integer jumps=track.getJumpCount();
