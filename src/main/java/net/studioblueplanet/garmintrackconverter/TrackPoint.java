@@ -25,8 +25,10 @@ public class TrackPoint implements Comparable<TrackPoint>
     private final Double          distance;         // m
     private final Integer         temperature;      // deg C
     private final Integer         heartrate;        // bpm
-    private final Integer         gpsAccuracy;      // cm
-  
+    private final Integer         ehpe;             // cm
+
+    private final Integer         gpsAccuracy;      // cm - used for smoothing
+    
     /**
      * Constructor, simple version
      * @param lat Latitude
@@ -42,6 +44,7 @@ public class TrackPoint implements Comparable<TrackPoint>
         this.distance       =null;
         this.temperature    =null;  
         this.heartrate      =null;
+        this.ehpe           =null;
         this.gpsAccuracy    =null;
     }
 
@@ -58,7 +61,8 @@ public class TrackPoint implements Comparable<TrackPoint>
      * @param gpsAccuracy Accuracy of gps in cm
      */
     public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, 
-                      Double speed, Double distance, Integer temp, Integer heartrate, Integer gpsAccuracy)
+                      Double speed, Double distance, Integer temp, Integer heartrate, Integer ehpe,
+                      Integer gpsAccuracy)
     {
         this.dateTime       =dateTime;
         this.latitude       =lat;
@@ -68,6 +72,7 @@ public class TrackPoint implements Comparable<TrackPoint>
         this.distance       =distance;
         this.temperature    =temp;
         this.heartrate      =heartrate;
+        this.ehpe           =ehpe;
         this.gpsAccuracy    =gpsAccuracy;
     }
 
@@ -90,7 +95,7 @@ public class TrackPoint implements Comparable<TrackPoint>
     public TrackPoint clone()
     {
         TrackPoint point=new TrackPoint(dateTime, latitude, longitude, elevation, speed, distance, 
-                                        temperature, heartrate, gpsAccuracy);
+                                        temperature, heartrate, ehpe, gpsAccuracy);
         return point;
     }
     
@@ -167,6 +172,11 @@ public class TrackPoint implements Comparable<TrackPoint>
     public Integer getGpsAccuracy()
     {
         return gpsAccuracy;
+    }
+    
+    public Integer getEhpe()
+    {
+        return ehpe;
     }
     
     /**

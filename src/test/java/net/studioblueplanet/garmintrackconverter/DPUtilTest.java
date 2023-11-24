@@ -58,9 +58,9 @@ public class DPUtilTest
         // Three points example. Distance to segement is 22263.9 m
         List<TrackPoint> originPoints = new ArrayList<>();
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(0), -0.1, 0.0,  0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(1),  0.1, 0.1,  0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(2), -0.1, 0.2,  0.0, 0.0, 0.0, 0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds(0), -0.1, 0.0,  0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds(1),  0.1, 0.1,  0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds(2), -0.1, 0.2,  0.0, 0.0, 0.0, 0,0,0,0));
         
         List<TrackPoint> result;
         // Point is not ommitted
@@ -83,18 +83,18 @@ public class DPUtilTest
         List<TrackPoint> originPoints = new ArrayList<>();
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
         
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 0), 53.012544,   6.725102, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 1), 53.013256,   6.727270, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 2), 53.013863,   6.729256, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 3), 53.013552,   6.729753, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 4), 53.013241,   6.730250, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 5), 53.013615,   6.730530, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 6), 53.014080,   6.730753, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 7), 53.014669,   6.731129, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 8), 53.014935,   6.729826, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 9), 53.015219,   6.730103, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(10), 53.015483,   6.730677, 0.0, 0.0, 0.0, 0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(11), 53.015694,   6.731101, 0.0, 0.0, 0.0, 0,0,0));      
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 0), 53.012544,   6.725102, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 1), 53.013256,   6.727270, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 2), 53.013863,   6.729256, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 3), 53.013552,   6.729753, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 4), 53.013241,   6.730250, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 5), 53.013615,   6.730530, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 6), 53.014080,   6.730753, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 7), 53.014669,   6.731129, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 8), 53.014935,   6.729826, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds( 9), 53.015219,   6.730103, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds(10), 53.015483,   6.730677, 0.0, 0.0, 0.0, 0,0,0,0));
+        originPoints.add(new TrackPoint(zdt.plusSeconds(11), 53.015694,   6.731101, 0.0, 0.0, 0.0, 0,0,0,0));      
         
         List<TrackPoint> result;
         // 4 m acceptable error

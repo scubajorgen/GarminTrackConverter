@@ -72,7 +72,9 @@ public class Track extends CacheableItem
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    private String                          externalHrSensor;
+    private String                          deviceInfoExternalHrSensor;
+    private String                          deviceInfoBarometer;
+    private String                          deviceInfoGps;
     
     private double                          smoothingAccuracy;   // m
     private double                          compressionMaxError; // m
@@ -162,6 +164,26 @@ public class Track extends CacheableItem
                         double version  =message.getScaledValue(i, "software_version");
                         softwareVersion =String.format("%.2f", version);                    
                     }
+                    if ("barometer".equals(deviceType))
+                    {
+                        id                  =(int)message.getIntValue(i, "manufacturer");
+                        deviceInfoBarometer =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+                        deviceInfoBarometer +=" ";  
+                        id                  =(int)message.getIntValue(i, "product");
+                        deviceInfoBarometer +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+                        double version  =message.getScaledValue(i, "software_version");
+                        deviceInfoBarometer +=String.format(" software version: %.2f", version);                    
+                    }
+                    if ("gps".equals(deviceType))
+                    {
+                        id                  =(int)message.getIntValue(i, "manufacturer");
+                        deviceInfoGps       =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+                        deviceInfoGps       +=" ";  
+                        id                  =(int)message.getIntValue(i, "product");
+                        deviceInfoGps       +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+                        double version      =message.getScaledValue(i, "software_version");
+                        deviceInfoGps       +=String.format(" software version: %.2f", version);                    
+                    }
                 }
                 else if ("bluetooth_low_energy".equals(source))
                 {
@@ -171,7 +193,7 @@ public class Track extends CacheableItem
                         id              =(int)message.getIntValue(i, "ant_network");
                         antNetwork      =FitGlobalProfile.getInstance().getTypeValueName("ant_network", id);
 
-                        externalHrSensor="serial: "+message.getIntValue(i, "serial_number")+
+                        deviceInfoExternalHrSensor="serial: "+message.getIntValue(i, "serial_number")+
                                          " battery: "+message.getIntValue(i, "battery_level")+
                                          "% source: "+source+
                                          "/"+antNetwork;
@@ -479,6 +501,7 @@ public class Track extends CacheableItem
         Double                  dist;
         Integer                 temp;
         Integer                 heartrate;
+        Integer                 ehpe;
         Integer                 gpsAccuracy;
         int                     size;
         TrackPoint              point;
@@ -551,20 +574,15 @@ public class Track extends CacheableItem
                 if (message.hasField("gps_accuracy"))
                 {
                     gpsAccuracy =(int)message.getIntValue(i, "gps_accuracy")*CM_PER_M; // in cm
+                    ehpe        =gpsAccuracy;
                 }
                 else
                 {
                     // If no gps accuracy, use the default value set
                     gpsAccuracy =(int)(smoothingAccuracy*CM_PER_M); // in cm
+                    ehpe        = null;
                 }
-                System.out.println(message.getIntValue(i, "timestamp")+", "+
-                                   message.getIntValue(i, "not found 107")+", "+
-                                   message.getIntValue(i, "not found 134")+", "+
-                                   message.getIntValue(i, "heart_rate")+", "+
-                                   message.getIntValue(i, "stamina")+", "+
-                                   message.getIntValue(i, "stamina_potential")+" "
-                                   );
-                point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, gpsAccuracy);
+                point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, ehpe, gpsAccuracy);
                 if (point.isValid())
                 {
                     found=false;
@@ -729,9 +747,9 @@ public class Track extends CacheableItem
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+percentage+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
-        if (externalHrSensor!=null)
+        if (deviceInfoExternalHrSensor!=null)
         {
-            info+=" with external HR sensor: "+externalHrSensor;
+            info+=" with external HR sensor: "+deviceInfoExternalHrSensor;
         }
         return info;
     }
@@ -994,7 +1012,25 @@ public class Track extends CacheableItem
     
     public String getDeviceInfoExternalHr()
     {
-        return this.externalHrSensor;
+        return this.deviceInfoExternalHrSensor;
+    }
+    
+    /**
+     * Return device info Barometer
+     * @return Description of the barometer
+     */
+    public String getDeviceInfoBarometer()
+    {
+        return this.deviceInfoBarometer;
+    }
+    
+    /**
+     * Return device info Gps
+     * @return Description of the Gps
+     */
+    public String getDeviceInfoGps()
+    {
+        return this.deviceInfoGps;
     }
     
     /**

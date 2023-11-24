@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
   <trk>
     <name>trackname</name>
     <desc>Created by: appname. Logged by: null. Original file: null (raw, uncompressed).</desc>
@@ -8,19 +8,23 @@
         <ele>1.0</ele>
         <time>2022-01-01T00:00:10Z</time>
         <extensions>
-          <u-gotMe:speed>2.0</u-gotMe:speed>
-          <u-gotMe:dist>3.0</u-gotMe:dist>
-          <u-gotMe:temp>4</u-gotMe:temp>
-          <u-gotMe:hr>5</u-gotMe:hr>
-          <u-gotMe:ehpe>6</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>2.0</u-gotMe:speed>
+            <u-gotMe:dist>3.0</u-gotMe:dist>
+            <u-gotMe:temp>4</u-gotMe:temp>
+            <u-gotMe:hr>5</u-gotMe:hr>
+            <u-gotMe:ehpe>6</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
     </trkseg>
   </trk>
   <extensions>
-    <u-gotMe:software>appname</u-gotMe:software>
-    <u-gotMe:smoothing>false</u-gotMe:smoothing>
-    <u-gotMe:compression>false</u-gotMe:compression>
-    <u-gotMe:compressionMaxErr>0.0000</u-gotMe:compressionMaxErr>
+    <u-gotMe:trackExtension>
+      <u-gotMe:software>appname</u-gotMe:software>
+      <u-gotMe:smoothing>false</u-gotMe:smoothing>
+      <u-gotMe:compression>false</u-gotMe:compression>
+      <u-gotMe:compressionMaxErr>0.0000</u-gotMe:compressionMaxErr>
+    </u-gotMe:trackExtension>
   </extensions>
 </gpx>

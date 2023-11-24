@@ -11,10 +11,4 @@
       </trkpt>
     </trkseg>
   </trk>
-  <extensions>
-    <u-gotMe:software>appname</u-gotMe:software>
-    <u-gotMe:smoothing>false</u-gotMe:smoothing>
-    <u-gotMe:compression>false</u-gotMe:compression>
-    <u-gotMe:compressionMaxErr>0.0000</u-gotMe:compressionMaxErr>
-  </extensions>
 </gpx>

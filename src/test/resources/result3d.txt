@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
   <trk>
     <name>trackname</name>
     <desc>Created by: appname. Logged by: null. Original file: null (smoothed, compressed).</desc>
@@ -8,85 +8,101 @@
         <ele>0.0</ele>
         <time>2015-11-30T22:45:59Z</time>
         <extensions>
-          <u-gotMe:speed>6.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>6.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0115711" lon="6.7220192">
         <ele>0.0</ele>
         <time>2015-11-30T22:46:53Z</time>
         <extensions>
-          <u-gotMe:speed>6.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>6.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0115719" lon="6.7214627">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:02Z</time>
         <extensions>
-          <u-gotMe:speed>6.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>6.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0116820" lon="6.7209628">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:11Z</time>
         <extensions>
-          <u-gotMe:speed>6.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>6.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0118794" lon="6.7204837">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:20Z</time>
         <extensions>
-          <u-gotMe:speed>6.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>6.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0123906" lon="6.7196753">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:38Z</time>
         <extensions>
-          <u-gotMe:speed>0.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>0.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
       <trkpt lat="53.0128287" lon="6.7191174">
         <ele>0.0</ele>
         <time>2015-11-30T22:47:56Z</time>
         <extensions>
-          <u-gotMe:speed>0.0</u-gotMe:speed>
-          <u-gotMe:dist>0.0</u-gotMe:dist>
-          <u-gotMe:temp>0</u-gotMe:temp>
-          <u-gotMe:hr>0</u-gotMe:hr>
-          <u-gotMe:ehpe>5000</u-gotMe:ehpe>
+          <u-gotMe:trackpointExtension>
+            <u-gotMe:speed>0.0</u-gotMe:speed>
+            <u-gotMe:dist>0.0</u-gotMe:dist>
+            <u-gotMe:temp>0</u-gotMe:temp>
+            <u-gotMe:hr>0</u-gotMe:hr>
+            <u-gotMe:ehpe>500</u-gotMe:ehpe>
+          </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
     </trkseg>
   </trk>
   <extensions>
-    <u-gotMe:software>appname</u-gotMe:software>
-    <u-gotMe:smoothing>true</u-gotMe:smoothing>
-    <u-gotMe:compression>true</u-gotMe:compression>
-    <u-gotMe:compressionMaxErr>3.0000</u-gotMe:compressionMaxErr>
+    <u-gotMe:trackExtension>
+      <u-gotMe:software>appname</u-gotMe:software>
+      <u-gotMe:smoothing>true</u-gotMe:smoothing>
+      <u-gotMe:compression>true</u-gotMe:compression>
+      <u-gotMe:compressionMaxErr>3.0000</u-gotMe:compressionMaxErr>
+    </u-gotMe:trackExtension>
   </extensions>
 </gpx>

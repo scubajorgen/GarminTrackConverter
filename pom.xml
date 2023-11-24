@@ -132,13 +132,13 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>net.studioblueplanet.garmintrackconverter/GarminTrackConverter</mainClass>
+                            <mainClass>net.studioblueplanet.garmintrackconverter.GarminTrackConverter</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>        
 
-            <!-- Copy the TomTomWatch.properties to the target dir -->
+            <!-- Copy the resources to the target dir -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.2</version>

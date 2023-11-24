@@ -96,7 +96,7 @@ public class GpxWriterTest
                                  ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
         
         point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
-                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6);
+                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6, 7);
 
         segment.addTrackPoint(point);
         segments.add(segment);
@@ -125,8 +125,6 @@ public class GpxWriterTest
     @Test
     public void testWriteTrackToFile2() throws Exception
     {
-        TrackSegment    segment;
-        TrackPoint      point;
         String          result;
         
         System.out.println("writeTrackToFile");

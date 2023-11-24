@@ -247,7 +247,8 @@ public class GpxWriter
         addAttribute(gpxElement, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
          // Schema locations - just the GPX location
-        addAttribute(gpxElement, "xsi:schemaLocation", "http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd ");
+        addAttribute(gpxElement, "xsi:schemaLocation", "http://www.topografix.com/GPX/1/0 "+
+                                                       "http://www.topografix.com/GPX/1/0/gpx.xsd ");
     }
 
     /**
@@ -268,12 +269,14 @@ public class GpxWriter
         addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/1");
         
         // u-gotMe namespace
-        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v3");
+        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v4");
 
         // Schema locations
         addAttribute(gpxElement, "xsi:schemaLocation", 
-                                 "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd "+
-                                 "http://tracklog.studioblueplanet.net/gpxextensions/v3 https://tracklog.studioblueplanet.net/gpxextensions/v3/ugotme-gpx.xsd");
+                                 "http://www.topografix.com/GPX/1/1 "+
+                                 "https://www.topografix.com/GPX/1/1/gpx.xsd "+
+                                 "http://tracklog.studioblueplanet.net/gpxextensions/v4 "+
+                                 "https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd");
     }
 
     /**
@@ -366,6 +369,7 @@ public class GpxWriter
     private void appendTrackGpx1_1(Document doc, Element segmentElement, Track track, int segmentNo)
     {
         Element                     pointElement;
+        Element                     gpxExtensionsElement;
         Element                     extensionsElement;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
@@ -385,9 +389,11 @@ public class GpxWriter
                                    .format( DateTimeFormatter.ISO_OFFSET_DATE_TIME );
             addChildElement(pointElement, "time", dateTimeString);
 
-            extensionsElement    = doc.createElement("extensions");
-            pointElement.appendChild(extensionsElement);
+            gpxExtensionsElement    = doc.createElement("extensions");
+            pointElement.appendChild(gpxExtensionsElement);
 
+            extensionsElement    = doc.createElement("u-gotMe:trackpointExtension");
+            gpxExtensionsElement.appendChild(extensionsElement);
             // Extensions: speed
             addChildElement(extensionsElement, "u-gotMe:speed", point.getSpeed(), 1);
 
@@ -405,7 +411,7 @@ public class GpxWriter
             }
 
             // Extensions: temperature
-            addChildElement(extensionsElement, "u-gotMe:ehpe", point.getGpsAccuracy());
+            addChildElement(extensionsElement, "u-gotMe:ehpe", point.getEhpe());
 
             // set attribute 'lat' and 'lon' to element
             addAttribute(pointElement, "lat", String.format("%1.7f", point.getLatitude()));
@@ -426,7 +432,6 @@ public class GpxWriter
     private void appendWaypointsGpx(Document doc, Element trackElement, List<Location> waypoints)
     {
         Element                     pointElement;
-        Element                     element;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
 
@@ -541,38 +546,42 @@ public class GpxWriter
                 }
                 i++;
             }
-            Element extensions=doc.createElement("extensions");
-            gpxElement.appendChild(extensions);
+            if (gpxVersion.equals("1.1"))
+            {
+                Element gpxExtensions=doc.createElement("extensions");
+                gpxElement.appendChild(gpxExtensions);
+                Element extensions=doc.createElement("u-gotMe:trackExtension");
+                gpxExtensions.appendChild(extensions);
 
-            String activity=track.getSportDescription();
-            addChildElement(extensions, "u-gotMe:device"            , track.getDeviceName());
-            addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
-            addChildElement(extensions, "u-gotMe:software"          , appName);
-            addChildElement(extensions, "u-gotMe:activity"          , activity);
-            addChildElement(extensions, "u-gotMe:sourceFile"        , track.getFitFileName());
-            addChildElement(extensions, "u-gotMe:smoothing"         , track.getBehaviourSmoothing());
-            addChildElement(extensions, "u-gotMe:compression"       , track.getBehaviourCompression());
-            addChildElement(extensions, "u-gotMe:compressionMaxErr" , compressionMaxErr, 4);
-            addChildElement(extensions, "u-gotMe:distance_m"        , track.getDistance(), 1);
-            addChildElement(extensions, "u-gotMe:duration_s"        , track.getElapsedTime());
-            addChildElement(extensions, "u-gotMe:timedDuration_s"   , track.getTimedTime());
-            addChildElement(extensions, "u-gotMe:aveSpeed_kmh"      , track.getAverageSpeed(), 2);
-            addChildElement(extensions, "u-gotMe:maxSpeed_kmh"      , track.getMaxSpeed(), 2);
-            addChildElement(extensions, "u-gotMe:ascent_m"          , track.getAscent());
-            addChildElement(extensions, "u-gotMe:descent_m"         , track.getDescent());
-            addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
-            addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
-            addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
-            String externalHr=track.getDeviceInfoExternalHr();
-            if (externalHr!=null)
-            {
-                addChildElement(extensions, "u-gotMe:deviceInfoExternalHr", externalHr);
-            }
-            
-            Integer jumps=track.getJumpCount();
-            if (jumps!=null && jumps!=0xFFFF)
-            {
-                addChildElement(extensions, "u-gotMe:garminJumpCount", jumps);
+                String activity=track.getSportDescription();
+                addChildElement(extensions, "u-gotMe:deviceInfo"        , track.getDeviceName());
+                addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
+                addChildElement(extensions, "u-gotMe:software"          , appName);
+                addChildElement(extensions, "u-gotMe:activity"          , activity);
+                addChildElement(extensions, "u-gotMe:sourceFile"        , track.getFitFileName());
+                addChildElement(extensions, "u-gotMe:smoothing"         , track.getBehaviourSmoothing());
+                addChildElement(extensions, "u-gotMe:compression"       , track.getBehaviourCompression());
+                addChildElement(extensions, "u-gotMe:compressionMaxErr" , compressionMaxErr, 4);
+                addChildElement(extensions, "u-gotMe:distance_m"        , track.getDistance(), 1);
+                addChildElement(extensions, "u-gotMe:duration_s"        , track.getElapsedTime());
+                addChildElement(extensions, "u-gotMe:timedDuration_s"   , track.getTimedTime());
+                addChildElement(extensions, "u-gotMe:aveSpeed_kmh"      , track.getAverageSpeed(), 2);
+                addChildElement(extensions, "u-gotMe:maxSpeed_kmh"      , track.getMaxSpeed(), 2);
+                addChildElement(extensions, "u-gotMe:ascent_m"          , track.getAscent());
+                addChildElement(extensions, "u-gotMe:descent_m"         , track.getDescent());
+                addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
+                addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
+                addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
+                String externalHr=track.getDeviceInfoExternalHr();
+                if (externalHr!=null)
+                {
+                    addChildElement(extensions, "u-gotMe:deviceInfoExternalHr", externalHr);
+                }
+                Integer jumps=track.getJumpCount();
+                if (jumps!=null && jumps!=0xFFFF)
+                {
+                    addChildElement(extensions, "u-gotMe:garminJumpCount", jumps);
+                }
             }
         }
     }
@@ -589,15 +598,8 @@ public class GpxWriter
      */
     public void writeTrackToFile(Writer writer, Track track, String trackName, String appName)
     {
-        Element     trackElement;
-        Element     element;
-        Comment     comment;
-        Attr        attr;
-        String      creator;
-
         wayPoints   =0;
         trackPoints =0;
-
         try
         {
             this.appName=appName;
@@ -625,15 +627,8 @@ public class GpxWriter
      */
     public void writeWaypointsToFile(Writer writer, Locations waypoints)
     {
-        Element     trackElement;
-        Element     element;
-        Comment     comment;
-        Attr        attr;
-        String      creator;
-
         wayPoints   =0;
         trackPoints =0;
-
         try
         {
             // create the GPX file

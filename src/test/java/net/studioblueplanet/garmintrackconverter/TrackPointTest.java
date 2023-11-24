@@ -43,7 +43,7 @@ public class TrackPointTest
     {
         instanceSimple  =new TrackPoint(12.34, 34.12);
         ZonedDateTime dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
-        instance        =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        instance        =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 4, 3);
     }
     
     @After
@@ -173,6 +173,17 @@ public class TrackPointTest
     }
     
     /**
+     * Test of getEhpe method, of class TrackPoint.
+     */
+    @Test
+    public void testGeEhpe()
+    {
+        System.out.println("getEhpe");
+        assertNull(instanceSimple.getEhpe());
+        assertEquals(4, instance.getEhpe().intValue());
+    }
+    
+    /**
      * Test of compareTo method, of class TrackPoint.
      */
     @Test
@@ -184,19 +195,19 @@ public class TrackPointTest
         System.out.println("compareTo");
         
         dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
-        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 4, 3);
         assertEquals(0, instance.compareTo(comparePoint));
 
         dateTime=ZonedDateTime.of(2022, 3, 3, 13, 58, 01, 0, ZoneId.of("UTC"));
-        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 4, 3);
         assertEquals(-1, instance.compareTo(comparePoint));
 
         dateTime=ZonedDateTime.of(2022, 3, 3, 13, 57, 58, 0, ZoneId.of("UTC"));
-        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 4, 3);
         assertEquals(1, instance.compareTo(comparePoint));
 
         dateTime=ZonedDateTime.of(2021, 3, 3, 13, 58, 0, 0, ZoneId.of("UTC"));
-        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 3);
+        comparePoint =new TrackPoint(dateTime, 21.43, 43.21, -1.0, 5.0, 100.0, 2, 77, 4, 3);
         assertEquals(1, instance.compareTo(comparePoint));
     }    
     

@@ -33,7 +33,7 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceTwoSegments     =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
+        instanceTwoSegments    =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
         instanceExternalHr     =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
     }
     
@@ -529,16 +529,40 @@ public class TrackTest
     }
 
     /**
-     * Test of getExternalHrSensor method, of class Track.
+     * Test of getDeviceInfoExternalHrSensor method, of class Track.
      */
     @Test
-    public void testGetExternalHrSensor()
+    public void testGetDeviceInfoExternalHrSensor()
     {
-        System.out.println("getExternalHrSensor");
+        System.out.println("getDeviceInfoExternalHrSensor");
         assertNull(instance.getDeviceInfoExternalHr());
         assertEquals("serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getDeviceInfoExternalHr());
     }
+
+    /**
+     * Test of getDeviceInfoGps method, of class Track.
+     */
+    @Test
+    public void testGetDeviceInfoGps()
+    {
+        System.out.println("getDeviceInfoGps");
+        assertEquals("garmin null software version: 5.00", 
+                     instanceExternalHr.getDeviceInfoGps());
+    }
+
+    /**
+     * Test of getDeviceInfoGps method, of class Track.
+     */
+    @Test
+    public void testGetDeviceInfoBarometer()
+    {
+        System.out.println("getDeviceInfoBarmeter");
+         assertEquals("garmin fenix7 software version: 14.68", 
+                     instanceExternalHr.getDeviceInfoBarometer());
+    }
+
+
 
     /**
      * Test of getValidCoordinates method, of class Track.
