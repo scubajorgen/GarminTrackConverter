@@ -23,7 +23,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -554,7 +553,7 @@ public class GpxWriter
                 gpxExtensions.appendChild(extensions);
 
                 String activity=track.getSportDescription();
-                addChildElement(extensions, "u-gotMe:deviceInfo"        , track.getDeviceName());
+                addChildElement(extensions, "u-gotMe:device"            , track.getDeviceName());
                 addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
                 addChildElement(extensions, "u-gotMe:software"          , appName);
                 addChildElement(extensions, "u-gotMe:activity"          , activity);
@@ -572,10 +571,10 @@ public class GpxWriter
                 addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
                 addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
                 addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
-                String externalHr=track.getDeviceInfoExternalHr();
+                String externalHr=track.getDeviceExternalHr();
                 if (externalHr!=null)
                 {
-                    addChildElement(extensions, "u-gotMe:deviceInfoExternalHr", externalHr);
+                    addChildElement(extensions, "u-gotMe:deviceExternalHr", externalHr);
                 }
                 Integer jumps=track.getJumpCount();
                 if (jumps!=null && jumps!=0xFFFF)

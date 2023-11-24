@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
         
-
 /**
  * This class represents a track consisting of track segments and optional
  * a number of logged waypoints. Four sets of segments are maintained:
@@ -72,9 +71,9 @@ public class Track extends CacheableItem
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    private String                          deviceInfoExternalHrSensor;
-    private String                          deviceInfoBarometer;
-    private String                          deviceInfoGps;
+    private String                          deviceExternalHr;
+    private String                          deviceBarometer;
+    private String                          deviceGps;
     
     private double                          smoothingAccuracy;   // m
     private double                          compressionMaxError; // m
@@ -167,22 +166,22 @@ public class Track extends CacheableItem
                     if ("barometer".equals(deviceType))
                     {
                         id                  =(int)message.getIntValue(i, "manufacturer");
-                        deviceInfoBarometer =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
-                        deviceInfoBarometer +=" ";  
+                        deviceBarometer =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+                        deviceBarometer +=" ";  
                         id                  =(int)message.getIntValue(i, "product");
-                        deviceInfoBarometer +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+                        deviceBarometer +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
                         double version  =message.getScaledValue(i, "software_version");
-                        deviceInfoBarometer +=String.format(" software version: %.2f", version);                    
+                        deviceBarometer +=String.format(" software version: %.2f", version);                    
                     }
                     if ("gps".equals(deviceType))
                     {
                         id                  =(int)message.getIntValue(i, "manufacturer");
-                        deviceInfoGps       =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
-                        deviceInfoGps       +=" ";  
+                        deviceGps       =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
+                        deviceGps       +=" ";  
                         id                  =(int)message.getIntValue(i, "product");
-                        deviceInfoGps       +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
+                        deviceGps       +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
                         double version      =message.getScaledValue(i, "software_version");
-                        deviceInfoGps       +=String.format(" software version: %.2f", version);                    
+                        deviceGps       +=String.format(" software version: %.2f", version);                    
                     }
                 }
                 else if ("bluetooth_low_energy".equals(source))
@@ -193,7 +192,7 @@ public class Track extends CacheableItem
                         id              =(int)message.getIntValue(i, "ant_network");
                         antNetwork      =FitGlobalProfile.getInstance().getTypeValueName("ant_network", id);
 
-                        deviceInfoExternalHrSensor="serial: "+message.getIntValue(i, "serial_number")+
+                        deviceExternalHr="serial: "+message.getIntValue(i, "serial_number")+
                                          " battery: "+message.getIntValue(i, "battery_level")+
                                          "% source: "+source+
                                          "/"+antNetwork;
@@ -747,9 +746,9 @@ public class Track extends CacheableItem
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+percentage+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
-        if (deviceInfoExternalHrSensor!=null)
+        if (deviceExternalHr!=null)
         {
-            info+=" with external HR sensor: "+deviceInfoExternalHrSensor;
+            info+=" with external HR sensor: "+deviceExternalHr;
         }
         return info;
     }
@@ -1010,27 +1009,27 @@ public class Track extends CacheableItem
         return validCoordinates;
     }
     
-    public String getDeviceInfoExternalHr()
+    public String getDeviceExternalHr()
     {
-        return this.deviceInfoExternalHrSensor;
+        return this.deviceExternalHr;
     }
     
     /**
      * Return device info Barometer
      * @return Description of the barometer
      */
-    public String getDeviceInfoBarometer()
+    public String getDeviceBarometer()
     {
-        return this.deviceInfoBarometer;
+        return this.deviceBarometer;
     }
     
     /**
      * Return device info Gps
      * @return Description of the Gps
      */
-    public String getDeviceInfoGps()
+    public String getDeviceGps()
     {
-        return this.deviceInfoGps;
+        return this.deviceGps;
     }
     
     /**
