@@ -171,6 +171,27 @@ public class GpxWriterTest
         writer.close();
     }
     
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile3() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile - real file");
+        Track track=new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "test", 1.0, 5.0);
+        
+        // Non compressed, non smoothed
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result4.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
     
     /**
      * Test of writeWaypointsToFile method, of class GpxWriter.

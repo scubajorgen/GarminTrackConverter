@@ -547,7 +547,7 @@ public class TrackTest
     public void testGetDeviceGps()
     {
         System.out.println("getDeviceGps");
-        assertEquals("garmin null software version: 5.00", 
+        assertEquals("garmin airoha, software version: 5.00", 
                      instanceExternalHr.getDeviceGps());
     }
 
@@ -558,7 +558,7 @@ public class TrackTest
     public void testGetDeviceBarometer()
     {
         System.out.println("getDeviceBarmeter");
-         assertEquals("garmin fenix7 software version: 14.68", 
+         assertEquals("garmin fenix7, software version: 14.68", 
                      instanceExternalHr.getDeviceBarometer());
     }
 

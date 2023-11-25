@@ -171,7 +171,7 @@ public class Track extends CacheableItem
                         id                  =(int)message.getIntValue(i, "product");
                         deviceBarometer +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
                         double version  =message.getScaledValue(i, "software_version");
-                        deviceBarometer +=String.format(" software version: %.2f", version);                    
+                        deviceBarometer +=String.format(", software version: %.2f", version);                    
                     }
                     if ("gps".equals(deviceType))
                     {
@@ -181,7 +181,7 @@ public class Track extends CacheableItem
                         id                  =(int)message.getIntValue(i, "product");
                         deviceGps       +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
                         double version      =message.getScaledValue(i, "software_version");
-                        deviceGps       +=String.format(" software version: %.2f", version);                    
+                        deviceGps       +=String.format(", software version: %.2f", version);                    
                     }
                 }
                 else if ("bluetooth_low_energy".equals(source))

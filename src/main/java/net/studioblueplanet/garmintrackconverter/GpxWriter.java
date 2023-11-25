@@ -555,6 +555,21 @@ public class GpxWriter
                 String activity=track.getSportDescription();
                 addChildElement(extensions, "u-gotMe:device"            , track.getDeviceName());
                 addChildElement(extensions, "u-gotMe:deviceFirmware"    , track.getSoftwareVersion());
+                String gps=track.getDeviceGps();
+                if (gps!=null)
+                {
+                    addChildElement(extensions, "u-gotMe:deviceGps", gps);
+                }
+                String barometer=track.getDeviceBarometer();
+                if (barometer!=null)
+                {
+                    addChildElement(extensions, "u-gotMe:deviceBarometer", barometer);
+                }
+                String externalHr=track.getDeviceExternalHr();
+                if (externalHr!=null)
+                {
+                    addChildElement(extensions, "u-gotMe:deviceExternalHr", externalHr);
+                }
                 addChildElement(extensions, "u-gotMe:software"          , appName);
                 addChildElement(extensions, "u-gotMe:activity"          , activity);
                 addChildElement(extensions, "u-gotMe:sourceFile"        , track.getFitFileName());
@@ -571,11 +586,6 @@ public class GpxWriter
                 addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
                 addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
                 addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
-                String externalHr=track.getDeviceExternalHr();
-                if (externalHr!=null)
-                {
-                    addChildElement(extensions, "u-gotMe:deviceExternalHr", externalHr);
-                }
                 Integer jumps=track.getJumpCount();
                 if (jumps!=null && jumps!=0xFFFF)
                 {
