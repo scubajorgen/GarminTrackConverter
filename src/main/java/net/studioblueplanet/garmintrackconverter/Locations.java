@@ -6,8 +6,6 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-
-import java.time.Month;
 import java.time.ZoneId;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
