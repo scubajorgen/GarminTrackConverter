@@ -11,7 +11,6 @@ package net.studioblueplanet.garmintrackconverter;
  */
 public class ConverterAbout extends javax.swing.JDialog
 {
-
     /**
      * Creates new form ConverterAbout
      * @param parent Parent frame

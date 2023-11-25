@@ -13,7 +13,7 @@ import java.util.Collections;
  * Implementation of the Douglas-Peucker algorithm.
  * @author https://programmersought.com/article/54684929685/
  */
-public class DPUtil
+public class TrackCompressor
 {
     /**
      * The default error threshold of the maximum distance between the point and

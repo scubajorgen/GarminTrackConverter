@@ -28,12 +28,12 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Track extends CacheableItem
 {
-    public static final int                 MS_PER_S    =1000;
-    public static final int                 CM_PER_M    =100;
-    public static final double              KMH_PER_MS  =3.6;
-    private static final int                TIMEREVENT=0;
-    private static final int                TIMEREVENT_TIMERSTARTED=0;
-    private static final int                TIMEREVENT_TIMERSTOPPED=4;
+    public static final int                 MS_PER_S                =1000;
+    public static final int                 CM_PER_M                =100;
+    public static final double              KMH_PER_MS              =3.6;
+    private static final int                TIMEREVENT              =0;
+    private static final int                TIMEREVENT_TIMERSTARTED =0;
+    private static final int                TIMEREVENT_TIMERSTOPPED =4;
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 

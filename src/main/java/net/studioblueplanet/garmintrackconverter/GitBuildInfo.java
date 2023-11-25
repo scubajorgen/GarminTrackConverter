@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class GitBuildInfo
 {
     private final static Logger LOGGER = LogManager.getLogger(GitBuildInfo.class);
-    private Properties buildProperties;
+    private Properties          buildProperties;
 
     private static GitBuildInfo theInstance;
     

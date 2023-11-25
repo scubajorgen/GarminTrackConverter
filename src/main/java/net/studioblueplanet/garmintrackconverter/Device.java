@@ -95,6 +95,4 @@ public class Device
     {
         return description;
     }
-
-
 }

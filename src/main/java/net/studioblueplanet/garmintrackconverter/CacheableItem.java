@@ -5,7 +5,7 @@
 package net.studioblueplanet.garmintrackconverter;
 
 /**
- *
+ * Represents an item that can be cached.
  * @author jorgen
  */
 public class CacheableItem

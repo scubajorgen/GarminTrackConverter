@@ -152,7 +152,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 System.exit(0);
             }
-            
         }
         else
         {
@@ -331,12 +330,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     @Override
     public void run()
     {
-        String                          waypointFile;
         boolean                         localThreadExit;
         boolean                         localUiUpdated;
         File                            deviceFile;
-        boolean                         tracksShownLocal;
-        int                             deviceIndexShownLocal;
         SettingsDevice                  deviceFound;
         List<SettingsDevice>            devices;
         int                             minPrio;
@@ -580,7 +576,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
 
         jLocationList.setModel(new javax.swing.AbstractListModel<String>()
         {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "." };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -774,7 +770,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         FileNameExtensionFilter     fitFileFilter;
         int                         returnValue;
         String                      extension;
-        String                      gpxFile;
         
         fc= new JFileChooser();
         
@@ -965,9 +960,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         GpxWriter                   gpsWriter;  
         FileWriter                  fileWriter;
         String                      fileName;
-        String                      trackName;
         Track                       track;
-        Locations                   locations;
         String                      gpxFileName;
             
         if (trackDirectoryList.hasSelection())
@@ -1024,7 +1017,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             if (fileName!=null)
             {
                 gpsWriter=GpxWriter.getInstance();
-                locations=getWaypoints(locationDirectoryList);
                 try
                 {
                     fileWriter=new FileWriter(fileName);

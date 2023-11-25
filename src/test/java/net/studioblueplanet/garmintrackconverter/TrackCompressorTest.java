@@ -20,10 +20,10 @@ import static org.junit.Assert.*;
  *
  * @author jorgen
  */
-public class DPUtilTest
+public class TrackCompressorTest
 {
     
-    public DPUtilTest()
+    public TrackCompressorTest()
     {
     }
     
@@ -64,10 +64,10 @@ public class DPUtilTest
         
         List<TrackPoint> result;
         // Point is not ommitted
-        result = DPUtil.dpAlgorithm(originPoints, 22263.0);
+        result = TrackCompressor.dpAlgorithm(originPoints, 22263.0);
         assertEquals(3, result.size());
         // Mid point is ommitted since the distance is lower than the dMax
-        result = DPUtil.dpAlgorithm(originPoints, 22264.0);
+        result = TrackCompressor.dpAlgorithm(originPoints, 22264.0);
         assertEquals(2, result.size());
     }
 
@@ -98,7 +98,7 @@ public class DPUtilTest
         
         List<TrackPoint> result;
         // 4 m acceptable error
-        result = DPUtil.dpAlgorithm(originPoints, 4.0);
+        result = TrackCompressor.dpAlgorithm(originPoints, 4.0);
         assertEquals(7, result.size());
         assertEquals(originPoints.get( 0), result.get(0));
         assertEquals(originPoints.get( 2), result.get(1));
@@ -109,7 +109,7 @@ public class DPUtilTest
         assertEquals(originPoints.get(11), result.get(6));
 
         // 2.5 m acceptable error
-        result = DPUtil.dpAlgorithm(originPoints, 2.5);
+        result = TrackCompressor.dpAlgorithm(originPoints, 2.5);
         assertEquals(9, result.size());
         assertEquals(originPoints.get( 0), result.get(0));
         assertEquals(originPoints.get( 2), result.get(1));
@@ -122,7 +122,7 @@ public class DPUtilTest
         assertEquals(originPoints.get(11), result.get(8));
         
         // 10 m acceptable error
-        result = DPUtil.dpAlgorithm(originPoints, 10.0);
+        result = TrackCompressor.dpAlgorithm(originPoints, 10.0);
         assertEquals(6, result.size());
         assertEquals(originPoints.get( 0), result.get(0));
         assertEquals(originPoints.get( 2), result.get(1));
@@ -144,10 +144,10 @@ public class DPUtilTest
         TrackPoint pB = new TrackPoint(-0.1, 0.1);
         TrackPoint pX = new TrackPoint(0.1,  0.2);
 
-        System.out.println("Dist "+DPUtil.distToSegment(pA, pB, pX));
+        System.out.println("Dist "+TrackCompressor.distToSegment(pA, pB, pX));
         System.out.println("Dist "+0.2*6378137.0/360.0*2*Math.PI);
         
-        assertEquals(0.2*2*Math.PI*6378137.0/360.0, DPUtil.distToSegment(pA, pB, pX), 0.05);
+        assertEquals(0.2*2*Math.PI*6378137.0/360.0, TrackCompressor.distToSegment(pA, pB, pX), 0.05);
     }
 
     /**
@@ -160,7 +160,7 @@ public class DPUtilTest
         System.out.println("geoDist");
         TrackPoint pA = new TrackPoint(53.0, 6.5);
         TrackPoint pB = new TrackPoint(54.0, 7.5);
-        assertEquals(129521.084, DPUtil.geoDist (pA, pB), 0.001);
+        assertEquals(129521.084, TrackCompressor.geoDist (pA, pB), 0.001);
     }
 
     /**
@@ -173,7 +173,7 @@ public class DPUtilTest
         System.out.println("geoDist2");
         TrackPoint pA = new TrackPoint(53.0, 6.5);
         TrackPoint pB = new TrackPoint(54.0, 7.5);
-        assertEquals(129521.084, DPUtil.geoDist2(pA, pB), 0.001);
+        assertEquals(129521.084, TrackCompressor.geoDist2(pA, pB), 0.001);
     }
 
     /**
@@ -186,6 +186,6 @@ public class DPUtilTest
         System.out.println("geoDist3");
         TrackPoint pA = new TrackPoint(53.0, 6.5);
         TrackPoint pB = new TrackPoint(54.0, 7.5);
-        assertEquals(129521.084, DPUtil.geoDist3(pA, pB), 0.001);
+        assertEquals(129521.084, TrackCompressor.geoDist3(pA, pB), 0.001);
     }
 }

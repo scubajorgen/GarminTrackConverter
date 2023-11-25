@@ -33,7 +33,6 @@ public class GpxReader
      */
     private GpxReader()
     {
-
     }
 
     /**
@@ -78,7 +77,6 @@ public class GpxReader
                 LOGGER.error("Number of nodes <{}> tags in GPX file not equal to one as expected...", elementName);
             }
         }
-
         return element;
     }
 
@@ -233,7 +231,6 @@ public class GpxReader
         double          lon;
         double          elevation=0.0;
         ZonedDateTime   time=null;
-        NodeList        nodes;
         Element         element;
         Element         waypoint;
         

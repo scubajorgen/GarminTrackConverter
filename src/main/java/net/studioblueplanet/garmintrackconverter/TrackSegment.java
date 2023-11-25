@@ -24,8 +24,6 @@ public class TrackSegment
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
 
     private boolean                 behaviourSmoothed;
-    private boolean                 behaviourCompressed;
-
     private List<TrackPoint>        trackPointsRaw;                 // raw segment
     private List<TrackPoint>        trackPointsSmoothed;            // smoothed segment
     private List<TrackPoint>        trackPointsRawCompressed;       // compressed segment
@@ -68,7 +66,6 @@ public class TrackSegment
     public void setBehaviour(boolean smoothed, boolean compressed)
     {
         behaviourSmoothed   =smoothed;
-        behaviourCompressed =compressed;
         if (compressed)
         {
             if (smoothed)
@@ -195,14 +192,19 @@ public class TrackSegment
         }
         return size;
     }
-    
-    
-    
+    /**
+     * Returns the start time of the segment
+     * @return The start time
+     */
     public ZonedDateTime getStartTime()
     {
         return startTime;
     }
 
+    /**
+     * Returns the end time of the segment
+     * @return The end time
+     */
     public ZonedDateTime getEndTime()
     {
         return endTime;
@@ -244,10 +246,10 @@ public class TrackSegment
     }
     
     /**
-     * 
-     * @param points
-     * @param maxError
-     * @return 
+     * Compress the segment
+     * @param points Segment points
+     * @param maxError Allowable maximum error in m
+     * @return The compressed segment points
      */
     private List<TrackPoint> compress(List<TrackPoint> points, double maxError)
     {
@@ -274,7 +276,7 @@ public class TrackSegment
         {
             before=points.size();
             // Douglas Peucker compression
-            compressedPoints=DPUtil.dpAlgorithm(recs, maxError);
+            compressedPoints=TrackCompressor.dpAlgorithm(recs, maxError);
             
             // Check if the max speed record is included in the result
             if (maxSpeed!=null && compressedPoints.stream().filter(r -> r.getDateTime().equals(maxSpeed.getDateTime())).count()==0)

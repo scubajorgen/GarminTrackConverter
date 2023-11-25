@@ -551,11 +551,8 @@ public class MapOsm extends Map
         double                  lon;
 
         List<TrackPoint>        trackPoints;
-        //TrackPoint              gpsRecord;
         int                     numOfSegments;
         int                     segment;
-        int                     numOfRecords;
-        //int                     record;
         boolean                 firstWaypointShown;
         OsmTrack                track;
         OsmTrackSegment         trackSegment;
@@ -574,7 +571,6 @@ public class MapOsm extends Map
         while (segment<numOfSegments)
         {
             trackPoints         =activity.getTrackPoints(segment);
-            numOfRecords        =trackPoints.size();
             trackSegment        =new OsmTrackSegment();
             for (TrackPoint gpsRecord : trackPoints)
             {

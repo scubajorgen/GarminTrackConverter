@@ -19,9 +19,11 @@ public abstract class Map
     protected final JLabel              label;
     protected final int                 panelWidth;
     protected final int                 panelHeight;
-    
-    
-    
+
+    /**
+     * Constructor. Initializes variables.
+     * @param panel Panel to add the map to.
+     */
     public Map(JPanel panel)
     {
         this.panel  =panel;
@@ -29,7 +31,6 @@ public abstract class Map
         panel.add(label);     
         panelWidth  =panel.getWidth();
         panelHeight =panel.getHeight();
-        
     }
     
    /**
