@@ -98,11 +98,8 @@ public class GpxWriter
      * be global variables in this class.
      * @throws javax.xml.parsers.ParserConfigurationException
      */
-    private void createGpxDocument(String deviceType) throws ParserConfigurationException
+    private void createGpxDocument(String creator) throws ParserConfigurationException
     {
-        String      creator;
-
-
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -117,11 +114,11 @@ public class GpxWriter
 
         if (gpxVersion.equals("1.0"))
         {
-            this.addGpx1_0Header(doc, gpxElement, deviceType);
+            this.addGpx1_0Header(doc, gpxElement, creator);
         }
         else if (gpxVersion.equals("1.1"))
         {
-            this.addGpx1_1Header(doc, gpxElement, deviceType);
+            this.addGpx1_1Header(doc, gpxElement, creator);
         }
     }
     
@@ -613,7 +610,13 @@ public class GpxWriter
         {
             this.appName=appName;
             // create the GPX file
-            createGpxDocument(track.getDeviceName());
+            String creator=appName;
+            String deviceName=track.getDeviceName();
+            if (deviceName!=null && deviceName.length()>0)
+            {
+                creator+= " (using "+deviceName+")";
+            }
+            createGpxDocument(creator);
 
             addTrack(doc, gpxElement, track, trackName);
 

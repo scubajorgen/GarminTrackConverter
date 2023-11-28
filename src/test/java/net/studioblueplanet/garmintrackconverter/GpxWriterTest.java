@@ -192,4 +192,35 @@ public class GpxWriterTest
         assertEquals(result, writer.toString());
         writer.close();
     }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile5() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile only waypoints");
+        Track track=new Track(0.0, 0.0);
+        
+        ZoneId zoneId = ZoneId.of("UTC+2");
+        ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, zoneId);        
+        
+        Location waypoint1=new Location("Waypoint 1", "description1", zdt, 5.0, 53.0, 0.0, 0);
+        track.addWaypoint(waypoint1);
+        Location waypoint2=new Location("Waypoint 2", "description2", zdt, 6.0, 54.0, 1.0, 1);
+        track.addWaypoint(waypoint2);
+        
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result5.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+
+    }
+
 }
