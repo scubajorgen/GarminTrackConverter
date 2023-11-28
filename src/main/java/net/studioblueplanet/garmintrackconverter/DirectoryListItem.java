@@ -12,7 +12,7 @@ package net.studioblueplanet.garmintrackconverter;
 public class DirectoryListItem
 {
     private final String     filename;
-    private CacheableItem    cachedItem;
+    private Track            track;
 
     
     /**
@@ -37,46 +37,39 @@ public class DirectoryListItem
      * Returns the cached item added
      * @return The cached item or null if no item had been added.
      */
-    public CacheableItem getCachedItem()
+    public Track getTrack()
     {
-        return cachedItem;
+        return track;
     }
 
     /**
      * Set the cached item to the DirectoryListItem
-     * @param cachedItem Cached item to add
+     * @param track Cached item to add
      */
-    public void setCachedItem(CacheableItem cachedItem)
+    public void setTrack(Track track)
     {
-        this.cachedItem = cachedItem;
+        this.track = track;
     }
     
     /**
-     * Returns the descriptionof the DirectoryListItem
+     * Returns the description of the DirectoryListItem
      * @return A string. Filename + sport + distance
      */
     public String getDescription()
     {
         String description=filename;
-        if (cachedItem!=null)
+        if (track!=null)
         {
-            if (cachedItem instanceof Track)
+            Track t=(Track)track;
+            String sport=t.getSport();
+            Double dist =t.getDistance();
+            if (dist!=null && sport!=null)
             {
-                Track t=(Track)cachedItem;
-                String sport=t.getSport();
-                Double dist =t.getDistance();
-                if (dist!=null && sport!=null)
-                {
-                    description+=String.format("%10s %5.1f km", sport, dist/1000);
-                }
-                else if (dist!=null)
-                {
-                    description+=String.format("%5.1f km", dist/1000);
-                }
-                else
-                {
-                    description+=" c";
-                }
+                description+=String.format("%10s %5.1f km", sport, dist/1000);
+            }
+            else if (dist!=null)
+            {
+                description+=String.format("%5.1f km", dist/1000);
             }
             else
             {

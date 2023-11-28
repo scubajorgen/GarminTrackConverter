@@ -38,7 +38,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private final static Logger             LOGGER = LogManager.getLogger(ConverterView.class);
     private final ApplicationSettings       settings;
     private SettingsDevice                  attachedDevice;
-    private Locations                       waypoints;
+    private Track                           globalWaypoints;
     private Device                          device;
     private final String                    appName;
     private boolean                         hasSync;
@@ -65,8 +65,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     public ConverterView()
     {
         LOGGER.debug("Starting ConverterView");
-        GitBuildInfo build;
-        
         settings=ApplicationSettings.getInstance();
         setResizable(false);
         initComponents();
@@ -74,6 +72,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         isDirty         =true;
         currentTrack    =null;
        
+        // Checkboxes
         jCheckBoxCompress.setSelected(ApplicationSettings.getInstance().isTrackCompression());
         jCheckBoxSmooth.setSelected(ApplicationSettings.getInstance().isTrackSmoothing());
         
@@ -82,7 +81,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         map = new MapOsm(this.jMapPanel);
         this.textAreaOutput.setText("Please attach device\n");
 
-        build=GitBuildInfo.getInstance();
+        GitBuildInfo build=GitBuildInfo.getInstance();
         appName         ="GarminTrackConverter "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";        
         addWindowListener(new WindowAdapter() 
         {
@@ -182,15 +181,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
     
     /**
-     * This method loads each track that not has been loaded into memory
+     * This method loads each track/activity that not has been loaded into memory.
+     * It checks the directory lists for updates.
      */
-    private void updateUiForDevice()
+    private void cacheTracks()
     {
         boolean done            =false;
         
         while (!done)
         {
-            if (waypoints==null)
+            if (globalWaypoints==null)
             {
                 LOGGER.info("Reading waypoints for track");
                 readWaypoints();
@@ -206,7 +206,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 String fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
                 LOGGER.info("Reading track file {}", fileName);
                 Track track=readTrack(fullFileName, true);
-                trackDirectoryList.addCacheableItem(track, index);   
+                trackDirectoryList.addTrack(track, index);   
             }
             checkForDirectoryUpdates();
         }
@@ -343,23 +343,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             devices=settings.getDevices();
         }        
 
-        // Ugly work-around to give the UI thread a chance to start the UI
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch(Exception e)
-        {
-        }
+
 
         LOGGER.info("Thread started");
         do
         {
-            synchronized(this)
+            // Ugly work-around: start with a wait to give the UI thread a chance 
+            // to start the UI so it runs before this trhead continues
+            try
             {
-                localThreadExit         =threadExit;
+                Thread.sleep(1000);
             }
-            
+            catch (InterruptedException e)
+            {
+                LOGGER.error("Thread sleep interrupted");
+            }
+
             // Find an attached device; with multiple devices attached
             // the device with lowest prio value wins
             minPrio     =Integer.MAX_VALUE;
@@ -401,7 +400,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     {
                         uiUpdated=false;
                     }
-                    waypoints=null;
+                    globalWaypoints=null;
                     initializeUiForDevice();
                 }
                 else
@@ -410,7 +409,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
             }
             else
-            {
+            { 
+                // If the UI has been initialized, start caching the tracks
                 synchronized(this)
                 {
                     localUiUpdated=uiUpdated;
@@ -418,17 +418,12 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 if (localUiUpdated)
                 {
                     // Update the directory list and the cache
-                    updateUiForDevice();         
+                    cacheTracks();         
                 }
             }
-            
-            try
+            synchronized(this)
             {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                LOGGER.error("Thread sleep interrupted");
+                localThreadExit         =threadExit;
             }
         }        
         while (!localThreadExit);
@@ -854,22 +849,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
     
     /**
-     * Reads the fit file into a Track
+     * Reads the fit file into a Track. Add waypoints from the global waypoints 
+     * if their date time matches the track (if indicated).
      * @param fileName Name of the fit file
      * @param addWayoints Indicates whether the waypoints recorded during the
      *                    track should be added to the track
-     * @return The track
+     * @return The track read
      */
     private Track readTrack(String fileName, boolean addWaypoints)
     {
         Track theTrack;
-        double  compressionMaxError =ApplicationSettings.getInstance().getTrackCompressionMaxError();
-        double  smoothingAccuracy   =ApplicationSettings.getInstance().getTrackSmoothingAccuracy();
+        double  compressionMaxError =settings.getTrackCompressionMaxError();
+        double  smoothingAccuracy   =settings.getTrackSmoothingAccuracy();
         theTrack=new Track(fileName, device.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
-
-        if(addWaypoints && waypoints!=null)
+        if(addWaypoints && globalWaypoints!=null)
         {
-            theTrack.addTrackWaypoints(waypoints.getWaypoints());
+            theTrack.addTrackWaypoints(globalWaypoints.getWaypoints());
         }
         return theTrack;
     }
@@ -884,13 +879,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         waypointsFile=attachedDevice.getWaypointFile();
         if (new File(waypointsFile).exists())
         {
-            waypoints=new Locations(waypointsFile);
-            waypoints.dumpWaypoints();
+            Locations locations=new Locations(waypointsFile);
+            globalWaypoints=locations.getLocations();
+            locations.dumpWaypoints();
             textAreaOutput.append("Waypoint file "+waypointsFile+" read\n");
+            LOGGER.info("Waypoints file read from {}", waypointsFile);
         }
         else
         {
             textAreaOutput.append("Waypoint file "+waypointsFile+" not found\n");
+            LOGGER.error("Waypoints file {} not found", waypointsFile);
         }
     }
     
@@ -905,17 +903,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             device=new Device(deviceFile);
             textAreaOutput.append("Device file "+deviceFile+" read\n");
+            LOGGER.info("Device file read from {}", deviceFile);
         }
         else
         {
             textAreaOutput.append("Device file "+deviceFile+" not found\n");
+            LOGGER.error("Device file {} not found", deviceFile);
         }        
     }
 
     /**
-     * Returns track from map
+     * Returns selected track from directory list
      * @param list List in which the track is selected
-     * @param map Map containing the track
      * @return The track or null if not found
      */
     private Track getTrack(DirectoryList list)
@@ -926,30 +925,10 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         String trackName=list.getSelectedFileName();
         if (trackName!=null)
         {
-            track=(Track)list.getCacheableItem();
+            track=(Track)list.getTrack();
         }
         return track;
     }
-    
-    /**
-     * Returns track from map
-     * @param list List in which the track is selected
-     * @param map Map containing the track
-     * @return The track or null if not found
-     */
-    private Locations getWaypoints(DirectoryList list)
-    {
-        Locations locations;
-        locations=null;
-        
-        String waypointsName=list.getSelectedFileName();
-        if (waypointsName!=null)
-        {
-            locations=(Locations)list.getCacheableItem();
-        }
-        return locations;
-    }
-    
     
     /**
      * Handles the convert button
@@ -1020,7 +999,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 try
                 {
                     fileWriter=new FileWriter(fileName);
-                    gpsWriter.writeWaypointsToFile(fileWriter, waypoints);
+                    gpsWriter.writeTrackToFile(fileWriter, globalWaypoints, "Waypoints", appName);
                     fileWriter.close();
                 }
                 catch (IOException e)
@@ -1077,14 +1056,14 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
                 else
                 {
-                    if (waypoints==null)
+                    if (globalWaypoints==null)
                     {
                         LOGGER.info("Reading waypoints for track");
                         readWaypoints();
                     }
                     LOGGER.info("Reading track file {}", fileName);
                     track=readTrack(fullFileName, true);
-                    trackDirectoryList.addCacheableItem(track);
+                    trackDirectoryList.addTrack(track);
 
                     textAreaOutput.setText("Track read from FIT file\n");
 
@@ -1122,7 +1101,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.info("Reading route file {}", fileName);
                     track=readTrack(fullFileName, false);
-                    routeDirectoryList.addCacheableItem(track);
+                    routeDirectoryList.addTrack(track);
                     textAreaOutput.setText("Route read from FIT file\n");
                 }
                 track.setBehaviour(false, false);
@@ -1159,7 +1138,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     LOGGER.info("Reading new file {}", fileName);
                     track=GpxReader.getInstance().readRouteFromFile(fullFileName);
-                    newFileDirectoryList.addCacheableItem(track);
+                    newFileDirectoryList.addTrack(track);
                     textAreaOutput.setText("New file read from GPX file\n");
                 }
                 track.setBehaviour(false, false);
@@ -1220,7 +1199,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             synchronized(this)
             {
-                Locations       points;
+                Track           points;
                 String          fileName;
                 String          fullFileName;
                 int             index;
@@ -1228,12 +1207,11 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 trackDirectoryList.clearSelection();
                 routeDirectoryList.clearSelection();
                 newFileDirectoryList.clearSelection();
-
                 
                 fileName=locationDirectoryList.getSelectedFileName();
                 fullFileName=attachedDevice.getLocationFilePath()+File.separator+fileName;
 
-                points=getWaypoints(locationDirectoryList);
+                points=getTrack(locationDirectoryList);
                 if (points!=null)
                 {
                     LOGGER.info("Retrieved waypoints file {} from cache", fileName);
@@ -1242,8 +1220,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 else
                 {
                     LOGGER.info("Reading waypoints file {}", fullFileName);
-                    points=new Locations(fullFileName);
-                    locationDirectoryList.addCacheableItem(points);
+                    Locations locations=new Locations(fullFileName);
+                    points=locations.getLocations();
+                    locationDirectoryList.addTrack(points);
                     textAreaOutput.setText("Locations read from GPX file\n");
                 }
                 map.showWaypoints(points.getWaypoints());
@@ -1280,7 +1259,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             fileName=routeDirectoryList.getSelectedFileName();
             pathName=attachedDevice.getRouteFilePath()+"/"+fileName;
         }
-
         
         if (pathName!=null)
         {

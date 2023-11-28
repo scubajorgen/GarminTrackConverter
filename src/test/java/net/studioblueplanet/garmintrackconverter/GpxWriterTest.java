@@ -192,42 +192,4 @@ public class GpxWriterTest
         assertEquals(result, writer.toString());
         writer.close();
     }
-    
-    /**
-     * Test of writeWaypointsToFile method, of class GpxWriter.
-     */
-    @Test
-    public void testWriteWaypointsToFile() throws Exception
-    {
-        List<Location>  locations;
-        Location        loc;
-        String          result;
-        ZonedDateTime   dateTime;
-        
-        System.out.println("writeWaypointsToFile");
-
-        Locations locationList=new Locations();
-        locations=locationList.getWaypoints();
-        dateTime=ZonedDateTime.of(2022, 5, 4, 14, 48, 30, 0, ZoneId.of("UTC"));
-        loc=new Location("name1", "desc1", dateTime, 53.5, 6.5, 1.0, 2);
-        locations.add(loc);
-        loc=new Location("name2", "desc2", dateTime, 53.6, 6.6, 4.0, 5);
-        locations.add(loc);
-        
-        StringWriter writer=new StringWriter();
-        instance.setGpxVersion("1.1");
-        instance.writeWaypointsToFile(writer, locationList);
-        System.out.println(writer);
-        result=new String(Files.readAllBytes((new File("src/test/resources/result2a.txt")).toPath()));
-        assertEquals(result, writer.toString());
-        writer.close();
-
-        writer=new StringWriter();
-        instance.setGpxVersion("1.0");
-        instance.writeWaypointsToFile(writer, locationList);
-        System.out.println(writer);
-        result=new String(Files.readAllBytes((new File("src/test/resources/result2b.txt")).toPath()));
-        assertEquals(result, writer.toString());
-        writer.close();
-    }    
 }

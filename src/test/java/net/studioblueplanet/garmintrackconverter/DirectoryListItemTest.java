@@ -20,6 +20,7 @@ public class DirectoryListItemTest
 {
     private DirectoryListItem instance;
     private static Track track;
+    private static Track track2;
     
     public DirectoryListItemTest()
     {
@@ -29,6 +30,7 @@ public class DirectoryListItemTest
     public static void setUpClass()
     {
         track=new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 500);
+        track2=new Track(1.0, 2.0);
     }
     
     @AfterClass
@@ -58,19 +60,15 @@ public class DirectoryListItemTest
     }
 
     /**
-     * Test of getCachedItem method, of class DirectoryListItem.
+     * Test of getTrack, setTrack method, of class DirectoryListItem.
      */
     @Test
-    public void testGetSetCachedItem()
+    public void testGetTrack()
     {
         System.out.println("get/setCachedItem");
-        assertNull(instance.getCachedItem());
-        Track track=new Track(3.0, 500);
-        instance.setCachedItem(track);
-        assertEquals(track, instance.getCachedItem());
-        Locations locations=new Locations();
-        instance.setCachedItem(locations);
-        assertEquals(locations, instance.getCachedItem());
+        assertNull(instance.getTrack());
+        instance.setTrack(track);
+        assertEquals(track, instance.getTrack());
     }
 
     /**
@@ -81,8 +79,10 @@ public class DirectoryListItemTest
     {
         System.out.println("getDescription");
         assertEquals("testfilename", instance.getDescription());
-        instance.setCachedItem(track);
+        instance.setTrack(track);
         assertEquals("testfilename   cycling   0.0 km", instance.getDescription());
+        instance.setTrack(track2);
+        assertEquals("testfilename c", instance.getDescription());
     }
     
 }

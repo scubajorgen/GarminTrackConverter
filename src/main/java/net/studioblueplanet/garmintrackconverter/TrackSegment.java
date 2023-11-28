@@ -24,7 +24,7 @@ public class TrackSegment
     private final static Logger     LOGGER = LogManager.getLogger(TrackSegment.class);
 
     private boolean                 behaviourSmoothed;
-    private List<TrackPoint>        trackPointsRaw;                 // raw segment
+    private final List<TrackPoint>  trackPointsRaw;                 // raw segment
     private List<TrackPoint>        trackPointsSmoothed;            // smoothed segment
     private List<TrackPoint>        trackPointsRawCompressed;       // compressed segment
     private List<TrackPoint>        trackPointsSmoothedCompressed;  // compressed smoothed segment
@@ -53,7 +53,7 @@ public class TrackSegment
     {
         this.startTime      =null;
         this.endTime        =null;
-        trackPointsRaw         =new ArrayList<>();        
+        trackPointsRaw      =new ArrayList<>();        
         trackPointsSmoothed =new ArrayList<>();
         setBehaviour(false, false);
     }

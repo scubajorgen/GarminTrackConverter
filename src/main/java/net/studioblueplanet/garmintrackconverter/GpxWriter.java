@@ -628,33 +628,5 @@ public class GpxWriter
             LOGGER.error("Error writing GPX: {}", e.getMessage());
         }
     }
-
-    /**
-     * Write waypoints to a GPX file, as wpt elements
-     * @param writer Writer to use for writing the GPX
-     * @param waypoints Waypoints to write
-     */
-    public void writeWaypointsToFile(Writer writer, Locations waypoints)
-    {
-        wayPoints   =0;
-        trackPoints =0;
-        try
-        {
-            // create the GPX file
-            createGpxDocument("Locations.fit");
-
-            this.appendWaypointsGpx(doc, gpxElement, waypoints.getWaypoints());
-
-            // write the content into xml file
-            writeGpxDocument(writer);
-
-            LOGGER.info("Waypoint File saved, saved {} waypoints!", waypoints.getNumberOfWaypoints());
-
-        }
-        catch (ParserConfigurationException | TransformerException | IOException e)
-        {
-            LOGGER.error("Error writing GPX: {}", e.getMessage());
-        }
-    }
 }
  

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,12 +25,15 @@ import org.apache.logging.log4j.Logger;
  * This file represents the list of locations
  * @author Jorgen
  */
-public class Locations extends CacheableItem
+public class Locations
 {
     private final static Logger         LOGGER = LogManager.getLogger(Locations.class);
-    private final List<Location>        locations;
+    private final Track                 waypoints;
     
-    
+    /**
+     * Reads the global waypoints file into the Track waypoints.
+     * @param waypointFileName File to load the waypoints from
+     */
     public Locations(String waypointFileName)
     {
         FitReader               reader;
@@ -48,7 +50,7 @@ public class Locations extends CacheableItem
         int                     i;
         int                     size;
 
-        locations=new ArrayList<>();
+        waypoints=new Track(0.0, 0.0);
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
         record=repository.getFitMessage("location");
@@ -72,7 +74,7 @@ public class Locations extends CacheableItem
                 lon         =record.getLatLonValue(i, "position_long");
                 ele         =record.getScaledValue(i, "altitude");
                 symbol      =(int)record.getIntValue(i, "symbol");
-                this.locations.add(new Location(name, description, dateTime, lat, lon, ele, symbol));
+                waypoints.addWaypoint(new Location(name, description, dateTime, lat, lon, ele, symbol));
 
 
                 if (dateTime!=null)
@@ -92,12 +94,14 @@ public class Locations extends CacheableItem
     }
     
     /**
-     * Constructor. Creates an empty list of locations.
+     * Returns the Locations as track
+     * @return The waypoints as Track
      */
-    public Locations()
+    public Track getLocations()
     {
-        locations=new ArrayList<>(0);
+        return waypoints;
     }
+    
     
     /**
      * Extracts the datetime. In the Fenix the date time is not filled in in the
@@ -158,19 +162,22 @@ public class Locations extends CacheableItem
      */
     public int getNumberOfWaypoints()
     {
-        return locations.size();
+        return waypoints.getWaypoints().size();
     }    
     
     public List<Location> getWaypoints()
     {
-        return this.locations;
+        return waypoints.getWaypoints();
     }
     
+    /**
+     * Debugging: print a list of waypoints
+     */
     public void dumpWaypoints()
     {
         ZonedDateTime   dateTime;
         String          dateTimeString;
-        for (Location loc: locations)
+        for (Location loc: waypoints.getWaypoints())
         {
             dateTime=loc.getDateTime();
             if (dateTime!=null)

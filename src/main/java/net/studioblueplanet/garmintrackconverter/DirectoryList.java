@@ -241,12 +241,12 @@ public class DirectoryList
      * Add a track/waypoints to the selected index
      * @param item The track/waypoints to add
      */
-    public void addCacheableItem(CacheableItem item)
+    public void addTrack(Track item)
     {
         int index=list.getSelectedIndex();
         if (index>=0)
         {
-            fileList.get(index).setCachedItem(item);
+            fileList.get(index).setTrack(item);
      
             model.setElementAt(fileList.get(index).getDescription(), index);
         }       
@@ -257,13 +257,12 @@ public class DirectoryList
      * @param item The track/locations to add
      * @param index Index of the directory item to add the track to
      */
-    public void addCacheableItem(CacheableItem item, int index)
+    public void addTrack(Track item, int index)
     {
         if (index<fileList.size())
         {
-            fileList.get(index).setCachedItem(item);
+            fileList.get(index).setTrack(item);
             model.setElementAt(fileList.get(index).getDescription(), index);
-
         }
         else
         {
@@ -275,13 +274,13 @@ public class DirectoryList
      * Get the track of the select index
      * @return The track or null if not defined
      */
-    public CacheableItem getCacheableItem()
+    public Track getTrack()
     {
-        CacheableItem item=null;
+        Track item=null;
         if (list.getSelectedIndex()>=0)
         {
             int index=list.getSelectedIndex();
-            item=fileList.get(index).getCachedItem();
+            item=fileList.get(index).getTrack();
         }  
         return item;
     }
@@ -297,7 +296,7 @@ public class DirectoryList
         
         for (int i=0; i<fileList.size() && !found;i++)
         {
-            if (fileList.get(i).getCachedItem()==null)
+            if (fileList.get(i).getTrack()==null)
             {
                 index=i;
                 found=true;

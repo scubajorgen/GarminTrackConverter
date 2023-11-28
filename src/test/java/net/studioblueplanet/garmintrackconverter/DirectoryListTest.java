@@ -359,12 +359,12 @@ public class DirectoryListTest
     }
 
     /**
-     * Test of addCacheableItem method, of class DirectoryList.
+     * Test of addTrack method, of class DirectoryList.
      */
     @Test
-    public void testAddCacheableItem_CacheableItem()
+    public void testTrack_Track()
     {
-        System.out.println("addCacheableItem getCacheableItem");
+        System.out.println("addTrack Track, getTrack");
         // Reversed order sorting
         DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
         when(listMock.getSelectedIndex()).thenReturn(1);
@@ -380,11 +380,11 @@ public class DirectoryListTest
         // Item 1: testfile1.fit
         Track t=new Track(0.0, 0);
         when(listMock.getSelectedIndex()).thenReturn(1);
-        instance.addCacheableItem(t);
+        instance.addTrack(t);
         when(listMock.getSelectedIndex()).thenReturn(0);
-        assertNull(instance.getCacheableItem());
+        assertNull(instance.getTrack());
         when(listMock.getSelectedIndex()).thenReturn(1);
-        assertEquals(t, instance.getCacheableItem());
+        assertEquals(t, instance.getTrack());
 
         // Now, check if the cache persists after an directory update
         reset(modelMock);
@@ -396,19 +396,19 @@ public class DirectoryListTest
         // Item 0: testfile3.fit
         // Item 1: testfile1.fit   
         when(listMock.getSelectedIndex()).thenReturn(0);
-        assertNull(instance.getCacheableItem());
+        assertNull(instance.getTrack());
         when(listMock.getSelectedIndex()).thenReturn(1);
-        assertEquals(t, instance.getCacheableItem());
+        assertEquals(t, instance.getTrack());
     }
 
     /**
-     * Test of addCacheableItem method, of class DirectoryList.
+     * Test of addTrack method, of class DirectoryList.
      */
     @Test
     @org.junit.Ignore
-    public void testAddCacheableItem_CacheableItem_int()
+    public void testAddTrack_Track_int()
     {
-        System.out.println("addCacheableItem getCacheableItem");
+        System.out.println("addTrack Track int, getTrack");
         // Reversed order sorting
         DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
         when(listMock.getSelectedIndex()).thenReturn(1);
@@ -424,11 +424,11 @@ public class DirectoryListTest
         // Item 1: testfile1.fit
         Track t=new Track(0.0, 0);
         when(listMock.getSelectedIndex()).thenReturn(0);
-        instance.addCacheableItem(t, 1);
+        instance.addTrack(t, 1);
         when(listMock.getSelectedIndex()).thenReturn(0);
-        assertNull(instance.getCacheableItem());
+        assertNull(instance.getTrack());
         when(listMock.getSelectedIndex()).thenReturn(1);
-        assertEquals(t, instance.getCacheableItem());
+        assertEquals(t, instance.getTrack());
     }
 
     /**
@@ -453,7 +453,7 @@ public class DirectoryListTest
         // Item 1: testfile1.fit
         assertEquals(0, instance.getNextNonCache());
         Track t=new Track(0.0, 0);
-        instance.addCacheableItem(t, 0);
+        instance.addTrack(t, 0);
         assertEquals(1, instance.getNextNonCache());
     }
    

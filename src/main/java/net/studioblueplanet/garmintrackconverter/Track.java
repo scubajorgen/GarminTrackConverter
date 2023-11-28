@@ -20,13 +20,14 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
         
 /**
- * This class represents a track consisting of track segments and optional
- * a number of logged waypoints. Four sets of segments are maintained:
+ * This class represents a Track consisting of track segments (consisting of 
+ * Track Points), waypoints or both. 
+ * If the Track contains segments, each segment maintains 4 series of Track Points:
  * raw, raw compressed, smoothed, smoothed compressed. By means of setting 
- * the behaviour of the track, it behaves like one of them.
+ * the behaviour of the track, it behaves accordingly.
  * @author Jorgen
  */
-public class Track extends CacheableItem
+public class Track
 {
     public static final int                 MS_PER_S                =1000;
     public static final int                 CM_PER_M                =100;
@@ -75,7 +76,7 @@ public class Track extends CacheableItem
     private String                          deviceBarometer;
     private String                          deviceGps;
     
-    private double                          smoothingAccuracy;   // m
+    private final double                    smoothingAccuracy;   // m
     private double                          compressionMaxError; // m
     
     private int                             invalidCoordinates;
@@ -214,7 +215,7 @@ public class Track extends CacheableItem
             this.getSegmentsFromEvents(eventMessages);
 
             // If no segments found, try to get them from the laps
-            if (segments.size()==0)
+            if (segments.isEmpty())
             {
                 if (lapMessages!=null && lapMessages.size()>0)
                 {
@@ -651,6 +652,15 @@ public class Track extends CacheableItem
     }
     
     /**
+     * Adds a waypoint to the track
+     * @param waypoint Waypoint to add
+     */
+    public void addWaypoint(Location waypoint)
+    {
+        waypoints.add(waypoint);
+    }
+    
+    /**
      * Return some info about this track
      * @return The info
      */
@@ -837,6 +847,15 @@ public class Track extends CacheableItem
     public List<Location> getWaypoints()
     {
         return this.waypoints;
+    }
+    
+    /**
+     * Returns the number of waypoints associated with this track
+     * @return The number of waypoints
+     */
+    public int getNumberOfWaypoints()
+    {
+        return waypoints.size();
     }
 
     public List<TrackSegment> getSegments()
