@@ -85,6 +85,15 @@ public class ApplicationSettings
     }
     
     /**
+     * Returns which extensions to use: 'garmin', 'studioblueplanet' or 'none'
+     * @return The extensions type
+     */
+    public String getGpxExtensions()
+    {
+        return settings.getGpxFileExtensions().toLowerCase();
+    }
+    
+    /**
      * Get the required debug level
      * @return The level
      */

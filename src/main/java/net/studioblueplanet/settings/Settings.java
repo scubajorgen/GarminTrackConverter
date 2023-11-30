@@ -19,6 +19,8 @@ public class Settings
     private String               gpxFileDownloadPath;
     @JsonProperty("gpxFileUploadPath")
     private String               gpxFileUploadPath;
+    @JsonProperty("gpxFileExtensions")
+    private String               gpxFileExtensions;
     @JsonProperty("trackSmoothing")
     private boolean              trackSmoothing;
     @JsonProperty("trackSmoothingAccuracy")
@@ -108,5 +110,15 @@ public class Settings
     public void setTrackCompressionMaxError(double trackCompressionMaxError)
     {
         this.trackCompressionMaxError = trackCompressionMaxError;
+    }
+
+    public String getGpxFileExtensions()
+    {
+        return gpxFileExtensions;
+    }
+
+    public void setGpxFileExtensions(String gpxFileExtensions)
+    {
+        this.gpxFileExtensions = gpxFileExtensions;
     }
 }

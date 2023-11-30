@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import net.studioblueplanet.settings.ApplicationSettings;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,6 +39,12 @@ import org.apache.logging.log4j.Logger;
  */
 public class GpxWriter
 {
+    public enum GpxExtensions
+    {
+        garmin, 
+        studioblueplanet,
+        none
+    }
     private final static Logger LOGGER = LogManager.getLogger(GpxWriter.class);
     private static GpxWriter    theInstance=null;
 
@@ -45,16 +52,32 @@ public class GpxWriter
     private int                 wayPoints;
     private String              gpxVersion;
     private String              appName;
-
-    Document                    doc;
-    Element                     gpxElement;
+    private GpxExtensions       gpxExtensions;
+    
+    private Document            doc;
+    private Element             gpxElement;
+    
 
     /**
      * Constructor
      */
-    private GpxWriter()
+    public GpxWriter()
     {
         gpxVersion      ="1.1";
+        ApplicationSettings settings=ApplicationSettings.getInstance();
+        String extensions=settings.getGpxExtensions();
+        if ("studioblueplanet".equals(extensions))
+        {
+            gpxExtensions=GpxExtensions.studioblueplanet;
+        }
+        else if ("garmin".equals(extensions))
+        {
+            gpxExtensions=GpxExtensions.garmin;
+        }
+        else
+        {
+            gpxExtensions=GpxExtensions.none;
+        }
     }
 
     /**
@@ -67,8 +90,16 @@ public class GpxWriter
         {
             theInstance=new GpxWriter();
         }
-
         return theInstance;
+    }
+    
+    /**
+     * Set the GPX extensions. By default they are read from the settings file.
+     * @param extensions New extensions
+     */
+    public void setGpxExtensions(GpxExtensions extensions)
+    {
+        this.gpxExtensions=extensions;
     }
 
     /**
@@ -256,7 +287,7 @@ public class GpxWriter
     {
         // GPX version 1.1
         addAttribute(gpxElement, "creator", creator);
-        addAttribute(gpxElement, "version", "1.1");;
+        addAttribute(gpxElement, "version", "1.1");
 
         // XMLSchema namespace
         addAttribute(gpxElement, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -264,15 +295,33 @@ public class GpxWriter
         // GPX namespace
         addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/1");
         
+        String schemaLocation="http://www.topografix.com/GPX/1/1 "+
+                              "https://www.topografix.com/GPX/1/1/gpx.xsd";
+        
         // u-gotMe namespace
-        addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v4");
+        if (gpxExtensions==GpxExtensions.studioblueplanet)
+        {
+            addAttribute(gpxElement, "xmlns:u-gotMe", "http://tracklog.studioblueplanet.net/gpxextensions/v4");
+            
+            schemaLocation  +=" http://tracklog.studioblueplanet.net/gpxextensions/v4 "+
+                              "https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd";
+        }
+        else if (gpxExtensions==GpxExtensions.garmin)
+        {
+            addAttribute(gpxElement, "xmlns:gpxtx" , "http://www.garmin.com/xmlschemas/GpxExtensions/v3");
+            addAttribute(gpxElement, "xmlns:gpxtpx", "http://www.garmin.com/xmlschemas/TrackPointExtension/v1");
+
+            schemaLocation  +=" http://tracklog.studioblueplanet.net/gpxextensions/v4 "+
+                              "https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd";
+
+            schemaLocation  +=" http://www.garmin.com/xmlschemas/GpxExtensions/v3 "+
+                              "https://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd"+ 
+                              " http://www.garmin.com/xmlschemas/TrackPointExtension/v1 "+
+                              "https://www8.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";            
+        }
 
         // Schema locations
-        addAttribute(gpxElement, "xsi:schemaLocation", 
-                                 "http://www.topografix.com/GPX/1/1 "+
-                                 "https://www.topografix.com/GPX/1/1/gpx.xsd "+
-                                 "http://tracklog.studioblueplanet.net/gpxextensions/v4 "+
-                                 "https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd");
+        addAttribute(gpxElement, "xsi:schemaLocation", schemaLocation);
     }
 
     /**
@@ -385,29 +434,56 @@ public class GpxWriter
                                    .format( DateTimeFormatter.ISO_OFFSET_DATE_TIME );
             addChildElement(pointElement, "time", dateTimeString);
 
-            gpxExtensionsElement    = doc.createElement("extensions");
-            pointElement.appendChild(gpxExtensionsElement);
-
-            extensionsElement    = doc.createElement("u-gotMe:trackpointExtension");
-            gpxExtensionsElement.appendChild(extensionsElement);
-            // Extensions: speed
-            addChildElement(extensionsElement, "u-gotMe:speed", point.getSpeed(), 1);
-
-            // Extensions: distance
-            addChildElement(extensionsElement, "u-gotMe:dist", point.getDistance(), 1);
-                        
-            // Extensions: temperature
-            addChildElement(extensionsElement, "u-gotMe:temp", point.getTemperature());
-                        
-            // Extensions: heartrate
-            Integer heartrate=point.getHeartrate();
-            if (heartrate!=null && heartrate<255)
+            if (gpxExtensions==GpxExtensions.studioblueplanet)
             {
-                addChildElement(extensionsElement, "u-gotMe:hr", heartrate);
-            }
+                gpxExtensionsElement    = doc.createElement("extensions");
+                pointElement.appendChild(gpxExtensionsElement);
 
-            // Extensions: temperature
-            addChildElement(extensionsElement, "u-gotMe:ehpe", point.getEhpe());
+                extensionsElement    = doc.createElement("u-gotMe:trackpointExtension");
+                gpxExtensionsElement.appendChild(extensionsElement);
+                // Extensions: speed
+                addChildElement(extensionsElement, "u-gotMe:speed", point.getSpeed(), 1);
+
+                // Extensions: distance
+                addChildElement(extensionsElement, "u-gotMe:dist", point.getDistance(), 1);
+
+                // Extensions: temperature
+                addChildElement(extensionsElement, "u-gotMe:temp", point.getTemperature());
+
+                // Extensions: heartrate
+                Integer heartrate=point.getHeartrate();
+                if (heartrate!=null && heartrate<255)
+                {
+                    addChildElement(extensionsElement, "u-gotMe:hr", heartrate);
+                }
+
+                // Extensions: temperature
+                addChildElement(extensionsElement, "u-gotMe:ehpe", point.getEhpe());
+            }
+            else if (gpxExtensions==GpxExtensions.garmin)
+            {
+                gpxExtensionsElement    = doc.createElement("extensions");
+                pointElement.appendChild(gpxExtensionsElement);
+
+                extensionsElement    = doc.createElement("gpxtpx:TrackPointExtension");
+                gpxExtensionsElement.appendChild(extensionsElement);                
+                
+                // Extensions: temperature; atemp for air temperature, wtemp for water temperature
+                if ("swimming".equals(track.getSport()))
+                {
+                    addChildElement(extensionsElement, "gpxtpx:wtemp", point.getTemperature());
+                }
+                else
+                {
+                    addChildElement(extensionsElement, "gpxtpx:atemp", point.getTemperature());
+                }
+                // Extensions: heartrate
+                Integer heartrate=point.getHeartrate();
+                if (heartrate!=null && heartrate<255)
+                {
+                    addChildElement(extensionsElement, "gpxtpx:hr", heartrate);
+                }                
+            }
 
             // set attribute 'lat' and 'lon' to element
             addAttribute(pointElement, "lat", String.format("%1.7f", point.getLatitude()));
@@ -542,7 +618,7 @@ public class GpxWriter
                 }
                 i++;
             }
-            if (gpxVersion.equals("1.1"))
+            if (gpxVersion.equals("1.1") && gpxExtensions==GpxExtensions.studioblueplanet)
             {
                 Element gpxExtensions=doc.createElement("extensions");
                 gpxElement.appendChild(gpxExtensions);

@@ -924,6 +924,11 @@ public class Track
         return descent;
     }
 
+    public void setSport(String sport)
+    {
+        this.sport=sport;
+    }
+    
     public String getSport()
     {
         return this.sport;

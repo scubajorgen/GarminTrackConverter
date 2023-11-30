@@ -2,6 +2,7 @@
   "debugLevel":"info",
   "gpxFileDownloadPath": "d:/gps/gpx",
   "gpxFileUploadPath": "d:/gps/routes",
+  "gpxFileExtensions": "studioblueplanet",
   "trackCompression": false,
   "trackCompressionMaxError": 0.3,
   "trackSmoothing": false,

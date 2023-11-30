@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Locale;
+import net.studioblueplanet.settings.ApplicationSettings;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,8 +36,6 @@ public class GpxWriterTest
     @BeforeClass
     public static void setUpClass()
     {
-        Locale.setDefault(Locale.US);
-        instance=GpxWriter.getInstance();
     }
     
     @AfterClass
@@ -47,6 +46,9 @@ public class GpxWriterTest
     @Before
     public void setUp()
     {
+        Locale.setDefault(Locale.US);
+        instance=GpxWriter.getInstance();
+        instance.setGpxExtensions(GpxWriter.GpxExtensions.studioblueplanet);
     }
     
     @After
@@ -88,7 +90,7 @@ public class GpxWriterTest
         TrackPoint      point;
         String          result;
         
-        System.out.println("writeTrackToFile");
+        System.out.println("writeTrackToFile - gpx 1.1 and 1.0");
         Track track=new Track(0.0, 0);
         
         List<TrackSegment> segments=track.getSegments();
@@ -127,7 +129,7 @@ public class GpxWriterTest
     {
         String          result;
         
-        System.out.println("writeTrackToFile");
+        System.out.println("writeTrackToFile - studioblueplanet extensions, raw, compressed, smoothed, compressed&smoothed");
         Track track=TestTrack.testTrack();
         
         // Non compressed, non smoothed: 14 points
@@ -221,6 +223,50 @@ public class GpxWriterTest
         assertEquals(result, writer.toString());
         writer.close();
 
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile6() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile garmin extensions - non swimming");
+        instance.setGpxExtensions(GpxWriter.GpxExtensions.garmin);
+        Track track=TestTrack.testTrack();
+        track.setSport("cycling");
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3e.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile7() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile garmin extensions - swimming");
+        instance.setGpxExtensions(GpxWriter.GpxExtensions.garmin);
+        Track track=TestTrack.testTrack();
+        track.setSport("swimming");
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(false, false);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
+        result=new String(Files.readAllBytes((new File("src/test/resources/result3f.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
     }
 
 }
