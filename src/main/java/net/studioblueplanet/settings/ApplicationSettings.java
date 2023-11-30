@@ -20,7 +20,10 @@ import org.apache.logging.log4j.Logger;
 public class ApplicationSettings
 {
     private final static Logger         LOGGER = LogManager.getLogger(ApplicationSettings.class);
+    private static final String         DEFAULTSETTINGSFILE="garmintrackconverter.json";
     private static ApplicationSettings  theInstance;
+
+    private static String               settingsFile=DEFAULTSETTINGSFILE;
     private Settings                    settings;
 
     /**
@@ -28,10 +31,30 @@ public class ApplicationSettings
      */
     private ApplicationSettings()
     {
+        rereadSettings();
+    }
+    
+    /**
+     * Set the settings file. By default it is "garmintrackconverter.json". This
+     * method can be used to use another setting file. It should be called
+     * prior to the first getInstance() or a rereadSettings() must be called
+     * afterwards
+     * @param filename Filename to use 
+     */
+    public static void setSettingsFile(String filename)
+    {
+        settingsFile=filename;
+    }
+    
+    /**
+     * Re-read the settings file.
+     */
+    public void rereadSettings()
+    {
         File         configFile;
         ObjectMapper mapper = new ObjectMapper();
         
-        configFile=new File("garmintrackconverter.json");
+        configFile=new File(settingsFile);
         try
         {
             settings=mapper.readValue(configFile, Settings.class);
@@ -39,7 +62,7 @@ public class ApplicationSettings
         catch (IOException e)
         {
             LOGGER.error("Error reading configuration {}: {}", configFile.getAbsolutePath(), e.getMessage());
-        }
+        }        
     }
     
     /**

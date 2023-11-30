@@ -22,7 +22,6 @@ public class ApplicationSettingsTest
     private static ApplicationSettings instance;
     public ApplicationSettingsTest()
     {
-        instance=ApplicationSettings.getInstance();
     }
     
     @BeforeClass
@@ -38,6 +37,9 @@ public class ApplicationSettingsTest
     @Before
     public void setUp()
     {
+        ApplicationSettings.setSettingsFile("src/test/resources/garmintrackconvertertest.json");
+        instance=ApplicationSettings.getInstance();
+        instance.rereadSettings();
     }
     
     @After
@@ -58,6 +60,27 @@ public class ApplicationSettingsTest
     }
 
     /**
+     * Test of setSettingsFile method, of class ApplicationSettings.
+     */
+    @Test
+    public void testSetSettingsFile()
+    {
+        System.out.println("setSettingsFile rereadSettings");
+        assertNotNull(instance);
+
+        // Original file
+        assertEquals("test1", instance.getGpxFileDownloadPath());
+        
+        // Change it, but it doen't become active before re-reading the settings
+        ApplicationSettings.setSettingsFile("src/test/resources/garmintrackconvertertest2.json");
+        assertEquals("test1", instance.getGpxFileDownloadPath());
+        
+        // Re-read settings
+        instance.rereadSettings();
+        assertEquals("test2", instance.getGpxFileDownloadPath());
+    }
+
+    /**
      * Test of getDevices method, of class ApplicationSettings.
      */
     @Test
@@ -75,10 +98,10 @@ public class ApplicationSettingsTest
      * Test of getGpxFilePath method, of class ApplicationSettings.
      */
     @Test
-    public void testGetGpxFilePath()
+    public void testGetGpxFileDownloadPath()
     {
-        System.out.println("getGpxFilePath");
-        assertEquals("./development/gpx", instance.getGpxFileDownloadPath());
+        System.out.println("getGpxFileDownloadPath");
+        assertEquals("test1", instance.getGpxFileDownloadPath());
     }
 
     /**
@@ -119,16 +142,6 @@ public class ApplicationSettingsTest
     {
         System.out.println("getGpxFileUploadPath");
         assertEquals("./development/gpxRoutes", instance.getGpxFileUploadPath());
-    }
-
-    /**
-     * Test of getGpxFileDownloadPath method, of class ApplicationSettings.
-     */
-    @Test
-    public void testGetGpxFileDownloadPath()
-    {
-        System.out.println("getGpxFileDownloadPath");
-        assertEquals("./development/gpx", instance.getGpxFileDownloadPath());
     }
 
     /**
