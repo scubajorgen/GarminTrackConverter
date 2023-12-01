@@ -36,16 +36,18 @@ public abstract class Map
    /**
      * This method show the track in this frame on a map
      * @param activity The activity data structure containing the track (Activity) to show
+     * @param fitTrack Indicates whether or not to zoom to the track
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
-    public abstract String showTrack(Track activity);
+    public abstract String showTrack(Track activity, boolean fitTrack);
 
     /**
      * This method shows waypoints on a map
      * @param waypoints List of waypoints
+     * @param fitWaypoints Indicates whether to fit the waypoints or keep existing pan/zoom
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
-    public abstract String showWaypoints(List<net.studioblueplanet.garmintrackconverter.Location> waypoints);
+    public abstract String showWaypoints(List<Location> waypoints, boolean fitWaypoints);
 
     /**
      * Hides the track

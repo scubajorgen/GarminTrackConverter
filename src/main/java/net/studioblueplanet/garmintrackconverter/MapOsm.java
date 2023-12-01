@@ -512,7 +512,7 @@ public class MapOsm extends Map
      * Initializes the overlay painter
      * @param track Track to paint
      */
-    private void initializeOverlayPainter(OsmTrack track)
+    private void initializeOverlayPainter(OsmTrack track, boolean fitTrack)
     {
         OsmRoutePainter                 routePainter;
         WaypointPainter<OsmWaypoint>    waypointPainter;
@@ -524,7 +524,10 @@ public class MapOsm extends Map
         
         routePainter    = new OsmRoutePainter(track);                
         // Set the focus
-        mapViewer.zoomToBestFit(new HashSet<>(track.getBounds()), 0.9);
+        if (fitTrack)
+        {
+            mapViewer.zoomToBestFit(new HashSet<>(track.getBounds()), 0.9);
+        }
         
         // Create a compound painter that uses both the route-painter and the waypoint-painter
         List<Painter<JXMapViewer>> painters;
@@ -542,10 +545,11 @@ public class MapOsm extends Map
    /**
      * This method show the track in this frame on a google map
      * @param activity The activity data structure containing the track (Activity) to show
+     * @param fitTrack Indicates whether or not to zoom to the track
      * @return A string indicating the result of the showing (ToDo: remove or make sensible value).
      */
     @Override
-    public String showTrack(Track activity)
+    public String showTrack(Track activity, boolean fitTrack)
     {
         double                  lat;
         double                  lon;
@@ -614,13 +618,13 @@ public class MapOsm extends Map
         }
         else
         {
-            this.initializeOverlayPainter(track);
+            this.initializeOverlayPainter(track, fitTrack);
         }
         return "";
     }
     
     @Override
-    public String showWaypoints(List<Location> waypoints)
+    public String showWaypoints(List<Location> waypoints, boolean fitWaypoints)
     {
         OsmTrack                track;
         
@@ -632,7 +636,7 @@ public class MapOsm extends Map
             {
                 track.add(new OsmWaypoint(point.getLatitude(), point.getLongitude(), point.getName(), point.getSymbol()));
             });
-            this.initializeOverlayPainter(track);
+            this.initializeOverlayPainter(track, fitWaypoints);
         }
         else
         {

@@ -830,18 +830,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      * Shows the indicated track on the map
      * @param track The track to show
      */
-    private void trackToMap(Track track)
+    private void trackToMap(Track track, boolean fit)
     {
         if (track!=null)
         {
             if (track.getNumberOfSegments()>0)
             {
-                map.showTrack(track);
+                map.showTrack(track, fit);
                 jTextFieldInfo.setText(track.getTrackInfo());
             }
             else if (track.getWaypoints().size()>0)
             {
-                map.showWaypoints(track.getWaypoints());
+                map.showWaypoints(track.getWaypoints(), fit);
                 jTextFieldInfo.setText("Locations: "+track.getWaypoints().size());
             }
             currentTrack=track;
@@ -1070,7 +1070,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 }
                 track.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
                 textAreaOutput.append(track.getTrackInfo2()+"\n");
-                trackToMap(track);
+                trackToMap(track, true);
                 currentTrack=track;
             }
         }
@@ -1105,7 +1105,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("Route read from FIT file\n");
                 }
                 track.setBehaviour(false, false);
-                trackToMap(track);
+                trackToMap(track, true);
                 currentTrack=null;
             }
         }
@@ -1142,7 +1142,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     textAreaOutput.setText("New file read from GPX file\n");
                 }
                 track.setBehaviour(false, false);
-                trackToMap(track);
+                trackToMap(track, true);
                 currentTrack=null;
             }
         }
@@ -1225,7 +1225,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     locationDirectoryList.addTrack(points);
                     textAreaOutput.setText("Locations read from GPX file\n");
                 }
-                map.showWaypoints(points.getWaypoints());
+                map.showWaypoints(points.getWaypoints(), true);
                 currentTrack=null;
                 jTextFieldInfo.setText("Locations: "+points.getNumberOfWaypoints());
             }
@@ -1324,7 +1324,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
             textAreaOutput.setText("Track retrieved from cache\n");
             textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
-            trackToMap(currentTrack);
+            trackToMap(currentTrack, false);
         }
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
@@ -1335,7 +1335,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
             textAreaOutput.setText("Track retrieved from cache\n");
             textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
-            trackToMap(currentTrack);
+            trackToMap(currentTrack, false);
         }
     }//GEN-LAST:event_jCheckBoxCompressActionPerformed
     
