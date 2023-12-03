@@ -97,9 +97,16 @@ public class GpxWriterTest
         segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
                                  ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
         
-        point=new TrackPoint(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")),
-                             53.5, 6.5, 1.0, 2.0, 3.0, 4, 5, 6, 7);
-
+        point=new TrackPoint.TrackPointBuilder(53.5, 6.5)
+                            .dateTime(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")))
+                            .elevation(1.0)
+                            .speed(2.0)
+                            .distance(3.0)
+                            .temperature(4)
+                            .heartrate(5)
+                            .ehpe(6)
+                            .build();
+                
         segment.addTrackPoint(point);
         segments.add(segment);
         

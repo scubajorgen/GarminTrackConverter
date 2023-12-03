@@ -457,8 +457,28 @@ public class GpxWriter
                     addChildElement(extensionsElement, "u-gotMe:hr", heartrate);
                 }
 
+                // Extensions: respirationrate
+                Double respiration=point.getRespirationrate();
+                if (respiration!=null)
+                {
+                    addChildElement(extensionsElement, "u-gotMe:resp", respiration, 2);
+                }
+
                 // Extensions: temperature
                 addChildElement(extensionsElement, "u-gotMe:ehpe", point.getEhpe());
+
+                // Extensions: stamina
+                Integer stamina=point.getStamina();
+                if (stamina!=null && stamina<255)
+                {
+                    addChildElement(extensionsElement, "u-gotMe:sta", stamina);
+                }
+                // Extensions: stamina
+                Integer staminaPotential=point.getStaminaPotential();
+                if (staminaPotential!=null && staminaPotential<255)
+                {
+                    addChildElement(extensionsElement, "u-gotMe:staP", staminaPotential);
+                }
             }
             else if (gpxExtensions==GpxExtensions.garmin)
             {

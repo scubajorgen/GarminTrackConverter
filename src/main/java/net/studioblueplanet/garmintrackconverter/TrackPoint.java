@@ -16,65 +16,145 @@ import org.apache.logging.log4j.Logger;
  */
 public class TrackPoint implements Comparable<TrackPoint>
 {
-    private final static Logger   LOGGER = LogManager.getLogger(TrackPoint.class);
-    private final ZonedDateTime   dateTime;
-    private Double                latitude;         // degree
-    private Double                longitude;        // degree
-    private final Double          elevation;        // m
-    private final Double          speed;            // m/s
-    private final Double          distance;         // m
-    private final Integer         temperature;      // deg C
-    private final Integer         heartrate;        // bpm
-    private final Integer         ehpe;             // cm
+public static class TrackPointBuilder
+{
+    private ZonedDateTime       dateTime;
+    private Double              latitude;         // degree
+    private Double              longitude;        // degree
+    private Double              elevation;        // m
+    private Double              speed;            // m/s
+    private Double              distance;         // m
+    private Integer             temperature;      // deg C
+    private Integer             heartrate;        // bpm
+    private Double              respirationrate;  // breaths/min
+    private Integer             ehpe;             // cm
+    private Integer             stamina;          // Garmin Stamina in %
+    private Integer             staminaPotential; // Garmin Stamina in %
+    private Integer             unknown;
 
-    private final Integer         gpsAccuracy;      // cm - used for smoothing
+    private Integer             gpsAccuracy;      // cm - used for smoothing
     
-    /**
-     * Constructor, simple version
-     * @param lat Latitude
-     * @param lon Longitude
-     */
-    public TrackPoint(double lat, double lon)
+    public TrackPointBuilder(double lat, double lon)
     {
-        this.dateTime       =null;
-        this.latitude       =lat;
-        this.longitude      =lon;
-        this.elevation      =null;
-        this.speed          =null;
-        this.distance       =null;
-        this.temperature    =null;  
-        this.heartrate      =null;
-        this.ehpe           =null;
-        this.gpsAccuracy    =null;
+        this.latitude=lat;
+        this.longitude=lon;
+    }
+    
+    public TrackPointBuilder dateTime(ZonedDateTime dateTime)
+    {
+        this.dateTime=dateTime;
+        return this;
+    }
+    
+    public TrackPointBuilder elevation(Double elevation)
+    {
+        this.elevation=elevation;
+        return this;
     }
 
-    /**
-     * Constructor, full version
-     * @param dateTime Datetime of the point
-     * @param lat Latitude in deg
-     * @param lon Longitude in deg
-     * @param ele Elevation in m
-     * @param speed Speed in m/s
-     * @param distance Distance in m
-     * @param temp Temperature in degC
-     * @param heartrate Heart rate in bpm
-     * @param ehpe Accuracy of gps in cm
-     * @param gpsAccuracy Accuracy of gps in cm, only used for smoothing
-     */
-    public TrackPoint(ZonedDateTime dateTime, Double lat, Double lon, Double ele, 
-                      Double speed, Double distance, Integer temp, Integer heartrate, Integer ehpe,
-                      Integer gpsAccuracy)
+    public TrackPointBuilder temperature(int temperature)
     {
-        this.dateTime       =dateTime;
-        this.latitude       =lat;
-        this.longitude      =lon;
-        this.elevation      =ele;
-        this.speed          =speed;
-        this.distance       =distance;
-        this.temperature    =temp;
-        this.heartrate      =heartrate;
-        this.ehpe           =ehpe;
-        this.gpsAccuracy    =gpsAccuracy;
+        this.temperature=temperature;
+        return this;
+    }
+
+    public TrackPointBuilder heartrate(int heartrate)
+    {
+        this.heartrate=heartrate;
+        return this;
+    }
+
+    public TrackPointBuilder respirationrate(double respirationrate)
+    {
+        this.respirationrate=respirationrate;
+        return this;
+    }
+
+    public TrackPointBuilder distance(Double distance)
+    {
+        this.distance=distance;
+        return this;
+    }
+
+    public TrackPointBuilder speed(Double speed)
+    {
+        this.speed=speed;
+        return this;
+    }
+
+    public TrackPointBuilder gpsAccuracy(Integer gpsAccuracy)
+    {
+        this.gpsAccuracy=gpsAccuracy;
+        return this;
+    }
+
+    public TrackPointBuilder ehpe(Integer ehpe)
+    {
+        this.ehpe=ehpe;
+        return this;
+    }
+
+    public TrackPointBuilder stamina(Integer stamina)
+    {
+        this.stamina=stamina;
+        return this;
+    }
+
+    public TrackPointBuilder staminaPotential(Integer staminaPotential)
+    {
+        this.staminaPotential=staminaPotential;
+        return this;
+    }
+
+    public TrackPointBuilder unknown(Integer unknown)
+    {
+        this.unknown=unknown;
+        return this;
+    }
+
+    public TrackPoint build() 
+    {
+        return new TrackPoint(this);
+    }
+}
+
+    private final static Logger LOGGER = LogManager.getLogger(TrackPoint.class);
+    private ZonedDateTime       dateTime;
+    private Double              latitude;         // degree
+    private Double              longitude;        // degree
+    private Double              elevation;        // m
+    private Double              speed;            // m/s
+    private Double              distance;         // m
+    private Integer             temperature;      // deg C
+    private Integer             heartrate;        // bpm
+    private Double              respirationrate;  // breaths/min
+    private Integer             ehpe;             // cm
+    private Integer             stamina;          // Garmin Stamina in %
+    private Integer             staminaPotential; // Garmin Stamina in %
+    private Integer             gpsAccuracy;      // cm - used for smoothing
+    private Integer             unknown;          // to be found out what it is...
+    
+    private TrackPoint()
+    {
+        
+    }
+    
+    private TrackPoint(TrackPointBuilder b)
+    {
+        this.dateTime           =b.dateTime;
+        this.latitude           =b.latitude;
+        this.longitude          =b.longitude;
+        this.elevation          =b.elevation;
+        this.speed              =b.speed;
+        this.distance           =b.distance;
+        this.temperature        =b.temperature;
+        this.heartrate          =b.heartrate;
+        this.respirationrate    =b.respirationrate;
+        this.ehpe               =b.ehpe;
+        this.gpsAccuracy        =b.gpsAccuracy;
+        this.stamina            =b.stamina;
+        this.staminaPotential   =b.staminaPotential;
+        this.unknown            =b.unknown;
     }
 
     /**
@@ -95,8 +175,21 @@ public class TrackPoint implements Comparable<TrackPoint>
     @Override
     public TrackPoint clone()
     {
-        TrackPoint point=new TrackPoint(dateTime, latitude, longitude, elevation, speed, distance, 
-                                        temperature, heartrate, ehpe, gpsAccuracy);
+        TrackPoint point        =new TrackPoint();
+        point.dateTime          =dateTime;                // TO DO: make it a clone of dateTime
+        point.latitude          =latitude;
+        point.longitude         =longitude;
+        point.elevation         =elevation;
+        point.distance          =distance;
+        point.heartrate         =heartrate;
+        point.respirationrate   =respirationrate;
+        point.speed             =speed;
+        point.temperature       =temperature;
+        point.ehpe              =ehpe;
+        point.gpsAccuracy       =gpsAccuracy;
+        point.stamina           =stamina;
+        point.staminaPotential  =staminaPotential;
+        point.unknown           =unknown;
         return point;
     }
     
@@ -156,6 +249,11 @@ public class TrackPoint implements Comparable<TrackPoint>
         return heartrate;
     }
     
+    public Double getRespirationrate()
+    {
+        return respirationrate;
+    }
+    
     public int getHeartrateNotNull()
     {
         int rate;
@@ -178,6 +276,21 @@ public class TrackPoint implements Comparable<TrackPoint>
     public Integer getEhpe()
     {
         return ehpe;
+    }
+    
+    public Integer getStamina()
+    {
+        return stamina;
+    }
+    
+    public Integer getStaminaPotential()
+    {
+        return staminaPotential;
+    }
+    
+    public Integer getUnknown()
+    {
+        return unknown;
     }
     
     /**

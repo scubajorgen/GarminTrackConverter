@@ -12,6 +12,8 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>0.5</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -23,6 +25,8 @@
             <u-gotMe:speed>0.3</u-gotMe:speed>
             <u-gotMe:dist>0.8</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -34,6 +38,8 @@
             <u-gotMe:speed>0.2</u-gotMe:speed>
             <u-gotMe:dist>0.9</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -45,6 +51,8 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>0.9</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -56,6 +64,8 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>0.9</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -67,6 +77,8 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>0.9</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -78,6 +90,9 @@
             <u-gotMe:speed>0.2</u-gotMe:speed>
             <u-gotMe:dist>1.3</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -89,6 +104,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>1.8</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -100,6 +118,9 @@
             <u-gotMe:speed>0.4</u-gotMe:speed>
             <u-gotMe:dist>1.8</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -111,6 +132,9 @@
             <u-gotMe:speed>0.6</u-gotMe:speed>
             <u-gotMe:dist>1.8</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -122,6 +146,9 @@
             <u-gotMe:speed>0.9</u-gotMe:speed>
             <u-gotMe:dist>3.2</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -133,6 +160,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>4.3</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -144,6 +174,9 @@
             <u-gotMe:speed>0.8</u-gotMe:speed>
             <u-gotMe:dist>6.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -155,6 +188,9 @@
             <u-gotMe:speed>1.4</u-gotMe:speed>
             <u-gotMe:dist>7.6</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -166,6 +202,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>9.3</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -177,6 +216,9 @@
             <u-gotMe:speed>0.9</u-gotMe:speed>
             <u-gotMe:dist>11.3</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -188,6 +230,9 @@
             <u-gotMe:speed>1.1</u-gotMe:speed>
             <u-gotMe:dist>13.3</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>14.17</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -199,6 +244,9 @@
             <u-gotMe:speed>1.3</u-gotMe:speed>
             <u-gotMe:dist>14.5</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>13.78</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -210,6 +258,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>15.6</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>13.78</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -221,6 +272,9 @@
             <u-gotMe:speed>0.9</u-gotMe:speed>
             <u-gotMe:dist>16.7</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>13.78</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -232,6 +286,9 @@
             <u-gotMe:speed>0.8</u-gotMe:speed>
             <u-gotMe:dist>17.5</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -243,6 +300,9 @@
             <u-gotMe:speed>0.9</u-gotMe:speed>
             <u-gotMe:dist>18.1</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -254,6 +314,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>19.0</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -265,6 +328,9 @@
             <u-gotMe:speed>0.7</u-gotMe:speed>
             <u-gotMe:dist>19.7</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -276,6 +342,9 @@
             <u-gotMe:speed>0.6</u-gotMe:speed>
             <u-gotMe:dist>19.7</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -287,6 +356,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>14.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -298,6 +370,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>13.87</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -309,6 +384,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>13.87</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -320,6 +398,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>68</u-gotMe:hr>
+            <u-gotMe:resp>13.87</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -331,6 +412,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>13.87</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -342,6 +426,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>68</u-gotMe:hr>
+            <u-gotMe:resp>13.87</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -353,6 +440,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>19.9</u-gotMe:dist>
             <u-gotMe:hr>68</u-gotMe:hr>
+            <u-gotMe:resp>13.97</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -364,6 +454,9 @@
             <u-gotMe:speed>0.5</u-gotMe:speed>
             <u-gotMe:dist>20.6</u-gotMe:dist>
             <u-gotMe:hr>67</u-gotMe:hr>
+            <u-gotMe:resp>13.97</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -375,6 +468,9 @@
             <u-gotMe:speed>0.4</u-gotMe:speed>
             <u-gotMe:dist>20.8</u-gotMe:dist>
             <u-gotMe:hr>66</u-gotMe:hr>
+            <u-gotMe:resp>13.97</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -386,6 +482,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>20.8</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>13.97</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -397,6 +496,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>20.8</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>13.97</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -408,6 +510,9 @@
             <u-gotMe:speed>0.3</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>12.85</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -419,6 +524,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>12.85</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -430,6 +538,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>12.85</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -441,6 +552,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>12.85</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -452,6 +566,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>12.85</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -463,6 +580,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>12.51</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -474,6 +594,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>12.51</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -485,6 +608,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>60</u-gotMe:hr>
+            <u-gotMe:resp>12.51</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -496,6 +622,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>60</u-gotMe:hr>
+            <u-gotMe:resp>12.51</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -507,6 +636,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>60</u-gotMe:hr>
+            <u-gotMe:resp>12.51</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -518,6 +650,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.49</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -529,6 +664,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.49</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -540,6 +678,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.49</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -551,6 +692,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.49</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -562,6 +706,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.49</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -573,6 +720,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.59</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -584,6 +734,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.59</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -595,6 +748,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.59</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -606,6 +762,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.59</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -617,6 +776,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.59</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -628,6 +790,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.67</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -639,6 +804,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.67</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -650,6 +818,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.67</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -661,6 +832,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.67</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -672,6 +846,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>11.67</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -683,6 +860,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>60</u-gotMe:hr>
+            <u-gotMe:resp>10.93</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -694,6 +874,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>59</u-gotMe:hr>
+            <u-gotMe:resp>10.93</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -705,6 +888,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>60</u-gotMe:hr>
+            <u-gotMe:resp>10.93</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -716,6 +902,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>61</u-gotMe:hr>
+            <u-gotMe:resp>10.93</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -727,6 +916,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>10.93</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -738,6 +930,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.22</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -749,6 +944,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>11.22</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -760,6 +958,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>11.22</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -771,6 +972,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>11.22</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -782,6 +986,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -793,6 +1000,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -804,6 +1014,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -815,6 +1028,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>62</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -826,6 +1042,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -837,6 +1056,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>11.42</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -848,6 +1070,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>10.76</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -859,6 +1084,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>10.76</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -870,6 +1098,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>10.76</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -881,6 +1112,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>10.76</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -892,6 +1126,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>10.76</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -903,6 +1140,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.50</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -914,6 +1154,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.50</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -925,6 +1168,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>63</u-gotMe:hr>
+            <u-gotMe:resp>11.50</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -936,6 +1182,9 @@
             <u-gotMe:speed>0.5</u-gotMe:speed>
             <u-gotMe:dist>21.0</u-gotMe:dist>
             <u-gotMe:hr>64</u-gotMe:hr>
+            <u-gotMe:resp>11.50</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -947,6 +1196,9 @@
             <u-gotMe:speed>0.4</u-gotMe:speed>
             <u-gotMe:dist>21.4</u-gotMe:dist>
             <u-gotMe:hr>65</u-gotMe:hr>
+            <u-gotMe:resp>11.50</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -958,6 +1210,9 @@
             <u-gotMe:speed>0.7</u-gotMe:speed>
             <u-gotMe:dist>21.4</u-gotMe:dist>
             <u-gotMe:hr>66</u-gotMe:hr>
+            <u-gotMe:resp>10.82</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -969,6 +1224,9 @@
             <u-gotMe:speed>1.1</u-gotMe:speed>
             <u-gotMe:dist>22.2</u-gotMe:dist>
             <u-gotMe:hr>66</u-gotMe:hr>
+            <u-gotMe:resp>10.82</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -980,6 +1238,9 @@
             <u-gotMe:speed>1.1</u-gotMe:speed>
             <u-gotMe:dist>23.0</u-gotMe:dist>
             <u-gotMe:hr>66</u-gotMe:hr>
+            <u-gotMe:resp>10.82</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -991,6 +1252,9 @@
             <u-gotMe:speed>1.2</u-gotMe:speed>
             <u-gotMe:dist>24.9</u-gotMe:dist>
             <u-gotMe:hr>67</u-gotMe:hr>
+            <u-gotMe:resp>10.82</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1002,6 +1266,9 @@
             <u-gotMe:speed>1.3</u-gotMe:speed>
             <u-gotMe:dist>26.4</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>10.82</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1013,6 +1280,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>27.5</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>11.15</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1024,6 +1294,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>28.5</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>11.15</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1035,6 +1308,9 @@
             <u-gotMe:speed>1.4</u-gotMe:speed>
             <u-gotMe:dist>29.6</u-gotMe:dist>
             <u-gotMe:hr>72</u-gotMe:hr>
+            <u-gotMe:resp>11.15</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1046,6 +1322,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>30.9</u-gotMe:dist>
             <u-gotMe:hr>73</u-gotMe:hr>
+            <u-gotMe:resp>11.15</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1057,6 +1336,9 @@
             <u-gotMe:speed>0.9</u-gotMe:speed>
             <u-gotMe:dist>31.6</u-gotMe:dist>
             <u-gotMe:hr>74</u-gotMe:hr>
+            <u-gotMe:resp>11.15</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1068,6 +1350,9 @@
             <u-gotMe:speed>0.8</u-gotMe:speed>
             <u-gotMe:dist>32.5</u-gotMe:dist>
             <u-gotMe:hr>76</u-gotMe:hr>
+            <u-gotMe:resp>12.55</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1079,6 +1364,9 @@
             <u-gotMe:speed>0.8</u-gotMe:speed>
             <u-gotMe:dist>33.4</u-gotMe:dist>
             <u-gotMe:hr>76</u-gotMe:hr>
+            <u-gotMe:resp>12.55</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1090,6 +1378,9 @@
             <u-gotMe:speed>1.0</u-gotMe:speed>
             <u-gotMe:dist>34.4</u-gotMe:dist>
             <u-gotMe:hr>77</u-gotMe:hr>
+            <u-gotMe:resp>12.55</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1101,6 +1392,9 @@
             <u-gotMe:speed>0.5</u-gotMe:speed>
             <u-gotMe:dist>35.6</u-gotMe:dist>
             <u-gotMe:hr>77</u-gotMe:hr>
+            <u-gotMe:resp>12.55</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1112,6 +1406,9 @@
             <u-gotMe:speed>0.6</u-gotMe:speed>
             <u-gotMe:dist>36.6</u-gotMe:dist>
             <u-gotMe:hr>78</u-gotMe:hr>
+            <u-gotMe:resp>12.55</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1123,6 +1420,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.0</u-gotMe:dist>
             <u-gotMe:hr>78</u-gotMe:hr>
+            <u-gotMe:resp>13.09</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1134,6 +1434,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.3</u-gotMe:dist>
             <u-gotMe:hr>78</u-gotMe:hr>
+            <u-gotMe:resp>13.09</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1145,6 +1448,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.3</u-gotMe:dist>
             <u-gotMe:hr>77</u-gotMe:hr>
+            <u-gotMe:resp>13.09</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1156,6 +1462,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.3</u-gotMe:dist>
             <u-gotMe:hr>77</u-gotMe:hr>
+            <u-gotMe:resp>13.09</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1167,6 +1476,9 @@
             <u-gotMe:speed>0.4</u-gotMe:speed>
             <u-gotMe:dist>37.3</u-gotMe:dist>
             <u-gotMe:hr>76</u-gotMe:hr>
+            <u-gotMe:resp>13.09</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1178,6 +1490,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>76</u-gotMe:hr>
+            <u-gotMe:resp>13.45</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1189,6 +1504,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>74</u-gotMe:hr>
+            <u-gotMe:resp>13.45</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1200,6 +1518,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>74</u-gotMe:hr>
+            <u-gotMe:resp>13.45</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1211,6 +1532,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>73</u-gotMe:hr>
+            <u-gotMe:resp>13.45</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1222,6 +1546,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>73</u-gotMe:hr>
+            <u-gotMe:resp>13.45</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1233,6 +1560,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>72</u-gotMe:hr>
+            <u-gotMe:resp>13.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1244,6 +1574,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>72</u-gotMe:hr>
+            <u-gotMe:resp>13.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1255,6 +1588,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>72</u-gotMe:hr>
+            <u-gotMe:resp>13.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1266,6 +1602,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>13.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1277,6 +1616,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>13.30</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1288,6 +1630,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>12.80</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1299,6 +1644,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>71</u-gotMe:hr>
+            <u-gotMe:resp>12.80</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1310,6 +1658,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>12.80</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1321,6 +1672,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>12.80</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1332,6 +1686,9 @@
             <u-gotMe:speed>0.0</u-gotMe:speed>
             <u-gotMe:dist>37.7</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>12.80</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1343,6 +1700,9 @@
             <u-gotMe:speed>0.2</u-gotMe:speed>
             <u-gotMe:dist>38.7</u-gotMe:dist>
             <u-gotMe:hr>69</u-gotMe:hr>
+            <u-gotMe:resp>12.08</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>
@@ -1354,6 +1714,9 @@
             <u-gotMe:speed>0.2</u-gotMe:speed>
             <u-gotMe:dist>40.3</u-gotMe:dist>
             <u-gotMe:hr>70</u-gotMe:hr>
+            <u-gotMe:resp>12.08</u-gotMe:resp>
+            <u-gotMe:sta>100</u-gotMe:sta>
+            <u-gotMe:staP>100</u-gotMe:staP>
           </u-gotMe:trackpointExtension>
         </extensions>
       </trkpt>

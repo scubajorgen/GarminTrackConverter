@@ -89,7 +89,7 @@ public class TrackSegmentTest
     public void testAddTrackPoint()
     {
         System.out.println("addTrackPoint");
-        TrackPoint point=new TrackPoint(6.0, 54.0);
+        TrackPoint point=new TrackPoint.TrackPointBuilder(6.0, 54.0).build();
         assertEquals(14, instance.getNumberOfTrackPoints());
         instance.addTrackPoint(point);
         assertEquals(15, instance.getNumberOfTrackPoints());

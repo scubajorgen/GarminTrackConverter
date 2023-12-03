@@ -58,9 +58,19 @@ public class TrackCompressorTest
         // Three points example. Distance to segement is 22263.9 m
         List<TrackPoint> originPoints = new ArrayList<>();
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(0), -0.1, 0.0,  0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(1),  0.1, 0.1,  0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(2), -0.1, 0.2,  0.0, 0.0, 0.0, 0,0,0,0));
+        TrackPoint point;
+        point=new TrackPoint.TrackPointBuilder(-0.1, 0.0)
+                            .dateTime(zdt.plusSeconds(0))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder( 0.1, 0.1)
+                            .dateTime(zdt.plusSeconds(1))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(-0.1, -0.2)
+                            .dateTime(zdt.plusSeconds(2))
+                            .build();
+        originPoints.add(point);
         
         List<TrackPoint> result;
         // Point is not ommitted
@@ -83,19 +93,56 @@ public class TrackCompressorTest
         List<TrackPoint> originPoints = new ArrayList<>();
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 1234, ZoneId.of("UTC"));
         
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 0), 53.012544,   6.725102, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 1), 53.013256,   6.727270, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 2), 53.013863,   6.729256, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 3), 53.013552,   6.729753, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 4), 53.013241,   6.730250, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 5), 53.013615,   6.730530, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 6), 53.014080,   6.730753, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 7), 53.014669,   6.731129, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 8), 53.014935,   6.729826, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds( 9), 53.015219,   6.730103, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(10), 53.015483,   6.730677, 0.0, 0.0, 0.0, 0,0,0,0));
-        originPoints.add(new TrackPoint(zdt.plusSeconds(11), 53.015694,   6.731101, 0.0, 0.0, 0.0, 0,0,0,0));      
-        
+        TrackPoint point;
+        point=new TrackPoint.TrackPointBuilder(53.012544,   6.725102)
+                            .dateTime(zdt.plusSeconds(0))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.013256,   6.727270)
+                            .dateTime(zdt.plusSeconds(1))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.013863,   6.729256)
+                            .dateTime(zdt.plusSeconds(2))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.013552,   6.729753)
+                            .dateTime(zdt.plusSeconds(3))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.013241,   6.730250)
+                            .dateTime(zdt.plusSeconds(4))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.013615,   6.730530)
+                            .dateTime(zdt.plusSeconds(5))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.014080,   6.730753)
+                            .dateTime(zdt.plusSeconds(6))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.014669,   6.731129)
+                            .dateTime(zdt.plusSeconds(7))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.014935,   6.729826)
+                            .dateTime(zdt.plusSeconds(8))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.015219,   6.730103)
+                            .dateTime(zdt.plusSeconds(9))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.015483,   6.730677)
+                            .dateTime(zdt.plusSeconds(10))
+                            .build();
+        originPoints.add(point);
+        point=new TrackPoint.TrackPointBuilder(53.015694,   6.731101)
+                            .dateTime(zdt.plusSeconds(11))
+                            .build();
+        originPoints.add(point);
+       
         List<TrackPoint> result;
         // 4 m acceptable error
         result = TrackCompressor.dpAlgorithm(originPoints, 4.0);
@@ -140,9 +187,9 @@ public class TrackCompressorTest
     {
         System.out.println("distToSegment");
 
-        TrackPoint pA = new TrackPoint(-0.1, 0.0);
-        TrackPoint pB = new TrackPoint(-0.1, 0.1);
-        TrackPoint pX = new TrackPoint(0.1,  0.2);
+        TrackPoint pA = new TrackPoint.TrackPointBuilder(-0.1, 0.0).build();
+        TrackPoint pB = new TrackPoint.TrackPointBuilder(-0.1, 0.1).build();
+        TrackPoint pX = new TrackPoint.TrackPointBuilder(0.1,  0.2).build();
 
         System.out.println("Dist "+TrackCompressor.distToSegment(pA, pB, pX));
         System.out.println("Dist "+0.2*6378137.0/360.0*2*Math.PI);
@@ -158,8 +205,8 @@ public class TrackCompressorTest
     public void testGeoDist()
     {
         System.out.println("geoDist");
-        TrackPoint pA = new TrackPoint(53.0, 6.5);
-        TrackPoint pB = new TrackPoint(54.0, 7.5);
+        TrackPoint pA = new TrackPoint.TrackPointBuilder(53.0, 6.5).build();
+        TrackPoint pB = new TrackPoint.TrackPointBuilder(54.0, 7.5).build();
         assertEquals(129521.084, TrackCompressor.geoDist (pA, pB), 0.001);
     }
 
@@ -171,8 +218,8 @@ public class TrackCompressorTest
     public void testGeoDist2()
     {
         System.out.println("geoDist2");
-        TrackPoint pA = new TrackPoint(53.0, 6.5);
-        TrackPoint pB = new TrackPoint(54.0, 7.5);
+        TrackPoint pA = new TrackPoint.TrackPointBuilder(53.0, 6.5).build();
+        TrackPoint pB = new TrackPoint.TrackPointBuilder(54.0, 7.5).build();
         assertEquals(129521.084, TrackCompressor.geoDist2(pA, pB), 0.001);
     }
 
@@ -184,8 +231,8 @@ public class TrackCompressorTest
     public void testGeoDist3()
     {
         System.out.println("geoDist3");
-        TrackPoint pA = new TrackPoint(53.0, 6.5);
-        TrackPoint pB = new TrackPoint(54.0, 7.5);
+        TrackPoint pA = new TrackPoint.TrackPointBuilder(53.0, 6.5).build();
+        TrackPoint pB = new TrackPoint.TrackPointBuilder(54.0, 7.5).build();
         assertEquals(129521.084, TrackCompressor.geoDist3(pA, pB), 0.001);
     }
 }

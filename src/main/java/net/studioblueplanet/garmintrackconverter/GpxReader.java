@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import net.studioblueplanet.garmintrackconverter.TrackPoint.TrackPointBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -158,7 +159,7 @@ public class GpxReader
 
                           longitude =Double.parseDouble(eElement.getAttribute("lon"));
                           latitude  =Double.parseDouble(eElement.getAttribute("lat"));
-                          point=new TrackPoint(latitude, longitude);
+                          point=new TrackPointBuilder(latitude, longitude).build();
                           segment.addTrackPoint(point);
                        }
                        i++;
@@ -207,7 +208,7 @@ public class GpxReader
                   latitude  =Double.parseDouble(eElement.getAttribute("lat"));
 
 
-                  point=new TrackPoint(latitude, longitude);
+                  point=new TrackPointBuilder(latitude, longitude).build();
                   segment.addTrackPoint(point);
                }
                i++;

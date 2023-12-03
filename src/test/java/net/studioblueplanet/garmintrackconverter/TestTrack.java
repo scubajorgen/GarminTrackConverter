@@ -30,33 +30,160 @@ public class TestTrack
         int accuracy=5000;
         int ehpe    =500;
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, zoneId);        
-        point=new TrackPoint(zdt               , 53.012562,   6.725073, 0.0, 6.0, 0.0, 0, 0 , ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.012562,   6.725073)
+                            .dateTime(zdt)
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds( 9), 53.012283,   6.724260, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.012283,   6.724260)
+                            .dateTime(zdt.plusSeconds( 9))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(18), 53.012058,   6.723537, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.012058,   6.723537)
+                            .dateTime(zdt.plusSeconds(18))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
+
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(27), 53.011832,   6.722875, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011832,   6.722875)
+                            .dateTime(zdt.plusSeconds(27))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(36), 53.011589,   6.722063, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011589,   6.722063)
+                            .dateTime(zdt.plusSeconds(36))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(45), 53.011346,   6.721340, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011346,   6.721340)
+                            .dateTime(zdt.plusSeconds(45))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(54), 53.011138,   6.720648, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011138,   6.720648)
+                            .dateTime(zdt.plusSeconds(54))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(63), 53.011574,   6.720185, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011574,   6.720185)
+                            .dateTime(zdt.plusSeconds(63))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(72), 53.011938,   6.719808, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.011938,   6.719808)
+                            .dateTime(zdt.plusSeconds(72))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(81), 53.012338,   6.719374, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.012338,   6.719374)
+                            .dateTime(zdt.plusSeconds(81))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(90), 53.012774,   6.718970, 0.0, 6.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.012774,   6.718970)
+                            .dateTime(zdt.plusSeconds(90))
+                            .elevation(0.0)
+                            .speed(6.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(99), 53.013193,   6.718506, 0.0, 0.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.013193,   6.718506)
+                            .dateTime(zdt.plusSeconds(99))
+                            .elevation(0.0)
+                            .speed(0.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(108), 53.013575,   6.718100, 0.0, 0.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.013575,   6.718100)
+                            .dateTime(zdt.plusSeconds(108))
+                            .elevation(0.0)
+                            .speed(0.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);
-        point=new TrackPoint(zdt.plusSeconds(117), 53.013974,   6.717725, 0.0, 0.0, 0.0, 0, 0, ehpe, accuracy);
+        point=new TrackPoint.TrackPointBuilder(53.013974,   6.717725)
+                            .dateTime(zdt.plusSeconds(117))
+                            .elevation(0.0)
+                            .speed(0.0)
+                            .distance(0.0)
+                            .temperature(0)
+                            .heartrate(0)
+                            .ehpe(ehpe)
+                            .gpsAccuracy(accuracy)
+                            .build();
         segment.add(point);  
         
         return segment;

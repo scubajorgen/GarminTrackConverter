@@ -6,6 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import net.studioblueplanet.garmintrackconverter.TrackPoint.TrackPointBuilder;
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessage;
 import net.studioblueplanet.fitreader.FitMessageRepository;
@@ -494,15 +495,7 @@ public class Track
     {
         Double                  lat;
         Double                  lon;
-        Double                  ele;
         ZonedDateTime           dateTime;
-
-        Double                  speed;
-        Double                  dist;
-        Integer                 temp;
-        Integer                 heartrate;
-        Integer                 ehpe;
-        Integer                 gpsAccuracy;
         int                     size;
         TrackPoint              point;
         boolean                 found;
@@ -518,71 +511,75 @@ public class Track
                 dateTime    =message.getTimeValue(i, "timestamp");
                 lat         =message.getLatLonValue(i, "position_lat");
                 lon         =message.getLatLonValue(i, "position_long");
+                TrackPointBuilder builder=new TrackPoint.TrackPointBuilder(lat, lon);
+                builder.dateTime(dateTime);
                 
                 if (message.hasField("enhanced_altitude"))
                 {
-                    ele         =message.getScaledValue(i, "enhanced_altitude");
+                    builder.elevation(message.getScaledValue(i, "enhanced_altitude"));
                 }
                 else if (message.hasField("corrected_altitude"))
                 {
-                    ele         =message.getScaledValue(i, "corrected_altitude");
+                    builder.elevation(message.getScaledValue(i, "corrected_altitude"));
                 }
-                else
-                {
-                    ele         =null;
-                }
+
                     
                 if (message.hasField("temperature"))
                 {
-                    temp        =(int)message.getIntValue(i, "temperature");
-                }
-                else
-                {
-                    temp        =null;
+                    builder.temperature((int)message.getIntValue(i, "temperature"));
                 }
                 
                 if (message.hasField("enhanced_speed"))
                 {
-                    speed       =message.getScaledValue(i, "enhanced_speed");
+                    builder.speed(message.getScaledValue(i, "enhanced_speed"));
                 }
                 else if (message.hasField("speed"))
                 {
-                    speed       =message.getScaledValue(i, "speed");
-                }
-                else
-                {
-                    speed       =null;
+                    builder.speed(message.getScaledValue(i, "speed"));
                 }
                     
                 if (message.hasField("distance"))
                 {
-                    dist    =message.getScaledValue(i, "distance");
+                    builder.distance(message.getScaledValue(i, "distance"));
                 }
-                else
-                {
-                    dist    =null;
-                }
+
                 if (message.hasField("heart_rate"))
                 {
-                    heartrate   =(int)message.getIntValue(i, "heart_rate");
+                    builder.heartrate((int)message.getIntValue(i, "heart_rate"));
                 }
-                else
+
+                if (message.hasField("enhanced_respiration_rate"))
                 {
-                    heartrate   =null;
+                    builder.respirationrate((double)message.getScaledValue(i, "enhanced_respiration_rate"));
+                }
+
+                if (message.hasField("stamina"))
+                {
+                    builder.stamina((int)message.getIntValue(i, "stamina"));
+                }
+
+                if (message.hasField("stamina_potential"))
+                {
+                    builder.staminaPotential((int)message.getIntValue(i, "stamina_potential"));
                 }
 
                 if (message.hasField("gps_accuracy"))
                 {
-                    gpsAccuracy =(int)message.getIntValue(i, "gps_accuracy")*CM_PER_M; // in cm
-                    ehpe        =gpsAccuracy;
+                    builder.gpsAccuracy((int)message.getIntValue(i, "gps_accuracy")*CM_PER_M); // in cm
+                    builder.ehpe((int)message.getIntValue(i, "gps_accuracy")*CM_PER_M);
                 }
                 else
                 {
                     // If no gps accuracy, use the default value set
-                    gpsAccuracy =(int)(smoothingAccuracy*CM_PER_M); // in cm
-                    ehpe        = null;
+                    builder.gpsAccuracy((int)(smoothingAccuracy*CM_PER_M)); // in cm
                 }
-                point       =new TrackPoint(dateTime, lat, lon, ele, speed, dist, temp, heartrate, ehpe, gpsAccuracy);
+                
+                if (message.hasField("not found 143"))
+                {
+                    builder.unknown((int)message.getIntValue(i, "not found 143"));
+                }
+                
+                point       =builder.build();
                 if (point.isValid())
                 {
                     found=false;
@@ -608,12 +605,9 @@ public class Track
                                  dateTime.toString(), lat, lon));
                     invalidCoordinates++;
                 }
-                LOGGER.debug("Trackpoint {} ({}, {}) ele {}, {} km/h, {} m",
+                LOGGER.debug("Trackpoint {} ({}, {})",
                                  dateTime.toString(),
-                                 lat, lon,
-                                 ele, 
-                                 speed, 
-                                 dist);
+                                 lat, lon);
             }
         }
         LOGGER.info("Good coordinates {}, wrong coordinates: {}", validCoordinates, invalidCoordinates);
