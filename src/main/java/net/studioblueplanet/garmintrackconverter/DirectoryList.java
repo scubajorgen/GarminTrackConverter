@@ -122,10 +122,11 @@ public class DirectoryList
         // Get the current contents of the directory and compare it to the fileList
         List<String>    files=retrieveDirectoryFileList(extension);
                
-        // Keep existing items (inner join)
+        // Keep existing, unmodified items (inner join)
         List<DirectoryListItem> existingItems= fileList
                 .stream()
-                .filter(item -> files.contains(item.getFilename()))
+                .filter(item -> files.contains(item.getFilename()) && 
+                        new File(directoryFile, item.getFilename()).length()==item.getFilesize())
                 .collect(Collectors.toList());
         
         // If there is any change, update the fileList and list model
@@ -143,7 +144,8 @@ public class DirectoryList
                     .collect(Collectors.toList());
             newFilenames
                     .stream()
-                    .forEach(filename -> allItems.add(new DirectoryListItem(filename))); 
+                    .forEach(filename -> allItems.add(new DirectoryListItem(filename, 
+                                                      new File(directoryFile, filename).length()))); 
             
             // Now sort and copy
             fileList.clear();

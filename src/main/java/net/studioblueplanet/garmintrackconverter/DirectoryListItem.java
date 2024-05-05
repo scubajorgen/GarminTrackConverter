@@ -13,15 +13,17 @@ public class DirectoryListItem
 {
     private final String     filename;
     private Track            track;
-
+    private final long       filesize;
     
     /**
      * Constructor. Each DirectoryListItem at least must have a filename
      * @param filename The filename
+     * @param filesize Size of the file
      */
-    public DirectoryListItem(String filename)
+    public DirectoryListItem(String filename, long filesize)
     {
-        this.filename=filename;
+        this.filename    =filename;
+        this.filesize=filesize;
     }
     
     /**
@@ -33,6 +35,15 @@ public class DirectoryListItem
         return filename;
     }
 
+    /**
+     * Returns the file size of the file
+     * @return The file size
+     */
+    public long getFilesize()
+    {
+        return filesize;
+    }
+    
     /**
      * Returns the cached item added
      * @return The cached item or null if no item had been added.
