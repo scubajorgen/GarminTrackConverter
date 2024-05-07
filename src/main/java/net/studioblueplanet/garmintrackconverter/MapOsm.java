@@ -505,7 +505,7 @@ public class MapOsm extends Map
 
         panel.add(mapViewer);
 
-        hideTrack();
+        hideTrack(true);
     }
             
     /**
@@ -614,7 +614,7 @@ public class MapOsm extends Map
         // No points = show default image
         if (points==0 && track.waypointSize()==0)
         {
-            this.hideTrack();
+            this.hideTrack(true);
         }
         else
         {
@@ -640,19 +640,23 @@ public class MapOsm extends Map
         }
         else
         {
-            this.hideTrack();
+            this.hideTrack(true);
         }
         return "";
     }
 
     /**
      * Hides the track
+     * @param unzoom If true, zoom out; otherwise keep zoomlevel
      */
     @Override
-    public void hideTrack()
+    public void hideTrack(boolean unzoom)
     {
-        mapViewer.setZoom(15);
-        mapViewer.setAddressLocation(new GeoPosition(53.252, 6.588));          
+        if (unzoom)
+        {
+            mapViewer.setZoom(15);
+            mapViewer.setAddressLocation(new GeoPosition(53.252, 6.588));          
+        }
         mapViewer.setOverlayPainter(null);
     }
 }

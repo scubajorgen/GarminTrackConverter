@@ -5,22 +5,31 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  *
  * @author jorgen
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DirectoryListItemTest
 {
-    private DirectoryListItem instance;
-    private static Track track;
-    private static Track track2;
+    @Mock
+    private File                file;    
+    
+    private DirectoryListItem   instance;
+    private static Track        track;
+    private static Track        track2;
     
     public DirectoryListItemTest()
     {
@@ -41,7 +50,9 @@ public class DirectoryListItemTest
     @Before
     public void setUp()
     {
-        instance=new DirectoryListItem("testfilename");
+        when(file.getName()).thenReturn("testfilename");
+        when(file.length()).thenReturn(121L);
+        instance=new DirectoryListItem(file);
     }
     
     @After
@@ -72,6 +83,16 @@ public class DirectoryListItemTest
     }
 
     /**
+     * Test of getFilesize method, of class DirectoryListItem.
+     */
+    @Test
+    public void testGetFilesize()
+    {
+        System.out.println("get/Filesize");
+        assertEquals(121L, instance.getFilesize());
+    }    
+    
+    /**
      * Test of getDescription method, of class DirectoryListItem.
      */
     @Test
@@ -84,5 +105,4 @@ public class DirectoryListItemTest
         instance.setTrack(track2);
         assertEquals("testfilename c", instance.getDescription());
     }
-    
 }

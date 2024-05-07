@@ -42,6 +42,9 @@ public class DirectoryListTest
     private File[]                      fileList2;
     private File[]                      fileList3;
     private File[]                      fileList4;
+    private File[]                      fileList5;
+    private File[]                      fileList6;
+    
     @Mock
     private File                        file1;
     @Mock
@@ -54,6 +57,12 @@ public class DirectoryListTest
     private File                        file5;
     @Mock
     private File                        file6;
+    @Mock
+    private File                        file7;
+    @Mock
+    private File                        file8;
+    @Mock
+    private File                        file9;
     
     public DirectoryListTest()
     {
@@ -76,18 +85,18 @@ public class DirectoryListTest
         fileList2=new File[2];
         fileList3=new File[0];
         fileList4=new File[2];
+        fileList5=new File[2];
+        fileList6=new File[2];
         
         when(file1.getName()).thenReturn("testfile1.fit");
         when(file1.getAbsolutePath()).thenReturn("testfile1.fit");
         when(file1.length()).thenReturn(100L);
         when(file1.isDirectory()).thenReturn(false);
-        fileList1[0]=file1;
 
         when(file2.getName()).thenReturn("testfile2.fit");
         when(file2.getAbsolutePath()).thenReturn("testfile2.fit");
         when(file2.length()).thenReturn(100L);
         when(file2.isDirectory()).thenReturn(false);
-        fileList1[1]=file2;
 
         when(file3.getName()).thenReturn("testfile3.fit");
         when(file3.getAbsolutePath()).thenReturn("testfile3.fit");
@@ -99,21 +108,45 @@ public class DirectoryListTest
         when(file4.length()).thenReturn(100L);
         when(file4.isDirectory()).thenReturn(false);
         
-        when(file5.getName()).thenReturn("testfile5.gpx");
         when(file5.getAbsolutePath()).thenReturn("testfile5.gpx");
         when(file5.length()).thenReturn(100L);
         when(file5.isDirectory()).thenReturn(false);
         
-        when(file5.getName()).thenReturn("testfile6.fit");
-        when(file5.getAbsolutePath()).thenReturn("testfile6.fit");
-        when(file5.length()).thenReturn(100L);
-        when(file5.isDirectory()).thenReturn(false);
+        when(file6.getName()).thenReturn("testfile6.fit");
+        when(file6.getAbsolutePath()).thenReturn("testfile6.fit");
+        when(file6.length()).thenReturn(100L);
+        when(file6.isDirectory()).thenReturn(false);
+        
+        when(file7.getName()).thenReturn("testfile1.fit");
+        when(file7.getAbsolutePath()).thenReturn("testfile1.fit");
+        when(file7.length()).thenReturn(100L);
+        when(file7.isDirectory()).thenReturn(false);
+
+        when(file8.getName()).thenReturn("testfile2.fit");
+        when(file8.getAbsolutePath()).thenReturn("testfile2.fit");
+        when(file8.length()).thenReturn(100L);
+        when(file8.isDirectory()).thenReturn(false);
+
+        when(file9.getName()).thenReturn("testfile2.fit");
+        when(file9.getAbsolutePath()).thenReturn("testfile2.fit");
+        when(file9.length()).thenReturn(999999L);
+        when(file9.isDirectory()).thenReturn(false);
+        
+        
+        fileList1[0]=file1;        
+        fileList1[1]=file2;
         
         fileList2[0]=file3;
         fileList2[1]=file4;
 
         fileList4[0]=file5;
         fileList4[1]=file6;
+        
+        fileList5[0]=file7;
+        fileList5[1]=file8;
+        
+        fileList6[0]=file7;
+        fileList6[1]=file9;
         
     }
     
@@ -124,6 +157,7 @@ public class DirectoryListTest
 
     /**
      * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: empty list, two new .fit files added to directory
      */
     @Test
     public void testUpdateDirectoryList()
@@ -138,6 +172,7 @@ public class DirectoryListTest
         when(listMock.getSelectedIndex()).thenReturn(-1);
         boolean result=instance.updateDirectoryList(".fit");
         assertTrue(result);
+        
         result=instance.updateListModel();
         assertFalse(result);
         verify(modelMock, times(2)).addElement(stringCaptor.capture());
@@ -147,6 +182,7 @@ public class DirectoryListTest
 
     /**
      * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: empty list, two files added (.gpx .fit), only .fit should be processed
      */
     @Test
     public void testUpdateDirectoryList2()
@@ -165,12 +201,12 @@ public class DirectoryListTest
         assertFalse(result);
         verify(modelMock, times(1)).addElement(stringCaptor.capture());
         assertEquals("testfile6.fit", stringCaptor.getAllValues().get(0));
-
     }
     
     
     /**
      * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: empty list, two new .fit files added to directory; reverse order sorting
      */
     @Test
     public void testUpdateDirectoryList3()
@@ -195,6 +231,7 @@ public class DirectoryListTest
     
     /**
      * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: list containing 2 files; one added, one removed; reverse sorting
      */
     @Test
     public void testUpdateDirectoryList4()
@@ -229,6 +266,7 @@ public class DirectoryListTest
     
     /**
      * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: list with two files first selected, both removed
      */
     @Test
     public void testUpdateDirectoryList5()
@@ -261,6 +299,76 @@ public class DirectoryListTest
         assertTrue(result);
         verify(modelMock, times(0)).addElement(stringCaptor.capture());
     }    
+    
+    /**
+     * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: list containing 2 files; nothing changed
+     */
+    @Test
+    public void testUpdateDirectoryList6()
+    {
+        System.out.println("updateDirectoryList 6");
+        // Reversed order sorting
+        DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
+        when(listMock.getSelectedIndex()).thenReturn(-1);
+
+        reset(modelMock);
+        ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList1);
+        boolean result=instance.updateDirectoryList(".fit");
+        assertTrue(result);
+        result=instance.updateListModel();
+        assertFalse(result);
+        verify(modelMock, times(2)).addElement(stringCaptor.capture());
+        assertEquals("testfile2.fit", stringCaptor.getAllValues().get(0));
+        assertEquals("testfile1.fit", stringCaptor.getAllValues().get(1));
+
+        reset(modelMock);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList5);
+        result=instance.updateDirectoryList(".fit");
+        assertFalse(result);
+        result=instance.updateListModel();
+        assertFalse(result);
+        verify(modelMock, times(2)).addElement(stringCaptor.capture());
+        assertEquals("testfile2.fit", stringCaptor.getAllValues().get(0));
+        assertEquals("testfile1.fit", stringCaptor.getAllValues().get(1));
+    }    
+    
+    /**
+     * Test of updateDirectoryList method, of class DirectoryList.
+     * Use case: list containing 2 files; from one file size has changed
+     */
+    @Test
+    public void testUpdateDirectoryList7()
+    {
+        System.out.println("updateDirectoryList 7");
+        // Reversed order sorting
+        DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
+        when(listMock.getSelectedIndex()).thenReturn(-1);
+
+        reset(modelMock);
+        ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList1);
+        boolean result=instance.updateDirectoryList(".fit");
+        assertTrue(result);
+        result=instance.updateListModel();
+        assertFalse(result);
+        verify(modelMock, times(2)).addElement(stringCaptor.capture());
+        assertEquals("testfile2.fit", stringCaptor.getAllValues().get(0));
+        assertEquals("testfile1.fit", stringCaptor.getAllValues().get(1));
+
+        reset(modelMock);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList6);
+        result=instance.updateDirectoryList(".fit");
+        assertTrue(result);
+        result=instance.updateListModel();
+        assertFalse(result);
+        verify(modelMock, times(2)).addElement(stringCaptor.capture());
+        assertEquals("testfile2.fit", stringCaptor.getAllValues().get(0));
+        assertEquals("testfile1.fit", stringCaptor.getAllValues().get(1));
+    }     
         
     /**
      * Test of clear method, of class DirectoryList.
@@ -362,9 +470,9 @@ public class DirectoryListTest
      * Test of addTrack method, of class DirectoryList.
      */
     @Test
-    public void testTrack_Track()
+    public void testTrack_Track1()
     {
-        System.out.println("addTrack Track, getTrack");
+        System.out.println("addTrack Track, getTrack 1");
         // Reversed order sorting
         DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
         when(listMock.getSelectedIndex()).thenReturn(1);
@@ -403,9 +511,56 @@ public class DirectoryListTest
 
     /**
      * Test of addTrack method, of class DirectoryList.
+     * Files have the same name, but one file has different size
      */
     @Test
-    @org.junit.Ignore
+    public void testTrack_Track2()
+    {
+        System.out.println("addTrack Track, getTrack 2");
+        // Reversed order sorting
+        DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
+        when(listMock.getSelectedIndex()).thenReturn(1);
+
+        // Check if we can set and read back a cache item
+        reset(modelMock);
+        ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList1);
+        when(listMock.getSelectedIndex()).thenReturn(-1);
+        instance.updateDirectoryList(".fit");
+        instance.updateListModel();
+        // Item 0: testfile2.fit
+        // Item 1: testfile1.fit
+        Track t1=new Track(0.0, 0);
+        when(listMock.getSelectedIndex()).thenReturn(1);
+        instance.addTrack(t1);
+        Track t2=new Track(0.0, 0);
+        when(listMock.getSelectedIndex()).thenReturn(0);
+        instance.addTrack(t2);
+        when(listMock.getSelectedIndex()).thenReturn(1);
+        assertEquals(t1, instance.getTrack());
+        when(listMock.getSelectedIndex()).thenReturn(0);
+        assertEquals(t2, instance.getTrack());
+
+        // Now, check if the cache persists after an directory update
+        reset(modelMock);
+        stringCaptor=ArgumentCaptor.forClass(String.class);
+        when(fileMock.listFiles()).thenReturn(fileList6);
+        instance.updateDirectoryList(".fit");
+        instance.updateListModel();
+        verify(modelMock, times(2)).addElement(stringCaptor.capture());
+        // Item 0: testfile2.fit, but new file
+        // Item 1: testfile1.fit   
+        when(listMock.getSelectedIndex()).thenReturn(1);
+        assertEquals(t1, instance.getTrack());
+        when(listMock.getSelectedIndex()).thenReturn(0);
+        assertNull(instance.getTrack());
+    }
+    
+    
+    /**
+     * Test of addTrack method, of class DirectoryList.
+     */
+    @Test
     public void testAddTrack_Track_int()
     {
         System.out.println("addTrack Track int, getTrack");

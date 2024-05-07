@@ -267,7 +267,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         });
         synchronized(this)
         {
-            map.hideTrack();
+            map.hideTrack(true);
             attachedDevice=null;
         }        
     }
@@ -284,7 +284,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 if (trackDirectoryList.updateListModel())
                 {
-                    map.hideTrack();
+                    map.hideTrack(true);
                     currentTrack=null;
                 }
             });
@@ -295,8 +295,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 if (locationDirectoryList.updateListModel())
                 {
-                    map.hideTrack();
+                    map.hideTrack(true);
                     currentTrack=null;
+                }
+                readWaypoints();
+                if (currentTrack!=null)
+                {
+                    currentTrack.setTrackWaypoints(globalWaypoints.getWaypoints());
+                    if (currentTrack.getNumberOfWaypoints()>0)
+                    {
+                        map.hideTrack(false);
+                        trackToMap(currentTrack, false);
+                    }
                 }
             });
         }
@@ -306,7 +316,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 if (routeDirectoryList.updateListModel())
                 {
-                    map.hideTrack();
+                    map.hideTrack(true);
                     currentTrack=null;
                 }
             });
@@ -317,7 +327,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             {
                 if (newFileDirectoryList.updateListModel())
                 {
-                    map.hideTrack();
+                    map.hideTrack(true);
                     currentTrack=null;
                 }
             });
@@ -864,7 +874,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         theTrack=new Track(fileName, device.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
         if(addWaypoints && globalWaypoints!=null)
         {
-            theTrack.addTrackWaypoints(globalWaypoints.getWaypoints());
+            theTrack.setTrackWaypoints(globalWaypoints.getWaypoints());
         }
         return theTrack;
     }
@@ -1048,19 +1058,21 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 locationDirectoryList.clearSelection();
                 fileName=trackDirectoryList.getSelectedFileName();
                 fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
+                if (globalWaypoints==null)
+                {
+                    LOGGER.info("Reading waypoints for track");
+                    readWaypoints();
+                }
                 track=getTrack(trackDirectoryList);
                 if (track!=null)
                 {
                     LOGGER.info("Retrieved track {} from cache", fileName);
                     textAreaOutput.setText("Track retrieved from cache\n");
+                    // Make sure the track got the latest waypoints
+                    track.setTrackWaypoints(globalWaypoints.getWaypoints());
                 }
                 else
                 {
-                    if (globalWaypoints==null)
-                    {
-                        LOGGER.info("Reading waypoints for track");
-                        readWaypoints();
-                    }
                     LOGGER.info("Reading track file {}", fileName);
                     track=readTrack(fullFileName, true);
                     trackDirectoryList.addTrack(track);
@@ -1174,7 +1186,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                         {
                             if (newFileDirectoryList.updateListModel())
                             {
-                                map.hideTrack();
+                                map.hideTrack(true);
                             }
                         }    
                     }
@@ -1269,7 +1281,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     LOGGER.info("Deleting {}", pathName);
                     Files.delete(Paths.get(pathName));
                     this.textAreaOutput.setText("Deleted "+fileName+"\n");
-                    map.hideTrack();
+                    map.hideTrack(true);
                     isDirty=true;
                 }
                 catch (IOException e)

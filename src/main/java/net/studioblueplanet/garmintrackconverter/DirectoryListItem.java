@@ -4,6 +4,8 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.io.File;
+
 /**
  * Item in the DirectoryList. It contains the filename and the cached file can
  * be added.
@@ -12,36 +14,35 @@ package net.studioblueplanet.garmintrackconverter;
 public class DirectoryListItem
 {
     private final String     filename;
+    private final long       filesizeAtRecording;
     private Track            track;
-    private final long       filesize;
     
     /**
-     * Constructor. Each DirectoryListItem at least must have a filename
-     * @param filename The filename
-     * @param filesize Size of the file
+     * Constructor. Each DirectoryListItem at least must have a file and 
+     * @param file The filename
      */
-    public DirectoryListItem(String filename, long filesize)
+    public DirectoryListItem(File file)
     {
-        this.filename    =filename;
-        this.filesize=filesize;
+        this.filename      =file.getName();
+        filesizeAtRecording=file.length();
     }
     
     /**
-     * Returns the filename
+     * Returns the filename of the file
      * @return The filename as string
      */
     public String getFilename()
     {
         return filename;
     }
-
+    
     /**
      * Returns the file size of the file
      * @return The file size
      */
     public long getFilesize()
     {
-        return filesize;
+        return filesizeAtRecording;
     }
     
     /**

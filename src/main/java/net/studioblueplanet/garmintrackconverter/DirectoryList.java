@@ -41,7 +41,7 @@ public class DirectoryList
     public DirectoryList(File directoryFile, JList<String> list, DefaultListModel<String> model, boolean sortAscending)
     {
         this.directoryFile  =directoryFile;   
-        fileList=new ArrayList<>();
+        fileList            =new ArrayList<>();
         this.list           =list;
         this.model          =model;
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -50,21 +50,20 @@ public class DirectoryList
     }
     
     /**
-     * Retrieves a list of files. Filter only files that have a size>0
-     * to filter out files that are being transferred
+     * Retrieves a list of files that are currently in the directory. 
+     * Filter only files that have a size>0* to filter out files that are being transferred
      * @param extension Extension of the files to filter from the directory like ".fit" or ".gpx"
      * @return The list of file names (without path)
      */
-    private List<String> retrieveDirectoryFileList(String extension)
+    private List<DirectoryListItem> retrieveDirectoryFileList(String extension)
     {
-        List<String> files;
+        List<DirectoryListItem> files;
                
         files=new ArrayList<>();
         Stream.of(directoryFile.listFiles())
                 .filter(file -> !file.isDirectory() && file.length()>0 && 
                         file.getAbsolutePath().toLowerCase().endsWith(extension))
-                .map(File::getName)
-                .forEach(file -> {files.add(file);});          
+                .forEach(file -> {files.add(new DirectoryListItem(file));});          
         return files;
     }      
 
@@ -98,14 +97,15 @@ public class DirectoryList
      * 
      * @return 
      */
-    private boolean fileExists(String fileName)
+    private boolean fileExists(List<DirectoryListItem> list, DirectoryListItem testfile)
     {
-        List<DirectoryListItem> files=fileList.stream()
-                                              .filter(file -> file.getFilename().equals(fileName))
-                                              .collect(Collectors.toList());
+        List<DirectoryListItem> files=list  .stream()
+                                            .filter(file -> file.getFilename().equals(testfile.getFilename()) &&
+                                                            file.getFilesize()==testfile.getFilesize())
+                                            .collect(Collectors.toList());
         if (files.size()>1)
         {
-            LOGGER.error("Filename {} occurs multiple times in list", fileName);
+            LOGGER.error("Filename {} occurs multiple times in list", testfile.getFilename());
         }
         return files.size()>0;
     }
@@ -120,33 +120,25 @@ public class DirectoryList
         boolean         isUpdated=false;
         
         // Get the current contents of the directory and compare it to the fileList
-        List<String>    files=retrieveDirectoryFileList(extension);
-               
-        // Keep existing, unmodified items (inner join)
-        List<DirectoryListItem> existingItems= fileList
-                .stream()
-                .filter(item -> files.contains(item.getFilename()) && 
-                        new File(directoryFile, item.getFilename()).length()==item.getFilesize())
-                .collect(Collectors.toList());
+        List<DirectoryListItem>currentFiles=retrieveDirectoryFileList(extension);
+
+        // The existing files        
+        List<DirectoryListItem> existingFiles=fileList   
+                                            .stream()
+                                            .filter(item -> fileExists(currentFiles, item))
+                                            .collect(Collectors.toList());
         
-        // If there is any change, update the fileList and list model
-        if (existingItems.size()!=files.size() || files.size()!=fileList.size())
+        if (existingFiles.size()!=currentFiles.size() || currentFiles.size()!=fileList.size())
         {
-            // New files found        
-            List<String> newFilenames=files
-                    .stream()
-                    .filter(item -> !fileExists(item))
-                    .collect(Collectors.toList());
+            // The new files
+            List<DirectoryListItem> newFiles=currentFiles   
+                                            .stream()
+                                            .filter(item -> !fileExists(fileList, item))
+                                            .collect(Collectors.toList());
             
             // Copy both to new list
-            List<DirectoryListItem> allItems=existingItems
-                    .stream()
-                    .collect(Collectors.toList());
-            newFilenames
-                    .stream()
-                    .forEach(filename -> allItems.add(new DirectoryListItem(filename, 
-                                                      new File(directoryFile, filename).length()))); 
-            
+            List<DirectoryListItem> allItems=existingFiles;
+            allItems.addAll(newFiles);
             // Now sort and copy
             fileList.clear();
             Comparator<DirectoryListItem> c=Comparator.comparing(DirectoryListItem::getFilename);
@@ -158,8 +150,9 @@ public class DirectoryList
                     .stream()
                     .sorted(c)
                     .forEach(item -> fileList.add(item));
-            isUpdated=true;
+            isUpdated=true;            
         }
+
         return isUpdated;
     }
     

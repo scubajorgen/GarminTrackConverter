@@ -51,7 +51,8 @@ public abstract class Map
 
     /**
      * Hides the track
+     * @param unzoom If true, zoom out; otherwise keep zoomlevel
      */
-    public abstract void hideTrack();
+    public abstract void hideTrack(boolean unzoom);
     
 }

@@ -644,6 +644,18 @@ public class Track
             }
         }
     }
+
+    /**
+     * Set the waypoints that were read from the locations.fit file. 
+     * Only the waypoints that were recorded during the track are added 
+     * to the track. Existing waypoints on the track will be removed
+     * @param allWaypoints The waypoints read from the device
+     */
+    public void setTrackWaypoints(List<Location> allWaypoints)
+    {
+        waypoints.clear();
+        addTrackWaypoints(allWaypoints);
+    }
     
     /**
      * Adds a waypoint to the track

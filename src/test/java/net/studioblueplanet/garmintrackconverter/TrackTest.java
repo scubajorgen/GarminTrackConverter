@@ -90,6 +90,30 @@ public class TrackTest
         
     }
 
+   /**
+     * Test of setTrackWaypoints, getWaypoints method, of class Track.
+     */
+    @Test
+    public void testSetTrackWaypoints()
+    {
+        System.out.println("setTrackWaypoints, getWaypoints");
+        
+        List<Location> waypoints=new ArrayList<>();
+        Location location1=new Location("test1", "", ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location2=new Location("test2", "", ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location3=new Location("test3", "", ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        waypoints.add(location1);
+        waypoints.add(location2);
+        waypoints.add(location3);
+
+        assertEquals(1, instance.getWaypoints().size());
+        assertEquals("test", instance.getWaypoints().get(0).getName());
+        instance.setTrackWaypoints(waypoints);
+        assertEquals(1, instance.getWaypoints().size());
+        assertEquals("test2", instance.getWaypoints().get(0).getName());
+    }
+    
+    
     /**
      * Test of getTrackInfo method, of class Track.
      */
