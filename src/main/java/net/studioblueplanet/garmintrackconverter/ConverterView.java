@@ -36,9 +36,10 @@ import org.jdesktop.application.ResourceMap;
 public class ConverterView extends javax.swing.JFrame implements Runnable
 {
     private final static Logger             LOGGER = LogManager.getLogger(ConverterView.class);
-    private final ApplicationSettings       settings;
-    private SettingsDevice                  attachedDevice;
-    private Track                           globalWaypoints;
+    private final ApplicationSettings       settings;           // The application settings
+    private SettingsDevice                  currentDevice;      // The device of which currently info is shown
+    private boolean                         isAttached;         // Indicates if the current device is attached to USB
+    private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
     private Device                          device;
     private final String                    appName;
     private boolean                         hasSync;
@@ -167,7 +168,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         String command;
         
-        command=attachedDevice.getSyncCommand();
+        command=currentDevice.getSyncCommand();
         
         LOGGER.info("Executing sync command {}", command);
         try
@@ -203,7 +204,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             else
             {
                 String fileName=trackDirectoryList.getFileName(index);
-                String fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
+                String fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
                 LOGGER.info("Reading track file {}", fileName);
                 Track track=readTrack(fullFileName, true);
                 trackDirectoryList.addTrack(track, index);   
@@ -217,24 +218,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     private void initializeUiForDevice()
     {
-        LOGGER.info("Attached device {}", attachedDevice.getName());
-        this.textAreaOutput.setText("Initializing "+attachedDevice.getName()+"...\n");
+        this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
         readDevice();
 
-        jTextFieldDevice.setText(device.getDeviceDescription());
+        jTextFieldDevice.setText(device.getDeviceDescription()+" - Attached to USB: "+isAttached);
 
         SwingUtilities.invokeLater(() ->
         {                      
-            if (attachedDevice.getSyncCommand()!=null && !attachedDevice.getSyncCommand().equals(""))
+            if (currentDevice.getSyncCommand()!=null && !currentDevice.getSyncCommand().equals("") && isAttached)
             {
-                buttonSync.setVisible(true);
                 hasSync=true;
             }
             else
             {
-                buttonSync.setVisible(false);
                 hasSync=false;
             }
+            buttonSync.setEnabled(hasSync);
             isDirty=true;
                 
             trackDirectoryList.updateListModel();
@@ -251,24 +250,47 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
 
     /**
+     * Update the sync button
+     */
+    private void updateSyncButton()
+    {
+        SwingUtilities.invokeLater(() ->
+        {                      
+            if (currentDevice.getSyncCommand()!=null && !currentDevice.getSyncCommand().equals("") && isAttached)
+            {
+                hasSync=true;
+            }
+            else
+            {
+                hasSync=false;
+            }
+            buttonSync.setEnabled(hasSync);
+            jTextFieldDevice.setText(device.getDeviceDescription()+" - Attached to USB: "+isAttached);
+        });
+    }
+    
+    
+    /**
      * Clean up the UI when a device is removed
      */
     private void clearUi()
     {
         SwingUtilities.invokeLater(() ->
         {                        
-            buttonSync.setVisible(false);
             hasSync=false;
+            buttonSync.setEnabled(hasSync);
             trackDirectoryList.clear();
             routeDirectoryList.clear();
             newFileDirectoryList.clear();
             locationDirectoryList.clear();
             jTextFieldDevice.setText("");
+            jTextFieldInfo.setText("");
+            this.textAreaOutput.setText("Please attach device\n");
         });
         synchronized(this)
         {
             map.hideTrack(true);
-            attachedDevice=null;
+            currentDevice=null;
         }        
     }
     
@@ -335,15 +357,19 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
     
     /**
-     * Thread function
+     * Thread function. The responsibility of this thread function is to 
+     * monitor whether there are devices attached or removed
      */
     @Override
     public void run()
     {
         boolean                         localThreadExit;
         boolean                         localUiUpdated;
+        SettingsDevice                  localCurrentDevice;
+        boolean                         localIsAttached;
         File                            deviceFile;
         SettingsDevice                  deviceFound;
+        boolean                         attachedFound;
         List<SettingsDevice>            devices;
         int                             minPrio;
         
@@ -352,8 +378,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         {
             devices=settings.getDevices();
         }        
-
-
 
         LOGGER.info("Thread started");
         do
@@ -369,37 +393,88 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 LOGGER.error("Thread sleep interrupted");
             }
 
-            // Find an attached device; with multiple devices attached
-            // the device with lowest prio value wins
-            minPrio     =Integer.MAX_VALUE;
-            deviceFound =null;
+            synchronized(this)
+            {
+                localIsAttached     =isAttached;
+                localCurrentDevice  =currentDevice;
+                localUiUpdated      =uiUpdated;
+            }
+            
+            // Find the current device. This may be
+            // * An device that is attached to the USB port
+            // * A device of type USBDevice that has a local buffer that is synced
+            // With multiple devices attached
+            // * An USB attached device always gets priority
+            // * With equal device type: the device with lowest prio value wins
+            minPrio         =Integer.MAX_VALUE;
+            deviceFound     =null;
+            attachedFound   =false;
+            
+            // Check if there is a device physically attached to USB
+            UsbInfo usbInfo =new UsbInfo();
             for (SettingsDevice settingsDevice : devices)
             {
-                deviceFile=new File(settingsDevice.getDeviceFile());
-                if (deviceFile.exists())
+                if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
                 {
                     if (settingsDevice.getDevicePriority()<minPrio)
                     {
-                        deviceFound=settingsDevice;
-                        minPrio=deviceFound.getDevicePriority();
-                    }
+                        deviceFound     =settingsDevice;    // We found a device to display
+                        attachedFound   =true;              // It is attached
+                        minPrio         =deviceFound.getDevicePriority();
+                    }                    
                 }
-            }          
-            
-            if (deviceFound!=attachedDevice)
+            }
+                
+            // If not, we may show the sync buffer of a device of type USBDevice
+            // This is only donw when the setting showSyncWhenNoDevicesAttached=true
+            if (deviceFound==null && settings.isShowSyncWhenNoDeviceAttached())
             {
-                attachedDevice=deviceFound;
-                LOGGER.info("Found device {}", attachedDevice.getName());
-                // We found a new device or device was removed
-                if (deviceFound!=null)
+                for (SettingsDevice settingsDevice : devices)
                 {
-                    trackDirectoryList      =new DirectoryList(new File(attachedDevice.getTrackFilePath())   , 
+                    if (settingsDevice.getType().equals("USBDevice"))
+                    {
+                        if (settingsDevice.getDevicePriority()<minPrio)
+                        {
+                            deviceFound=settingsDevice;
+                            minPrio=deviceFound.getDevicePriority();
+                        }                    
+                    }
+                }  
+            }
+            
+            // If we found a change in USB attachment...
+            if (attachedFound!=localIsAttached)
+            {
+                synchronized(this)
+                {
+                    isAttached=attachedFound;
+                }
+                // ... check if the same device is attached/detached
+                // If so update the sync button
+                // If another device is attached, it is handled by the next code
+                if (deviceFound==localCurrentDevice)
+                {
+                    updateSyncButton();
+                }
+            }
+            
+            // If we found any current device...
+            if (deviceFound!=null)
+            {
+                // ... check if the device found has changed. If so, we found a new current device
+                // so lets initialise it
+                if (deviceFound!=localCurrentDevice)
+                {
+                    LOGGER.info("Found new device {}, is attached to USB: {}", deviceFound.getName(), isAttached);
+
+                    // We found a new device
+                    trackDirectoryList      =new DirectoryList(new File(deviceFound.getTrackFilePath())   , 
                                                                 jTrackList   , new DefaultListModel<>(), false);
-                    locationDirectoryList   =new DirectoryList(new File(attachedDevice.getLocationFilePath()), 
+                    locationDirectoryList   =new DirectoryList(new File(deviceFound.getLocationFilePath()), 
                                                                 jLocationList, new DefaultListModel<>(), true);
-                    routeDirectoryList      =new DirectoryList(new File(attachedDevice.getRouteFilePath())   , 
+                    routeDirectoryList      =new DirectoryList(new File(deviceFound.getRouteFilePath())   , 
                                                                 jRouteList   , new DefaultListModel<>(), true);
-                    newFileDirectoryList    =new DirectoryList(new File(attachedDevice.getNewFilePath())     , 
+                    newFileDirectoryList    =new DirectoryList(new File(deviceFound.getNewFilePath())     , 
                                                                 jNewFilesList, new DefaultListModel<>(), true);
                     trackDirectoryList.updateDirectoryList(".fit");
                     locationDirectoryList.updateDirectoryList(".fit");
@@ -408,29 +483,33 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     
                     synchronized(this)
                     {
-                        uiUpdated=false;
+                        uiUpdated       =false;
+                        currentDevice   =deviceFound;
+                        globalWaypoints=null;
                     }
-                    globalWaypoints=null;
                     initializeUiForDevice();
                 }
+                // Same device still attached
                 else
+                { 
+                    // If the UI has been initialized, start caching the tracks
+                    if (localUiUpdated)
+                    {
+                        // Update the directory list and the cache
+                        cacheTracks();         
+                    }
+                }
+            }
+            // No current device found
+            else
+            {
+                if (localCurrentDevice!=null)
                 {
+                    // Device has been removed
                     clearUi();
                 }
             }
-            else
-            { 
-                // If the UI has been initialized, start caching the tracks
-                synchronized(this)
-                {
-                    localUiUpdated=uiUpdated;
-                }
-                if (localUiUpdated)
-                {
-                    // Update the directory list and the cache
-                    cacheTracks();         
-                }
-            }
+
             synchronized(this)
             {
                 localThreadExit         =threadExit;
@@ -599,6 +678,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         jTextFieldInfo.setEnabled(false);
 
         buttonSync.setText("Sync");
+        buttonSync.setEnabled(false);
         buttonSync.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -886,7 +966,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     {
         String waypointsFile;
 
-        waypointsFile=attachedDevice.getWaypointFile();
+        waypointsFile=currentDevice.getWaypointFile();
         if (new File(waypointsFile).exists())
         {
             Locations locations=new Locations(waypointsFile);
@@ -908,7 +988,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private void readDevice()
     {
         String deviceFile;
-        deviceFile=attachedDevice.getDeviceFile();
+        deviceFile=currentDevice.getDeviceFile();
         if (new File(deviceFile).exists())
         {
             device=new Device(deviceFile);
@@ -1057,7 +1137,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 newFileDirectoryList.clearSelection();
                 locationDirectoryList.clearSelection();
                 fileName=trackDirectoryList.getSelectedFileName();
-                fullFileName=attachedDevice.getTrackFilePath()+File.separator+fileName;
+                fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
                 if (globalWaypoints==null)
                 {
                     LOGGER.info("Reading waypoints for track");
@@ -1102,7 +1182,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 newFileDirectoryList.clearSelection();
                 locationDirectoryList.clearSelection();
                 fileName=routeDirectoryList.getSelectedFileName();
-                fullFileName=attachedDevice.getRouteFilePath()+File.separator+fileName;
+                fullFileName=currentDevice.getRouteFilePath()+File.separator+fileName;
                 track=getTrack(routeDirectoryList);
                 if (track!=null)
                 {
@@ -1138,7 +1218,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 locationDirectoryList.clearSelection();
 
                 fileName=newFileDirectoryList.getSelectedFileName();
-                fullFileName=attachedDevice.getNewFilePath()+File.separator+fileName;
+                fullFileName=currentDevice.getNewFilePath()+File.separator+fileName;
 
                 track=getTrack(newFileDirectoryList);
                 if (track!=null)
@@ -1166,7 +1246,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         fileName=this.getGpxFileName(settings.getGpxFileUploadPath(), "", "Upload");
         if (fileName!=null)
         {
-            String destinationPath=attachedDevice.getNewFilePath();
+            String destinationPath=currentDevice.getNewFilePath();
             String destinationFile=destinationPath+"//"+(new File(fileName).getName());
             File destination=new File(destinationPath);
             if (destination.exists())
@@ -1221,7 +1301,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 newFileDirectoryList.clearSelection();
                 
                 fileName=locationDirectoryList.getSelectedFileName();
-                fullFileName=attachedDevice.getLocationFilePath()+File.separator+fileName;
+                fullFileName=currentDevice.getLocationFilePath()+File.separator+fileName;
 
                 points=getTrack(locationDirectoryList);
                 if (points!=null)
@@ -1254,22 +1334,22 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         if (trackDirectoryList.hasSelection())
         {
             fileName=trackDirectoryList.getSelectedFileName();
-            pathName=attachedDevice.getTrackFilePath()+"/"+fileName;
+            pathName=currentDevice.getTrackFilePath()+"/"+fileName;
         }
         else if (newFileDirectoryList.hasSelection())
         {
             fileName=newFileDirectoryList.getSelectedFileName();
-            pathName=attachedDevice.getNewFilePath()+"/"+fileName;
+            pathName=currentDevice.getNewFilePath()+"/"+fileName;
         }
         else if (locationDirectoryList.hasSelection())
         {
             fileName=locationDirectoryList.getSelectedFileName();
-            pathName=attachedDevice.getLocationFilePath()+"/"+fileName;
+            pathName=currentDevice.getLocationFilePath()+"/"+fileName;
         }
         else if (routeDirectoryList.hasSelection())
         {
             fileName=routeDirectoryList.getSelectedFileName();
-            pathName=attachedDevice.getRouteFilePath()+"/"+fileName;
+            pathName=currentDevice.getRouteFilePath()+"/"+fileName;
         }
         
         if (pathName!=null)

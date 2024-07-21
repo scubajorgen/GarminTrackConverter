@@ -7,10 +7,14 @@
     "trackCompressionMaxError": 0.3,
     "trackSmoothing": false,
     "trackSmoothingAccuracy": 15.0,
+    "showSyncWhenNoDeviceAttached": true,
     "devices":
     [
       {
         "name": "fenix 7 Solar",
+        "type": "USBDevice",
+        "usbVendorId": 2334,
+        "usbProductId": 20290,
         "trackFilePath": "./development/device_fenix7_sync/GARMIN/Activity",
         "routeFilePath": "./development/device_fenix7_sync/GARMIN/Courses",
         "newFilePath": "./development/device_fenix7_sync/GARMIN/NewFiles",
@@ -22,12 +26,29 @@
       },
       {
         "name": "Edge 830",
+        "type": "USBMassStorage",
+        "usbVendorId": 2334,
+        "usbProductId": 11314,
         "trackFilePath": "./development/device_edge830/Garmin/Activities",
         "routeFilePath": "./development/device_edge830/Garmin/Courses",
         "newFilePath": "./development/device_edge830/Garmin/NewFiles",
         "locationFilePath": "./development/device_edge830/Garmin/Locations",
         "waypointFile": "./development/device_edge830/Garmin/Locations/Locations.fit",
         "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
+        "syncCommand": "",
+        "devicePriority": 2
+      },
+      {
+        "name": "Edge 810",
+        "type": "USBMassStorage",
+        "usbVendorId": 2334,
+        "usbProductId": 9759,
+        "trackFilePath": "./development/device_edge810/Garmin/Activities",
+        "routeFilePath": "./development/device_edge810/Garmin/Courses",
+        "newFilePath": "./development/device_edge810/Garmin/NewFiles",
+        "locationFilePath": "./development/device_edge810/Garmin/Locations",
+        "waypointFile": "./development/device_edge810/Garmin/Locations/Locations.fit",
+        "deviceFile": "./development/device_edge810/Garmin/GarminDevice.xml",
         "syncCommand": "",
         "devicePriority": 2
       }

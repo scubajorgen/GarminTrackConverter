@@ -29,6 +29,8 @@ public class Settings
     private boolean              trackCompression;
     @JsonProperty("trackCompressionMaxError")
     private double               trackCompressionMaxError;
+    @JsonProperty("showSyncWhenNoDeviceAttached")
+    private boolean              showSyncWhenNoDeviceAttached;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 
@@ -120,5 +122,15 @@ public class Settings
     public void setGpxFileExtensions(String gpxFileExtensions)
     {
         this.gpxFileExtensions = gpxFileExtensions;
+    }
+
+    public boolean isShowSyncWhenNoDeviceAttached()
+    {
+        return showSyncWhenNoDeviceAttached;
+    }
+
+    public void setShowSyncWhenNoDeviceAttached(boolean showSyncIfNoDeviceAttached)
+    {
+        this.showSyncWhenNoDeviceAttached = showSyncIfNoDeviceAttached;
     }
 }

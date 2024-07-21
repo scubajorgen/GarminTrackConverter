@@ -7,10 +7,14 @@
   "trackCompressionMaxError": 0.3,
   "trackSmoothing": false,
   "trackSmoothingAccuracy": 15.0,
+  "showSyncWhenNoDeviceAttached": false,
   "devices":
   [
     {
       "name": "fenix 7 Solar",
+      "type": "USBDevice",
+      "usbVendorId": 2334,
+      "usbProductId": 20290,
       "trackFilePath": "d:/gps/fenix/GARMIN/Activity",
       "routeFilePath": "d:/gps/fenix/GARMIN/Courses",
       "newFilePath": "d:/gps/fenix/GARMIN/NewFiles",
@@ -22,6 +26,9 @@
     },
     {
       "name": "Edge 830",
+      "type": "USBMassStorage",
+      "usbVendorId": 2334,
+      "usbProductId": 11314,
       "trackFilePath": "f:/Garmin/Activities",
       "routeFilePath": "f:/Garmin/Courses",
       "newFilePath": "f:/Garmin/NewFiles",
