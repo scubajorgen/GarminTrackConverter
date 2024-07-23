@@ -40,25 +40,25 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     private SettingsDevice                  currentDevice;      // The device of which currently info is shown
     private boolean                         isAttached;         // Indicates if the current device is attached to USB
     private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
-    private Device                          device;
-    private final String                    appName;
-    private boolean                         hasSync;
-    private boolean                         isDirty;
-    private boolean                         uiUpdated;
+    private Device                          deviceInfo;         // The info as retrieved from the Device XML file on the device
+    private final String                    appName;            // Name of this application
+    private boolean                         hasSync;            // Indicates if a sync command is defined for current device
+    private boolean                         isDirty;            // Indicates if changes have been made that are not synced to the device
+    private boolean                         uiUpdated;          // Indicates if the UI is up to date
     
-    private final Thread                    thread;
-    private final boolean                   threadExit;
+    private final Thread                    thread;             // Thread monitoring attached devices
+    private final boolean                   threadExit;         // Thread exit flag
     
-    private final MapOsm                    map;
+    private final MapOsm                    map;                // The geographical map
 
-    private DirectoryList                   trackDirectoryList;
+    private DirectoryList                   trackDirectoryList; // Directory lists
     private DirectoryList                   routeDirectoryList;
     private DirectoryList                   newFileDirectoryList;
     private DirectoryList                   locationDirectoryList;
     
-    private ConverterAbout                  aboutBox;
+    private ConverterAbout                  aboutBox;           // About box
     
-    private Track                           currentTrack;
+    private Track                           currentTrack;       // 
 
     /**
      * Creates new form ConverterView
@@ -221,7 +221,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
         readDevice();
 
-        jTextFieldDevice.setText(device.getDeviceDescription()+" - Attached to USB: "+isAttached);
+        jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
 
         SwingUtilities.invokeLater(() ->
         {                      
@@ -265,7 +265,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 hasSync=false;
             }
             buttonSync.setEnabled(hasSync);
-            jTextFieldDevice.setText(device.getDeviceDescription()+" - Attached to USB: "+isAttached);
+            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
         });
     }
     
@@ -367,7 +367,6 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         boolean                         localUiUpdated;
         SettingsDevice                  localCurrentDevice;
         boolean                         localIsAttached;
-        File                            deviceFile;
         SettingsDevice                  deviceFound;
         boolean                         attachedFound;
         List<SettingsDevice>            devices;
@@ -418,9 +417,16 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                 {
                     if (settingsDevice.getDevicePriority()<minPrio)
                     {
-                        deviceFound     =settingsDevice;    // We found a device to display
-                        attachedFound   =true;              // It is attached
-                        minPrio         =deviceFound.getDevicePriority();
+                        // We found a known device attached to USB; 
+                        // now check if the mass storage is already mounted ;
+                        // if not, skip it for now
+                        File deviceFile=new File(settingsDevice.getDeviceFile());
+                        if (deviceFile.exists())
+                        {
+                            deviceFound     =settingsDevice;    // We found a device to display
+                            attachedFound   =true;              // It is attached
+                            minPrio         =deviceFound.getDevicePriority();
+                        }
                     }                    
                 }
             }
@@ -951,7 +957,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         Track theTrack;
         double  compressionMaxError =settings.getTrackCompressionMaxError();
         double  smoothingAccuracy   =settings.getTrackSmoothingAccuracy();
-        theTrack=new Track(fileName, device.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
+        theTrack=new Track(fileName, deviceInfo.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
         if(addWaypoints && globalWaypoints!=null)
         {
             theTrack.setTrackWaypoints(globalWaypoints.getWaypoints());
@@ -991,7 +997,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
         deviceFile=currentDevice.getDeviceFile();
         if (new File(deviceFile).exists())
         {
-            device=new Device(deviceFile);
+            deviceInfo=new Device(deviceFile);
             textAreaOutput.append("Device file "+deviceFile+" read\n");
             LOGGER.info("Device file read from {}", deviceFile);
         }

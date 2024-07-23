@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Represents the device as defined in the Garmin device XML fil.
+ * Represents the device as defined in the Garmin device XML file.
  * @author jorgen
  */
 public class Device
