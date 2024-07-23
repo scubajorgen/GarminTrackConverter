@@ -31,6 +31,12 @@ public class Settings
     private double               trackCompressionMaxError;
     @JsonProperty("showSyncWhenNoDeviceAttached")
     private boolean              showSyncWhenNoDeviceAttached;
+    @JsonProperty("usbConnectionStartVendorId")
+    private int                  usbConnectionStartVendorId;
+    @JsonProperty("usbConnectionStartProductId")
+    private int                  usbConnectionStartProductId;          
+    @JsonProperty("simulateUsb")
+    private boolean              simulateUsb;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 
@@ -132,5 +138,35 @@ public class Settings
     public void setShowSyncWhenNoDeviceAttached(boolean showSyncIfNoDeviceAttached)
     {
         this.showSyncWhenNoDeviceAttached = showSyncIfNoDeviceAttached;
+    }
+
+    public int getUsbConnectionStartVendorId()
+    {
+        return usbConnectionStartVendorId;
+    }
+
+    public void setUsbConnectionStartVendorId(int usbConnectionStartVendorId)
+    {
+        this.usbConnectionStartVendorId = usbConnectionStartVendorId;
+    }
+
+    public int getUsbConnectionStartProductId()
+    {
+        return usbConnectionStartProductId;
+    }
+
+    public void setUsbConnectionStartProductId(int usbConnectionStartProductId)
+    {
+        this.usbConnectionStartProductId = usbConnectionStartProductId;
+    }
+
+    public boolean isSimulateUsb()
+    {
+        return simulateUsb;
+    }
+
+    public void setSimulateUsb(boolean simulateUsb)
+    {
+        this.simulateUsb = simulateUsb;
     }
 }

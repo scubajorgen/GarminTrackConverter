@@ -8,6 +8,9 @@
   "trackSmoothing": false,
   "trackSmoothingAccuracy": 15.0,
   "showSyncWhenNoDeviceAttached": false,
+  "usbConnectionStartVendorId": 2334,
+  "usbConnectionStartProductId": 3,
+  "simulateUsb": false,
   "devices":
   [
     {

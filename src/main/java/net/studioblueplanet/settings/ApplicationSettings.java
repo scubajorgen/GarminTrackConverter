@@ -171,4 +171,19 @@ public class ApplicationSettings
     {
         return settings.isShowSyncWhenNoDeviceAttached();
     }
+
+    public int getUsbConnectionStartVendorId()
+    {
+        return settings.getUsbConnectionStartVendorId();
+    }
+
+    public int getUsbConnectionStartProductId()
+    {
+        return settings.getUsbConnectionStartProductId();
+    }
+
+    public boolean isSimulateUsb()
+    {
+        return settings.isSimulateUsb();
+    }
 }

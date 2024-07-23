@@ -409,8 +409,9 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             deviceFound     =null;
             attachedFound   =false;
             
-            // Check if there is a device physically attached to USB
+            // Check if there is a device physically attached to USB as USB Mass Storage or USB Device
             UsbInfo usbInfo =new UsbInfo();
+            
             for (SettingsDevice settingsDevice : devices)
             {
                 if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
@@ -430,8 +431,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     }                    
                 }
             }
+            
+            // Check if a Garmin device is being connected. First all device attaches with ID 091e:0003 (product ID 3)
+            // Then after a while it attaches with the proper product ID
+            if (deviceFound==null)
+            {
+                if (usbInfo.isUsbDeviceConnected(settings.getUsbConnectionStartVendorId(), settings.getUsbConnectionStartProductId()))
+                {
+                    this.textAreaOutput.setText("Garmin device attached to USB, please wait...\n");
+                }
+            }
                 
-            // If not, we may show the sync buffer of a device of type USBDevice
+            // If there a Device is not connected, we may show the sync buffer of a device of type USBDevice
             // This is only donw when the setting showSyncWhenNoDevicesAttached=true
             if (deviceFound==null && settings.isShowSyncWhenNoDeviceAttached())
             {
