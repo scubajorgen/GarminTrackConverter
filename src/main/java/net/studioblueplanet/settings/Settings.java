@@ -35,8 +35,8 @@ public class Settings
     private int                  usbConnectionStartVendorId;
     @JsonProperty("usbConnectionStartProductId")
     private int                  usbConnectionStartProductId;          
-    @JsonProperty("simulateUsb")
-    private boolean              simulateUsb;
+    @JsonProperty("debugSimulateUsb")
+    private boolean              debugSimulateUsb;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 
@@ -160,13 +160,13 @@ public class Settings
         this.usbConnectionStartProductId = usbConnectionStartProductId;
     }
 
-    public boolean isSimulateUsb()
+    public boolean isDebugSimulateUsb()
     {
-        return simulateUsb;
+        return debugSimulateUsb;
     }
 
-    public void setSimulateUsb(boolean simulateUsb)
+    public void setDebugSimulateUsb(boolean debugSimulateUsb)
     {
-        this.simulateUsb = simulateUsb;
+        this.debugSimulateUsb = debugSimulateUsb;
     }
 }

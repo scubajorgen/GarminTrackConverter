@@ -410,8 +410,17 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             attachedFound   =false;
             
             // Check if there is a device physically attached to USB as USB Mass Storage or USB Device
-            UsbInfo usbInfo =new UsbInfo();
-            
+            UsbInfo usbInfo; 
+            if (settings.isDebugSimulateUsb())
+            {
+                // Use simulation
+                usbInfo=new UsbInfoSim();
+            }
+            else
+            {
+                // Monitor the USB
+                usbInfo=new UsbInfoImpl();
+            }
             for (SettingsDevice settingsDevice : devices)
             {
                 if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))

@@ -182,8 +182,8 @@ public class ApplicationSettings
         return settings.getUsbConnectionStartProductId();
     }
 
-    public boolean isSimulateUsb()
+    public boolean isDebugSimulateUsb()
     {
-        return settings.isSimulateUsb();
+        return settings.isDebugSimulateUsb();
     }
 }
