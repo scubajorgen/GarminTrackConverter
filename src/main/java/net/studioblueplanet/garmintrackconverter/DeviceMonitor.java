@@ -231,6 +231,7 @@ public class DeviceMonitor extends Thread
             {
                 if (currentDevice!=null)
                 {
+                    currentDevice=null;
                     DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.DEVICEREMOVED, currentDevice, isAttached);
                     sendEvent(e);
                 }
