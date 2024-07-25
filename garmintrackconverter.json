@@ -53,7 +53,21 @@
         "waypointFile": "./development/device_edge810/Garmin/Locations/Locations.fit",
         "deviceFile": "./development/device_edge810/Garmin/GarminDevice.xml",
         "syncCommand": "",
-        "devicePriority": 2
+        "devicePriority": 4
+      },
+      {
+        "name": "Edge 1040",
+        "type": "USBMassStorage",
+        "usbVendorId": 2334,
+        "usbProductId": 12035,
+        "trackFilePath": "./development/device_edge1040/Garmin/Activities",
+        "routeFilePath": "./development/device_edge1040/Garmin/Courses",
+        "newFilePath": "./development/device_edge1040/Garmin/NewFiles",
+        "locationFilePath": "./development/device_edge1040/Garmin/Locations",
+        "waypointFile": "./development/device_edge1040/Garmin/Locations/Locations.fit",
+        "deviceFile": "./development/device_edge1040/Garmin/GarminDevice.xml",
+        "syncCommand": "",
+        "devicePriority": 3
       }
     ]
 }
