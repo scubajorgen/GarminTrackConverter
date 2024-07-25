@@ -1,12 +1,12 @@
 # Garmin Track Converter
 ## Introduction
-The Garmin Track Converter is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to GPX 1.1 format. 
+The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. 
 It has been created for and tested with the Garmin Edge 810/830 bike computer and Garmin Fenix 7, but it might be useful for other Garmins devices as well.
 
-Garmin .FIT tracks do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge810 this file is Locations.fit, on the Fenix Lctns.fit.
-During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track.
+Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge810 this file is Locations.fit, on the Fenix Lctns.fit.
+During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track (activity).
 
-Garmin Track Converter can also be used to check the routes that are stored on the device and can be used to upload new waypoint or route files (new files).
+Garmin Track Converter can also be used to check the routes that are stored on the device and can be used to upload new waypoint or route files (it uses the feature of Garmin devices that imports GPX files that  are copied to /Garmin/NewFiles directory).
 
 ![](image/GarminTrackConverter.png)
 
@@ -25,35 +25,48 @@ Use Maven to compile the source files into /target. The project is recognized by
 mvn clean install
 ```
 
+## Running
+```
+java -jar target/GarminTrackConverter.jar
+```
+
 ## Configuring
-The application requires a configuration file garmintrackconverter.json. 
+The application requires a configuration file ```garmintrackconverter.json```. 
 In this file the directories are defined on the device and where the GPX files should be written to. It appears that various types of Garmin devices have slightly different file structures. Therefore, multiple devices can be defined 
 in the configuration.
 
 ```
 {
   "debugLevel":"info",
-  "gpxFileDownloadPath": "./development/gpx",
-  "gpxFileUploadPath": "./development/gpxRoutes",
-  "trackCompression": true,
+  "gpxFileDownloadPath": "d:/gps/gpx",
+  "gpxFileUploadPath": "d:/gps/routes",
+  "gpxFileExtensions": "studioblueplanet",
+  "trackCompression": false,
   "trackCompressionMaxError": 0.3,
   "trackSmoothing": false,
   "trackSmoothingAccuracy": 15.0,
+  "showSyncWhenNoDeviceAttached": false,
   "devices":
   [
     {
       "name": "fenix 7 Solar",
+      "type": "USBDevice",
+      "usbVendorId": 2334,
+      "usbProductId": 20290,
       "trackFilePath": "d:/gps/fenix/GARMIN/Activity",
       "routeFilePath": "d:/gps/fenix/GARMIN/Courses",
       "newFilePath": "d:/gps/fenix/GARMIN/NewFiles",
       "locationFilePath": "d:/gps/fenix/GARMIN/Location",
       "waypointFile": "d:/gps/fenix/GARMIN/Location/Lctns.fit",
       "deviceFile": "d:/gps/fenix/GARMIN/GarminDevice.xml",
-      "syncCommand": "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenix.ffs_batch",
+      "syncCommand": "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenixTwoWay.ffs_batch",
       "devicePriority": 2
     },
     {
       "name": "Edge 830",
+      "type": "USBMassStorage",
+      "usbVendorId": 2334,
+      "usbProductId": 11314,
       "trackFilePath": "f:/Garmin/Activities",
       "routeFilePath": "f:/Garmin/Courses",
       "newFilePath": "f:/Garmin/NewFiles",
@@ -69,9 +82,11 @@ in the configuration.
 ```
 
 It requires from the device:
+* USB vendor ID end product ID
 * The directory containing the tracks (activities, \Garmin\activities)
-* The file containing the device info (Garmin\GarminDevice.xml)
+* The file containing the device info (\Garmin\GarminDevice.xml)
 * The waypoint file (\Garmin\Locations\Locations.fit)
+* The new files location (\Garmin\NewFiles)
 
 In the directory /development example file structures are available for the Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7). The files and directories are (partly) copied from real devices.
 
@@ -90,8 +105,8 @@ Clicking any of the files shown shows the contents on the map on the right side 
 
 Buttons: 
 * Save GPX: saves the last clicked track/activity
-* Upload: Uploads a .gpx file containing trk, rte or wpt
-* Delete: Delete the selected file
+* Upload: Uploads a .gpx file containing trk, rte or wpt to the new uploaded files
+* Delete: Delete the selected file in any of the panels
 
 Note that this program has only be tested with the Garmin **Edge810** and **Edge830** bike computers and the **Fenix 7**. 
 
@@ -138,12 +153,16 @@ The software uses
 - swing-worker-1.1.jar
 - ...
 
-## Remark on the Fenix 7
-Unfortunatelly, the Fenix 7 cannot be attached to USB as _mass storage device_. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' and **not** accessible from Java programs. 
+## Operation mode: USB Mass Storage or MTB Device
+Some older Garmin devices like the Edge 810 and Edge 830 behave like an _USB mass storage device_. A Java program can simply access this file system (image A in the image below)
 
-I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
+![](image/modus.png)
 
-I came up with a solution using an external file synchronization program [FreeFileSync](https://freefilesync.org/) that syncs the device to a local directory structure on your HDD. You can define a commandline file sync command with each device in the settings file. If it is defined (i.e. not equal to ""), a sync button becomes visible which you can use to sync to and from the device. Enclosed in the source code is a FreeFileSync batch file that can be executed to sync. Adapt it for your own usage.
+Unfortunatelly, newer devices like the Fenix 7 cannot be attached to USB as _mass storage device_. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' as an USB Device . From Java Programs the files are **not** accessible. 
+
+I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk/storage. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
+
+I came up with a workaround using an external file synchronization program [FreeFileSync](https://freefilesync.org/) that syncs the device to a local directory structure on your HDD. This is shown in image B. You can define a commandline file sync command with each device in the settings file. If it is defined (i.e. not equal to ""), a sync button becomes visible which you can use to sync to and from the device. Enclosed in the source code is a FreeFileSync batch file that can be executed to sync. Adapt it for your own usage.
 
 ## Information
 * [Blog](http://blog.studioblueplanet.net/?page_id=468)
