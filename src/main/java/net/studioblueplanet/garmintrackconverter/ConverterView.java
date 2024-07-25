@@ -16,7 +16,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import net.studioblueplanet.settings.ApplicationSettings;
 import net.studioblueplanet.settings.SettingsDevice;
+import net.studioblueplanet.garmintrackconverter.DeviceFoundEvent.DeviceFoundEventType;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.jdesktop.application.ResourceMap;
@@ -33,21 +33,16 @@ import org.jdesktop.application.ResourceMap;
  * This class represents the main view of the application
  * @author Jorgen
  */
-public class ConverterView extends javax.swing.JFrame implements Runnable
+public class ConverterView extends javax.swing.JFrame implements DeviceFoundListener
 {
     private final static Logger             LOGGER = LogManager.getLogger(ConverterView.class);
     private final ApplicationSettings       settings;           // The application settings
-    private SettingsDevice                  currentDevice;      // The device of which currently info is shown
-    private boolean                         isAttached;         // Indicates if the current device is attached to USB
     private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
     private Device                          deviceInfo;         // The info as retrieved from the Device XML file on the device
     private final String                    appName;            // Name of this application
     private boolean                         hasSync;            // Indicates if a sync command is defined for current device
     private boolean                         isDirty;            // Indicates if changes have been made that are not synced to the device
     private boolean                         uiUpdated;          // Indicates if the UI is up to date
-    
-    private final Thread                    thread;             // Thread monitoring attached devices
-    private final boolean                   threadExit;         // Thread exit flag
     
     private final MapOsm                    map;                // The geographical map
 
@@ -60,13 +55,18 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     
     private Track                           currentTrack;       // 
 
+    private DeviceMonitor                   deviceMonitor;
+    
+    private SettingsDevice                  currentDevice;
+    private boolean                         isAttached;
+    
     /**
      * Creates new form ConverterView
      */
     public ConverterView()
     {
         LOGGER.debug("Starting ConverterView");
-        settings=ApplicationSettings.getInstance();
+        settings        =ApplicationSettings.getInstance();
         setResizable(false);
         initComponents();
         hasSync         =false;
@@ -93,9 +93,8 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
             }
         });
         
-        threadExit      =false;
-        thread          =new Thread(this);
-        thread.start();
+        deviceMonitor=DeviceMonitor.getInstance();
+        deviceMonitor.setDeviceFoundListener(this);
     }
 
     /**
@@ -166,10 +165,7 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
      */
     public void executeSyncCommand()
     {
-        String command;
-        
-        command=currentDevice.getSyncCommand();
-        
+        String command=currentDevice.getSyncCommand();
         LOGGER.info("Executing sync command {}", command);
         try
         {
@@ -371,181 +367,43 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     }
     
     /**
-     * Thread function. The responsibility of this thread function is to 
-     * monitor whether there are devices attached or removed
+     * Event listeren method, called when a new device has been found
+     * @param e Associated event
      */
     @Override
-    public void run()
+    public void deviceFound(DeviceFoundEvent e)
     {
-        boolean                         localThreadExit;
-        boolean                         localUiUpdated;
-        SettingsDevice                  localCurrentDevice;
-        boolean                         localIsAttached;
-        SettingsDevice                  deviceFound;
-        boolean                         attachedFound;
-        List<SettingsDevice>            devices;
-        int                             minPrio;
-        
-        // TODO: revise the synchronized stuff throughout the application
-        synchronized(this)
+        currentDevice=e.getDevice();
+        isAttached=e.isAttached();
+        DeviceFoundEventType type=e.getType();
+        switch(type)
         {
-            devices=settings.getDevices();
-        }        
-
-        LOGGER.info("Thread started");
-        do
-        {
-            // Ugly work-around: start with a wait to give the UI thread a chance 
-            // to start the UI so it runs before this trhead continues
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                LOGGER.error("Thread sleep interrupted");
-            }
-
-            synchronized(this)
-            {
-                localIsAttached     =isAttached;
-                localCurrentDevice  =currentDevice;
-                localUiUpdated      =uiUpdated;
-            }
-            
-            // Find the current device. This may be
-            // * An device that is attached to the USB port
-            // * A device of type USBDevice that has a local buffer that is synced
-            // With multiple devices attached
-            // * An USB attached device always gets priority
-            // * With equal device type: the device with lowest prio value wins
-            minPrio         =Integer.MAX_VALUE;
-            deviceFound     =null;
-            attachedFound   =false;
-            
-            // Check if there is a device physically attached to USB as USB Mass Storage or USB Device
-            UsbInfo usbInfo; 
-            if (settings.isDebugSimulateUsb())
-            {
-                // Use simulation
-                usbInfo=new UsbInfoSim();
-            }
-            else
-            {
-                // Monitor the USB
-                usbInfo=new UsbInfoImpl();
-            }
-            for (SettingsDevice settingsDevice : devices)
-            {
-                if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
+            case NEWDEVICEFOUND:
+                globalWaypoints=null;
+                uiUpdated       =false;
+                initializeUiForDevice(currentDevice); // TO DO: remove current Device
+                break;
+            case NONEWDEVICEFOUND:
+                // If the UI has been initialized, start caching the tracks
+                if (uiUpdated)
                 {
-                    if (settingsDevice.getDevicePriority()<minPrio)
-                    {
-                        // We found a known device attached to USB; 
-                        // now check if the mass storage is already mounted ;
-                        // if not, skip it for now
-                        File deviceFile=new File(settingsDevice.getDeviceFile());
-                        if (deviceFile.exists())
-                        {
-                            deviceFound     =settingsDevice;    // We found a device to display
-                            attachedFound   =true;              // It is attached
-                            minPrio         =deviceFound.getDevicePriority();
-                        }
-                    }                    
+                    // Update the directory list and the cache
+                    cacheTracks();         
                 }
-            }
-            
-            // Check if a Garmin device is being connected. First all device attaches with ID 091e:0003 (product ID 3)
-            // Then after a while it attaches with the proper product ID
-            if (deviceFound==null)
-            {
-                if (usbInfo.isUsbDeviceConnected(settings.getUsbConnectionStartVendorId(), settings.getUsbConnectionStartProductId()))
-                {
-                    this.textAreaOutput.setText("Garmin device attached to USB, please wait...\n");
-                }
-            }
-                
-            // If there a Device is not connected, we may show the sync buffer of a device of type USBDevice
-            // This is only donw when the setting showSyncWhenNoDevicesAttached=true
-            if (deviceFound==null && settings.isShowSyncWhenNoDeviceAttached())
-            {
-                for (SettingsDevice settingsDevice : devices)
-                {
-                    if (settingsDevice.getType().equals("USBDevice"))
-                    {
-                        if (settingsDevice.getDevicePriority()<minPrio)
-                        {
-                            deviceFound=settingsDevice;
-                            minPrio=deviceFound.getDevicePriority();
-                        }                    
-                    }
-                }  
-            }
-            
-            // If we found a change in USB attachment...
-            if (attachedFound!=localIsAttached)
-            {
-                synchronized(this)
-                {
-                    isAttached=attachedFound;
-                }
-                // ... check if the same device is attached/detached
-                // If so update the sync button
-                // If another device is attached, it is handled by the next code
-                if (deviceFound==localCurrentDevice)
-                {
-                    updateSyncButton();
-                }
-            }
-            
-            // If we found any current device...
-            if (deviceFound!=null)
-            {
-                // ... check if the device found has changed. If so, we found a new current device
-                // so lets initialise it
-                if (deviceFound!=localCurrentDevice)
-                {
-                    LOGGER.info("Found new device {}, is attached to USB: {}", deviceFound.getName(), isAttached);
-
-                    // We found a new device
-                    synchronized(this)
-                    {
-                        uiUpdated       =false;
-                        currentDevice   =deviceFound;
-                        globalWaypoints=null;
-                    }
-                    initializeUiForDevice(deviceFound);
-                }
-                // Same device still attached
-                else
-                { 
-                    // If the UI has been initialized, start caching the tracks
-                    if (localUiUpdated)
-                    {
-                        // Update the directory list and the cache
-                        cacheTracks();         
-                    }
-                }
-            }
-            // No current device found
-            else
-            {
-                if (localCurrentDevice!=null)
-                {
-                    // Device has been removed
-                    clearUi();
-                }
-            }
-
-            synchronized(this)
-            {
-                localThreadExit         =threadExit;
-            }
-        }        
-        while (!localThreadExit);
+                break;
+            case DEVICEREMOVED:
+                // Device has been removed
+                clearUi();
+                break;
+            case ATTACHEDSTATECHANGED:
+                updateSyncButton();
+                break;
+            case NEWDEVICEATTACHEDANDWAITING:
+                this.textAreaOutput.setText("Garmin device attached to USB, please wait...\n");
+                break;
+        }
     }
-    
-    
+            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
