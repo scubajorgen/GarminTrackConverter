@@ -112,7 +112,7 @@ public class DeviceMonitor extends Thread
             // to start the UI so it runs before this trhead continues
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             }
             catch (InterruptedException e)
             {

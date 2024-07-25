@@ -36,29 +36,35 @@ import org.jdesktop.application.ResourceMap;
 public class ConverterView extends javax.swing.JFrame implements DeviceFoundListener
 {
     private final static Logger             LOGGER = LogManager.getLogger(ConverterView.class);
-    private final ApplicationSettings       settings;           // The application settings
-    private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
-    private Device                          deviceInfo;         // The info as retrieved from the Device XML file on the device
-    private final String                    appName;            // Name of this application
-    private boolean                         hasSync;            // Indicates if a sync command is defined for current device
-    private boolean                         isDirty;            // Indicates if changes have been made that are not synced to the device
-    private boolean                         uiUpdated;          // Indicates if the UI is up to date
-    
-    private final MapOsm                    map;                // The geographical map
 
+    // Guarded // TO DO: Synchronize
+    private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
+    private boolean                         uiUpdated;          // Indicates if the UI is up to date
+    private SettingsDevice                  currentDevice;      // Current device of which info is displyed
+    private boolean                         isAttached;         // Indicates whether current device is currenly connected to USB
+    
     private DirectoryList                   trackDirectoryList; // Directory lists
     private DirectoryList                   routeDirectoryList;
     private DirectoryList                   newFileDirectoryList;
     private DirectoryList                   locationDirectoryList;
+
+    
+    // Not Guarded
+    private final ApplicationSettings       settings;           // The application settings
+    private Device                          deviceInfo;         // The info as retrieved from the Device XML file on the device
+    private final String                    appName;            // Name of this application
+    private boolean                         hasSync;            // Indicates if a sync command is defined for current device
+    private boolean                         isDirty;            // Indicates if changes have been made that are not synced to the device
+    
+    private final MapOsm                    map;                // The geographical map
+
     
     private ConverterAbout                  aboutBox;           // About box
     
     private Track                           currentTrack;       // 
 
-    private DeviceMonitor                   deviceMonitor;
+    private final DeviceMonitor             deviceMonitor;
     
-    private SettingsDevice                  currentDevice;
-    private boolean                         isAttached;
     
     /**
      * Creates new form ConverterView
@@ -93,6 +99,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             }
         });
         
+        // Now start the device monitoring process. It is a thread running
+        // apart from the UI thread. It periodically sends events, even if 
+        // no changes occur in the device connection
         deviceMonitor=DeviceMonitor.getInstance();
         deviceMonitor.setDeviceFoundListener(this);
     }
@@ -161,7 +170,8 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     /**
      * Execute an external command to sync a MTP (Media Transfer Protocol)
      * to synchronize between the device and a local directory
-     * For example execute a FreeFileSync batch job.
+     * For example execute a FreeFileSync batch job. It runs in a new native
+     * process, so the application remains responsive.
      */
     public void executeSyncCommand()
     {
@@ -178,63 +188,58 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     }
     
     /**
-     * This method loads each track/activity that not has been loaded into memory.
-     * It checks the directory lists for updates.
+     * This method loads next track/activity that not has been loaded into memory.
+     * It checks the directory lists for updates. This method shall be called periodically
+     * when a device is attached
      */
     private void cacheTracks()
     {
-        boolean done            =false;
-        
-        while (!done)
+        if (globalWaypoints==null)
         {
-            if (globalWaypoints==null)
-            {
-                LOGGER.info("Reading waypoints for track");
-                readWaypoints();
-            }
-            int index=trackDirectoryList.getNextNonCache();
-            if (index<0)
-            {
-                done=true;
-            }
-            else
-            {
-                String fileName=trackDirectoryList.getFileName(index);
-                String fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
-                LOGGER.info("Reading track file {}", fileName);
-                Track track=readTrack(fullFileName, true);
-                trackDirectoryList.addTrack(track, index);   
-            }
-            checkForDirectoryUpdates();
+            LOGGER.info("Reading waypoints for track");
+            readWaypoints();
         }
+        int index=trackDirectoryList.getNextNonCache();
+        if (index>=0)
+        {
+            String fileName=trackDirectoryList.getFileName(index);
+            String fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
+            LOGGER.info("Reading track file {}", fileName);
+            Track track=readTrack(fullFileName, true);
+            trackDirectoryList.addTrack(track, index);   
+        }
+        checkForDirectoryUpdates();
     }
     
     /**
      * Initialize the User Interface when a new device is found
      */
-    private void initializeUiForDevice(SettingsDevice device)
+    private void initializeUiForDevice()
     {
-        this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
 
-        trackDirectoryList      =new DirectoryList(new File(device.getTrackFilePath())   , 
+        // Create new directory lists
+        trackDirectoryList      =new DirectoryList(new File(currentDevice.getTrackFilePath())   , 
                                                     jTrackList   , new DefaultListModel<>(), false);
-        locationDirectoryList   =new DirectoryList(new File(device.getLocationFilePath()), 
+        locationDirectoryList   =new DirectoryList(new File(currentDevice.getLocationFilePath()), 
                                                     jLocationList, new DefaultListModel<>(), true);
-        routeDirectoryList      =new DirectoryList(new File(device.getRouteFilePath())   , 
+        routeDirectoryList      =new DirectoryList(new File(currentDevice.getRouteFilePath())   , 
                                                     jRouteList   , new DefaultListModel<>(), true);
-        newFileDirectoryList    =new DirectoryList(new File(device.getNewFilePath())     , 
+        newFileDirectoryList    =new DirectoryList(new File(currentDevice.getNewFilePath())     , 
                                                     jNewFilesList, new DefaultListModel<>(), true);
         trackDirectoryList.updateDirectoryList(".fit");
         locationDirectoryList.updateDirectoryList(".fit");
         routeDirectoryList.updateDirectoryList(".fit");
         newFileDirectoryList.updateDirectoryList(".gpx");
 
+        // Read the device file
         readDevice();
 
-        jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
-
+        // Update the UI
         SwingUtilities.invokeLater(() ->
         {                      
+            this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
+            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
+
             if (currentDevice.getSyncCommand()!=null && !currentDevice.getSyncCommand().equals("") && isAttached)
             {
                 hasSync=true;
@@ -252,15 +257,12 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             routeDirectoryList.updateListModel();
             newFileDirectoryList.updateListModel();
             textAreaOutput.append("Done!\n");
-            synchronized(this)
-            {
-                uiUpdated=true;
-            }
+            uiUpdated=true;
         });
     }
 
     /**
-     * Update the sync button
+     * Update the sync button state. Enable or disable if appropriate
      */
     private void updateSyncButton()
     {
@@ -277,6 +279,18 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             buttonSync.setEnabled(hasSync);
             jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
         });
+    }
+    
+    /**
+     * Updates the output text area, in the UI thread
+     * @param text Text to show as replacement
+     */
+    private void updateTextAreaOutput(String text)
+    {
+        SwingUtilities.invokeLater(() ->
+        {             
+            this.textAreaOutput.setText(text);
+        });        
     }
     
     
@@ -296,12 +310,8 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             jTextFieldDevice.setText("");
             jTextFieldInfo.setText("");
             this.textAreaOutput.setText("Please attach device\n");
-        });
-        synchronized(this)
-        {
             map.hideTrack(true);
-            currentDevice=null;
-        }        
+        });
     }
     
     /**
@@ -367,7 +377,8 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     }
     
     /**
-     * Event listeren method, called when a new device has been found
+     * Event listener method, called periodically and informs on the state
+     * of attached devices
      * @param e Associated event
      */
     @Override
@@ -379,15 +390,15 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         switch(type)
         {
             case NEWDEVICEFOUND:
-                globalWaypoints=null;
+                globalWaypoints =null;
                 uiUpdated       =false;
-                initializeUiForDevice(currentDevice); // TO DO: remove current Device
+                initializeUiForDevice();
                 break;
             case NONEWDEVICEFOUND:
                 // If the UI has been initialized, start caching the tracks
                 if (uiUpdated)
                 {
-                    // Update the directory list and the cache
+                    // Update the directory list and the cache, etc
                     cacheTracks();         
                 }
                 break;
@@ -399,7 +410,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 updateSyncButton();
                 break;
             case NEWDEVICEATTACHEDANDWAITING:
-                this.textAreaOutput.setText("Garmin device attached to USB, please wait...\n");
+                updateTextAreaOutput("Garmin device attached to USB, please wait...\n");
                 break;
         }
     }
