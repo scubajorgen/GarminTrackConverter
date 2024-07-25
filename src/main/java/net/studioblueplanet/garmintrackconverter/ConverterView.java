@@ -216,9 +216,23 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
     /**
      * Initialize the User Interface when a new device is found
      */
-    private void initializeUiForDevice()
+    private void initializeUiForDevice(SettingsDevice device)
     {
         this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
+
+        trackDirectoryList      =new DirectoryList(new File(device.getTrackFilePath())   , 
+                                                    jTrackList   , new DefaultListModel<>(), false);
+        locationDirectoryList   =new DirectoryList(new File(device.getLocationFilePath()), 
+                                                    jLocationList, new DefaultListModel<>(), true);
+        routeDirectoryList      =new DirectoryList(new File(device.getRouteFilePath())   , 
+                                                    jRouteList   , new DefaultListModel<>(), true);
+        newFileDirectoryList    =new DirectoryList(new File(device.getNewFilePath())     , 
+                                                    jNewFilesList, new DefaultListModel<>(), true);
+        trackDirectoryList.updateDirectoryList(".fit");
+        locationDirectoryList.updateDirectoryList(".fit");
+        routeDirectoryList.updateDirectoryList(".fit");
+        newFileDirectoryList.updateDirectoryList(".gpx");
+
         readDevice();
 
         jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
@@ -494,26 +508,13 @@ public class ConverterView extends javax.swing.JFrame implements Runnable
                     LOGGER.info("Found new device {}, is attached to USB: {}", deviceFound.getName(), isAttached);
 
                     // We found a new device
-                    trackDirectoryList      =new DirectoryList(new File(deviceFound.getTrackFilePath())   , 
-                                                                jTrackList   , new DefaultListModel<>(), false);
-                    locationDirectoryList   =new DirectoryList(new File(deviceFound.getLocationFilePath()), 
-                                                                jLocationList, new DefaultListModel<>(), true);
-                    routeDirectoryList      =new DirectoryList(new File(deviceFound.getRouteFilePath())   , 
-                                                                jRouteList   , new DefaultListModel<>(), true);
-                    newFileDirectoryList    =new DirectoryList(new File(deviceFound.getNewFilePath())     , 
-                                                                jNewFilesList, new DefaultListModel<>(), true);
-                    trackDirectoryList.updateDirectoryList(".fit");
-                    locationDirectoryList.updateDirectoryList(".fit");
-                    routeDirectoryList.updateDirectoryList(".fit");
-                    newFileDirectoryList.updateDirectoryList(".gpx");
-                    
                     synchronized(this)
                     {
                         uiUpdated       =false;
                         currentDevice   =deviceFound;
                         globalWaypoints=null;
                     }
-                    initializeUiForDevice();
+                    initializeUiForDevice(deviceFound);
                 }
                 // Same device still attached
                 else
