@@ -37,11 +37,13 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
 {
     private final static Logger             LOGGER = LogManager.getLogger(ConverterView.class);
 
-    // Guarded // TO DO: Synchronize
+    // Guarded 
+    // TO DO: Synchronize (in such a way that the UI responsiveness does not deteriorate)...
     private Track                           globalWaypoints;    // The list of waypoints of the currentDevice
     private boolean                         uiUpdated;          // Indicates if the UI is up to date
     private SettingsDevice                  currentDevice;      // Current device of which info is displyed
     private boolean                         isAttached;         // Indicates whether current device is currenly connected to USB
+    private boolean                         hasSync;            // Indicates if a sync command is defined for current device
     
     private DirectoryList                   trackDirectoryList; // Directory lists
     private DirectoryList                   routeDirectoryList;
@@ -53,7 +55,6 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     private final ApplicationSettings       settings;           // The application settings
     private Device                          deviceInfo;         // The info as retrieved from the Device XML file on the device
     private final String                    appName;            // Name of this application
-    private boolean                         hasSync;            // Indicates if a sync command is defined for current device
     private boolean                         isDirty;            // Indicates if changes have been made that are not synced to the device
     
     private final MapOsm                    map;                // The geographical map
@@ -61,9 +62,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     
     private ConverterAbout                  aboutBox;           // About box
     
-    private Track                           currentTrack;       // 
+    private Track                           currentTrack;       //  Track currently selected
 
-    private final DeviceMonitor             deviceMonitor;
+    private final DeviceMonitor             deviceMonitor;      // The device monitoring process
     
     
     /**
@@ -1030,40 +1031,37 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         
         if (!evt.getValueIsAdjusting() && trackDirectoryList.hasSelection())
         {
-            synchronized(this)
+            routeDirectoryList.clearSelection();
+            newFileDirectoryList.clearSelection();
+            locationDirectoryList.clearSelection();
+            fileName=trackDirectoryList.getSelectedFileName();
+            fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
+            if (globalWaypoints==null)
             {
-                routeDirectoryList.clearSelection();
-                newFileDirectoryList.clearSelection();
-                locationDirectoryList.clearSelection();
-                fileName=trackDirectoryList.getSelectedFileName();
-                fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
-                if (globalWaypoints==null)
-                {
-                    LOGGER.info("Reading waypoints for track");
-                    readWaypoints();
-                }
-                track=getTrack(trackDirectoryList);
-                if (track!=null)
-                {
-                    LOGGER.info("Retrieved track {} from cache", fileName);
-                    textAreaOutput.setText("Track retrieved from cache\n");
-                    // Make sure the track got the latest waypoints
-                    track.setTrackWaypoints(globalWaypoints.getWaypoints());
-                }
-                else
-                {
-                    LOGGER.info("Reading track file {}", fileName);
-                    track=readTrack(fullFileName, true);
-                    trackDirectoryList.addTrack(track);
-
-                    textAreaOutput.setText("Track read from FIT file\n");
-
-                }
-                track.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
-                textAreaOutput.append(track.getTrackInfo2()+"\n");
-                trackToMap(track, true);
-                currentTrack=track;
+                LOGGER.info("Reading waypoints for track");
+                readWaypoints();
             }
+            track=getTrack(trackDirectoryList);
+            if (track!=null)
+            {
+                LOGGER.info("Retrieved track {} from cache", fileName);
+                textAreaOutput.setText("Track retrieved from cache\n");
+                // Make sure the track got the latest waypoints
+                track.setTrackWaypoints(globalWaypoints.getWaypoints());
+            }
+            else
+            {
+                LOGGER.info("Reading track file {}", fileName);
+                track=readTrack(fullFileName, true);
+                trackDirectoryList.addTrack(track);
+
+                textAreaOutput.setText("Track read from FIT file\n");
+
+            }
+            track.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
+            textAreaOutput.append(track.getTrackInfo2()+"\n");
+            trackToMap(track, true);
+            currentTrack=track;
         }
     }//GEN-LAST:event_jTrackListValueChanged
 
@@ -1075,30 +1073,27 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         
         if (!evt.getValueIsAdjusting() && routeDirectoryList.hasSelection())
         {
-            synchronized(this)
+            trackDirectoryList.clearSelection();
+            newFileDirectoryList.clearSelection();
+            locationDirectoryList.clearSelection();
+            fileName=routeDirectoryList.getSelectedFileName();
+            fullFileName=currentDevice.getRouteFilePath()+File.separator+fileName;
+            track=getTrack(routeDirectoryList);
+            if (track!=null)
             {
-                trackDirectoryList.clearSelection();
-                newFileDirectoryList.clearSelection();
-                locationDirectoryList.clearSelection();
-                fileName=routeDirectoryList.getSelectedFileName();
-                fullFileName=currentDevice.getRouteFilePath()+File.separator+fileName;
-                track=getTrack(routeDirectoryList);
-                if (track!=null)
-                {
-                    LOGGER.info("Retrieved route file {} from cache", fileName);
-                    textAreaOutput.setText("Route retrieved from cache\n");
-                }
-                else
-                {
-                    LOGGER.info("Reading route file {}", fileName);
-                    track=readTrack(fullFileName, false);
-                    routeDirectoryList.addTrack(track);
-                    textAreaOutput.setText("Route read from FIT file\n");
-                }
-                track.setBehaviour(false, false);
-                trackToMap(track, true);
-                currentTrack=null;
+                LOGGER.info("Retrieved route file {} from cache", fileName);
+                textAreaOutput.setText("Route retrieved from cache\n");
             }
+            else
+            {
+                LOGGER.info("Reading route file {}", fileName);
+                track=readTrack(fullFileName, false);
+                routeDirectoryList.addTrack(track);
+                textAreaOutput.setText("Route read from FIT file\n");
+            }
+            track.setBehaviour(false, false);
+            trackToMap(track, true);
+            currentTrack=null;
         }
     }//GEN-LAST:event_jRouteListValueChanged
 
@@ -1110,32 +1105,29 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         
         if (!evt.getValueIsAdjusting() && newFileDirectoryList.hasSelection())
         {
-            synchronized(this)
+            trackDirectoryList.clearSelection();
+            routeDirectoryList.clearSelection();
+            locationDirectoryList.clearSelection();
+
+            fileName=newFileDirectoryList.getSelectedFileName();
+            fullFileName=currentDevice.getNewFilePath()+File.separator+fileName;
+
+            track=getTrack(newFileDirectoryList);
+            if (track!=null)
             {
-                trackDirectoryList.clearSelection();
-                routeDirectoryList.clearSelection();
-                locationDirectoryList.clearSelection();
-
-                fileName=newFileDirectoryList.getSelectedFileName();
-                fullFileName=currentDevice.getNewFilePath()+File.separator+fileName;
-
-                track=getTrack(newFileDirectoryList);
-                if (track!=null)
-                {
-                    LOGGER.info("Retrieved new file {} from cache", fileName);
-                    textAreaOutput.setText("New file retrieved from cache\n");
-                }
-                else
-                {
-                    LOGGER.info("Reading new file {}", fileName);
-                    track=GpxReader.getInstance().readRouteFromFile(fullFileName);
-                    newFileDirectoryList.addTrack(track);
-                    textAreaOutput.setText("New file read from GPX file\n");
-                }
-                track.setBehaviour(false, false);
-                trackToMap(track, true);
-                currentTrack=null;
+                LOGGER.info("Retrieved new file {} from cache", fileName);
+                textAreaOutput.setText("New file retrieved from cache\n");
             }
+            else
+            {
+                LOGGER.info("Reading new file {}", fileName);
+                track=GpxReader.getInstance().readRouteFromFile(fullFileName);
+                newFileDirectoryList.addTrack(track);
+                textAreaOutput.setText("New file read from GPX file\n");
+            }
+            track.setBehaviour(false, false);
+            trackToMap(track, true);
+            currentTrack=null;
         }
     }//GEN-LAST:event_jNewFilesListValueChanged
 
@@ -1188,38 +1180,35 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     {//GEN-HEADEREND:event_jLocationListValueChanged
         if (!evt.getValueIsAdjusting() && locationDirectoryList.hasSelection())
         {
-            synchronized(this)
+            Track           points;
+            String          fileName;
+            String          fullFileName;
+            int             index;
+
+            trackDirectoryList.clearSelection();
+            routeDirectoryList.clearSelection();
+            newFileDirectoryList.clearSelection();
+
+            fileName=locationDirectoryList.getSelectedFileName();
+            fullFileName=currentDevice.getLocationFilePath()+File.separator+fileName;
+
+            points=getTrack(locationDirectoryList);
+            if (points!=null)
             {
-                Track           points;
-                String          fileName;
-                String          fullFileName;
-                int             index;
-
-                trackDirectoryList.clearSelection();
-                routeDirectoryList.clearSelection();
-                newFileDirectoryList.clearSelection();
-                
-                fileName=locationDirectoryList.getSelectedFileName();
-                fullFileName=currentDevice.getLocationFilePath()+File.separator+fileName;
-
-                points=getTrack(locationDirectoryList);
-                if (points!=null)
-                {
-                    LOGGER.info("Retrieved waypoints file {} from cache", fileName);
-                    textAreaOutput.setText("Locations retrieved from cache\n");
-                }
-                else
-                {
-                    LOGGER.info("Reading waypoints file {}", fullFileName);
-                    Locations locations=new Locations(fullFileName);
-                    points=locations.getLocations();
-                    locationDirectoryList.addTrack(points);
-                    textAreaOutput.setText("Locations read from GPX file\n");
-                }
-                map.showWaypoints(points.getWaypoints(), true);
-                currentTrack=null;
-                jTextFieldInfo.setText("Locations: "+points.getNumberOfWaypoints());
+                LOGGER.info("Retrieved waypoints file {} from cache", fileName);
+                textAreaOutput.setText("Locations retrieved from cache\n");
             }
+            else
+            {
+                LOGGER.info("Reading waypoints file {}", fullFileName);
+                Locations locations=new Locations(fullFileName);
+                points=locations.getLocations();
+                locationDirectoryList.addTrack(points);
+                textAreaOutput.setText("Locations read from GPX file\n");
+            }
+            map.showWaypoints(points.getWaypoints(), true);
+            currentTrack=null;
+            jTextFieldInfo.setText("Locations: "+points.getNumberOfWaypoints());
         }
     }//GEN-LAST:event_jLocationListValueChanged
 
