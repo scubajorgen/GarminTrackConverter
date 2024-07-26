@@ -28,15 +28,17 @@ public class UsbInfoSim implements UsbInfo
         public int productId;
     }
     
-    private final static    Logger             LOGGER = LogManager.getLogger(UsbInfoSim.class);
-    public static String USBSIMFILE="./usbsim.txt";
+    private final static    Logger  LOGGER      = LogManager.getLogger(UsbInfoSim.class);
+    private final String            usbSimFile;
     
     private final List<Device> devices;
     
-    public UsbInfoSim()
+    public UsbInfoSim(String usbSimFile)
     {
+        this.usbSimFile=usbSimFile;
         devices=new ArrayList<>();
         usbRefresh();
+        // Effect not testable unless we modify the test file...
     }
 
     /**
@@ -45,11 +47,11 @@ public class UsbInfoSim implements UsbInfo
     @Override
     public void usbRefresh()
     {
-        Pattern pattern = Pattern.compile("^([0-9A-Fa-f]{4}):([0-9A-Fa-f]{4}).*");
+        Pattern pattern = Pattern.compile("^\\s*([0-9A-Fa-f]{4}):([0-9A-Fa-f]{4}).*$");
         
         try
         {
-            BufferedReader reader = new BufferedReader(new FileReader(USBSIMFILE));
+            BufferedReader reader = new BufferedReader(new FileReader(usbSimFile));
             String line = reader.readLine();
             while (line != null) 
             {

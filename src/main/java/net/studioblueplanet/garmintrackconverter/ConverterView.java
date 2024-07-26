@@ -194,11 +194,13 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
     private void cacheTracks()
     {
+        // Read the waypoint file if needed
         if (globalWaypoints==null)
         {
             LOGGER.info("Reading waypoints for track");
             readWaypoints();
         }
+        // Cache tracks if needed
         int index=trackDirectoryList.getNextNonCache();
         if (index>=0)
         {
@@ -208,6 +210,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             Track track=readTrack(fullFileName, true);
             trackDirectoryList.addTrack(track, index);   
         }
+        // Check if any directory has been updated
         checkForDirectoryUpdates();
     }
     

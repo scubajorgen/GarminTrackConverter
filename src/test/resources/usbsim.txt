@@ -1,0 +1,11 @@
+###########################################################
+# USB Device Simulation
+# vendorID:productID (nnnn:nnnn, hexadecimal)
+###########################################################
+#091e:0003       # attaching
+091e:261f       # Edge 810
+#091e:2c32       # Edge 830
+091e:4f42       # Fenix 7
+    091e:2f03       # Edge 1040
+
+End of file

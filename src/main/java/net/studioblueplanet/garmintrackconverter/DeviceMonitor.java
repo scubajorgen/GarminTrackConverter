@@ -19,8 +19,11 @@ import org.apache.logging.log4j.Logger;
 public class DeviceMonitor extends Thread
 {
     private final static Logger             LOGGER = LogManager.getLogger(DeviceMonitor.class);
+    private final static String             USBSIMFILE  ="./usbsim.txt";
     private static DeviceMonitor            theInstance=null;   // The one and only singleton instance of this class
     private final ApplicationSettings       settings;           // The application settings    
+    private final List<SettingsDevice>      devices;            // List of device definitions/settings
+
     private DeviceFoundListener             listener;
 
     private final Thread                    thread;             // Thread monitoring attached devices
@@ -35,6 +38,7 @@ public class DeviceMonitor extends Thread
     private DeviceMonitor()
     {
         settings        =ApplicationSettings.getInstance();
+        devices         =settings.getDevices();
         threadExit      =false;
         thread          =new Thread(this);
         thread.start();
@@ -63,7 +67,6 @@ public class DeviceMonitor extends Thread
         }
         return theInstance;
     }
-    
     
     /**
      * Sets the DeviceFound listener. Only on listener can be subscribed.
@@ -96,15 +99,8 @@ public class DeviceMonitor extends Thread
         boolean                         localThreadExit;
         SettingsDevice                  deviceFound;
         boolean                         attachedFound;
-        List<SettingsDevice>            devices;
         int                             minPrio;
         
-        // TODO: revise the synchronized stuff throughout the application
-        synchronized(this)
-        {
-            devices=settings.getDevices();
-        }        
-
         LOGGER.info("Thread started");
         do
         {
@@ -134,7 +130,7 @@ public class DeviceMonitor extends Thread
             if (settings.isDebugSimulateUsb())
             {
                 // Use simulation
-                usbInfo=new UsbInfoSim();
+                usbInfo=new UsbInfoSim(USBSIMFILE);
             }
             else
             {
@@ -226,7 +222,7 @@ public class DeviceMonitor extends Thread
                     sendEvent(e);
                 }
             }
-            // No current device found
+            // No new current device found
             else
             {
                 if (currentDevice!=null)
