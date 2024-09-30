@@ -267,7 +267,6 @@ public class MapOsm extends Map
      */
     private class OsmRoutePainter implements Painter<JXMapViewer>
     {
-        private final Color     color = Color.RED;
         private final boolean   antiAlias = true;
         private final OsmTrack  track;
 
@@ -378,7 +377,7 @@ public class MapOsm extends Map
             {
                 imgStart    = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/x1.png"));
                 imgFinish   = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/x2.png"));
-                imgWpt      = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/RedDot.png"));
+                imgWpt      = ImageIO.read(OsmWaypointRenderer.class.getResource("/images/PurpleDot.png"));
             }
             catch (Exception ex)
             {
@@ -444,7 +443,6 @@ public class MapOsm extends Map
             Rectangle bounds = mapViewer.getViewportBounds();
             int x = bounds.x + evt.getX();
             int y = bounds.y + evt.getY();
-            Point pixelCoordinates = new Point(x, y);
 
             Set<OsmWaypoint> points=track.getWaypoints();
             
