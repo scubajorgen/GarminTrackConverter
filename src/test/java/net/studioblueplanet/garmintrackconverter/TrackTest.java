@@ -115,12 +115,18 @@ public class TrackTest
         waypoints.add(location3);
         waypoints.add(location4);
 
+        // The datetime is null, i.e. not set
+        assertNull(location1.getDateTime());
+        
         assertEquals(0, instanceOtherTimezone.getWaypoints().size());
         instanceOtherTimezone.addTrackWaypoints(waypoints);
         assertEquals(3, instanceOtherTimezone.getWaypoints().size());
         assertEquals("09:32:00", instanceOtherTimezone.getWaypoints().get(0).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
         assertEquals("10:11:00", instanceOtherTimezone.getWaypoints().get(1).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
         assertEquals("10:47:00", instanceOtherTimezone.getWaypoints().get(2).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
+        
+// Check the datetime has been filled in using the timezone of the track
+        assertEquals("06:32:00Z", location1.getDateTime().format(DateTimeFormatter.ISO_TIME));
     }    
     
     

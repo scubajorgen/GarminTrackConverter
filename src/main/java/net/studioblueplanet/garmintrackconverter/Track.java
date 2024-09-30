@@ -663,6 +663,9 @@ public class Track
                 if (segment.isInSegment(dateTime))
                 {
                     found=true;
+                    // Now we have assigned the waypoint to this track, 
+                    // we can set the zoned date time using the timezone of the track
+                    waypoint.setDateTime(dateTime);
                     waypoints.add(waypoint);
                 }
             }

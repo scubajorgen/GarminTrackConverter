@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class Location
 {
     private final static Logger LOGGER = LogManager.getLogger(Location.class);
-    private final ZonedDateTime dateTime;
+    private ZonedDateTime       dateTime;
     private final LocalDateTime localDateTime;
     private final double	latitude;
     private final double	longitude;
@@ -54,10 +54,16 @@ public class Location
     {
         return dateTime;
     }
-
+   
+    
     public LocalDateTime getLocalDateTime()
     {
         return localDateTime;
+    }
+
+    public void setDateTime(ZonedDateTime dateTime)
+    {
+        this.dateTime = dateTime;
     }
     
     public double getLatitude()
