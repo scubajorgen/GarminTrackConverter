@@ -32,7 +32,7 @@ public class LocationTest
         ZonedDateTime dateTime;
         
         dateTime=ZonedDateTime.of(2022, 5, 5, 8, 46, 57, 0, ZoneId.of("UTC"));
-        instance=new Location("name", "description", dateTime, 53.6, 6.5, 10.0, 3);
+        instance=new Location("name", "description", null, dateTime, 53.6, 6.5, 10.0, 3);
     }
     
     @AfterClass

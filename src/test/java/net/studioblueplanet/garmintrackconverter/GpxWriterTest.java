@@ -216,9 +216,9 @@ public class GpxWriterTest
         ZoneId zoneId = ZoneId.of("UTC+2");
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, zoneId);        
         
-        Location waypoint1=new Location("Waypoint 1", "description1", zdt, 5.0, 53.0, 0.0, 0);
+        Location waypoint1=new Location("Waypoint 1", "description1", null, zdt, 5.0, 53.0, 0.0, 0);
         track.addWaypoint(waypoint1);
-        Location waypoint2=new Location("Waypoint 2", "description2", zdt, 6.0, 54.0, 1.0, 1);
+        Location waypoint2=new Location("Waypoint 2", "description2", null, zdt, 6.0, 54.0, 1.0, 1);
         track.addWaypoint(waypoint2);
         
         StringWriter writer=new StringWriter();

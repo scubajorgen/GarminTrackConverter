@@ -266,7 +266,7 @@ public class GpxReader
             }
             lat=Double.parseDouble(waypoint.getAttribute("lat"));
             lon=Double.parseDouble(waypoint.getAttribute("lon"));
-            point=new Location(name, description, time, lat, lon, elevation, 0);
+            point=new Location(name, description, null, time, lat, lon, elevation, 0);
             points.add(point);
         }
     }

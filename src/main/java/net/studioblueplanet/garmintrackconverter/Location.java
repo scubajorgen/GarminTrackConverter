@@ -6,6 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ public class Location
 {
     private final static Logger LOGGER = LogManager.getLogger(Location.class);
     private final ZonedDateTime dateTime;
+    private final LocalDateTime localDateTime;
     private final double	latitude;
     private final double	longitude;
     private final double 	elevation;
@@ -25,7 +27,7 @@ public class Location
     private final String 	description;
     private final int    	symbol;    
     
-    public Location(String name, String description, ZonedDateTime dateTime, double lat, double lon, double ele, int symbol)
+    public Location(String name, String description, LocalDateTime localDateTime, ZonedDateTime dateTime, double lat, double lon, double ele, int symbol)
     {
         this.latitude  		=lat;
         this.longitude          =lon;
@@ -33,6 +35,7 @@ public class Location
         this.name               =name;
         this.description        =description;
         this.dateTime           =dateTime;
+        this.localDateTime      =localDateTime;
         this.symbol             =symbol;
         
     }
@@ -50,6 +53,11 @@ public class Location
     public ZonedDateTime getDateTime()
     {
         return dateTime;
+    }
+
+    public LocalDateTime getLocalDateTime()
+    {
+        return localDateTime;
     }
     
     public double getLatitude()

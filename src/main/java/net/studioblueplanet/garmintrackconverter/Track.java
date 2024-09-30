@@ -13,7 +13,10 @@ import net.studioblueplanet.fitreader.FitMessageRepository;
 import net.studioblueplanet.fitreader.FitGlobalProfile;
 import java.io.File;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +62,7 @@ public class Track
     private String                          subSport;
     private ZonedDateTime                   startTime;
     private ZonedDateTime                   endTime;
+    private Long                            timeOffset;     // s - offset from system time
     private Long                            elapsedTime;    // s
     private Long                            timedTime;      // s
     private Double                          startLat;       // degrees
@@ -138,6 +142,17 @@ public class Track
                 isCourse=true;
             }
         }        
+
+        //device_settings
+        message    =repository.getFitMessage("device_settings");
+        if (message!=null)
+        {
+            if (message.getNumberOfRecords()>1)
+            {
+                LOGGER.info("Found more than one device_settings record");
+            }
+            timeOffset=message.getIntValue(0, "time_offset");
+        }
 
         //device_info
         message    =repository.getFitMessage("device_info");
@@ -629,6 +644,15 @@ public class Track
         for (Location waypoint : allWaypoints)
         {
             dateTime=waypoint.getDateTime();
+            if (dateTime==null)
+            {
+                LocalDateTime localDateTime=waypoint.getLocalDateTime();
+                if (localDateTime!=null)
+                {
+                    ZoneId zone=startTime.getZone();
+                    dateTime=ZonedDateTime.ofInstant(localDateTime, ZoneOffset.ofTotalSeconds(timeOffset.intValue()), zone);
+                }
+            }
             segmentIterator=segments.iterator();
             found=false;
             while (segmentIterator.hasNext() && !found)

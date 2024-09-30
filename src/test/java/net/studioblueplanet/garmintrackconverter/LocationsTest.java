@@ -70,6 +70,7 @@ public class LocationsTest
         assertEquals(18, result.size());
         Location waypoint=result.get(0);
         assertEquals("2022-02-12 09:17:14", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        assertNull(waypoint.getLocalDateTime());
         assertEquals("Location 002", waypoint.getName());
         assertEquals(94, waypoint.getSymbol());
         assertEquals("", waypoint.getDescription());
@@ -86,6 +87,8 @@ public class LocationsTest
     {
         System.out.println("getWaypoints");
         List<Location> result = instanceFenix.getWaypoints();
+        // The Fenix does not fill in the timestamp field
+        // If fills the local datetime in the name
         assertEquals(85, result.size());
         Location waypoint=result.get(0);
         assertNull(waypoint.getDateTime());
@@ -97,7 +100,8 @@ public class LocationsTest
         assertEquals(-13.606899976730347, waypoint.getLongitude(), 0.0000001);
 
         waypoint=result.get(84);
-        assertEquals("05-03 12:36:00", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss")));
+        assertNull(waypoint.getDateTime());
+        assertEquals("05-03 12:36:00", waypoint.getLocalDateTime().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss")));
         // To Do: add year test
         assertEquals("May 03 12:36", waypoint.getName());
 

@@ -5,6 +5,7 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class TrackTest
     private Track instance;
     private static Track instanceTwoSegments;
     private static Track instanceExternalHr;
+    private static Track instanceOtherTimezone;
     
     public TrackTest()
     {
@@ -35,6 +37,7 @@ public class TrackTest
     {
         instanceTwoSegments    =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
         instanceExternalHr     =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
+        instanceOtherTimezone  =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", "TestDevice", 3.0, 0.5);
     }
     
     @AfterClass
@@ -46,7 +49,7 @@ public class TrackTest
     public void setUp()
     {
         List<Location> locations=new ArrayList<>();
-        Location location=new Location("test", "", ZonedDateTime.parse("2021-05-08T08:20:00Z"), 5.0, 5.0, 0.0, 0);
+        Location location=new Location("test", "", null, ZonedDateTime.parse("2021-05-08T08:20:00Z"), 5.0, 5.0, 0.0, 0);
         locations.add(location);
 
         instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", "TestDevice", 3.0, 0.5);
@@ -67,9 +70,9 @@ public class TrackTest
         System.out.println("addTrackWaypoints, getWaypoints");
         
         List<Location> waypoints=new ArrayList<>();
-        Location location1=new Location("test", "", ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
-        Location location2=new Location("test", "", ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
-        Location location3=new Location("test", "", ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location1=new Location("test", "", null, ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location2=new Location("test", "", null, ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location3=new Location("test", "", null, ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
         waypoints.add(location1);
         waypoints.add(location2);
         waypoints.add(location3);
@@ -90,6 +93,37 @@ public class TrackTest
         
     }
 
+    /**
+     * Test of addTrackWaypoints, getWaypoints method, of class Track.
+     */
+    @Test
+    public void testAddTrackWaypointsFenix()
+    {
+        System.out.println("addTrackWaypoints, getWaypoints - Fenix");
+        
+        List<Location> waypoints=new ArrayList<>();
+        // Track from 09:32:00 - 10:47:15
+        Location location0=new Location("Sep 25 0931", "", LocalDateTime.parse("2024-09-25T09:31:00"), null, 0.0, 0.0, 0.0, 0);
+        Location location1=new Location("Sep 25 0932", "", LocalDateTime.parse("2024-09-25T09:32:00"), null, 0.0, 0.0, 0.0, 0);
+        Location location2=new Location("Sep 25 1011", "", LocalDateTime.parse("2024-09-25T10:11:00"), null, 0.0, 0.0, 0.0, 0);
+        Location location3=new Location("Sep 25 1047", "", LocalDateTime.parse("2024-09-25T10:47:00"), null, 0.0, 0.0, 0.0, 0);
+        Location location4=new Location("Sep 25 1048", "", LocalDateTime.parse("2024-09-25T10:48:00"), null, 0.0, 0.0, 0.0, 0);
+
+        waypoints.add(location0);
+        waypoints.add(location1);
+        waypoints.add(location2);
+        waypoints.add(location3);
+        waypoints.add(location4);
+
+        assertEquals(0, instanceOtherTimezone.getWaypoints().size());
+        instanceOtherTimezone.addTrackWaypoints(waypoints);
+        assertEquals(3, instanceOtherTimezone.getWaypoints().size());
+        assertEquals("09:32:00", instanceOtherTimezone.getWaypoints().get(0).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
+        assertEquals("10:11:00", instanceOtherTimezone.getWaypoints().get(1).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
+        assertEquals("10:47:00", instanceOtherTimezone.getWaypoints().get(2).getLocalDateTime().format(DateTimeFormatter.ISO_TIME));
+    }    
+    
+    
    /**
      * Test of setTrackWaypoints, getWaypoints method, of class Track.
      */
@@ -99,9 +133,9 @@ public class TrackTest
         System.out.println("setTrackWaypoints, getWaypoints");
         
         List<Location> waypoints=new ArrayList<>();
-        Location location1=new Location("test1", "", ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
-        Location location2=new Location("test2", "", ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
-        Location location3=new Location("test3", "", ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location1=new Location("test1", "", null, ZonedDateTime.parse("2020-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location2=new Location("test2", "", null, ZonedDateTime.parse("2021-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
+        Location location3=new Location("test3", "", null, ZonedDateTime.parse("2022-05-08T08:18:30Z"), 0.0, 0.0, 0.0, 0);
         waypoints.add(location1);
         waypoints.add(location2);
         waypoints.add(location3);

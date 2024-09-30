@@ -43,6 +43,7 @@ public class Locations
         double                  lon;
         double                  ele;
         ZonedDateTime           dateTime;
+        LocalDateTime           localDateTime;
         String                  dateTimeString;
         int                     symbol;
         String                  name;
@@ -61,7 +62,18 @@ public class Locations
             while (i<size)
             {
                 name        =record.getStringValue(i, "name");
-                dateTime    =extractDateTime(record, i, name);
+                
+                // Get the day time. In some Garmins it is present in the 'timestamp'
+                // field. The Fenix however does not fill in this field. The Fenix
+                // puts the *local* time in the name of name of the waypoint.
+                // Complicating factor is that we don't know the timezone...
+                // So we try to derive the normal dateTime and the local dateTime
+                // from the name. Of course, the normal dateTime prevails if both
+                // are available
+                dateTime        =getDateTime(record, i);
+                localDateTime   =extractLocalDateTime(name);
+                
+                
                 if (record.hasField("description"))
                 {
                     description =record.getStringValue(i, "description");
@@ -74,7 +86,7 @@ public class Locations
                 lon         =record.getLatLonValue(i, "position_long");
                 ele         =record.getScaledValue(i, "altitude");
                 symbol      =(int)record.getIntValue(i, "symbol");
-                waypoints.addWaypoint(new Location(name, description, dateTime, lat, lon, ele, symbol));
+                waypoints.addWaypoint(new Location(name, description, localDateTime, dateTime, lat, lon, ele, symbol));
 
 
                 if (dateTime!=null)
@@ -102,10 +114,40 @@ public class Locations
         return waypoints;
     }
     
+    /**
+     * Returns the timestamp of the waypoint, it it is present. Otherwise null
+     * is returned
+     * @param record The FitMessage to use
+     * @param index Index of the data record
+     * @param name Name of the Location
+     * @return 
+     */
+    private ZonedDateTime getDateTime(FitMessage record, int index)
+    {
+        ZonedDateTime   dateTime;
+        long            dateTimeLong;
+
+        dateTimeLong=record.getIntValue(index, "timestamp");
+        if (dateTimeLong!=0xFFFFFFFFL)
+        {
+            dateTime    =record.getTimeValue(index, "timestamp");
+        }
+        else
+        {
+            dateTime=null;
+        }             
+        return dateTime;
+    }
+    
+    
+    
     
     /**
-     * Extracts the datetime. In the Fenix the date time is not filled in in the
-     * timestamp field. However, it is by default used as name, e.g. "Apr 09 9:23".
+     * Extracts the local datetime of the waypoint, assuming the Fenix. 
+     * In some Garmins it is filled in in the timestamp field of the waypoint. 
+     * In the Fenix however the date time is not filled in in the timestamp field. 
+     * However, the local date time is by default used as name, e.g. "Apr 09 9:23".
+     * The issue hiere is that we do not know the timezone of this local date time.
      * If the timestamp is not found, a try is made to extract it from the name
      * as second best.
      * @param record The FitMessage to use
@@ -113,47 +155,37 @@ public class Locations
      * @param name Name of the Location
      * @return 
      */
-    private ZonedDateTime extractDateTime(FitMessage record, int index, String name)
+    private LocalDateTime extractLocalDateTime(String name)
     {
-        ZonedDateTime   dateTime;
         LocalDateTime   localDateTime;
         LocalDateTime   now;
         Pattern         pattern;
         Matcher         matcher;
-        long            dateTimeLong;
 
-        dateTimeLong=record.getIntValue(index, "timestamp");
-        if (dateTimeLong==0xFFFFFFFFL)
+        pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):{0,1}(\\d{2})$");
+        matcher=pattern.matcher(name);
+        if (matcher.find())
         {
-            pattern=Pattern.compile("^([A-Z][a-z]{2}) (\\d{2}) (\\d{2}):{0,1}(\\d{2})$");
-            matcher=pattern.matcher(name);
-            if (matcher.find())
+            // Create dateTime from the name assuming year is current year
+            // We also assume default time zone
+            now=LocalDateTime.now();
+            localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+
+                                              matcher.group(1)+" "+matcher.group(2)+" "+matcher.group(3)+":"+matcher.group(4), 
+                                              DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
+
+            // If it appears that now is before the dateTime, the assumption was not correct; 
+            // best we can do is assume it was from previous year
+            if (now.isBefore(localDateTime))
             {
-                // Create dateTime from the name assuming year is current year
-                // We also assume default time zone
-                now=LocalDateTime.now();
-                localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+
-                                                  matcher.group(1)+" "+matcher.group(2)+" "+matcher.group(3)+":"+matcher.group(4), 
-                                                  DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
-                
-                // If it appears that now is before the dateTime, the assumption was not correct; 
-                // best we can do is assume it was from previous year
-                if (now.isBefore(localDateTime))
-                {
-                    localDateTime.minusYears(1);
-                }
-                dateTime=localDateTime.atZone( ZoneId.systemDefault());
-            }
-            else
-            {
-                dateTime    =null;
+                localDateTime.minusYears(1);
             }
         }
         else
         {
-            dateTime    =record.getTimeValue(index, "timestamp");
-        }        
-        return dateTime;
+            localDateTime    =null;
+        }
+     
+        return localDateTime;
     }
     
     /**
