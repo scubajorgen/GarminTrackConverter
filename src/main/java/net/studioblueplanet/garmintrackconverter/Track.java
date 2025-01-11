@@ -541,7 +541,12 @@ public class Track
                     
                 if (message.hasField("temperature"))
                 {
-                    builder.temperature((int)message.getIntValue(i, "temperature"));
+                    int temp=(int)message.getIntValue(i, "temperature");
+                    // quick and dirty check if value is valid (GPSMAP67)
+                    if (temp<127)
+                    {
+                        builder.temperature(temp);
+                    }
                 }
                 
                 if (message.hasField("enhanced_speed"))
@@ -555,7 +560,13 @@ public class Track
                     
                 if (message.hasField("distance"))
                 {
-                    builder.distance(message.getScaledValue(i, "distance"));
+                    double dist=message.getScaledValue(i, "distance");
+                    // quick and dirty check if value is valid (GPSMAP67)
+                    if (dist>42949672.0)
+                    {
+                        dist=0.0;
+                    }
+                    builder.distance(dist);
                 }
 
                 if (message.hasField("heart_rate"))
