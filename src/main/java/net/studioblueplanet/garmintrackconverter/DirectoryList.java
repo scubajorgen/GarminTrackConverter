@@ -48,21 +48,36 @@ public class DirectoryList
         list.setModel(model);
         this.sortAscending  =sortAscending;
     }
+
+    /**
+     * Get the list of files
+     * @return 
+     */
+    public List<String> getFileList()
+    {
+        String directory=directoryFile.getAbsolutePath();
+        List<String> files=fileList .stream()
+                                    .map(f -> directory+"/"+f.getFilename())
+                                    .collect(Collectors.toList());
+        return files;
+    }
+    
+    
     
     /**
      * Retrieves a list of files that are currently in the directory. 
      * Filter only files that have a size>0* to filter out files that are being transferred
-     * @param extension Extension of the files to filter from the directory like ".fit" or ".gpx"
+     * @param filter Filename filter as regexp
      * @return The list of file names (without path)
      */
-    private List<DirectoryListItem> retrieveDirectoryFileList(String extension)
+    private List<DirectoryListItem> retrieveDirectoryFileList(String filter)
     {
         List<DirectoryListItem> files;
-               
+              
         files=new ArrayList<>();
         Stream.of(directoryFile.listFiles())
                 .filter(file -> !file.isDirectory() && file.length()>0 && 
-                        file.getAbsolutePath().toLowerCase().endsWith(extension))
+                        file.getAbsolutePath().toLowerCase().matches(filter))
                 .forEach(file -> {files.add(new DirectoryListItem(file));});          
         return files;
     }      
@@ -112,15 +127,15 @@ public class DirectoryList
         
     /**
      * Updates the file list
-     * @param extension File extension to filter on
+     * @param filter File name pattern to filter on
      * @return True if the list is empty, otherwise false
      */
-    public boolean updateDirectoryList(String extension)
+    public boolean updateDirectoryList(String filter)
     {
         boolean         isUpdated=false;
         
         // Get the current contents of the directory and compare it to the fileList
-        List<DirectoryListItem>currentFiles=retrieveDirectoryFileList(extension);
+        List<DirectoryListItem>currentFiles=retrieveDirectoryFileList(filter);
 
         // The existing files        
         List<DirectoryListItem> existingFiles=fileList   

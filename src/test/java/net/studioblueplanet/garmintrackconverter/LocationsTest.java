@@ -6,6 +6,7 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,6 +23,8 @@ public class LocationsTest
 {
     private static Locations instanceEdge;
     private static Locations instanceFenix;
+    private static Locations instanceGpsmap67;
+    private static Locations instanceGpx;
     
     public LocationsTest()
     {
@@ -30,8 +33,13 @@ public class LocationsTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceEdge=new Locations("src/test/resources/Locations.fit");
-        instanceFenix=new Locations("src/test/resources/Lctns.fit");
+        instanceEdge    =new Locations("src/test/resources/Locations.fit");
+        instanceFenix   =new Locations("src/test/resources/Lctns.fit");
+        List<String> fileList=new ArrayList<>();
+        fileList.add("src/test/resources/Waypoints_2025-01-10.gpx");
+        fileList.add("src/test/resources/Waypoints_2025-01-11.gpx");
+        instanceGpsmap67=new Locations(fileList);
+        instanceGpx     =new Locations("src/test/resources/Waypoints_2025-01-10.gpx");
     }
     
     @AfterClass
@@ -57,6 +65,8 @@ public class LocationsTest
     {
         System.out.println("getNumberOfWaypoints");
         assertEquals(18, instanceEdge.getNumberOfWaypoints());
+        assertEquals(4, instanceGpsmap67.getNumberOfWaypoints());
+        assertEquals(3, instanceGpx.getNumberOfWaypoints());
     }
 
     /**
@@ -104,7 +114,25 @@ public class LocationsTest
         assertEquals("05-03 12:36:00", waypoint.getLocalDateTime().format(DateTimeFormatter.ofPattern("MM-dd HH:mm:ss")));
         // To Do: add year test
         assertEquals("May 03 12:36", waypoint.getName());
-
     }
-        
+
+    /**
+     * Test of getWaypoints method, of class Locations.
+     */
+    @Test
+    public void testGetWaypointsGpsmap67()
+    {
+        System.out.println("getWaypoints Gpsmap 67");
+        List<Location> result = instanceGpsmap67.getWaypoints();
+        assertEquals(4, result.size());
+        Location waypoint=result.get(0);
+        assertEquals("2025-01-10 12:53:26", waypoint.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        assertNull(waypoint.getLocalDateTime());
+        assertEquals("0001", waypoint.getName());
+        assertEquals(0, waypoint.getSymbol());
+        assertEquals("", waypoint.getDescription());
+        assertEquals(15.806191, waypoint.getElevation(), 0.001);
+        assertEquals(53.012683, waypoint.getLatitude(), 0.0000001);
+        assertEquals(6.724983, waypoint.getLongitude(), 0.0000001);
+    }
 }

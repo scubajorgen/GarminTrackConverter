@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -230,10 +231,10 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                                                     jRouteList   , new DefaultListModel<>(), true);
         newFileDirectoryList    =new DirectoryList(new File(currentDevice.getNewFilePath())     , 
                                                     jNewFilesList, new DefaultListModel<>(), true);
-        trackDirectoryList.updateDirectoryList(".fit");
-        locationDirectoryList.updateDirectoryList(".fit");
-        routeDirectoryList.updateDirectoryList(".fit");
-        newFileDirectoryList.updateDirectoryList(".gpx");
+        trackDirectoryList.updateDirectoryList("^.*\\.(fit)$");
+        locationDirectoryList.updateDirectoryList("^.*\\.(gpx|fit)$");
+        routeDirectoryList.updateDirectoryList("^.*\\.(fit)$");
+        newFileDirectoryList.updateDirectoryList("^.*\\.(gpx)$");
 
         // Read the device file
         readDevice();
@@ -324,7 +325,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
     private void checkForDirectoryUpdates()
     {
-        if (trackDirectoryList.updateDirectoryList(".fit"))
+        if (trackDirectoryList.updateDirectoryList("^.*\\.(fit)$"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -335,7 +336,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 }
             });
         }
-        if (locationDirectoryList.updateDirectoryList(".fit"))
+        if (locationDirectoryList.updateDirectoryList("^.*\\.(gpx|fit)$"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -356,7 +357,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 }
             });
         }
-        if (routeDirectoryList.updateDirectoryList(".fit"))
+        if (routeDirectoryList.updateDirectoryList("^.*\\.(fit)$"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -367,7 +368,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 }
             });
         }
-        if (newFileDirectoryList.updateDirectoryList(".gpx"))
+        if (newFileDirectoryList.updateDirectoryList("^.*\\.(gpx)$"))
         {
             SwingUtilities.invokeLater(() ->
             {
@@ -867,7 +868,18 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         String waypointsFile;
 
         waypointsFile=currentDevice.getWaypointFile();
-        if (new File(waypointsFile).exists())
+        if (waypointsFile==null || "".equals(waypointsFile))
+        {
+            // No waypoint file defined: extract waypoints from all GPX files
+            // in the waypoint directory. GPSMAP 67 way...
+            List<String> gpxFiles=locationDirectoryList.getFileList();
+            Locations locations=new Locations(gpxFiles);
+            globalWaypoints=locations.getLocations();
+            locations.dumpWaypoints();
+            textAreaOutput.append("Waypoints read from GPX files\n");
+            LOGGER.info("Waypoints read from {} GPX files", gpxFiles.size());           
+        }
+        else if (new File(waypointsFile).exists())
         {
             Locations locations=new Locations(waypointsFile);
             globalWaypoints=locations.getLocations();
@@ -878,7 +890,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         else
         {
             textAreaOutput.append("Waypoint file "+waypointsFile+" not found\n");
-            LOGGER.error("Waypoints file {} not found", waypointsFile);
+            LOGGER.warn("Waypoints file {} not found, creating empty list of waypoints", waypointsFile);
+            Locations locations=new Locations();
+            globalWaypoints=locations.getLocations();
         }
     }
     

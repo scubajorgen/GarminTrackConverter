@@ -6,7 +6,6 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
-import java.time.ZoneId;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,13 +27,65 @@ import org.apache.logging.log4j.Logger;
 public class Locations
 {
     private final static Logger         LOGGER = LogManager.getLogger(Locations.class);
+    // We represent the waypoints as a Track so that we can reuse
+    // the display functionality; of course we only use the waypoints in the Track
     private final Track                 waypoints;
     
     /**
      * Reads the global waypoints file into the Track waypoints.
+     * The waypoint file can be .fit or .gpx. If anything else is ped.assed,
+     * an empty waypoint list is creat
      * @param waypointFileName File to load the waypoints from
      */
     public Locations(String waypointFileName)
+    {
+        if (waypointFileName.toLowerCase().endsWith("gpx"))
+        {
+            waypoints=readWaypointsFromGpxFile(waypointFileName);
+        }
+        else if (waypointFileName.toLowerCase().endsWith("fit"))
+        {
+            waypoints=readWaypointsFromFitFile(waypointFileName);
+        }
+        else
+        {
+            waypoints=new Track(0.0, 0.0); 
+        }
+    }
+    
+    /**
+     * Constructor that takes a list of files as input and derives the 
+     * waypoints from all of these files that are GPX files
+     * @param waypointFiles List of files to process
+     */
+    public Locations(List<String> waypointFiles)
+    {
+        waypoints=new Track(0.0, 0.0);
+        List<Location> waypointList=waypoints.getWaypoints();
+        for(String waypointFile : waypointFiles)
+        {
+            if (waypointFile.toLowerCase().endsWith("gpx"))
+            {
+                Track wpts=readWaypointsFromGpxFile(waypointFile);
+                waypointList.addAll(wpts.getWaypoints());
+            }
+        }
+    }
+    
+    /**
+     * Constructor. Creates an empty list of waypoints.
+     */
+    public Locations()
+    {
+        waypoints=new Track(0.0, 0.0);
+    }
+    
+    /**
+     * Read waypoints from .fit file
+     * @param waypointFileName The waypoint file in .fit format
+     * @return Track representing the waypoints
+     */
+    private Track readWaypointsFromFitFile(String waypointFileName)
     {
         FitReader               reader;
         FitMessageRepository    repository;
@@ -51,7 +102,7 @@ public class Locations
         int                     i;
         int                     size;
 
-        waypoints=new Track(0.0, 0.0);
+        Track wpts=new Track(0.0, 0.0);
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
         record=repository.getFitMessage("location");
@@ -86,7 +137,7 @@ public class Locations
                 lon         =record.getLatLonValue(i, "position_long");
                 ele         =record.getScaledValue(i, "altitude");
                 symbol      =(int)record.getIntValue(i, "symbol");
-                waypoints.addWaypoint(new Location(name, description, localDateTime, dateTime, lat, lon, ele, symbol));
+                wpts.addWaypoint(new Location(name, description, localDateTime, dateTime, lat, lon, ele, symbol));
 
 
                 if (dateTime!=null)
@@ -102,8 +153,21 @@ public class Locations
                                  );
                 i++;
             }        
-        }        
+        }     
+        return wpts;
     }
+    
+    /**
+     * Read waypoints from .gpx file
+     * @param waypointFileName The waypoint file in .fit format
+     * @return Track representing the waypoints
+     */
+    private Track readWaypointsFromGpxFile(String waypointFileName)
+    {
+        GpxReader reader=GpxReader.getInstance();
+        Track wpts=reader.readRouteFromFile(waypointFileName);
+        return wpts;
+    }    
     
     /**
      * Returns the Locations as track
@@ -139,15 +203,12 @@ public class Locations
         return dateTime;
     }
     
-    
-    
-    
     /**
      * Extracts the local datetime of the waypoint, assuming the Fenix. 
      * In some Garmins it is filled in in the timestamp field of the waypoint. 
      * In the Fenix however the date time is not filled in in the timestamp field. 
      * However, the local date time is by default used as name, e.g. "Apr 09 9:23".
-     * The issue hiere is that we do not know the timezone of this local date time.
+     * The issue here is that we do not know the timezone of this local date time.
      * If the timestamp is not found, a try is made to extract it from the name
      * as second best.
      * @param record The FitMessage to use

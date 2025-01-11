@@ -170,7 +170,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         
         result=instance.updateListModel();
@@ -195,7 +195,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList4);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -219,7 +219,7 @@ public class DirectoryListTest
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(0);
         when(modelMock.size()).thenReturn(2);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -244,7 +244,7 @@ public class DirectoryListTest
         reset(modelMock);
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -255,7 +255,7 @@ public class DirectoryListTest
         reset(modelMock);
         stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList2);
-        result=instance.updateDirectoryList(".fit");
+        result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -279,7 +279,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(listMock.getSelectedIndex()).thenReturn(-1);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -293,7 +293,7 @@ public class DirectoryListTest
         when(listMock.getSelectedIndex()).thenReturn(0);
         when(fileMock.listFiles()).thenReturn(fileList3);
         when(modelMock.size()).thenReturn(0);
-        result=instance.updateDirectoryList(".fit");
+        result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertTrue(result);
@@ -315,7 +315,7 @@ public class DirectoryListTest
         reset(modelMock);
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -326,7 +326,7 @@ public class DirectoryListTest
         reset(modelMock);
         stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList5);
-        result=instance.updateDirectoryList(".fit");
+        result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertFalse(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -350,7 +350,7 @@ public class DirectoryListTest
         reset(modelMock);
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        boolean result=instance.updateDirectoryList(".fit");
+        boolean result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -361,7 +361,7 @@ public class DirectoryListTest
         reset(modelMock);
         stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList6);
-        result=instance.updateDirectoryList(".fit");
+        result=instance.updateDirectoryList("^.*\\.(fit)$");
         assertTrue(result);
         result=instance.updateListModel();
         assertFalse(result);
@@ -434,7 +434,7 @@ public class DirectoryListTest
         DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, true);
         reset(listMock);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         when(listMock.getSelectedIndex()).thenReturn(0);
         assertEquals("testfile1.fit", instance.getSelectedFileName());
         when(listMock.getSelectedIndex()).thenReturn(1);
@@ -443,7 +443,7 @@ public class DirectoryListTest
         instance=new DirectoryList(fileMock, listMock, modelMock, false);
         reset(listMock);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         when(listMock.getSelectedIndex()).thenReturn(0);
         assertEquals("testfile2.fit", instance.getSelectedFileName());
         when(listMock.getSelectedIndex()).thenReturn(1);
@@ -460,7 +460,7 @@ public class DirectoryListTest
         DirectoryList instance=new DirectoryList(fileMock, listMock, modelMock, false);
         reset(listMock);
         when(fileMock.listFiles()).thenReturn(fileList1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         assertEquals("testfile2.fit", instance.getFileName(0));
         assertEquals("testfile1.fit", instance.getFileName(1));
 
@@ -482,7 +482,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
@@ -498,7 +498,7 @@ public class DirectoryListTest
         reset(modelMock);
         stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList2);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         verify(modelMock, times(2)).addElement(stringCaptor.capture());
         // Item 0: testfile3.fit
@@ -526,7 +526,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
@@ -545,7 +545,7 @@ public class DirectoryListTest
         reset(modelMock);
         stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList6);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         verify(modelMock, times(2)).addElement(stringCaptor.capture());
         // Item 0: testfile2.fit, but new file
@@ -573,7 +573,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit
@@ -602,7 +602,7 @@ public class DirectoryListTest
         ArgumentCaptor<String> stringCaptor=ArgumentCaptor.forClass(String.class);
         when(fileMock.listFiles()).thenReturn(fileList1);
         when(listMock.getSelectedIndex()).thenReturn(-1);
-        instance.updateDirectoryList(".fit");
+        instance.updateDirectoryList("^.*\\.(fit)$");
         instance.updateListModel();
         // Item 0: testfile2.fit
         // Item 1: testfile1.fit

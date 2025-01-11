@@ -10,3 +10,15 @@
 /development/device_fenix7_sync/GARMIN/Courses/*.fit
 /development/device_fenix7_sync/GARMIN/Location/*.fit
 /development/device_fenix7_sync/GARMIN/NewFiles/*.gpx
+/development/device_edge1040_sync/Garmin/*.xml
+/development/device_edge1040_sync/Garmin/*.fit
+/development/device_edge1040_sync/Garmin/Activities/*.fit
+/development/device_edge1040_sync/Garmin/Courses/*.fit
+/development/device_edge1040_sync/Garmin/Locations/*.fit
+/development/device_edge1040_sync/Garmin/NewFiles/*.gpx
+/development/device_gpsmap67_sync/GARMIN/*.xml
+/development/device_gpsmap67_sync/GARMIN/*.fit
+/development/device_gpsmap67_sync/GARMIN/Activities/*.fit
+/development/device_gpsmap67_sync/GARMIN/Courses/*.fit
+/development/device_gpsmap67_sync/GARMIN/GPX/*.gpx
+/development/device_gpsmap67_sync/GARMIN/NewFiles/*.gpx

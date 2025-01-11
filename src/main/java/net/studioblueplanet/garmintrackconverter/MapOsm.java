@@ -9,7 +9,6 @@ import java.awt.BasicStroke;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
@@ -255,7 +254,13 @@ public class MapOsm extends Map
             
             for (Waypoint waypoint : waypoints)
             {
-                bounds.add(waypoint.getPosition());
+                // Add a small bounding box around the waypoint, to compensate for
+                // the situation in which there is 1 waypoint
+                GeoPosition wpt=waypoint.getPosition();
+                GeoPosition wptNW=new GeoPosition(wpt.getLatitude()-0.0001,wpt.getLongitude()-0.0001);
+                GeoPosition wptSE=new GeoPosition(wpt.getLatitude()+0.0001,wpt.getLongitude()+0.0001);
+                bounds.add(wptNW);
+                bounds.add(wptSE);
             }
             return bounds;
         }
@@ -524,7 +529,11 @@ public class MapOsm extends Map
         // Set the focus
         if (fitTrack)
         {
-            mapViewer.zoomToBestFit(new HashSet<>(track.getBounds()), 0.9);
+            List<GeoPosition> bounds=track.getBounds();
+            if (bounds.size()>1)
+            {
+                mapViewer.zoomToBestFit(new HashSet<>(bounds), 0.9);
+            }
         }
         
         // Create a compound painter that uses both the route-painter and the waypoint-painter
