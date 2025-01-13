@@ -124,7 +124,7 @@ public class Track
         trackMessages   =repository.getAllMessages("record");
         sessionMessages =repository.getAllMessages("session");
         eventMessages   =repository.getAllMessages("event");
-        
+
         //file_id
         message    =repository.getFitMessage("file_id");
         if (message!=null)
@@ -166,7 +166,8 @@ public class Track
                 source          =FitGlobalProfile.getInstance().getTypeValueName("source_type", id);
                 id              =(int)message.getIntValue(i, "device_type");
 
-                if ("local".equals(source))
+                // source is used on Edge 1040 and Fenix 7, not on GPSMAP 67
+                if ("local".equals(source) || source==null)
                 {
                     deviceType=FitGlobalProfile.getInstance().getTypeValueName("local_device_type", id);
 
@@ -182,22 +183,22 @@ public class Track
                     }
                     if ("barometer".equals(deviceType))
                     {
-                        id                  =(int)message.getIntValue(i, "manufacturer");
+                        id              =(int)message.getIntValue(i, "manufacturer");
                         deviceBarometer =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
                         deviceBarometer +=" ";  
-                        id                  =(int)message.getIntValue(i, "product");
+                        id              =(int)message.getIntValue(i, "product");
                         deviceBarometer +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
                         double version  =message.getScaledValue(i, "software_version");
                         deviceBarometer +=String.format(", software version: %.2f", version);                    
                     }
-                    if ("gps".equals(deviceType))
+                    if ("gps".equals(deviceType) || "glonass".equals(deviceType))
                     {
-                        id                  =(int)message.getIntValue(i, "manufacturer");
+                        id              =(int)message.getIntValue(i, "manufacturer");
                         deviceGps       =FitGlobalProfile.getInstance().getTypeValueName("manufacturer", id);
                         deviceGps       +=" ";  
-                        id                  =(int)message.getIntValue(i, "product");
+                        id              =(int)message.getIntValue(i, "product");
                         deviceGps       +=FitGlobalProfile.getInstance().getTypeValueName("garmin_product", id);
-                        double version      =message.getScaledValue(i, "software_version");
+                        double version  =message.getScaledValue(i, "software_version");
                         deviceGps       +=String.format(", software version: %.2f", version);                    
                     }
                 }
