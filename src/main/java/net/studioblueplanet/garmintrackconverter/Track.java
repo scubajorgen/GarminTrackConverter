@@ -538,7 +538,6 @@ public class Track
                 {
                     builder.elevation(message.getScaledValue(i, "corrected_altitude"));
                 }
-
                     
                 if (message.hasField("temperature"))
                 {
