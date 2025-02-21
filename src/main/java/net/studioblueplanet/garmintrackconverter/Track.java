@@ -77,7 +77,8 @@ public class Track
     private Double                          calories;       // cal
     private Integer                         jumpCount;      // 
     private String                          mode;           //
-    private String                          deviceExternalHr;
+    private String                          deviceExternalHrBle;
+    private String                          deviceExternalHrAnt;
     private String                          deviceBarometer;
     private String                          deviceGps;
     
@@ -207,7 +208,7 @@ public class Track
                     deviceType=FitGlobalProfile.getInstance().getTypeValueName("ble_device_type", id);
                     if ("heart_rate".equals(deviceType))
                     {
-                        deviceExternalHr=processHrDeviceInfo(message, i, source);
+                        deviceExternalHrBle=processHrDeviceInfo(message, i, source);
                     }
                 }
                 else if ("antplus".equals(source))
@@ -215,7 +216,7 @@ public class Track
                     deviceType=FitGlobalProfile.getInstance().getTypeValueName("antplus_device_type", id);
                     if ("heart_rate".equals(deviceType))
                     {
-                        deviceExternalHr=processHrDeviceInfo(message, i, source);
+                        deviceExternalHrAnt=processHrDeviceInfo(message, i, source);
                     }
                 }
             }
@@ -871,10 +872,15 @@ public class Track
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+percentage+"%, omitted)";
         info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
-        if (deviceExternalHr!=null)
+        if (deviceExternalHrBle!=null)
         {
-            info+=" with external HR sensor: "+deviceExternalHr;
+            info+=" with external HR sensor: "+deviceExternalHrBle;
         }
+        else if (deviceExternalHrAnt!=null)
+        {
+            info+=" with external HR sensor: "+deviceExternalHrAnt;
+        }
+
         return info;
     }
 
@@ -1150,7 +1156,16 @@ public class Track
     
     public String getDeviceExternalHr()
     {
-        return this.deviceExternalHr;
+        String returnValue=null;
+        if (deviceExternalHrBle!=null)
+        {
+            returnValue=deviceExternalHrBle;
+        }
+        else if (deviceExternalHrAnt!=null)
+        {
+            returnValue=deviceExternalHrAnt;
+        }
+        return returnValue;
     }
     
     /**
