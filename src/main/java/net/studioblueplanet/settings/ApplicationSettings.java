@@ -165,7 +165,7 @@ public class ApplicationSettings
     /**
      * Returns if the application should display the synced files of the first 
      * Device in the list that is of type 'USBDevice'.
-     * @return 
+     * @return Boolean 
      */
     public boolean isShowSyncWhenNoDeviceAttached()
     {

@@ -51,7 +51,7 @@ public class DirectoryList
 
     /**
      * Get the list of files
-     * @return 
+     * @return List of files
      */
     public List<String> getFileList()
     {

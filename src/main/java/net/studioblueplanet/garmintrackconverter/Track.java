@@ -319,7 +319,7 @@ public class Track
         long time           =message.getIntValue(index, "cum_operating_time");
         if (time<4294967295L)
         {
-            info            +="operating time: "+time/3600+"h ";
+            info            +="operating time: "+Toolbox.toTimeIntervalString(time)+" ";
         }
         
         id                  =(int)message.getIntValue(index, "sensor_position"); 

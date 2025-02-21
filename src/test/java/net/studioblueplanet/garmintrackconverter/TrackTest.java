@@ -26,6 +26,7 @@ public class TrackTest
     private Track instance;
     private static Track instanceTwoSegments;
     private static Track instanceExternalHr;
+    private static Track instanceExternalHr2;
     private static Track instanceOtherTimezone;
     
     public TrackTest()
@@ -37,6 +38,7 @@ public class TrackTest
     {
         instanceTwoSegments    =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
         instanceExternalHr     =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
+        instanceExternalHr2    =new Track("src/test/resources/2025-02-20-15-48-40-external.fit", "TestDevice", 3.0, 0.5);
         instanceOtherTimezone  =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", "TestDevice", 3.0, 0.5);
     }
     
@@ -373,6 +375,12 @@ public class TrackTest
                      "Device: TestDevice, sw: 14.68 "+
                      "with external HR sensor: serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getTrackInfo2());
+        assertEquals("Activity: cycling - gravel_cycling\n" +
+                     "Segments: 1, points: 6657, compressed: 980 (14%), waypoints: 0\n" +
+                     "Valid points: 6657, invalid points: 0 (0%, omitted)\n" +
+                     "Device: TestDevice, sw: 25.25 with external HR sensor: garmin hrm_dual serial: 3498347966 battery: ok 2.984 V "+
+                     "operating time: 13h35'32\" type: antplus/antplus", 
+                     instanceExternalHr2.getTrackInfo2());
     }
 
     /**
