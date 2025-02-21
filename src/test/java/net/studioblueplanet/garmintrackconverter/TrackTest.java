@@ -371,7 +371,7 @@ public class TrackTest
                      "Segments: 1, points: 123, compressed: 5 (4%), waypoints: 0\n" +
                      "Valid points: 123, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 14.68 "+
-                     "with external HR sensor: serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
+                     "with external HR sensor: serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getTrackInfo2());
     }
 
@@ -600,7 +600,7 @@ public class TrackTest
     {
         System.out.println("getDeviceExternalHrSensor");
         assertNull(instance.getDeviceExternalHr());
-        assertEquals("serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus", 
+        assertEquals("serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getDeviceExternalHr());
     }
 

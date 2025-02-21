@@ -1728,7 +1728,7 @@
       <u-gotMe:deviceFirmware>14.68</u-gotMe:deviceFirmware>
       <u-gotMe:deviceGps>garmin airoha, software version: 5.00</u-gotMe:deviceGps>
       <u-gotMe:deviceBarometer>garmin fenix7, software version: 14.68</u-gotMe:deviceBarometer>
-      <u-gotMe:deviceExternalHr>serial: 2017225 battery: 100% source: bluetooth_low_energy/antplus</u-gotMe:deviceExternalHr>
+      <u-gotMe:deviceExternalHr>serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus</u-gotMe:deviceExternalHr>
       <u-gotMe:software>appname</u-gotMe:software>
       <u-gotMe:activity>cycling - mountain</u-gotMe:activity>
       <u-gotMe:sourceFile>2023-11-22-19-57-27-external.fit</u-gotMe:sourceFile>

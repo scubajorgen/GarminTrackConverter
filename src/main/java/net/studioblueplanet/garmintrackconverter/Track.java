@@ -207,13 +207,15 @@ public class Track
                     deviceType=FitGlobalProfile.getInstance().getTypeValueName("ble_device_type", id);
                     if ("heart_rate".equals(deviceType))
                     {
-                        id              =(int)message.getIntValue(i, "ant_network");
-                        antNetwork      =FitGlobalProfile.getInstance().getTypeValueName("ant_network", id);
-
-                        deviceExternalHr="serial: "+message.getIntValue(i, "serial_number")+
-                                         " battery: "+message.getIntValue(i, "battery_level")+
-                                         "% source: "+source+
-                                         "/"+antNetwork;
+                        deviceExternalHr=processHrDeviceInfo(message, i, source);
+                    }
+                }
+                else if ("antplus".equals(source))
+                {
+                    deviceType=FitGlobalProfile.getInstance().getTypeValueName("antplus_device_type", id);
+                    if ("heart_rate".equals(deviceType))
+                    {
+                        deviceExternalHr=processHrDeviceInfo(message, i, source);
                     }
                 }
             }
@@ -269,6 +271,70 @@ public class Track
             compressionMaxError=0.0;
         }
     }
+    
+    /**
+     * Processes DeviceInfo message containing external HR info
+     * @param message Fit DeviceInfo message
+     * @param index Index in message
+     * @param source Source value
+     * @return String with info
+     */
+    private String processHrDeviceInfo(FitMessage message, int index, String source)
+    {
+        FitGlobalProfile p=FitGlobalProfile.getInstance();
+        String  info        ="";
+        
+        int id              =(int)message.getIntValue(index, "manufacturer");
+        if (id!=65535)
+        {
+            info            +=p.getTypeValueName("manufacturer", id)+" ";
+            if (id==1)
+            {
+                id          =(int)message.getIntValue(index, "product");
+                if (id!=65535)
+                {
+                    info    +=p.getTypeValueName("garmin_product", id)+" ";
+                }
+            }
+        }
+        info                +="serial: "         +message.getIntValue(index, "serial_number");
+        
+        info                +=" battery: ";
+        id                  =(int)message.getIntValue(index, "battery_status");
+        if (id!=65535)
+        {
+            info            += p.getTypeValueName("battery_status", id)+" ";
+        }
+        double battVoltage  =message.getScaledValue(index, "battery_voltage");
+        if (battVoltage<255.0)
+        {
+            info            +=String.format("%4.3f V ", battVoltage);
+        }
+        int    battLevel    =(int)message.getIntValue(index, "battery_level");
+        if (battLevel<=100)
+        {
+            info            +=battLevel+"% ";
+        }
+        
+        long time           =message.getIntValue(index, "cum_operating_time");
+        if (time<4294967295L)
+        {
+            info            +="operating time: "+time/3600+"h ";
+        }
+        
+        id                  =(int)message.getIntValue(index, "sensor_position"); 
+        if (id<255)
+        {
+            info            +="body position: "+p.getTypeValueName("body_location", id)+" ";
+        }
+
+        id                  =(int)message.getIntValue(index, "ant_network");
+        info                +="type: "+source+"/"+FitGlobalProfile.getInstance().getTypeValueName("ant_network", id);
+        
+        LOGGER.info("External HR: {}", info);  
+        return info;
+    }
+    
     
     /**
      * Constructor for a simple track.
@@ -360,8 +426,8 @@ public class Track
     }
     
     /**
-     * This method parses the FIT lap record and distils the number of sessions.
-     * @param lapMessages The FIT record holding the 'lap' info
+     * This method parses the FIT session record and distils the number of sessions.
+     * @param sessionMessages The FIT record holding the 'session' info
      */
     private void parseSessions(List<FitMessage> sessionMessages)
     {
@@ -382,6 +448,9 @@ public class Track
                 startLon    =message.getLatLonValue(i, "start_position_long");
                 
                 distance    =message.getScaledValue(i, "total_distance");
+                
+                // We've seen an anomaly on the GPSMAP 67 on a 12 hours recording
+                // The starttime was incorrect and 4 hours before the endtime i.s.o 12 hours
                 
                 if (message.hasField("enhanced_avg_speed"))
                 {
@@ -455,7 +524,7 @@ public class Track
     
     /**
      * This method parses the FIT lap record and destilles the number of sessions.
-     * @param lapMessages The FIT record holding the 'lap' info
+     * @param eventMessages The FIT record holding the 'event' info
      */
     private void getSegmentsFromEvents(List<FitMessage> eventMessages)
     {
@@ -496,6 +565,8 @@ public class Track
                         {
                             started=true;
                             start=message.getTimeValue(i, "timestamp");
+                            // It has been observed with GPSMAP67 with 12 hour activity
+                            // that the start timestamp is incorrect
                         }
                     }
                 }
