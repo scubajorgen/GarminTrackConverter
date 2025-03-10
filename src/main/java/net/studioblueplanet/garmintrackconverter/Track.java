@@ -44,6 +44,7 @@ public class Track
 
     private boolean                         behaviourSmoothed;
     private boolean                         behaviourCompressed;
+    private TrackSession                    session;
     private final List<TrackSegment>        segments;
     private final List<Location>            waypoints;
     
@@ -57,26 +58,10 @@ public class Track
     private String                          fileType;
     private String                          softwareVersion;
 
-    // Info from session
-    private String                          sport;
-    private String                          subSport;
-    private ZonedDateTime                   startTime;
-    private ZonedDateTime                   endTime;
-    private Long                            timeOffset;     // s - offset from system time
-    private Long                            elapsedTime;    // s
-    private Long                            timedTime;      // s
-    private Double                          startLat;       // degrees
-    private Double                          startLon;       // degrees
-    private Double                          distance;       // m
-    private Double                          averageSpeed;   // km/h
-    private Double                          maxSpeed;       // km/h
-    private Integer                         ascent;         // m
-    private Integer                         descent;        // m
-    private Double                          grit;           // kGrit
-    private Double                          flow;           // FLOW
-    private Double                          calories;       // cal
-    private Integer                         jumpCount;      // 
-    private String                          mode;           //
+    // Device Settings
+    private Long                            timeOffset;         // s - offset from system time
+
+    // Device Info
     private String                          deviceExternalHrBle;
     private String                          deviceExternalHrAnt;
     private String                          deviceBarometer;
@@ -228,7 +213,7 @@ public class Track
             if (sessionMessages!=null && sessionMessages.size()>0)
             {
                 // Get data from session
-                this.parseSessions(sessionMessages);
+                session=new TrackSession(sessionMessages);
             }            
             
             // Get track segments from timer start/stop; only works for tracks
@@ -346,6 +331,7 @@ public class Track
      */
     public Track(double compressionMaxError, double smoothingAccuracy)
     {
+        session                 =new TrackSession();
         segments                =new ArrayList<>();
         waypoints               =new ArrayList<>();
         this.compressionMaxError=compressionMaxError;
@@ -407,9 +393,9 @@ public class Track
 
                 if (segmentStartTime!=null)
                 {
-                    elapsedTime     =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
-                    segmentEndTime  =segmentStartTime.plusSeconds(elapsedTime);
-                    segment     =new TrackSegment(segmentStartTime, segmentEndTime);
+                    long elapsedTime    =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
+                    segmentEndTime      =segmentStartTime.plusSeconds(elapsedTime);
+                    segment             =new TrackSegment(segmentStartTime, segmentEndTime);
                     segments.add(segment);
                     LOGGER.debug("Lap {} {} - {} {} s", 
                                  message.getIntValue(i, "message_index"),
@@ -426,102 +412,7 @@ public class Track
         
     }
     
-    /**
-     * This method parses the FIT session record and distils the number of sessions.
-     * @param sessionMessages The FIT record holding the 'session' info
-     */
-    private void parseSessions(List<FitMessage> sessionMessages)
-    {
-        int                     size;
-        int                     id;
-        
-        for (FitMessage message:sessionMessages)
-        {
-            size            =message.getNumberOfRecords();
-            for(int i=0; i<size; i++)
-            {
-                endTime     =message.getTimeValue(i, "timestamp");
-                startTime   =message.getTimeValue(i, "start_time");
-                elapsedTime =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
-                timedTime   =message.getIntValue(i, "total_timer_time")/MS_PER_S;
 
-                startLat    =message.getLatLonValue(i, "start_position_lat");
-                startLon    =message.getLatLonValue(i, "start_position_long");
-                
-                distance    =message.getScaledValue(i, "total_distance");
-                
-                // We've seen an anomaly on the GPSMAP 67 on a 12 hours recording
-                // The starttime was incorrect and 4 hours before the endtime i.s.o 12 hours
-                
-                if (message.hasField("enhanced_avg_speed"))
-                {
-                    averageSpeed=message.getScaledValue(i, "enhanced_avg_speed")*KMH_PER_MS;
-                }
-                else if (message.hasField("avg_speed"))
-                {
-                    averageSpeed=message.getScaledValue(i, "avg_speed")*KMH_PER_MS;
-                }
-                if (message.hasField("enhanced_max_speed"))
-                {
-                    maxSpeed    =message.getScaledValue(i, "enhanced_max_speed")*KMH_PER_MS;
-                }
-                else if (message.hasField("max_speed"))
-                {
-                    maxSpeed    =message.getScaledValue(i, "max_speed")*KMH_PER_MS;
-                }
-                grit        =message.getFloatValue(i, "total_grit");
-                flow        =message.getFloatValue(i, "avg_flow");
-                if (message.hasField("jump_count"))
-                {
-                    jumpCount   =(int)message.getIntValue(i, "jump_count");
-                }
-                else
-                {
-                    jumpCount   =null;
-                }
-                calories    =message.getScaledValue(i, "total_calories");
-                ascent      =(int)message.getIntValue(i, "total_ascent");
-                if (ascent==0xffff)
-                {
-                    ascent=null;
-                }
-                descent     =(int)message.getIntValue(i, "total_descent");
-                if (descent==0xffff)
-                {
-                    descent=null;
-                }
-                mode        =message.getStringValue(i, "mode");
-                
-                id=(int)message.getIntValue(0, "sport");
-                sport=FitGlobalProfile.getInstance().getTypeValueName("sport", id);
-                id=(int)message.getIntValue(0, "sub_sport");
-                subSport=FitGlobalProfile.getInstance().getTypeValueName("sub_sport", id);
-                
-                if (startTime!=null && endTime!=null)
-                {
-                    LOGGER.info("SESSION        : {}", message.getIntValue(i, "message_index"));
-                    LOGGER.info("Time           : {}-{}", startTime.toString(), endTime.toString());
-                    LOGGER.info("Duration       : {}/{} sec", elapsedTime, timedTime);
-                    LOGGER.info("Distance       : {} km", distance);
-                    LOGGER.info("Speed          : average {}, max {} km/h", averageSpeed, maxSpeed);
-                    LOGGER.info("Ascent/Descent : {}/{} m", ascent, descent);
-                    LOGGER.info("Sport          : {} - {}", sport, subSport);
-                    LOGGER.info("Mode           : {}", mode);
-                    if ("OFF ROAD".equals(mode))
-                    {
-                        LOGGER.info("Grit           : {} kGrit", grit);
-                        LOGGER.info("Flow           : {}", flow);
-                        LOGGER.info("Jumps          : {}", jumpCount);
-                    }
-                    LOGGER.info("Calories       : {} cal", calories);
-                }
-                else
-                {
-                    LOGGER.error("Session does not contain start and end time");
-                }
-            }   
-        }
-    }    
     
     /**
      * This method parses the FIT lap record and destilles the number of sessions.
@@ -732,7 +623,7 @@ public class Track
                 LocalDateTime localDateTime=waypoint.getLocalDateTime();
                 if (localDateTime!=null)
                 {
-                    ZoneId zone=startTime.getZone();
+                    ZoneId zone=session.getStartTime().getZone();
                     dateTime=ZonedDateTime.ofInstant(localDateTime, ZoneOffset.ofTotalSeconds(timeOffset.intValue()), zone);
                 }
             }
@@ -782,13 +673,14 @@ public class Track
      */
     public String getTrackInfo()
     {
-        String          info;
         int             noOfSegments;
         TrackSegment    segment;
         
-        noOfSegments=segments.size();
+        noOfSegments    =segments.size();
         
-        info="Track ";
+        String sport    =session.getSport();
+        String subSport =session.getSubSport();
+        String info     ="Track ";
         if (sport!=null)
         {
             info+="("+sport;
@@ -819,14 +711,9 @@ public class Track
      */
     public String getTrackInfo2()
     {
-        String          info;
-        int             i;
-        int             noOfSegments;
-        TrackSegment    segment;
-        
-        noOfSegments=segments.size();
-        
-        info="Activity: ";
+        String sport    =session.getSport();
+        String subSport =session.getSubSport();
+        String info     ="Activity: ";
         if (sport!=null)
         {
             info+=sport;
@@ -1002,67 +889,69 @@ public class Track
      */
     public Long getElapsedTime()
     {
-        return elapsedTime;
+        return session.getElapsedTime();
     }
 
     public Long getTimedTime()
     {
-        return timedTime;
+        return session.getTimedTime();
     }
 
     public Double getStartLat()
     {
-        return startLat;
+        return session.getStartLat();
     }
 
     public Double getStartLon()
     {
-        return startLon;
+        return session.getStartLon();
     }
 
     public Double getDistance()
     {
-        return distance;
+        return session.getDistance();
     }
 
     public Double getAverageSpeed()
     {
-        return averageSpeed;
+        return session.getAverageSpeed();
     }
 
     public Double getMaxSpeed()
     {
-        return maxSpeed;
+        return session.getMaxSpeed();
     }
 
     public Integer getAscent()
     {
-        return ascent;
+        return session.getAscent();
     }
 
     public Integer getDescent()
     {
-        return descent;
+        return session.getDescent();
     }
 
     public void setSport(String sport)
     {
-        this.sport=sport;
+        session.setSport(sport);
     }
     
     public String getSport()
     {
-        return this.sport;
+        return session.getSport();
     }
     
     public String getSubSport()
     {
-        return subSport;
+        return session.getSubSport();
     }
     
     public String getSportDescription()
     {
         String desc;
+        String sport    =session.getSport();
+        String subSport =session.getSubSport();
         if (sport!=null && subSport!=null)
         {
             desc=sport+" - "+subSport;
@@ -1101,27 +990,27 @@ public class Track
 
     public Double getGrit()
     {
-        return grit;
+        return session.getGrit();
     }
 
     public Double getFlow()
     {
-        return flow;
+        return session.getFlow();
     }
 
     public Double getCalories()
     {
-        return calories;
+        return session.getCalories();
     }
 
     public Integer getJumpCount()
     {
-        return jumpCount;
+        return session.getJumpCount();
     }
 
     public String getMode()
     {
-        return mode;
+        return session.getMode();
     }
 
     public String getFitFileName()
@@ -1131,17 +1020,17 @@ public class Track
 
     public ZonedDateTime getStartTime()
     {
-        return startTime;
+        return session.getStartTime();
     }
 
     public ZonedDateTime getEndTime()
     {
-        return endTime;
+        return session.getEndTime();
     }
 
     public String getStartDate()
     {
-        return startTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        return session.getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
     
     public int getInvalidCoordinates()
