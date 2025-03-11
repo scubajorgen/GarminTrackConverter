@@ -187,12 +187,38 @@ public class TrackTest
         System.out.println("getNumberOfSegments - events");
         assertEquals(1, instance.getNumberOfSegments());
         assertEquals(2, instanceTwoSegments.getNumberOfSegments());
+        assertEquals("Events", instance.getSegmentSource());
+        
+        Track instance5=new Track("src/test/resources/test_gpsmap67_short_onesegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        assertEquals(1, instance5.getNumberOfSegments());
+        assertEquals("2025-02-24T17:01:16Z[UTC]", instance5.getSegments().get(0).getStartTime().toString());
+        assertEquals("2025-02-24T17:32:29Z[UTC]", instance5.getSegments().get(0).getEndTime().toString());
+        assertEquals("Events", instance5.getSegmentSource());
 
         System.out.println("getNumberOfSegments - laps");
         Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", "TestDevice", 3.0, 0.5);
         assertEquals(1, instance2.getNumberOfSegments());
         assertEquals("2022-11-08T19:00:39Z[UTC]", instance2.getSegments().get(0).getStartTime().toString());
         assertEquals("2022-11-08T21:52:54Z[UTC]", instance2.getSegments().get(0).getEndTime().toString());
+        assertEquals("Laps", instance2.getSegmentSource());
+
+        // The GPSMAP 66sr and 67 anomalies when segments are long (>~3h)
+        System.out.println("getNumberOfSegments - TrackPoints");
+        Track instance4=new Track("src/test/resources/test_gpsmap67_long_onesegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        assertEquals(1, instance4.getNumberOfSegments());
+        assertEquals("2025-03-09T08:13:44Z[UTC]", instance4.getSegments().get(0).getStartTime().toString());
+        assertEquals("2025-03-09T14:30:11Z[UTC]", instance4.getSegments().get(0).getEndTime().toString());
+        assertEquals("TrackPoints", instance4.getSegmentSource());
+
+        Track instance3=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        assertEquals(3, instance3.getNumberOfSegments());
+        assertEquals("2025-03-10T06:43:10Z[UTC]", instance3.getSegments().get(0).getStartTime().toString());
+        assertEquals("2025-03-10T09:45:29Z[UTC]", instance3.getSegments().get(0).getEndTime().toString());
+        assertEquals("2025-03-10T12:45:28Z[UTC]", instance3.getSegments().get(1).getStartTime().toString());
+        assertEquals("2025-03-10T12:49:58Z[UTC]", instance3.getSegments().get(1).getEndTime().toString());
+        assertEquals("2025-03-10T12:50:59Z[UTC]", instance3.getSegments().get(2).getStartTime().toString());
+        assertEquals("2025-03-10T16:21:28Z[UTC]", instance3.getSegments().get(2).getEndTime().toString());
+        assertEquals("TrackPoints", instance3.getSegmentSource());
     }
 
     /**
@@ -360,23 +386,23 @@ public class TrackTest
         System.out.println("getTrackInfo2");
         instance.setBehaviour(false, false);
         assertEquals("Activity: cycling - gravel_cycling\n" +
-                     "Segments: 1, points: 5023, compressed: 666 (13%), waypoints: 1\n" +
+                     "Segments: 1 (based on Events), points: 5023, compressed: 666 (13%), waypoints: 1\n" +
                      "Valid points: 5023, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 7.10", instance.getTrackInfo2());
         instance.setBehaviour(true, false);
         assertEquals("Activity: cycling - gravel_cycling (smoothed)\n" +
-                     "Segments: 1, points: 5023, compressed: 545 (10%), waypoints: 1\n" +
+                     "Segments: 1 (based on Events), points: 5023, compressed: 545 (10%), waypoints: 1\n" +
                      "Valid points: 5023, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 7.10", instance.getTrackInfo2());
         instance.setBehaviour(false, false);
         assertEquals("Activity: cycling - mountain\n" +
-                     "Segments: 1, points: 123, compressed: 5 (4%), waypoints: 0\n" +
+                     "Segments: 1 (based on Events), points: 123, compressed: 5 (4%), waypoints: 0\n" +
                      "Valid points: 123, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 14.68 "+
                      "with external HR sensor: serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getTrackInfo2());
         assertEquals("Activity: cycling - gravel_cycling\n" +
-                     "Segments: 1, points: 6657, compressed: 980 (14%), waypoints: 0\n" +
+                     "Segments: 1 (based on Events), points: 6657, compressed: 980 (14%), waypoints: 0\n" +
                      "Valid points: 6657, invalid points: 0 (0%, omitted)\n" +
                      "Device: TestDevice, sw: 25.25 with external HR sensor: garmin hrm_dual serial: 3498347966 battery: ok 2.984 V "+
                      "operating time: 13h35'32\" type: antplus/antplus", 
@@ -655,5 +681,15 @@ public class TrackTest
     {
         System.out.println("getMaxError");
         assertEquals(3.0, instance.getCompressionMaxError(), 0.0000001);
+    }
+
+    /**
+     * Test of file parsing of .fit files of the GPSMAP series with 
+     * long segments, exhibiting an error of startTime of segment and session.
+     */
+    @Test
+    public void testGpsmapFitWithLongSegments()
+    {
+        instance=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", "TestDevice", 3.0, 0.5);
     }
 }

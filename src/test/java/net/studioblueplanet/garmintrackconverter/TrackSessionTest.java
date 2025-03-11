@@ -4,12 +4,10 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessage;
 import net.studioblueplanet.fitreader.FitMessageRepository;
-import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -245,5 +243,4 @@ public class TrackSessionTest
         instance.setSport("whistling");
         assertEquals("whistling", instance.getSport());
     }
-    
 }

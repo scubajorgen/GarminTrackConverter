@@ -29,8 +29,8 @@ public class TrackSegment
     private List<TrackPoint>        trackPointsRawCompressed;       // compressed segment
     private List<TrackPoint>        trackPointsSmoothedCompressed;  // compressed smoothed segment
     private List<TrackPoint>        currentPoints;
-    private final ZonedDateTime     startTime;
-    private final ZonedDateTime     endTime;
+    private ZonedDateTime           startTime;
+    private ZonedDateTime           endTime;
 
     /**
      * Constructor. Sets the parameters that defines the lap
@@ -209,6 +209,18 @@ public class TrackSegment
     {
         return endTime;
     }
+
+    public void setStartTime(ZonedDateTime startTime)
+    {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(ZonedDateTime endTime)
+    {
+        this.endTime = endTime;
+    }
+
+
     
     /**
      * Sort the list of track points on datetime of the track points.

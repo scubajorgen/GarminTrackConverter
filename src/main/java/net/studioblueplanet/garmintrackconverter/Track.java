@@ -18,7 +18,6 @@ import java.time.ZonedDateTime;
 import java.time.ZoneOffset;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -36,16 +35,14 @@ public class Track
     public static final int                 MS_PER_S                =1000;
     public static final int                 CM_PER_M                =100;
     public static final double              KMH_PER_MS              =3.6;
-    private static final int                TIMEREVENT              =0;
-    private static final int                TIMEREVENT_TIMERSTARTED =0;
-    private static final int                TIMEREVENT_TIMERSTOPPED =4;
+    private static final long               MAX_TIMEDTIME_DEVIATION =2L;
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 
     private boolean                         behaviourSmoothed;
     private boolean                         behaviourCompressed;
     private TrackSession                    session;
-    private final List<TrackSegment>        segments;
+    private final TrackSegmentList          segments;
     private final List<Location>            waypoints;
     
     private String                          fitFileName;
@@ -73,6 +70,8 @@ public class Track
     private int                             invalidCoordinates;
     private int                             validCoordinates;
     
+    private String                          segmentSource;
+    
     /**
      * Constructor
      * @param trackFileName Track file
@@ -94,14 +93,14 @@ public class Track
         String                  deviceType;
         String                  source;
         String                  deviceIndex;
-        String                  antNetwork;
         
         this.compressionMaxError =compressionMaxError;
         this.smoothingAccuracy   =smoothingAccuracy;
+        segmentSource            ="Unknown";
         
         isCourse        =false;
         fitFileName     =new File(trackFileName).getName();
-        segments        =new ArrayList<>();
+        segments        =new TrackSegmentList();
         waypoints       =new ArrayList<>();
         
         reader          =FitReader.getInstance();
@@ -209,6 +208,11 @@ public class Track
         
         if (trackMessages!=null && trackMessages.size()>0)
         {
+            // Extract the list of trackpoints
+            List<TrackPoint> thePoints=getTrackPoints(trackMessages);
+            // TO DO: sort list of trackpoints
+            
+
             // Parse sessions
             if (sessionMessages!=null && sessionMessages.size()>0)
             {
@@ -217,7 +221,8 @@ public class Track
             }            
             
             // Get track segments from timer start/stop; only works for tracks
-            this.getSegmentsFromEvents(eventMessages);
+            segments.getSegmentsFromEvents(eventMessages);
+            segmentSource="Events";
 
             // If no segments found, try to get them from the laps
             if (segments.isEmpty())
@@ -225,16 +230,36 @@ public class Track
                 if (lapMessages!=null && lapMessages.size()>0)
                 {
                     // Get data from session
-                    this.parseLaps(lapMessages);
+                    segments.parseLaps(lapMessages);
+                    segmentSource="Laps";
                 }
                 else
                 {
                     LOGGER.error("Unable to extract segments from track or route");
                 }
             }
-
-            // Add trackpoints to segments
-            this.addTrackpointsToSegments(trackMessages);
+            
+            // When logging long segments (>3h) on the GPSMAP 66sr and GPSMAP 67 the 
+            // times of the segments are incorrect. Only the end time of last segment
+            // is correct.
+            // The timedTime in the session however is 
+            // correct. We use this to detect if this is the case: if the 
+            // the summed timeTime over the segments deviates to much from the 
+            // session timedTime we assume the GPSMAP error
+            // If it is, we derive segments from the list of trackpoints.
+            long timedTime=segments.getTimedTime();
+            if (session!=null && Math.abs(timedTime-session.getTimedTime())>MAX_TIMEDTIME_DEVIATION)
+            {
+                LOGGER.warn("Timed time in segments ({} sec) differs from session ({} sec)", timedTime, session.getTimedTime());
+                // Get the segments from the TrackPoints and add the points to these segments
+                segments.getSegmentsFromTrackPoints(thePoints);
+                segmentSource="TrackPoints";
+            }
+            else
+            {
+                // Add trackpoints to segments
+                addTrackpointsToSegments(thePoints);                
+            }
 
             this.deviceName=deviceName;
 
@@ -332,7 +357,7 @@ public class Track
     public Track(double compressionMaxError, double smoothingAccuracy)
     {
         session                 =new TrackSession();
-        segments                =new ArrayList<>();
+        segments                =new TrackSegmentList();
         waypoints               =new ArrayList<>();
         this.compressionMaxError=compressionMaxError;
         this.smoothingAccuracy  =smoothingAccuracy;
@@ -348,10 +373,7 @@ public class Track
     {
         behaviourSmoothed   =smoothed;
         behaviourCompressed =compressed;
-        for (TrackSegment segment : segments)
-        {
-            segment.setBehaviour(smoothed, compressed);
-        }
+        segments.setBehaviour(smoothed, compressed);
     }
     
     /**
@@ -371,106 +393,13 @@ public class Track
     {
         return behaviourCompressed;
     }
-
-    /**
-     * This method parses the FIT lap record and distils the number of laps.
-     * @param lapMessages The FIT record holding the 'lap' info
-     */
-    private void parseLaps(List<FitMessage> lapMessages)
-    {
-        int size;
-        ZonedDateTime           segmentStartTime;
-        ZonedDateTime           segmentEndTime;
-        TrackSegment            segment;
-        
-        for (FitMessage message:lapMessages)
-        {
-            size                =message.getNumberOfRecords();
-            for (int i=0; i<size; i++)
-            {
-                segmentStartTime=message.getTimeValue(i, "start_time");
-
-
-                if (segmentStartTime!=null)
-                {
-                    long elapsedTime    =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
-                    segmentEndTime      =segmentStartTime.plusSeconds(elapsedTime);
-                    segment             =new TrackSegment(segmentStartTime, segmentEndTime);
-                    segments.add(segment);
-                    LOGGER.debug("Lap {} {} - {} {} s", 
-                                 message.getIntValue(i, "message_index"),
-                                 segmentStartTime.toString(),
-                                 segmentEndTime.toString(),
-                                 elapsedTime);
-                }
-                else
-                {
-                    LOGGER.error("Lap does not contain start and end time");
-                }
-            }   
-        }
-        
-    }
-    
-
-    
-    /**
-     * This method parses the FIT lap record and destilles the number of sessions.
-     * @param eventMessages The FIT record holding the 'event' info
-     */
-    private void getSegmentsFromEvents(List<FitMessage> eventMessages)
-    {
-        int                     size;
-        ZonedDateTime           start;
-        ZonedDateTime           end;
-        TrackSegment            segment;
-        boolean                 started;
-        int                     event;
-        int                     eventType;
-        
-        started     =false;
-        start       =null;
-        end         =null;
-        for (FitMessage message:eventMessages)
-        {
-            size            =message.getNumberOfRecords();
-            for(int i=0; i<size; i++)
-            {
-                event       =(int)message.getIntValue(i, "event");
-                eventType   =(int)message.getIntValue(i, "event_type");
-                if (event==TIMEREVENT)
-                {
-                    if (started)
-                    {
-                        if (eventType==TIMEREVENT_TIMERSTOPPED)
-                        {
-                            started=false;
-                            end=message.getTimeValue(i, "timestamp");
-                            segment     =new TrackSegment(start, end);
-                            segments.add(segment);
-                            LOGGER.info("Segment found: {} - {}", start.toString(), end.toString());
-                        }
-                    }
-                    else
-                    {
-                        if (eventType==TIMEREVENT_TIMERSTARTED)
-                        {
-                            started=true;
-                            start=message.getTimeValue(i, "timestamp");
-                            // It has been observed with GPSMAP67 with 12 hour activity
-                            // that the start timestamp is incorrect
-                        }
-                    }
-                }
-            }   
-        }
-    }    
     
     /**
      * This method parses the FIT activity record. It destiles the track points
      * @param trackMessages The record holding the 'activity' information
+     * @return List of all the valid points found
      */
-    private void addTrackpointsToSegments(List<FitMessage> trackMessages)
+    private List<TrackPoint> getTrackPoints(List<FitMessage> trackMessages)
     {
         Double                  lat;
         Double                  lon;
@@ -478,19 +407,19 @@ public class Track
         int                     size;
         TrackPoint              point;
         boolean                 found;
-        TrackSegment            segment;
 
-        invalidCoordinates=0;
-        validCoordinates=0;
+        List<TrackPoint> thePoints  =new ArrayList<>();
+        invalidCoordinates          =0;
+        validCoordinates            =0;
         for (FitMessage message:trackMessages)
         {
             size            =message.getNumberOfRecords();
             for (int i=0; i<size; i++)
             {
-                dateTime    =message.getTimeValue(i, "timestamp");
-                lat         =message.getLatLonValue(i, "position_lat");
-                lon         =message.getLatLonValue(i, "position_long");
-                TrackPointBuilder builder=new TrackPoint.TrackPointBuilder(lat, lon);
+                dateTime                    =message.getTimeValue(i, "timestamp");
+                lat                         =message.getLatLonValue(i, "position_lat");
+                lon                         =message.getLatLonValue(i, "position_long");
+                TrackPointBuilder builder   =new TrackPoint.TrackPointBuilder(lat, lon);
                 builder.dateTime(dateTime);
                 
                 if (message.hasField("enhanced_altitude"))
@@ -571,22 +500,8 @@ public class Track
                 point       =builder.build();
                 if (point.isValid())
                 {
-                    found=false;
-                    for (int j=0; j<segments.size() && !found; j++)
-                    {
-                        segment=segments.get(j);
-                        if (segment.isInSegment(dateTime))
-                        {
-                            segment.addTrackPoint(point);
-                            found=true;
-                        }
-                    }
+                    thePoints.add(point);
                     validCoordinates++;
-                    if (!found)
-                    {
-                        LOGGER.error(String.format("No segment found to add trackpoint @%s} [%7.4f, %7.4f] to", 
-                                     dateTime.toString(), lat, lon));
-                    }
                 }
                 else
                 {
@@ -600,7 +515,29 @@ public class Track
             }
         }
         LOGGER.info("Good coordinates {}, wrong coordinates: {}", validCoordinates, invalidCoordinates);
+        return thePoints;
     }
+
+    /**
+     * This method parses the list of found TrackPoints and tries to add
+     * each point to a segment.
+     * @param points Points to add to the segments
+     */
+    private void addTrackpointsToSegments(List<TrackPoint> points)
+    {
+        for(TrackPoint p:points)
+        {
+            boolean found=segments.addTrackPointToSegment(p);
+            if (!found)
+            {
+                LOGGER.error(String.format("No segment found to add trackpoint @%s} [%7.4f, %7.4f] to", 
+                             p.getDateTime().toString(), p.getLatitude(), p.getLongitude()));
+            }            
+        }
+    }
+
+
+
     
     /**
      * Add the waypoints that were read from the locations.fit file. 
@@ -611,37 +548,26 @@ public class Track
     public void addTrackWaypoints(List<Location> allWaypoints)
     {
         ZonedDateTime           dateTime;
-        Iterator<TrackSegment>  segmentIterator;
-        TrackSegment            segment;
-        boolean                 found;
         
         for (Location waypoint : allWaypoints)
         {
             dateTime=waypoint.getDateTime();
             if (dateTime==null)
             {
-                LocalDateTime localDateTime=waypoint.getLocalDateTime();
+                LocalDateTime localDateTime =waypoint.getLocalDateTime();
                 if (localDateTime!=null)
                 {
-                    ZoneId zone=session.getStartTime().getZone();
-                    dateTime=ZonedDateTime.ofInstant(localDateTime, ZoneOffset.ofTotalSeconds(timeOffset.intValue()), zone);
+                    ZoneId zone             =session.getStartTime().getZone();
+                    dateTime                =ZonedDateTime.ofInstant(localDateTime, ZoneOffset.ofTotalSeconds(timeOffset.intValue()), zone);
                 }
             }
-            segmentIterator=segments.iterator();
-            found=false;
-            while (segmentIterator.hasNext() && !found)
+            
+            if (segments.isDatetimeInSegment(dateTime))
             {
-                // If the date time stamp is in the range of the segment,
-                // add this waypoint to the track and don't look any further
-                segment=segmentIterator.next();
-                if (segment.isInSegment(dateTime))
-                {
-                    found=true;
-                    // Now we have assigned the waypoint to this track, 
-                    // we can set the zoned date time using the timezone of the track
-                    waypoint.setDateTime(dateTime);
-                    waypoints.add(waypoint);
-                }
+                // Now we have assigned the waypoint to this track, 
+                // we can set the zoned date time using the timezone of the track
+                waypoint.setDateTime(dateTime);
+                waypoints.add(waypoint);                
             }
         }
     }
@@ -731,11 +657,11 @@ public class Track
             info+=" (smoothed)";
         }
         
-        int points  =segments.stream()
+        int points  =segments.getSegments().stream()
                              .map(seg -> seg.getNumberOfTrackPointsUncompressed())
                              .mapToInt(Integer::valueOf)
                              .sum();
-        int cpoints =segments.stream()
+        int cpoints =segments.getSegments().stream()
                              .map(seg -> seg.getNumberOfTrackPointsCompressed())
                              .mapToInt(Integer::valueOf)
                              .sum();
@@ -744,7 +670,8 @@ public class Track
         {
             percentage=(cpoints*100/points);
         }
-        info+="\nSegments: "+this.segments.size()+", points: "+points+", compressed: "+cpoints+" ("+
+        info+="\nSegments: "+this.segments.size()+" (based on "+segmentSource+"), points: "+points+
+              ", compressed: "+cpoints+" ("+
                percentage+"%), waypoints: "+waypoints.size();
         
         if (invalidCoordinates+validCoordinates>0)
@@ -774,18 +701,12 @@ public class Track
     
     private void sortSegments()
     {
-        segments.forEach((segment) ->
-        {
-            segment.sortOnDateTime();
-        });        
+        segments.sortSegments();
     }
     
     private void smoothTrack()
     {
-        segments.forEach((segment) ->
-        {
-            segment.smooth();
-        });
+        segments.smoothSegments();
     }
     
     
@@ -795,10 +716,8 @@ public class Track
     private void compressTrack(double maxError)
     {
         compressionMaxError=maxError;
-        segments.forEach((segment) ->
-        {
-            segment.compress(maxError);
-        });
+        segments.compressTrackSegments(maxError);
+
     }    
     
     /**
@@ -868,7 +787,7 @@ public class Track
 
     public List<TrackSegment> getSegments()
     {
-        return segments;
+        return segments.getSegments();
     }
 
     /**
@@ -1082,5 +1001,14 @@ public class Track
     public double getCompressionMaxError()
     {
         return compressionMaxError;
+    }
+
+    /**
+     * Get a description of how the sessions were derived.
+     * @return 'Unknown', 'Events', 'Laps', 'TrackPoints'
+     */
+    public String getSegmentSource()
+    {
+        return segmentSource;
     }
 }
