@@ -1,10 +1,10 @@
 # Garmin Track Converter
 ## Introduction
 The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. 
-It has been created for and tested with the Garmin Edge 810/830/1040 bike computer and Garmin Fenix 7, but it might be useful for other Garmins devices as well.
+It has been created for and tested with the Garmin Edge 810/830/1040 bike computer,Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well.
 
-Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge 810, 830 and 1040 this file is ```Locations.fit```, on the Fenix ```Lctns.fit```.
-During conversion of the track, the converter checks the waypoint file and incorporates waypoints in the GPX that were logged during recording of the track (activity).
+Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge 810, 830 and 1040 this file is ```Locations.fit```, on the Fenix ```Lctns.fit```. On the GPSMAPs waypoints are stored in GPX files, one per day.
+During conversion of the track, the converter checks the waypoint files and incorporates waypoints in the GPX that were logged during recording of the track (activity).
 
 Garmin Track Converter can also be used to check the routes that are stored on the device and can be used to upload new waypoint or route files (it uses the feature of Garmin devices that imports GPX files that  are copied to /Garmin/NewFiles directory).
 
@@ -85,7 +85,7 @@ It requires from the device:
 * The directory containing the tracks (activities, \Garmin\activities)
 * The directory containing the courses (\Garmin\Courses)
 * The file containing the device info (\Garmin\GarminDevice.xml)
-* The waypoint file (\Garmin\Locations\Locations.fit)
+* The waypoint file (\Garmin\Locations\Locations.fit) of GPX waypoint files (\GARMIN\GPX\Waypoints_[yyyy]-[mm]-[dd].gpx)
 * The new files location (\Garmin\NewFiles)
 
 In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7). The files and directories are (partly) copied from real devices.
