@@ -210,8 +210,15 @@ public class Track
         {
             // Extract the list of trackpoints
             List<TrackPoint> thePoints=getTrackPoints(trackMessages);
-            // TO DO: sort list of trackpoints
-            
+            // On the Fenix 7 it has been observed that not always 
+            // trackpoints are stored in chronological order. Therefore
+            // sort the trackpoints to get them in chronological order.
+            // For courses we don't want this sorting because timestamps
+            // of the course points may not have a meaning
+            if (!isCourse)
+            {
+                thePoints.sort((o1, o2) -> o1.compareTo(o2));
+            }
 
             // Parse sessions
             if (sessionMessages!=null && sessionMessages.size()>0)
@@ -262,17 +269,7 @@ public class Track
             }
 
             this.deviceName=deviceName;
-
-            // On the Fenix 7 it has been observed that not always 
-            // trackpoints are stored in chronological order. Therefore
-            // sort the segments after adding trackpoints
-            // For courses we don't want this sorting because timestamps
-            // of the course points may not have a meaning
-            if (!isCourse)
-            {
-                sortSegments();
-            }
-            
+           
             smoothTrack();
             
             compressTrack(compressionMaxError);
