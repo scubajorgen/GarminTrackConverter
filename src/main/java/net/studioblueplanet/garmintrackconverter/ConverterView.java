@@ -417,6 +417,8 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             case NEWDEVICEATTACHEDANDWAITING:
                 updateTextAreaOutput("Garmin device attached to USB, please wait...\n");
                 break;
+            case NODEVICECONNECTED:
+                break;
         }
     }
             

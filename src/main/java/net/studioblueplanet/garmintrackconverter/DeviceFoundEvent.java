@@ -20,7 +20,8 @@ public class DeviceFoundEvent
         NEWDEVICEFOUND,
         NONEWDEVICEFOUND,
         DEVICEREMOVED,
-        ATTACHEDSTATECHANGED
+        ATTACHEDSTATECHANGED,
+        NODEVICECONNECTED
     }
     
     private final DeviceFoundEventType  type;
