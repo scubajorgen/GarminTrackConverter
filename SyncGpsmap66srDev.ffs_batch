@@ -35,12 +35,12 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\sync_edge1040\Garmin\NewFiles</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\device_edge1040\Garmin\NewFiles</Right>
+            <Left>D:\files\java\GarminTrackConverter\development\sync_gpsmap66sr\GARMIN\NewFiles</Left>
+            <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap66sr\GARMIN\NewFiles</Right>
         </Pair>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\device_edge1040\Garmin</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\sync_edge1040\Garmin</Right>
+            <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap66sr\GARMIN</Left>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap66sr\GARMIN</Right>
             <Filter>
                 <Include>
                     <Item>Device.fit</Item>
@@ -53,16 +53,16 @@
             </Filter>
         </Pair>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\device_edge1040\Garmin\Locations</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\sync_edge1040\Garmin\Locations</Right>
+            <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap66sr\GARMIN\GPX</Left>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap66sr\GARMIN\GPX</Right>
         </Pair>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\device_edge1040\Garmin\Courses</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\sync_edge1040\Garmin\Courses</Right>
+            <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap66sr\GARMIN\Courses</Left>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap66sr\GARMIN\Courses</Right>
         </Pair>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\device_edge1040\Garmin\Activities</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\sync_edge1040\Garmin\Activities</Right>
+            <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap66sr\GARMIN\Activities</Left>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap66sr\GARMIN\Activities</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="false" Retry="0" Delay="5"/>

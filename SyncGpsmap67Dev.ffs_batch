@@ -35,12 +35,12 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap67_sync\GARMIN\NewFiles</Left>
+            <Left>D:\files\java\GarminTrackConverter\development\sync_gpsmap67\GARMIN\NewFiles</Left>
             <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap67\GARMIN\NewFiles</Right>
         </Pair>
         <Pair>
             <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap67\GARMIN</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap67_sync\GARMIN</Right>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap67\GARMIN</Right>
             <Filter>
                 <Include>
                     <Item>Device.fit</Item>
@@ -54,15 +54,15 @@
         </Pair>
         <Pair>
             <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap67\GARMIN\GPX</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap67_sync\GARMIN\GPX</Right>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap67\GARMIN\GPX</Right>
         </Pair>
         <Pair>
             <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap67\GARMIN\Courses</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap67_sync\GARMIN\Courses</Right>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap67\GARMIN\Courses</Right>
         </Pair>
         <Pair>
             <Left>D:\files\java\GarminTrackConverter\development\device_gpsmap67\GARMIN\Activities</Left>
-            <Right>D:\files\java\GarminTrackConverter\development\device_gpsmap67_sync\GARMIN\Activities</Right>
+            <Right>D:\files\java\GarminTrackConverter\development\sync_gpsmap67\GARMIN\Activities</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="false" Retry="0" Delay="5"/>
