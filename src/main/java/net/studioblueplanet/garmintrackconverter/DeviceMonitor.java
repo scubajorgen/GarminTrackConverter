@@ -245,16 +245,14 @@ public class DeviceMonitor extends Thread
                 DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NODEVICECONNECTED, currentState.deviceFound, currentState.isAttached);
                 sendEvent(e);                    
             }
-
-            if ( (currentState.state==MonitoringState.DEVICEANDWAITING || currentState.state==MonitoringState.NODEVICEANDWAITING) &&
-                !(previousState.state==MonitoringState.DEVICEANDWAITING || previousState.state==MonitoringState.NODEVICEANDWAITING))
-            {
-                LOGGER.info("Monitor: First device attachment found");
-                DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEATTACHEDANDWAITING, currentDevice, isAttached);
-                sendEvent(e);
-            }  
         }            
-        
+        if ( (currentState.state==MonitoringState.DEVICEANDWAITING || currentState.state==MonitoringState.NODEVICEANDWAITING) &&
+            !(previousState.state==MonitoringState.DEVICEANDWAITING || previousState.state==MonitoringState.NODEVICEANDWAITING))
+        {
+            LOGGER.info("Monitor: First device attachment found");
+            DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEATTACHEDANDWAITING, currentDevice, isAttached);
+            sendEvent(e);
+        }        
     }
 
     /**
