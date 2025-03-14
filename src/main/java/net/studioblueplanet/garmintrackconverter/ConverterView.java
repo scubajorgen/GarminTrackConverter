@@ -84,11 +84,13 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         // Checkboxes
         jCheckBoxCompress.setSelected(ApplicationSettings.getInstance().isTrackCompression());
         jCheckBoxSmooth.setSelected(ApplicationSettings.getInstance().isTrackSmoothing());
+        initDeviceMenu();
         
         // Initialize the map
         this.jMapPanel.setLayout(new BoxLayout(this.jMapPanel, BoxLayout.X_AXIS));
         map = new MapOsm(this.jMapPanel);
         this.textAreaOutput.setText("Please attach device\n");
+        
 
         GitBuildInfo build=GitBuildInfo.getInstance();
         appName         ="GarminTrackConverter "+build.getGitCommitDescription()+" ("+build.getBuildTime()+")";        
@@ -114,11 +116,8 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
     public void setFont()
     {
-        Font monospace15pt;
-        Font proportional16pt;
-        
-        proportional16pt=new Font("Raleway", Font.PLAIN, 16);
-        monospace15pt   =new Font("DejaVu Sans Mono", Font.PLAIN, 15);
+        Font proportional16pt=new Font("Raleway", Font.PLAIN, 16);
+        Font monospace15pt   =new Font("DejaVu Sans Mono", Font.PLAIN, 15);
         
         buttonDelete.setFont(proportional16pt);  
         buttonSave.setFont(proportional16pt);
@@ -145,10 +144,77 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         jLabelTracks.setFont(proportional16pt);
 
         jMenuFile.setFont(proportional16pt);
+        jMenuDevices.setFont(proportional16pt);
         jMenuHelp.setFont(proportional16pt);
         jMenuItemAbout.setFont(proportional16pt);
         jMenuItemExit.setFont(proportional16pt);
+        
+        java.awt.Component[] comps=jMenuDevices.getMenuComponents();
+        for(java.awt.Component c:comps)
+        {
+            c.setFont(proportional16pt);
+        }
     }
+    
+    /**
+     * This method dynamically fills the Device dropdown menu with the devices
+     * defined in the settings.
+     */
+    private void initDeviceMenu()
+    {
+        List<SettingsDevice> devices=settings.getDevices();
+        for(int index=0;index<devices.size();index++)
+        {
+            SettingsDevice device=devices.get(index);
+            javax.swing.JMenuItem item = new javax.swing.JMenuItem();
+            item.setText(device.getName());
+            item.setEnabled(false);
+            item.addActionListener(new java.awt.event.ActionListener()
+            {
+                @Override
+                public void actionPerformed(java.awt.event.ActionEvent evt)
+                {
+                    deviceMenuItemActionPerformed(evt, device);
+                }
+            });
+            jMenuDevices.add(item);
+        }
+        updateDeviceMenu();
+    }
+    
+    /**
+     * This method updates the Device menu: it enables the devices for which
+     * the device definition file can be found
+     */
+    private void updateDeviceMenu()
+    {
+        List<SettingsDevice> devices=settings.getDevices();
+        java.awt.Component[] comps=jMenuDevices.getMenuComponents();
+        for(int index=0;index<devices.size();index++)
+        {
+            SettingsDevice device=devices.get(index);
+            javax.swing.JMenuItem item=(javax.swing.JMenuItem)comps[index];
+            String deviceFile=devices.get(index).getDeviceFile();
+            if (new File(deviceFile).exists())
+            {
+                item.setEnabled(true);
+            }
+            else
+            {
+                item.setEnabled(false);
+            }
+        }
+    }
+    
+    /**
+     * Action listener, which triggers if a Device from the Device Menu is clicked
+     * @param evt Event
+     * @param device Device settings
+     */
+     private void deviceMenuItemActionPerformed(java.awt.event.ActionEvent evt, SettingsDevice device)
+     {
+         System.out.println(device.getName());
+     }
     
     /**
      * Exit procedure. If we have a device depending on syncing, check
@@ -462,6 +528,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemExit = new javax.swing.JMenuItem();
+        jMenuDevices = new javax.swing.JMenu();
         jMenuHelp = new javax.swing.JMenu();
         jMenuItemAbout = new javax.swing.JMenuItem();
 
@@ -621,6 +688,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         jMenuFile.add(jMenuItemExit);
 
         jMenuBar1.add(jMenuFile);
+
+        jMenuDevices.setText("Devices");
+        jMenuBar1.add(jMenuDevices);
 
         jMenuHelp.setText("Help");
 
@@ -1354,6 +1424,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     private javax.swing.JList<String> jLocationList;
     private javax.swing.JPanel jMapPanel;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuDevices;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenu jMenuHelp;
     private javax.swing.JMenuItem jMenuItemAbout;
