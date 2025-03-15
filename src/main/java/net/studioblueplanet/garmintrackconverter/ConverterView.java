@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -179,14 +180,14 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             });
             jMenuDevices.add(item);
         }
-        updateDeviceMenu();
+        updateDeviceMenu(null);
     }
     
     /**
      * This method updates the Device menu: it enables the devices for which
      * the device definition file can be found
      */
-    private void updateDeviceMenu()
+    private void updateDeviceMenu(Map<SettingsDevice, Boolean> devicesAttached)
     {
         List<SettingsDevice> devices=settings.getDevices();
         java.awt.Component[] comps=jMenuDevices.getMenuComponents();
@@ -194,8 +195,10 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         {
             SettingsDevice device=devices.get(index);
             javax.swing.JMenuItem item=(javax.swing.JMenuItem)comps[index];
-            String deviceFile=devices.get(index).getDeviceFile();
-            if (new File(deviceFile).exists())
+            
+            
+            if (device.getType().equals("USBDevice") || 
+                (devicesAttached!=null && devicesAttached.get(device)))
             {
                 item.setEnabled(true);
             }
@@ -213,7 +216,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
      private void deviceMenuItemActionPerformed(java.awt.event.ActionEvent evt, SettingsDevice device)
      {
-         System.out.println(device.getName());
+         LOGGER.info("User selected {}", device.getName());
+         DeviceMonitor deviceMonitor=DeviceMonitor.getInstance();
+         deviceMonitor.setPreferredDevice(device);
      }
     
     /**
@@ -455,9 +460,23 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     @Override
     public void deviceFound(DeviceFoundEvent e)
     {
-        currentDevice=e.getDevice();
-        isAttached=e.isAttached();
-        DeviceFoundEventType type=e.getType();
+        currentDevice               =e.getDevice();
+        if (currentDevice!=null)
+        {
+            isAttached              =e.getDevicesAttached().get(currentDevice);
+        }
+        else
+        {
+            isAttached              =false;
+        }
+        DeviceFoundEventType type   =e.getType();
+        /*
+        SwingUtilities.invokeLater(() ->
+        {                        
+            updateDeviceMenu(e.getDevicesAttached());
+        });*/
+        updateDeviceMenu(e.getDevicesAttached());
+
         switch(type)
         {
             case NEWDEVICEFOUND:

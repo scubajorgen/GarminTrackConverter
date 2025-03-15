@@ -5,7 +5,7 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
-import java.util.EventObject;
+import java.util.Map;
 import net.studioblueplanet.settings.SettingsDevice;
 
 /**
@@ -24,15 +24,15 @@ public class DeviceFoundEvent
         NODEVICECONNECTED
     }
     
-    private final DeviceFoundEventType  type;
-    private final SettingsDevice        device;
-    private final Boolean               isAttached;
+    private final DeviceFoundEventType          type;
+    private final SettingsDevice                device;
+    private final Map<SettingsDevice, Boolean>  devicesAttached;
     
-    public DeviceFoundEvent(DeviceFoundEventType type, SettingsDevice newDevice, boolean isAttached)
+    public DeviceFoundEvent(DeviceFoundEventType type, SettingsDevice newDevice, Map<SettingsDevice, Boolean>  devicesAttached)
     {
-        this.type       =type;
-        this.device     =newDevice;
-        this.isAttached =isAttached;
+        this.type               =type;
+        this.device             =newDevice;
+        this.devicesAttached    =devicesAttached;
     }
     
     public DeviceFoundEventType getType()
@@ -44,9 +44,10 @@ public class DeviceFoundEvent
     {
         return device;
     }
-    
-    public boolean isAttached()
+
+    public Map<SettingsDevice, Boolean> getDevicesAttached()
     {
-        return isAttached;
+        return devicesAttached;
     }
+
 }

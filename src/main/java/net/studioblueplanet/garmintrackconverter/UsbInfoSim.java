@@ -49,6 +49,7 @@ public class UsbInfoSim implements UsbInfo
     {
         Pattern pattern = Pattern.compile("^\\s*([0-9A-Fa-f]{4}):([0-9A-Fa-f]{4}).*$");
         
+        devices.clear();
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader(usbSimFile));

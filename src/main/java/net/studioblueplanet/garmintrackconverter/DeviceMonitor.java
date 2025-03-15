@@ -6,8 +6,11 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.studioblueplanet.settings.ApplicationSettings;
+import net.studioblueplanet.garmintrackconverter.DeviceFoundEvent.DeviceFoundEventType;
 import net.studioblueplanet.settings.SettingsDevice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,9 +31,10 @@ public class DeviceMonitor extends Thread
     
     private class DeviceState
     {
-        public MonitoringState  state;
-        public SettingsDevice   deviceFound;
-        public boolean          isAttached;
+        public MonitoringState              state;              // State of the monitoring process
+        public SettingsDevice               deviceFound;        // Device to display
+        public boolean                      isAttached;         // Indicates if the device found is attached via USB
+        public Map<SettingsDevice, Boolean> devicesAttached;    // Full list of devices and if they are attached
     }
     
     private final static Logger             LOGGER      = LogManager.getLogger(DeviceMonitor.class);
@@ -43,15 +47,15 @@ public class DeviceMonitor extends Thread
 
     private final Thread                    thread;             // Thread monitoring attached devices
     private boolean                         threadExit;         // Thread exit flag
-
-    private SettingsDevice                  currentDevice;      // The device of which currently info is shown
-    private boolean                         isAttached;         // Indicates if the current device is attached to USB
+    
+    private SettingsDevice                  preferredDevice;    // Device chosen by the user
     
     /**
      * Constructor; starts the process
      */
     private DeviceMonitor()
     {
+        preferredDevice =null;
         settings        =ApplicationSettings.getInstance();
         devices         =settings.getDevices();
         threadExit      =false;
@@ -84,6 +88,18 @@ public class DeviceMonitor extends Thread
     }
     
     /**
+     * Set the device that the user wants to see
+     * @param preferredDevice The preferred device
+     */
+    public void setPreferredDevice(SettingsDevice preferredDevice)
+    {
+        synchronized (this)
+        {
+            this.preferredDevice=preferredDevice;
+        }
+    }
+    
+    /**
      * Sets the DeviceFound listener. Only on listener can be subscribed.
      * @param listener Listener to subscribe
      */
@@ -93,14 +109,22 @@ public class DeviceMonitor extends Thread
     }
     
     /**
-     * Calls the listener method and sends the event
-     * @param event Event to send
+     * If a listener is attached, send the event of given type
+     * @param type Type of the event
+     * @param device Device found
+     * @param deviesAttached List of devices with their attached state
      */
-    private void sendEvent(DeviceFoundEvent event)
+    private void sendEvent(DeviceFoundEventType type, SettingsDevice device, Map<SettingsDevice, Boolean> devicesAttached)
     {
-        if (listener!=null)
+        DeviceFoundEvent event=new DeviceFoundEvent(type, device, devicesAttached);
+        DeviceFoundListener localListener;
+        synchronized (this)
         {
-            listener.deviceFound(event);
+            localListener=listener;
+        }
+        if (localListener!=null)
+        {
+            localListener.deviceFound(event);
         }
     }
     
@@ -108,7 +132,7 @@ public class DeviceMonitor extends Thread
      * This method establishes the current state. 
      * @return Current state
      */
-    private DeviceState getCurrentState()
+    private DeviceState getCurrentState(UsbInfo usbInfo, SettingsDevice preferred)
     {
         DeviceState state=new DeviceState();
 
@@ -118,24 +142,19 @@ public class DeviceMonitor extends Thread
         state.state         =MonitoringState.NODEVICE;
 
         // Check if there is a device physically attached to USB as USB Mass Storage or USB Device
-        UsbInfo usbInfo; 
-        if (settings.isDebugSimulateUsb())
-        {
-            // Use simulation
-            usbInfo=new UsbInfoSim(USBSIMFILE);
-        }
-        else
-        {
-            // Monitor the USB
-            usbInfo=new UsbInfoImpl();
-        }
+        usbInfo.usbRefresh();
 
         // Find the attached device with the lowest priority value
+        state.devicesAttached=new HashMap<>();
         for (SettingsDevice settingsDevice : devices)
         {
             if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
             {
                 int prio=settingsDevice.getDevicePriority();
+                if (settingsDevice==preferred)
+                {
+                    prio=-1;
+                }
                 if (prio<minPrio)
                 {
                     // We found a known device attached to USB; 
@@ -149,7 +168,19 @@ public class DeviceMonitor extends Thread
                         state.state         =MonitoringState.DEVICE;
                         minPrio             =prio;
                     }
-                }                    
+                }
+                state.devicesAttached.put(settingsDevice, true);
+            }
+            else
+            {
+                if (settingsDevice==preferred && settingsDevice.getType().equals("USBDevice"))
+                {
+                    state.deviceFound   =settingsDevice;            // We choose the user preferred device
+                    state.isAttached    =false;                     // It is not attached
+                    state.state         =MonitoringState.DEVICE;
+                    minPrio             =-1;                        // Set to max prio
+                }
+                state.devicesAttached.put(settingsDevice, false);
             }
         }
 
@@ -207,9 +238,7 @@ public class DeviceMonitor extends Thread
             {
                 LOGGER.info("Monitor: Found new device {}, is attached to USB: {}", currentState.deviceFound.getName(), currentState.isAttached);
                 // We found a new device
-
-                DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEFOUND, currentState.deviceFound, currentState.isAttached);
-                sendEvent(e);
+                sendEvent(DeviceFoundEventType.NEWDEVICEFOUND, currentState.deviceFound, currentState.devicesAttached);
             }
             // Same device still attached
             else
@@ -220,14 +249,12 @@ public class DeviceMonitor extends Thread
                     // Send an ATTACHEDSTATECHANGED
 
                     LOGGER.info("Monitor: Same device still {} but attachment state changed: {}", currentState.deviceFound.getName(), currentState.isAttached);
-                    DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.ATTACHEDSTATECHANGED, currentState.deviceFound, currentState.isAttached);
-                    sendEvent(e);
+                    sendEvent(DeviceFoundEventType.ATTACHEDSTATECHANGED, currentState.deviceFound, currentState.devicesAttached);
                 }    
                 else
                 {
                     // Attachment not changed: just update that no new device has been found
-                    DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NONEWDEVICEFOUND, currentState.deviceFound, currentState.isAttached);
-                    sendEvent(e);
+                    sendEvent(DeviceFoundEventType.NONEWDEVICEFOUND, currentState.deviceFound, currentState.devicesAttached);
                 }
             }
         }
@@ -237,21 +264,19 @@ public class DeviceMonitor extends Thread
             if (previousState.deviceFound!=null)
             {
                 LOGGER.info("Monitor: Device {} removed. Attached {}", previousState.deviceFound.getName(), currentState.isAttached);
-                DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.DEVICEREMOVED, previousState.deviceFound, currentState.isAttached);
-                sendEvent(e);
+                sendEvent(DeviceFoundEventType.DEVICEREMOVED, previousState.deviceFound, currentState.devicesAttached);
             }
             else
             {
-                DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NODEVICECONNECTED, currentState.deviceFound, currentState.isAttached);
-                sendEvent(e);                    
+                sendEvent(DeviceFoundEventType.NODEVICECONNECTED, currentState.deviceFound, currentState.devicesAttached);
+                  
             }
         }            
         if ( (currentState.state==MonitoringState.DEVICEANDWAITING || currentState.state==MonitoringState.NODEVICEANDWAITING) &&
             !(previousState.state==MonitoringState.DEVICEANDWAITING || previousState.state==MonitoringState.NODEVICEANDWAITING))
         {
             LOGGER.info("Monitor: First device attachment found");
-            DeviceFoundEvent e=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEATTACHEDANDWAITING, currentDevice, isAttached);
-            sendEvent(e);
+            sendEvent(DeviceFoundEventType.NEWDEVICEATTACHEDANDWAITING, currentState.deviceFound, currentState.devicesAttached);
         }        
     }
 
@@ -262,10 +287,23 @@ public class DeviceMonitor extends Thread
     @Override
     public void run()
     {
+        SettingsDevice                  preferred=null;
         boolean                         localThreadExit;
         DeviceState                     previousState=new DeviceState();
         
         LOGGER.info("Thread started");
+        UsbInfo usbInfo; 
+        if (settings.isDebugSimulateUsb())
+        {
+            // Use simulation
+            usbInfo=new UsbInfoSim(USBSIMFILE);
+        }
+        else
+        {
+            // Monitor the USB
+            usbInfo=new UsbInfoImpl();
+        }
+
         do
         {
             // Ugly work-around: start with a wait to give the UI thread a chance 
@@ -285,7 +323,7 @@ public class DeviceMonitor extends Thread
             // If multiple devices are attached or if multiple local caches are present
             // the device/cache with the lowest priority value wins
 
-            DeviceState state=getCurrentState();
+            DeviceState state=getCurrentState(usbInfo, preferred);
             
             processStateAndSendEvent(previousState, state);
             
@@ -293,6 +331,7 @@ public class DeviceMonitor extends Thread
             
             synchronized(this)
             {
+                preferred               =preferredDevice;
                 localThreadExit         =threadExit;
             }
         }        
