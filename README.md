@@ -1,7 +1,7 @@
 # Garmin Track Converter
 ## Introduction
 The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. 
-It has been created for and tested with the Garmin Edge 810/830/1040 bike computer,Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well.
+It has been created for and tested with the Garmin Edge 810/830/1040 bike computer, Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well.
 
 Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge 810, 830 and 1040 this file is ```Locations.fit```, on the Fenix ```Lctns.fit```. On the GPSMAPs waypoints are stored in GPX files, one per day.
 During conversion of the track, the converter checks the waypoint files and incorporates waypoints in the GPX that were logged during recording of the track (activity).
@@ -17,6 +17,10 @@ Features
 * Device ID/serial is included in the GPX
 * Upload of waypoints and routes in GPX format (New Files)
 * Smoothing and compression of activity tracks
+* Simulation mode
+
+**Important notice**
+**The Garmin devices are more and more disclosed to the PC by means of the Media Transport Protocol (MTP) instead of USB file systems. Unfortunately Java does not have support for MTP. I solved this by using a tool FreeFileSync, to sync files between MTP device file system and cache on the Windows PC. FreeFileSync scripts can be executed by GarminTrackConverter. See the section below about operation mode. It's a pain in the ass, but the best I can think off...**
 
 ## Building
 Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first. Manually building:

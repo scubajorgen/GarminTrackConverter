@@ -4,6 +4,8 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.studioblueplanet.settings.SettingsDevice;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,8 +26,13 @@ public class DeviceFoundEventTest
     public DeviceFoundEventTest()
     {
         device=new SettingsDevice();
-        instance1=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEFOUND, device, true);
-        instance2=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEFOUND, device, false);
+        Map<SettingsDevice, Boolean> devicesAttached1=new HashMap<>();
+        devicesAttached1.put(device, true);
+        Map<SettingsDevice, Boolean> devicesAttached2=new HashMap<>();
+        devicesAttached2.put(device, false);
+        
+        instance1=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEFOUND, device, devicesAttached1);
+        instance2=new DeviceFoundEvent(DeviceFoundEvent.DeviceFoundEventType.NEWDEVICEFOUND, device, devicesAttached2);
     }
     
     @BeforeClass
@@ -67,16 +74,16 @@ public class DeviceFoundEventTest
         System.out.println("getDevice");
         assertEquals(device, instance1.getDevice());
     }
-
+    
     /**
-     * Test of isAttached method, of class DeviceFoundEvent.
+     * Test of getDevicesAttached method, of class DeviceFoundEvent.
      */
     @Test
-    public void testIsAttached()
+    public void testgetDevicesAttached()
     {
-        System.out.println("isAttached");
-        assertEquals(true, instance1.isAttached());
-        assertEquals(false, instance2.isAttached());
+        System.out.println("getDevicesAttached");
+        assertEquals(true , instance1.getDevicesAttached().get(device));
+        assertEquals(false, instance2.getDevicesAttached().get(device));
     }
     
 }

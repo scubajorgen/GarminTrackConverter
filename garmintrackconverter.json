@@ -1,6 +1,6 @@
 {
     "debugLevel":"info",
-    "debugSimulateUsb": false,
+    "debugSimulateUsb": true,
     "gpxFileDownloadPath": "./development/gpx",
     "gpxFileUploadPath": "./development/gpxRoutes",
     "gpxFileExtensions": "studioblueplanet",
