@@ -1,6 +1,7 @@
 # Garmin Track Converter
 ## Introduction
-The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. 
+### Goal
+The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. It can be used without the Garmin cloud applications.
 It has been created for and tested with the Garmin Edge 810/830/1040 bike computer, Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well.
 
 Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge 810, 830 and 1040 this file is ```Locations.fit```, on the Fenix ```Lctns.fit```. On the GPSMAPs waypoints are stored in GPX files, one per day.
@@ -10,27 +11,58 @@ Garmin Track Converter can also be used to check the routes that are stored on t
 
 ![](image/GarminTrackConverter.png)
 
-Features
+### Features
 * Conversion of activity fit files to GPX 1.1
 * Including waypoints logged during the activity
-* Start/stop events are written to trkseg GPX segments
+* GPX segments (\<trkseg\>) are based on (in this order)
+  * start/stop events
+  * laps
+  * the logged trackpoints (GPSMAP 66sr, GPSMAP 67) *)
 * Device ID/serial is included in the GPX
 * Upload of waypoints and routes in GPX format (New Files)
 * Smoothing and compression of activity tracks
 * Simulation mode
 
-**Important notice**
-**The Garmin devices are more and more disclosed to the PC by means of the Media Transport Protocol (MTP) instead of USB file systems. Unfortunately Java does not have support for MTP. I solved this by using a tool FreeFileSync, to sync files between MTP device file system and cache on the Windows PC. FreeFileSync scripts can be executed by GarminTrackConverter. See the section below about operation mode. It's a pain in the ass, but the best I can think off...**
+*) There is an issue with GPSMAP 66sr and 67 with start/stop events, when activities are longer than 3 hours. The timestamps no longer are correct. Therefore in these cases we look at the track points and create segments when gaps appear between to subsequent trackpoints of more than 60 seconds.
 
-## Building
+### Local cache and file sync
+The Garmin devices are more and more connected to the PC by means of the *Media Transport Protocol (MTP)* instead of USB file systems. Unfortunately Java does not have support for MTP. I solved this by using a tool FreeFileSync, to sync files between MTP device file system and a **local cache directory** on the Windows PC. FreeFileSync scripts can be executed by GarminTrackConverter. See the section below about operation mode. It's a pain in the ass, but the best I can think off...
+
+So prerequisite is to download and install [FreeFileSync](https://freefilesync.org/download.php)
+
+## Building and developement
 Use Maven to compile the source files into /target. The project is recognized by Netbeans as Maven project and can be imported. It uses the [FitReader library](https://github.com/scubajorgen/FitReader), so be sure to import and build this project first. Manually building:
 
 ```
 mvn clean install
 ```
 
+When you run the application from the root directory, e.g.
+
+```
+java -jar target/GarminTrackConverter.jar
+```
+it uses the configuration file /garmintrackconverter.json. It simulates USB devices. The file usbsim.txt defines the devices that are simulated to be connected to the USB port.
+
+```
+###########################################################
+# USB Device Simulation
+# vendorID:productID (hexadecimal)
+###########################################################
+#091e:0003       # attaching
+#091e:261f       # Edge 810
+#091e:2c32       # Edge 830
+091e:4f42       # Fenix 7
+#091e:2f03       # Edge 1040
+```
+
+By default the Fenix 7 is simulated to be connected to the USB. However by commenting or uncommenting lines (add or remove the first '#'), you can change which device is connected.
+The device files are placed in /development/device_[name], the local cache directory /development/sync_[name].
+
+Default the local cache directories are empty. So attach a simulated USB device [name] and press the 'Sync' button: files are synced from /development/device_[name] to /development/sync_[name].
 
 ## Configuring
+### Configuration file
 The application requires a configuration file ```garmintrackconverter.json```. 
 In this file the directories are defined on the device and where the GPX files should be written to. It appears that various types of Garmin devices have slightly different file structures. Therefore, multiple devices can be defined 
 in the configuration.
@@ -38,7 +70,7 @@ in the configuration.
 ```
 {
     "debugLevel":"info",
-    "debugSimulateUsb": false,
+    "debugSimulateUsb": true,
     "gpxFileDownloadPath": "./development/gpx",
     "gpxFileUploadPath": "./development/gpxRoutes",
     "gpxFileExtensions": "studioblueplanet",
@@ -56,46 +88,72 @@ in the configuration.
         "type": "USBDevice",
         "usbVendorId": 2334,
         "usbProductId": 20290,
-        "trackFilePath": "./development/device_fenix7_sync/GARMIN/Activity",
-        "routeFilePath": "./development/device_fenix7_sync/GARMIN/Courses",
-        "newFilePath": "./development/device_fenix7_sync/GARMIN/NewFiles",
-        "locationFilePath": "./development/device_fenix7_sync/GARMIN/Location",
-        "waypointFile": "./development/device_fenix7_sync/GARMIN/Location/Lctns.fit",
-        "deviceFile": "./development/device_fenix7_sync/GARMIN/GarminDevice.xml",
+        "trackFilePath": "./development/sync_fenix7/GARMIN/Activity",
+        "routeFilePath": "./development/sync_fenix7/GARMIN/Courses",
+        "newFilePath": "./development/sync_fenix7/GARMIN/NewFiles",
+        "locationFilePath": "./development/sync_fenix7/GARMIN/Location",
+        "waypointFile": "./development/sync_fenix7/GARMIN/Location/Lctns.fit",
+        "deviceFile": "./development/sync_fenix7/GARMIN/GarminDevice.xml",
         "syncCommand" : "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" SyncFenixDev.ffs_batch",
-        "devicePriority": 1
+        "devicePriority": 3
       },
-      {
-        "name": "Edge 830",
-        "type": "USBMassStorage",
-        "usbVendorId": 2334,
-        "usbProductId": 11314,
-        "trackFilePath": "./development/device_edge830/Garmin/Activities",
-        "routeFilePath": "./development/device_edge830/Garmin/Courses",
-        "newFilePath": "./development/device_edge830/Garmin/NewFiles",
-        "locationFilePath": "./development/device_edge830/Garmin/Locations",
-        "waypointFile": "./development/device_edge830/Garmin/Locations/Locations.fit",
-        "deviceFile": "./development/device_edge830/Garmin/GarminDevice.xml",
-        "syncCommand": "",
-        "devicePriority": 2
-      }
-  ]
+      ...
+    ]
 }
 
 ```
 
-It requires from the device:
-* USB vendor ID end product ID
-* The directory containing the tracks (activities, \Garmin\activities)
-* The directory containing the courses (\Garmin\Courses)
-* The file containing the device info (\Garmin\GarminDevice.xml)
-* The waypoint file (\Garmin\Locations\Locations.fit) of GPX waypoint files (\GARMIN\GPX\Waypoints_[yyyy]-[mm]-[dd].gpx)
-* The new files location (\Garmin\NewFiles)
+The first section of the JSON are generic settings, the "devices" section contains the per device settings.
 
-In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7). The files and directories are (partly) copied from real devices.
+| Tag | Description |
+|---|---|
+| debugLevel                  | Debug logging level "debug", "info", "warn", "error" (for future purpose, doesn't work yet)           |
+| debugSimulateUsb            | Simulate USB devices, for development. Default: false |
+| gpxFileDownloadPath         | Default path where to save GPX files |
+| gpxFileUploadPath           | Default path where to look for upload files |
+| gpxFileExtensions           | Defines which extensions to use for GPX files |
+| trackCompression            | Default value for the track compression checkbox |
+| trackCompressionMaxError    | The maximum allowed error in m when compressing a track. The larger the error, the more compression. 0.3 m is a good value |
+| trackSmoothing              | Default value for the track smoothing checkbox |
+| trackSmoothingAccuracy      | Pameter defining the track smoothing 15.0 is a good value |
+| showSyncWhenNoDeviceAttached| Show the local cache when no device is attached, or show nothing |
+| usbConnectionStartVendorId  | Some garmin devices first connect as this vender/product |
+| usbConnectionStartProductId | Some garmin devices first connect as this vender/product |
+
+
+Per device:
+
+| Tag | Description |
+|---|---|
+| name              | Display name |
+| type              | Defines how the device is attached: "USBDevice" for MTP, "USBMassStorage" as it attaches as USB file system |
+| usbVendorId       | Vender ID of the device. For Garmin devices: 2334 |
+| usbProductId      | Product ID of the device |
+| trackFilePath     | Place to look for activities. For "USBMassStorage" devices it is the directory on the device itself, for "USBDevice" it is the **local cache directory**. In the latter case: use FreeFileSync to get the files from the MTP device to the **local cache directory** |
+| routeFilePath     | Place where the routes or courses are stored on the device or cache |
+| newFilePath       | Place where to put new files on the device or cache |
+| locationFilePath  | Place where to find the location file or files |
+| waypointFile      | Name of the waypoint file. Usually 'Locations.fit' or 'Lctns.fit'. Leave empty for GPSMAPs, which stores the waypoints in multiple GPX files |
+| deviceFile        | Locations and Name of the device XML file |
+| syncCommand       | The full command to run a FreeFileSync batch job to synchronize between device and local cache directory |
+| devicePriority    | When multiple devices are attached, the device with the lowest priority is shown, unless the user selected another from the Device Menu |
+
+In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7) and GPSMAP 66sr and GPSMAP 67. The files and directories are (partly) copied from real devices.
+
+## Preparing for execution
+* Create a directory
+* Copy GarminTrackConverter.jar
+* Create batch jobs for FreeFileSync
+* Create a garmintrackconver.json
+
+Examples in /src/main/resouces_run
 
 ## Executing
-Go to /target directory. Run 'java -jar GarminTrackConverter.jar. The jar file is containing all depenedencies.
+Execute
+
+```
+java -jar GarminTrackConverter.jar
+```
 
 If all is configured properly, you see four panels to the left, one map panel to the right and one info box at the bottom.
 
@@ -112,7 +170,7 @@ Buttons:
 * Upload: Uploads a .gpx file containing trk, rte or wpt to the new uploaded files
 * Delete: Delete the selected file in any of the panels
 
-Note that this program has only be tested with the Garmin **Edge810**, **Edge830** and **Edge1040** bike computers and the **Fenix 7**. 
+Note that this program has only be tested with the Garmin **Edge810**, **Edge830** and **Edge1040** bike computers, the **Fenix 7**, the **GPSMAP 66sr** and the **GPSMAP 67**. 
 
 ## Compression
 A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
