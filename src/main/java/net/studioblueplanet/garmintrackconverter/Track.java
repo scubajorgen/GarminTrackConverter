@@ -35,7 +35,7 @@ public class Track
     public static final int                 MS_PER_S                =1000;
     public static final int                 CM_PER_M                =100;
     public static final double              KMH_PER_MS              =3.6;
-    private static final long               MAX_TIMEDTIME_DEVIATION =2L;
+    private static final long               MAX_TIMEDTIME_DEVIATION =5L;
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 
@@ -101,6 +101,7 @@ public class Track
         isCourse        =false;
         fitFileName     =new File(trackFileName).getName();
         segments        =new TrackSegmentList();
+        session         =new TrackSession();
         waypoints       =new ArrayList<>();
         
         reader          =FitReader.getInstance();
@@ -254,19 +255,30 @@ public class Track
             // the summed timeTime over the segments deviates to much from the 
             // session timedTime we assume the GPSMAP error
             // If it is, we derive segments from the list of trackpoints.
-            long timedTime=segments.getTimedTime();
-            if (session!=null && Math.abs(timedTime-session.getTimedTime())>MAX_TIMEDTIME_DEVIATION)
+            //
+            // It is a workaround which does not always give the result we want.
+            // It may be affected by autostop etc... So we limit to the GPSMAPS
+            if ("gpsmap67".equals(product) || "gpsmap66sr".equals(product))
             {
-                LOGGER.warn("Timed time in segments ({} sec) differs from session ({} sec)", timedTime, session.getTimedTime());
-                // Get the segments from the TrackPoints and add the points to these segments
-                segments.getSegmentsFromTrackPoints(thePoints);
-                segmentSource="TrackPoints";
+                long timedTime=segments.getTimedTime();
+                if (session.getTimedTime()!=null && Math.abs(timedTime-session.getTimedTime())>MAX_TIMEDTIME_DEVIATION)
+                {
+                    LOGGER.warn("Timed time in segments ({} sec) differs from session ({} sec)", timedTime, session.getTimedTime());
+                    // Get the segments from the TrackPoints and add the points to these segments
+                    segments.getSegmentsFromTrackPoints(thePoints);
+                    segmentSource="TrackPoints";
+                }
+                else
+                {
+                    // Add trackpoints to segments
+                    addTrackpointsToSegments(thePoints);                
+                }
             }
             else
             {
                 // Add trackpoints to segments
                 addTrackpointsToSegments(thePoints);                
-            }
+            }                
 
             this.deviceName=deviceName;
            
