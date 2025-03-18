@@ -148,6 +148,8 @@ It's a little bit of handwork.
 * Execute in the directory the script ```scripts\createdirectories.bat```. This creates the required subdirectories for gps, routes and localcache
 * Build the project, copy ```/target/GarminTrackConverter.jar``` to the relocated directory ```\GarminTrackConverter```
 
+*Note that in the garmintrackconverter.json one-way filesync scripts are configured, because they are less prone to errors or conflicts. If you also want to sync file deletes, you need to configure the two-way scripts.*
+
 ## Executing
 Execute
 
