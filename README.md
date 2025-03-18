@@ -141,18 +141,30 @@ Per device:
 In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7) and GPSMAP 66sr and GPSMAP 67. The files and directories are (partly) copied from real devices.
 
 ## Preparing for execution
-* Create a directory
-* Copy GarminTrackConverter.jar
-* Create batch jobs for FreeFileSync
-* Create a garmintrackconver.json
+It's a little bit of handwork.
 
-Examples in /src/main/resouces_run
+* Copy the relocatable directory ```\GarminTrackConverterRun``` to a location you want. It contains everything but the .jar file to run the application
+* Enter the directory: ```\GarminTrackConverterRun```.
+* Execute in the directory the script ```scripts\createdirectories.bat```. This creates the required subdirectories for gps, routes and localcache
+* Build the project, copy ```/target/GarminTrackConverter.jar``` to the relocated directory ```\GarminTrackConverter```
 
 ## Executing
 Execute
 
 ```
 java -jar GarminTrackConverter.jar
+```
+
+or simply
+
+```
+run
+```
+
+or
+
+```
+GarminTrackConverter.jar
 ```
 
 If all is configured properly, you see four panels to the left, one map panel to the right and one info box at the bottom.
@@ -172,7 +184,8 @@ Buttons:
 
 Note that this program has only be tested with the Garmin **Edge810**, **Edge830** and **Edge1040** bike computers, the **Fenix 7**, the **GPSMAP 66sr** and the **GPSMAP 67**. 
 
-## Compression
+## Feature details
+### Compression
 A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
 
 On the Fenix 7, the frequency of trackpoints can be set to 'smart'. The device compresses the track. For Open Water Swimming however it does not seem to have effect: every second a point is logged. Here comes in the compression feature.
@@ -186,7 +199,7 @@ The algorithm requires a maximum allowable error value. This can be defined in t
   "trackCompressionMaxError": 0.3
 ```
 
-## Smoothing
+### Smoothing
 The software offers the feature _smoothing_, based on a Kalman filter. Normally track smoothing is not necessary, because the Garmins are quite accurate. However, in exceptional cases it may come handy. In next picture I used the Fenix 7 on my wrist to log a swim using a generic activity. This results in a fairly jagged track (blue), because half the time the GPS is under water. Using the smoothing feature it results in a smoothed track (red) pretty good matching the curve of a TomTom GPS attached to the swimming buoy (green). 
 
 ![](image/smooth.png)
