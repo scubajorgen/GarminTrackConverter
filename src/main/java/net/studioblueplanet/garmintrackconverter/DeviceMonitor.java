@@ -161,7 +161,8 @@ public class DeviceMonitor extends Thread
                     // now check if the mass storage is already mounted ;
                     // if not, skip it for now
                     File deviceFile=new File(settingsDevice.getDeviceFile());
-                    if (deviceFile.exists())
+                    String type=settingsDevice.getType();
+                    if ("USBMassStorage".equals(type) && (deviceFile.exists()) || ("USBDevice".equals(type)))
                     {
                         state.deviceFound   =settingsDevice;    // We found a device to display
                         state.isAttached    =true;              // It is attached

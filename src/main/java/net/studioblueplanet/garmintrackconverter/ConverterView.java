@@ -1002,6 +1002,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         }
         else
         {
+            deviceInfo=new Device(currentDevice.getName(), "unknown", currentDevice.getName()+", Please sync");
             textAreaOutput.append("Device file "+deviceFile+" not found\n");
             LOGGER.error("Device file {} not found", deviceFile);
         }        

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FreeFileSync XmlType="BATCH" XmlFormat="17">
+    <Compare>
+        <Variant>TimeAndSize</Variant>
+        <Symlinks>Exclude</Symlinks>
+        <IgnoreTimeShift/>
+    </Compare>
+    <Synchronize>
+        <Variant>TwoWay</Variant>
+        <DetectMovedFiles>false</DetectMovedFiles>
+        <DeletionPolicy>RecycleBin</DeletionPolicy>
+        <VersioningFolder Style="Replace"/>
+    </Synchronize>
+    <Filter>
+        <Include>
+            <Item>*</Item>
+        </Include>
+        <Exclude>
+            <Item>\System Volume Information\</Item>
+            <Item>\$Recycle.Bin\</Item>
+            <Item>\RECYCLE?\</Item>
+            <Item>*\thumbs.db</Item>
+        </Exclude>
+        <SizeMin Unit="None">0</SizeMin>
+        <SizeMax Unit="None">0</SizeMax>
+        <TimeSpan Type="None">0</TimeSpan>
+    </Filter>
+    <FolderPairs>
+        <Pair>
+            <Left>mtp:\GPSMAP 66sr\Internal Storage\Garmin</Left>
+            <Right>localcache\gpsmap66sr\Garmin</Right>
+            <Synchronize>
+                <Variant>Custom</Variant>
+                <CustomDirections>
+                    <LeftOnly>right</LeftOnly>
+                    <RightOnly>none</RightOnly>
+                    <LeftNewer>right</LeftNewer>
+                    <RightNewer>none</RightNewer>
+                    <Different>right</Different>
+                    <Conflict>right</Conflict>
+                </CustomDirections>
+                <DetectMovedFiles>false</DetectMovedFiles>
+                <DeletionPolicy>RecycleBin</DeletionPolicy>
+                <VersioningFolder Style="Replace"/>
+            </Synchronize>
+            <Filter>
+                <Include>
+                    <Item>GarminDevice.xml</Item>
+                    <Item>device.fit</Item>
+                </Include>
+                <Exclude/>
+                <SizeMin Unit="None">0</SizeMin>
+                <SizeMax Unit="None">0</SizeMax>
+                <TimeSpan Type="None">0</TimeSpan>
+            </Filter>
+        </Pair>
+        <Pair>
+            <Left>localcache\gpsmap66sr\Garmin\NewFiles</Left>
+            <Right>mtp:\GPSMAP 66sr\Internal Storage\Garmin\NewFiles</Right>
+        </Pair>
+        <Pair>
+            <Left>mtp:\GPSMAP 66sr\Internal Storage\Garmin\GPX</Left>
+            <Right>localcache\gpsmap66sr\Garmin\GPX</Right>
+        </Pair>
+        <Pair>
+            <Left>mtp:\GPSMAP 66sr\Internal Storage\Garmin\Courses</Left>
+            <Right>localcache\gpsmap66sr\Garmin\Courses</Right>
+        </Pair>
+        <Pair>
+            <Left>mtp:\GPSMAP 66sr\Internal Storage\Garmin\Activities</Left>
+            <Right>localcache\gpsmap66sr\Garmin\Activities</Right>
+        </Pair>
+    </FolderPairs>
+    <Errors Ignore="false" Retry="0" Delay="5"/>
+    <PostSyncCommand Condition="Completion"/>
+    <LogFolder/>
+    <EmailNotification Condition="Always"/>
+    <Batch>
+        <ProgressDialog Minimized="false" AutoClose="false"/>
+        <ErrorDialog>Show</ErrorDialog>
+        <PostSyncAction>None</PostSyncAction>
+    </Batch>
+</FreeFileSync>

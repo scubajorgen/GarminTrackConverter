@@ -18,7 +18,8 @@ import static org.junit.Assert.*;
  */
 public class DeviceTest
 {
-    private static Device instance;
+    private static Device instance1;
+    private static Device instance2;
     
     public DeviceTest()
     {
@@ -27,7 +28,8 @@ public class DeviceTest
     @BeforeClass
     public static void setUpClass()
     {
-        instance=new Device("src/test/resources/GarminDevice.xml");
+        instance1=new Device("src/test/resources/GarminDevice.xml");
+        instance2=new Device("Test model", "Test ID", "Test description");
     }
     
     @AfterClass
@@ -52,9 +54,10 @@ public class DeviceTest
     public void testGetDeviceDescription()
     {
         System.out.println("getDeviceDescription");
-        assertEquals("Edge 830 - 3366957239", instance.getDeviceDescription());
+        assertEquals("Edge 830 - 3366957239", instance1.getDeviceDescription());
         Device device=new Device("src/test/resources/NonExistent.xml");
         assertEquals("unknown - unknown", device.getDeviceDescription());
+        assertEquals("Test description - Test ID", instance2.getDeviceDescription());
     }
 
     /**
@@ -64,7 +67,8 @@ public class DeviceTest
     public void testGetId()
     {
         System.out.println("getId");
-        assertEquals("3366957239", instance.getId());
+        assertEquals("3366957239", instance1.getId());
+        assertEquals("Test ID", instance2.getId());
     }
 
     /**
@@ -74,7 +78,8 @@ public class DeviceTest
     public void testGetModel()
     {
         System.out.println("getModel");
-        assertEquals("006-B3122-00910Edge 830", instance.getModel());
+        assertEquals("006-B3122-00910Edge 830", instance1.getModel());
+        assertEquals("Test model", instance2.getModel());
     }
 
     /**
@@ -84,8 +89,8 @@ public class DeviceTest
     public void testGetDescription()
     {
         System.out.println("getDescription");
-        assertEquals("Edge 830", instance.getDescription());
-
+        assertEquals("Edge 830", instance1.getDescription());
+        assertEquals("Test description", instance2.getDescription());
     }
     
 }

@@ -24,13 +24,19 @@ public class Device
     private String              model;
     private String              description;
     
+    public Device(String model, String id, String description)
+    {
+        this.model          =model;
+        this.id             =id;
+        this.description    =description;
+    }
+    
     public Device(String deviceFileName)
     {
         File                    xmlFile;
         Document                doc;
         DocumentBuilder         dBuilder;
         DocumentBuilderFactory  dbFactory;
-        Element                 deviceElement;
         Element                 modelElement;
         Element                 idElement;
         Element                 descriptionElement;

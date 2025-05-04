@@ -163,12 +163,33 @@ Per device:
 
 In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7) and GPSMAP 66sr and GPSMAP 67. The files and directories are (partly) copied from real devices.
 
+## Preparing for execution
+It's a little bit of handwork.
+
+* Copy the relocatable directory ```\GarminTrackConverterRun``` to a location you want. It contains everything but the .jar file to run the application
+* Enter the directory: ```\GarminTrackConverterRun```.
+* Execute in the directory the script ```scripts\createdirectories.bat```. This creates the required subdirectories for gps, routes and localcache
+* Build the project, copy ```/target/GarminTrackConverter.jar``` to the relocated directory ```\GarminTrackConverterRun```
+
+*Note that in the garmintrackconverter.json one-way filesync scripts are configured, because they are less prone to errors or conflicts. If you also want to sync file deletes, you need to configure the two-way scripts.*
 
 ### Execute the jar file
 Execute
 
 ```
 java -jar GarminTrackConverter.jar
+```
+
+or simply
+
+```
+run
+```
+
+or
+
+```
+GarminTrackConverter.jar
 ```
 
 If all is configured properly, you see four panels to the left, one map panel to the right and one info box at the bottom.
@@ -189,7 +210,7 @@ Buttons:
 
 Note that this program has only be tested with the Garmin **Edge810**, **Edge830** and **Edge1040** bike computers, the **Fenix 7**, the **GPSMAP 66sr** and the **GPSMAP 67**. 
 
-## Features
+## Feature details
 ### Compression
 A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
 
