@@ -1,18 +1,19 @@
 # Garmin Track Converter
 ## Introduction
 ### Goal
-The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. It can be used without the Garmin cloud applications.
-It has been created for and tested with the Garmin Edge 810/830/1040 bike computer, Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well.
+The **Garmin Track Converter** is an application intended to convert ANT/Garmin .FIT track or activity files containing GPS data from an attached Garmin device to a GPX 1.1 file containing track and waypoints. It directly access the files on the device and can be used without the need for the Garmin cloud applications.
+It has been created for and tested with the Garmin Edge 810/830/1040 bike computer, Garmin Fenix 7 and recently GPSMAP 66sr and GPSMAP 67, but it might be useful for other Garmins devices as well. It's tested on Windows, not on Linux.
 
 Garmin .FIT tracks (activities) do not contain marked waypoints. These are stored in a separate file. On the Garmin Edge 810, 830 and 1040 this file is ```Locations.fit```, on the Fenix ```Lctns.fit```. On the GPSMAPs waypoints are stored in GPX files, one per day.
 During conversion of the track, the converter checks the waypoint files and incorporates waypoints in the GPX that were logged during recording of the track (activity).
 
-Garmin Track Converter can also be used to check the routes that are stored on the device and can be used to upload new waypoint or route files (it uses the feature of Garmin devices that imports GPX files that  are copied to /Garmin/NewFiles directory).
+Garmin Track Converter can also be used to check the courses (routes) that are stored on the device and can be used to upload new waypoint or course files (it uses the feature of Garmin devices that imports GPX files that  are copied to /Garmin/NewFiles directory).
 
 ![](image/GarminTrackConverter.png)
 
 ### Features
 * Conversion of activity fit files to GPX 1.1
+* GPX track extensions
 * Including waypoints logged during the activity
 * GPX segments (\<trkseg\>) are based on (in this order)
   * start/stop events
@@ -26,7 +27,7 @@ Garmin Track Converter can also be used to check the routes that are stored on t
 *) There is an issue with GPSMAP 66sr and 67 with start/stop events, when activities are longer than 3 hours. The timestamps no longer are correct. Therefore in these cases we look at the track points and create segments when gaps appear between to subsequent trackpoints of more than 60 seconds.
 
 ### Local cache and file sync
-The Garmin devices are more and more connected to the PC by means of the *Media Transport Protocol (MTP)* instead of USB file systems. Unfortunately Java does not have support for MTP. I solved this by using a tool FreeFileSync, to sync files between MTP device file system and a **local cache directory** on the Windows PC. FreeFileSync scripts can be executed by GarminTrackConverter. See the section below about operation mode. It's a pain in the ass, but the best I can think off...
+The Garmin devices are more and more connected to the PC by means of the *Media Transport Protocol (MTP)* instead of USB file systems. Unfortunately Java does not have support for MTP. I solved this by using a tool FreeFileSync (batch jobs), to sync files between MTP device file system and a **local cache directory** on the Windows PC. FreeFileSync scripts can be executed by GarminTrackConverter by pressing the sync button. See the section below about operation mode. It's a pain in the ass, but the best I can think off...
 
 So prerequisite is to download and install [FreeFileSync](https://freefilesync.org/download.php)
 
@@ -37,12 +38,12 @@ Use Maven to compile the source files into /target. The project is recognized by
 mvn clean install
 ```
 
-When you run the application from the root directory, e.g.
+You can run the application from Netbeans or from the root directory:
 
 ```
 java -jar target/GarminTrackConverter.jar
 ```
-it uses the configuration file /garmintrackconverter.json. It simulates USB devices. The file usbsim.txt defines the devices that are simulated to be connected to the USB port.
+It uses the configuration file ```/garmintrackconverter.json```. It simulates USB devices. The file ```/usbsim.txt``` defines the devices that are simulated to be connected to the USB port.
 
 ```
 ###########################################################
@@ -61,8 +62,30 @@ The device files are placed in /development/device_[name], the local cache direc
 
 Default the local cache directories are empty. So attach a simulated USB device [name] and press the 'Sync' button: files are synced from /development/device_[name] to /development/sync_[name].
 
-## Configuring
-### Configuration file
+## Preparing for execution
+1. Create a directory
+1. Copy GarminTrackConverter.jar
+1. Create the local cache directories
+1. Create batch jobs for FreeFileSync
+1. Configuring: Create a garmintrackconver.json
+1. Execute the jar file
+
+Examples in /src/main/resouces_run
+
+### Create a directory
+Just create it anywhere on your PC you like
+
+### Copy GarminTrackConverter.jar
+Just copy it from the /target directory, after building, to the newly created directory.
+
+### Create the local cache directories
+
+
+### Create batch jobes for FreeFileSync
+
+
+### Configuring
+
 The application requires a configuration file ```garmintrackconverter.json```. 
 In this file the directories are defined on the device and where the GPX files should be written to. It appears that various types of Garmin devices have slightly different file structures. Therefore, multiple devices can be defined 
 in the configuration.
@@ -140,15 +163,8 @@ Per device:
 
 In the directory /development example file structures are available for the Garmin Edge 1040, Garmin Edge 810, Garmin Edge 830 (/development/device_edge830) and Garmin Fenix 7 (/development/device_fenix7) and GPSMAP 66sr and GPSMAP 67. The files and directories are (partly) copied from real devices.
 
-## Preparing for execution
-* Create a directory
-* Copy GarminTrackConverter.jar
-* Create batch jobs for FreeFileSync
-* Create a garmintrackconver.json
 
-Examples in /src/main/resouces_run
-
-## Executing
+### Execute the jar file
 Execute
 
 ```
@@ -169,10 +185,12 @@ Buttons:
 * Save GPX: saves the last clicked track/activity
 * Upload: Uploads a .gpx file containing trk, rte or wpt to the new uploaded files
 * Delete: Delete the selected file in any of the panels
+* Sync: (MTP devices only) Synchronize device and local cache directories; execute this after attaching the device and prior to detaching.
 
 Note that this program has only be tested with the Garmin **Edge810**, **Edge830** and **Edge1040** bike computers, the **Fenix 7**, the **GPSMAP 66sr** and the **GPSMAP 67**. 
 
-## Compression
+## Features
+### Compression
 A feature is _track compression_ by means of the [Douglas-Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm). Compressing a track means omitting trackpoints that do not contribute much to the track: if three trackpoints lie more or less on a line, the trackpoint that is in the middle can be omitted without changing the track to much. 
 
 On the Fenix 7, the frequency of trackpoints can be set to 'smart'. The device compresses the track. For Open Water Swimming however it does not seem to have effect: every second a point is logged. Here comes in the compression feature.
@@ -186,7 +204,7 @@ The algorithm requires a maximum allowable error value. This can be defined in t
   "trackCompressionMaxError": 0.3
 ```
 
-## Smoothing
+### Smoothing
 The software offers the feature _smoothing_, based on a Kalman filter. Normally track smoothing is not necessary, because the Garmins are quite accurate. However, in exceptional cases it may come handy. In next picture I used the Fenix 7 on my wrist to log a swim using a generic activity. This results in a fairly jagged track (blue), because half the time the GPS is under water. Using the smoothing feature it results in a smoothed track (red) pretty good matching the curve of a TomTom GPS attached to the swimming buoy (green). 
 
 ![](image/smooth.png)
@@ -202,6 +220,17 @@ If the GPS provides the accuracy of the GPS (ehpe), this is used. Most likely yo
 ```
 Only use smoothing for cases like the case above. Applying it to normal tracks makes it cut corners.
 
+### Operation mode: USB Mass Storage or USB Device
+Some Garmin devices like the Edge 810, the Edge 830 and Edge 1040 behave like an _USB mass storage device_. A Java program can simply access this file system (image A in the image below)
+
+![](image/modus.png)
+
+Unfortunatelly, newer devices like the Fenix 7 cannot be attached to USB as _mass storage device_. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' as an USB Device . From Java Programs the files are **not** accessible (at least, I didn't find a way...). 
+
+I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk/storage. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
+
+I came up with a workaround using an external file synchronization program [FreeFileSync](https://freefilesync.org/) that syncs the device to a local directory structure on your HDD. This is shown in image B. You can define a commandline file sync command with each device in the settings file. If it is defined (i.e. not equal to ""), a sync button becomes visible which you can use to sync to and from the device. Enclosed in the source code is a FreeFileSync batch file that can be executed to sync. Adapt it for your own usage.
+
 ## Development
 The software was developed using Apache Netbeans. The Maven project can be run or debugged from Netbeans. For developement, a directory /development is available. It contains in /development/Garmin a copy of the filestructure from a Garmin Edge830 device, including some logged activities, courses and locations. The folder /development/gpx can be used to store GPX files.
 
@@ -214,17 +243,6 @@ The software uses
 - appframework-1.0.3.jar
 - swing-worker-1.1.jar
 - ...
-
-## Operation mode: USB Mass Storage or USB Device
-Some Garmin devices like the Edge 810, the Edge 830 and Edge 1040 behave like an _USB mass storage device_. A Java program can simply access this file system (image A in the image below)
-
-![](image/modus.png)
-
-Unfortunatelly, newer devices like the Fenix 7 cannot be attached to USB as _mass storage device_. Instead, it is mounted using MTP (Media Transfer Protocol). Under Windows it is mapped under 'This PC' as an USB Device . From Java Programs the files are **not** accessible (at least, I didn't find a way...). 
-
-I tried [Mtpdrive](https://www.mtpdrive.com/) which is a program that assigns a drive letter to an MTP device so it should be accessible as regular disk/storage. However, it is quircky in combination with Java file I/O. Sometimes Java file I/O is exteremely slowly. And each time an MTP device is attached the mapping must be made manually. Not workable.
-
-I came up with a workaround using an external file synchronization program [FreeFileSync](https://freefilesync.org/) that syncs the device to a local directory structure on your HDD. This is shown in image B. You can define a commandline file sync command with each device in the settings file. If it is defined (i.e. not equal to ""), a sync button becomes visible which you can use to sync to and from the device. Enclosed in the source code is a FreeFileSync batch file that can be executed to sync. Adapt it for your own usage.
 
 ## Information
 * [Blog](http://blog.studioblueplanet.net/?page_id=468)
