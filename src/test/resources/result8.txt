@@ -30958,9 +30958,9 @@
       <u-gotMe:maxSpeed_kmh>35.04</u-gotMe:maxSpeed_kmh>
       <u-gotMe:ascent_m>265</u-gotMe:ascent_m>
       <u-gotMe:descent_m>260</u-gotMe:descent_m>
-      <u-gotMe:minTemperature_c>12</u-gotMe:minTemperature_c>
-      <u-gotMe:maxTemperature_c>21</u-gotMe:maxTemperature_c>
-      <u-gotMe:aveTemperature_c>15</u-gotMe:aveTemperature_c>
+      <u-gotMe:minTemperature_C>12</u-gotMe:minTemperature_C>
+      <u-gotMe:maxTemperature_C>21</u-gotMe:maxTemperature_C>
+      <u-gotMe:aveTemperature_C>15</u-gotMe:aveTemperature_C>
       <u-gotMe:maxHeartRate_bpm>159</u-gotMe:maxHeartRate_bpm>
       <u-gotMe:aveHeartRate_bpm>138</u-gotMe:aveHeartRate_bpm>
       <u-gotMe:minRespRate_bpm>18.90</u-gotMe:minRespRate_bpm>

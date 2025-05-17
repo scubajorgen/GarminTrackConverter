@@ -676,9 +676,9 @@ public class GpxWriter
                 addChildElement(extensions, "u-gotMe:maxSpeed_kmh"              , track.getMaxSpeed(), 2);
                 addChildElement(extensions, "u-gotMe:ascent_m"                  , track.getAscent());
                 addChildElement(extensions, "u-gotMe:descent_m"                 , track.getDescent());
-                addChildElement(extensions, "u-gotMe:minTemperature_c"          , track.getMinTemperature());
-                addChildElement(extensions, "u-gotMe:maxTemperature_c"          , track.getMaxTemperature());
-                addChildElement(extensions, "u-gotMe:aveTemperature_c"          , track.getAvgTemperature());
+                addChildElement(extensions, "u-gotMe:minTemperature_C"          , track.getMinTemperature());
+                addChildElement(extensions, "u-gotMe:maxTemperature_C"          , track.getMaxTemperature());
+                addChildElement(extensions, "u-gotMe:aveTemperature_C"          , track.getAvgTemperature());
                 addChildElement(extensions, "u-gotMe:maxHeartRate_bpm"          , track.getMaxHeartRate());
                 addChildElement(extensions, "u-gotMe:aveHeartRate_bpm"          , track.getAvgHeartRate());
                 addChildElement(extensions, "u-gotMe:minRespRate_bpm"           , track.getMinRespirationRate(), 2);

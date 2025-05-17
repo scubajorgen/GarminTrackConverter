@@ -1156,9 +1156,9 @@
       <u-gotMe:timedDuration_s>3886</u-gotMe:timedDuration_s>
       <u-gotMe:aveSpeed_kmh>2.76</u-gotMe:aveSpeed_kmh>
       <u-gotMe:maxSpeed_kmh>3.89</u-gotMe:maxSpeed_kmh>
-      <u-gotMe:minTemperature_c>15</u-gotMe:minTemperature_c>
-      <u-gotMe:maxTemperature_c>25</u-gotMe:maxTemperature_c>
-      <u-gotMe:aveTemperature_c>15</u-gotMe:aveTemperature_c>
+      <u-gotMe:minTemperature_C>15</u-gotMe:minTemperature_C>
+      <u-gotMe:maxTemperature_C>25</u-gotMe:maxTemperature_C>
+      <u-gotMe:aveTemperature_C>15</u-gotMe:aveTemperature_C>
       <u-gotMe:maxHeartRate_bpm>151</u-gotMe:maxHeartRate_bpm>
       <u-gotMe:aveHeartRate_bpm>117</u-gotMe:aveHeartRate_bpm>
       <u-gotMe:maxCadence_rpm>25</u-gotMe:maxCadence_rpm>
