@@ -1743,7 +1743,7 @@
       <u-gotMe:ascent_m>2</u-gotMe:ascent_m>
       <u-gotMe:descent_m>0</u-gotMe:descent_m>
       <u-gotMe:maxHeartRate_bpm>78</u-gotMe:maxHeartRate_bpm>
-      <u-gotMe:avgHeartRate_bpm>66</u-gotMe:avgHeartRate_bpm>
+      <u-gotMe:aveHeartRate_bpm>66</u-gotMe:aveHeartRate_bpm>
       <u-gotMe:minRespRate_bpm>10.76</u-gotMe:minRespRate_bpm>
       <u-gotMe:maxRespRate_bpm>14.30</u-gotMe:maxRespRate_bpm>
       <u-gotMe:aveRespRate_bpm>12.50</u-gotMe:aveRespRate_bpm>

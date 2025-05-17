@@ -5239,11 +5239,11 @@
       <u-gotMe:ascent_m>50</u-gotMe:ascent_m>
       <u-gotMe:descent_m>50</u-gotMe:descent_m>
       <u-gotMe:maxHeartRate_bpm>165</u-gotMe:maxHeartRate_bpm>
-      <u-gotMe:avgHeartRate_bpm>142</u-gotMe:avgHeartRate_bpm>
+      <u-gotMe:aveHeartRate_bpm>142</u-gotMe:aveHeartRate_bpm>
       <u-gotMe:maxCadence_rpm>115</u-gotMe:maxCadence_rpm>
-      <u-gotMe:avgCadence_rpm>66</u-gotMe:avgCadence_rpm>
+      <u-gotMe:aveCadence_rpm>66</u-gotMe:aveCadence_rpm>
       <u-gotMe:maxPower_W>525</u-gotMe:maxPower_W>
-      <u-gotMe:avgPower_W>287</u-gotMe:avgPower_W>
+      <u-gotMe:avePower_W>287</u-gotMe:avePower_W>
       <u-gotMe:totalCycles>4922</u-gotMe:totalCycles>
       <u-gotMe:calories_cal>899.0</u-gotMe:calories_cal>
       <u-gotMe:garminAerobic>3.80</u-gotMe:garminAerobic>

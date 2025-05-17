@@ -30960,9 +30960,9 @@
       <u-gotMe:descent_m>260</u-gotMe:descent_m>
       <u-gotMe:minTemperature_c>12</u-gotMe:minTemperature_c>
       <u-gotMe:maxTemperature_c>21</u-gotMe:maxTemperature_c>
-      <u-gotMe:avgTemperature_c>15</u-gotMe:avgTemperature_c>
+      <u-gotMe:aveTemperature_c>15</u-gotMe:aveTemperature_c>
       <u-gotMe:maxHeartRate_bpm>159</u-gotMe:maxHeartRate_bpm>
-      <u-gotMe:avgHeartRate_bpm>138</u-gotMe:avgHeartRate_bpm>
+      <u-gotMe:aveHeartRate_bpm>138</u-gotMe:aveHeartRate_bpm>
       <u-gotMe:minRespRate_bpm>18.90</u-gotMe:minRespRate_bpm>
       <u-gotMe:maxRespRate_bpm>41.14</u-gotMe:maxRespRate_bpm>
       <u-gotMe:aveRespRate_bpm>33.62</u-gotMe:aveRespRate_bpm>
