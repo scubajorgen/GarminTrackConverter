@@ -12,7 +12,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Locale;
-import net.studioblueplanet.settings.ApplicationSettings;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -272,6 +271,69 @@ public class GpxWriterTest
         instance.writeTrackToFile(writer, track, "trackname", "appname");
         System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result3f.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile8() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile - real file, Fenix 7 OW Swimming");
+        Track track=new Track("src/test/resources/2025-05-09-12-17-00_owswim_fenix7.fit", "test", 1.0, 5.0);
+        
+        // Compressed, Smoothed
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(true, true);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        result=new String(Files.readAllBytes((new File("src/test/resources/result6.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile9() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile - real file, Fenix 7, Running");
+        Track track=new Track("src/test/resources/2024-10-13-10-58-18_run_fenix7.fit", "test", 1.0, 5.0);
+        
+        // Compressed, Smoothed
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(true, true);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        result=new String(Files.readAllBytes((new File("src/test/resources/result7.txt")).toPath()));
+        assertEquals(result, writer.toString());
+        writer.close();
+    }
+
+    /**
+     * Test of writeTrackToFile method, of class GpxWriter.
+     */
+    @Test
+    public void testWriteTrackToFile10() throws Exception
+    {
+        String          result;
+        
+        System.out.println("writeTrackToFile - real file, Edge1040, Cycling");
+        Track track=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", "test", 1.0, 5.0);
+        
+        // Compressed, Smoothed
+        StringWriter writer=new StringWriter();
+        instance.setGpxVersion("1.1");
+        track.setBehaviour(true, true);
+        instance.writeTrackToFile(writer, track, "trackname", "appname");
+        result=new String(Files.readAllBytes((new File("src/test/resources/result8.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
     }

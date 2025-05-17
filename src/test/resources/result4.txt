@@ -1742,9 +1742,17 @@
       <u-gotMe:maxSpeed_kmh>5.00</u-gotMe:maxSpeed_kmh>
       <u-gotMe:ascent_m>2</u-gotMe:ascent_m>
       <u-gotMe:descent_m>0</u-gotMe:descent_m>
+      <u-gotMe:maxHeartRate_bpm>78</u-gotMe:maxHeartRate_bpm>
+      <u-gotMe:avgHeartRate_bpm>66</u-gotMe:avgHeartRate_bpm>
+      <u-gotMe:minRespRate_bpm>10.76</u-gotMe:minRespRate_bpm>
+      <u-gotMe:maxRespRate_bpm>14.30</u-gotMe:maxRespRate_bpm>
+      <u-gotMe:aveRespRate_bpm>12.50</u-gotMe:aveRespRate_bpm>
       <u-gotMe:calories_cal>4.0</u-gotMe:calories_cal>
       <u-gotMe:garminGrit_kgrit>0.16</u-gotMe:garminGrit_kgrit>
       <u-gotMe:garminFlow>8.84</u-gotMe:garminFlow>
+      <u-gotMe:garminAerobic>0.00</u-gotMe:garminAerobic>
+      <u-gotMe:garminAnaerobic>0.00</u-gotMe:garminAnaerobic>
+      <u-gotMe:garminExerciseLoad>0.00</u-gotMe:garminExerciseLoad>
     </u-gotMe:trackExtension>
   </extensions>
 </gpx>

@@ -197,9 +197,9 @@ public class TestTrack
         Track track=new Track(3.0, 50.0);
         
         List<TrackSegment> segments=track.getSegments();
-        ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, ZoneId.of("UTC"));
-        TrackSegment segment=new TrackSegment(zdt, zdt.plusSeconds(12));
-        List<TrackPoint> points=testPoints();
+        ZonedDateTime zdt       = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, ZoneId.of("UTC"));
+        TrackSegment segment    =new TrackSegment(zdt, zdt.plusSeconds(12));
+        List<TrackPoint> points =testPoints();
         for (TrackPoint p : points)
         {
             segment.addTrackPoint(p);

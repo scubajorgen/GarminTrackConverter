@@ -106,6 +106,7 @@ public class Track
         
         reader          =FitReader.getInstance();
         repository      =reader.readFile(trackFileName);
+//        repository.dumpMessageDefintions();
         lapMessages     =repository.getAllMessages("lap");
         trackMessages   =repository.getAllMessages("record");
         sessionMessages =repository.getAllMessages("session");
@@ -890,7 +891,92 @@ public class Track
         }
         return desc;
     }
+    
+    public Integer getMinTemperature()
+    {
+        return session.getMinTemperature();
+    }
 
+    public Integer getMaxTemperature()
+    {
+        return session.getMaxTemperature();
+    }
+
+    public Integer getAvgTemperature()
+    {
+        return session.getAvgTemperature();
+    }
+    
+    public Integer getMaxHeartRate()
+    {
+        return session.getMaxHeartRate();
+    }
+
+    public Integer getAvgHeartRate()
+    {
+        return session.getAvgHeartRate();
+    }
+
+    public Double getMinRespirationRate()
+    {
+        return session.getMinRespirationRate();
+    }
+
+    public Double getMaxRespirationRate()
+    {
+        return session.getMaxRespirationRate();
+    }
+
+    public Double getAvgRespirationRate()
+    {
+        return session.getAvgRespirationRate();
+    }
+    
+    public Integer getMaxCadence()
+    {
+        return session.getMaxCadence();
+    }
+
+    public Integer getAvgCadence()
+    {
+        return session.getAvgCadence();
+    }
+
+    public Integer getMaxPower()
+    {
+        return session.getMaxPower();
+    }
+
+    public Integer getAvgPower()
+    {
+        return session.getAvgPower();
+    }
+    
+    public Double getAvgStrokeDistance()
+    {
+        return session.getAvgStrokeDistance();
+    }
+    
+    public Integer getTotalCycles()
+    {
+        return session.getTotalCycles();
+    }
+
+    public Double getTotalAerobicTrainingEffect()
+    {
+        return session.getTotalAerobicTrainingEffect();
+    }
+    
+    public Double getTotalAnaerobicTrainingEffect()
+    {
+        return session.getTotalAnaerobicTrainingEffect();
+    }
+    
+    public Double getExerciseLoad()
+    {
+        return session.getExerciseLoad();
+    }
+    
     public String getManufacturer()
     {
         return manufacturer;

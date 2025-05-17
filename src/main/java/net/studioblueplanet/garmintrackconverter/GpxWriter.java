@@ -656,35 +656,48 @@ public class GpxWriter
                 String barometer=track.getDeviceBarometer();
                 if (barometer!=null)
                 {
-                    addChildElement(extensions, "u-gotMe:deviceBarometer", barometer);
+                    addChildElement(extensions, "u-gotMe:deviceBarometer"       , barometer);
                 }
                 String externalHr=track.getDeviceExternalHr();
                 if (externalHr!=null)
                 {
-                    addChildElement(extensions, "u-gotMe:deviceExternalHr", externalHr);
+                    addChildElement(extensions, "u-gotMe:deviceExternalHr"      , externalHr);
                 }
-                addChildElement(extensions, "u-gotMe:software"          , appName);
-                addChildElement(extensions, "u-gotMe:activity"          , activity);
-                addChildElement(extensions, "u-gotMe:sourceFile"        , track.getFitFileName());
-                addChildElement(extensions, "u-gotMe:smoothing"         , track.getBehaviourSmoothing());
-                addChildElement(extensions, "u-gotMe:compression"       , track.getBehaviourCompression());
-                addChildElement(extensions, "u-gotMe:compressionMaxErr" , compressionMaxErr, 4);
-                addChildElement(extensions, "u-gotMe:distance_m"        , track.getDistance(), 1);
-                addChildElement(extensions, "u-gotMe:duration_s"        , track.getElapsedTime());
-                addChildElement(extensions, "u-gotMe:timedDuration_s"   , track.getTimedTime());
-                addChildElement(extensions, "u-gotMe:aveSpeed_kmh"      , track.getAverageSpeed(), 2);
-                addChildElement(extensions, "u-gotMe:maxSpeed_kmh"      , track.getMaxSpeed(), 2);
-                addChildElement(extensions, "u-gotMe:ascent_m"          , track.getAscent());
-                addChildElement(extensions, "u-gotMe:descent_m"         , track.getDescent());
-                addChildElement(extensions, "u-gotMe:calories_cal"      , track.getCalories(), 1);
-                addChildElement(extensions, "u-gotMe:garminGrit_kgrit"  , track.getGrit(), 2);
-                addChildElement(extensions, "u-gotMe:garminFlow"        , track.getFlow(), 2);
-                Integer jumps=track.getJumpCount();
-                if (jumps!=null && jumps!=0xFFFF)
-                {
-                    addChildElement(extensions, "u-gotMe:garminJumpCount", jumps);
-                }
-            }
+                addChildElement(extensions, "u-gotMe:software"                  , appName);
+                addChildElement(extensions, "u-gotMe:activity"                  , activity);
+                addChildElement(extensions, "u-gotMe:sourceFile"                , track.getFitFileName());
+                addChildElement(extensions, "u-gotMe:smoothing"                 , track.getBehaviourSmoothing());
+                addChildElement(extensions, "u-gotMe:compression"               , track.getBehaviourCompression());
+                addChildElement(extensions, "u-gotMe:compressionMaxErr"         , compressionMaxErr, 4);
+                addChildElement(extensions, "u-gotMe:distance_m"                , track.getDistance(), 1);
+                addChildElement(extensions, "u-gotMe:duration_s"                , track.getElapsedTime());
+                addChildElement(extensions, "u-gotMe:timedDuration_s"           , track.getTimedTime());
+                addChildElement(extensions, "u-gotMe:aveSpeed_kmh"              , track.getAverageSpeed(), 2);
+                addChildElement(extensions, "u-gotMe:maxSpeed_kmh"              , track.getMaxSpeed(), 2);
+                addChildElement(extensions, "u-gotMe:ascent_m"                  , track.getAscent());
+                addChildElement(extensions, "u-gotMe:descent_m"                 , track.getDescent());
+                addChildElement(extensions, "u-gotMe:minTemperature_c"          , track.getMinTemperature());
+                addChildElement(extensions, "u-gotMe:maxTemperature_c"          , track.getMaxTemperature());
+                addChildElement(extensions, "u-gotMe:avgTemperature_c"          , track.getAvgTemperature());
+                addChildElement(extensions, "u-gotMe:maxHeartRate_bpm"          , track.getMaxHeartRate());
+                addChildElement(extensions, "u-gotMe:avgHeartRate_bpm"          , track.getAvgHeartRate());
+                addChildElement(extensions, "u-gotMe:minRespRate_bpm"           , track.getMinRespirationRate(), 2);
+                addChildElement(extensions, "u-gotMe:maxRespRate_bpm"           , track.getMaxRespirationRate(), 2);
+                addChildElement(extensions, "u-gotMe:aveRespRate_bpm"           , track.getAvgRespirationRate(), 2);
+                addChildElement(extensions, "u-gotMe:maxCadence_rpm"            , track.getMaxCadence());
+                addChildElement(extensions, "u-gotMe:avgCadence_rpm"            , track.getAvgCadence());
+                addChildElement(extensions, "u-gotMe:maxPower_W"                , track.getMaxPower());
+                addChildElement(extensions, "u-gotMe:avgPower_W"                , track.getAvgPower());
+                addChildElement(extensions, "u-gotMe:aveStrokeDistance_m"       , track.getAvgStrokeDistance(), 2);
+                addChildElement(extensions, "u-gotMe:totalCycles"               , track.getTotalCycles());
+                addChildElement(extensions, "u-gotMe:calories_cal"              , track.getCalories(), 1);
+                addChildElement(extensions, "u-gotMe:garminGrit_kgrit"          , track.getGrit(), 2);
+                addChildElement(extensions, "u-gotMe:garminFlow"                , track.getFlow(), 2);
+                addChildElement(extensions, "u-gotMe:garminJumpCount"           , track.getJumpCount());
+                addChildElement(extensions, "u-gotMe:garminAerobic"             , track.getTotalAerobicTrainingEffect(), 2);
+                addChildElement(extensions, "u-gotMe:garminAnaerobic"           , track.getTotalAnaerobicTrainingEffect(), 2);
+                addChildElement(extensions, "u-gotMe:garminExerciseLoad"        , track.getExerciseLoad(), 2);
+             }
         }
     }
 
