@@ -36,10 +36,10 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceTwoSegments    =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
-        instanceExternalHr     =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
-        instanceExternalHr2    =new Track("src/test/resources/2025-02-20-15-48-40-external.fit", "TestDevice", 3.0, 0.5);
-        instanceOtherTimezone  =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", "TestDevice", 3.0, 0.5);
+        instanceTwoSegments     =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
+        instanceExternalHr      =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
+        instanceExternalHr2     =new Track("src/test/resources/2025-02-20-15-48-40-external.fit", "TestDevice", 3.0, 0.5);
+        instanceOtherTimezone   =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", "TestDevice", 3.0, 0.5);
     }
     
     @AfterClass
@@ -691,5 +691,17 @@ public class TrackTest
     public void testGpsmapFitWithLongSegments()
     {
         instance=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", "TestDevice", 3.0, 0.5);
+    }
+    
+    /**
+     * Test of file parsing of .fit files, invalid height.
+     */
+    @Test
+    public void testEdge1040InvalidFirstHeightValue()
+    {
+        instance=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", "TestDevice", 3.0, 0.5);
+        List<TrackPoint> points=instance.getTrackPoints(0);
+        assertNull(points.get(0).getElevation());
+        assertEquals(15.8, points.get(1).getElevation(), 0.001);
     }
 }

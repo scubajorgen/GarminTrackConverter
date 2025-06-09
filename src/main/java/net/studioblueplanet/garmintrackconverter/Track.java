@@ -36,6 +36,7 @@ public class Track
     public static final int                 CM_PER_M                =100;
     public static final double              KMH_PER_MS              =3.6;
     private static final long               MAX_TIMEDTIME_DEVIATION =5L;
+    private static final double             HEIGHT_MOUNT_EVEREST    =8849; // m
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 
@@ -432,14 +433,25 @@ public class Track
                 TrackPointBuilder builder   =new TrackPoint.TrackPointBuilder(lat, lon);
                 builder.dateTime(dateTime);
                 
+                // sometimes the first height value of Edge 1040 is nonsence
+                Double elevation=null;
                 if (message.hasField("enhanced_altitude"))
                 {
-                    builder.elevation(message.getScaledValue(i, "enhanced_altitude"));
+                    elevation=message.getScaledValue(i, "enhanced_altitude");
+                    if (elevation>HEIGHT_MOUNT_EVEREST)
+                    {
+                        elevation=null;
+                    }
                 }
-                else if (message.hasField("corrected_altitude"))
+                if (elevation==null && message.hasField("corrected_altitude"))
                 {
-                    builder.elevation(message.getScaledValue(i, "corrected_altitude"));
+                    elevation=message.getScaledValue(i, "corrected_altitude");
+                    if (elevation>HEIGHT_MOUNT_EVEREST)
+                    {
+                        elevation=null;
+                    }
                 }
+                builder.elevation(elevation);
                     
                 if (message.hasField("temperature"))
                 {

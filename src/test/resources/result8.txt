@@ -5,7 +5,6 @@
     <desc>Created by: appname. Logged by: test. Logged as: cycling - gravel_cycling. Original file: 2025-05-14-16-39-24_cycle_edge1040.fit (smoothed, compressed).</desc>
     <trkseg>
       <trkpt lat="53.0128670" lon="6.7247915">
-        <ele>858992959.0</ele>
         <time>2025-05-14T14:39:24Z</time>
         <extensions>
           <u-gotMe:trackpointExtension>
