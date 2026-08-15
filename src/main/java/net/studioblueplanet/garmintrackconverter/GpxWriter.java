@@ -145,11 +145,11 @@ public class GpxWriter
 
         if (gpxVersion.equals("1.0"))
         {
-            this.addGpx1_0Header(doc, gpxElement, creator);
+            this.addGpx1_0Header(gpxElement, creator);
         }
         else if (gpxVersion.equals("1.1"))
         {
-            this.addGpx1_1Header(doc, gpxElement, creator);
+            this.addGpx1_1Header(gpxElement, creator);
         }
     }
     
@@ -261,7 +261,7 @@ public class GpxWriter
      * @param doc The XML document
      * @param gpxElement The GPX element
      */
-    private void addGpx1_0Header(Document doc, Element gpxElement, String creator)
+    private void addGpx1_0Header(Element gpxElement, String creator)
     {
         // GPX version 1.0
         addAttribute(gpxElement, "creator", creator);
@@ -283,7 +283,7 @@ public class GpxWriter
      * @param doc The XML document
      * @param gpxElement The GPX element
      */
-    private void addGpx1_1Header(Document doc, Element gpxElement, String creator)
+    private void addGpx1_1Header(Element gpxElement, String creator)
     {
         // GPX version 1.1
         addAttribute(gpxElement, "creator", creator);
@@ -350,6 +350,42 @@ public class GpxWriter
     }
 
     /**
+     * Add metadata element with start time of the track
+     * @param track Track to use for the start time
+     */
+    private void appendMetadata(Track track, String trackName, String appName)
+    {
+        Element metadata        =doc.createElement("metadata");
+        gpxElement.appendChild(metadata);        
+        
+        addChildElement(metadata, "name", trackName);
+        addChildElement(metadata, "author", appName);
+        addChildElement(metadata, "desription", track.getTrackInfo());
+        
+        ZonedDateTime dateTime  =track.getStartTime();
+        if (dateTime!=null)
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssX");
+            String dateTimeString   =dateTime.withZoneSameInstant(ZoneId.of("UTC"))
+                                             .format(formatter);
+            addChildElement(metadata, "time", dateTimeString);
+        }
+        Double northEastLat=track.getNorthEastCornerLat();
+        Double northEastLon=track.getNorthEastCornerLon();
+        Double southWestLat=track.getSouthWestCornerLat();
+        Double southWestLon=track.getSouthWestCornerLon();
+        if (northEastLat!=null && northEastLon!=null && southWestLat!=null && southWestLon!=null)
+        {
+            Element boundsElement=doc.createElement("bounds");
+            metadata.appendChild(boundsElement);
+            addAttribute(boundsElement, "minlat", String.format("%1.7f", southWestLat));
+            addAttribute(boundsElement, "minlon", String.format("%1.7f", southWestLon));
+            addAttribute(boundsElement, "maxlat", String.format("%1.7f", northEastLat));
+            addAttribute(boundsElement, "maxlon", String.format("%1.7f", northEastLon));
+        }
+    }    
+    
+    /**
      * Appends the track points to the segment under GPX 1.0. GPX 1.0 supports
      * the elements 'course' and 'speed'. Under 'hdop' the ehpe value is
      * stored. In fact this is not correct, since ehpe is not hdop.
@@ -361,7 +397,6 @@ public class GpxWriter
     private void appendTrackGpx1_0(Document doc, Element segmentElement, Track track, int segmentNo)
     {
         Element                     pointElement;
-        Element                     element;
         Attr                        attr;
         ZonedDateTime               dateTime;
         String                      dateTimeString;
@@ -576,6 +611,7 @@ public class GpxWriter
         }
         else if (gpxVersion.equals("1.1"))
         {
+            appendMetadata(track, trackName, appName);
             appendWaypointsGpx(doc, gpxElement, track.getWaypoints());
         }
 
@@ -640,10 +676,10 @@ public class GpxWriter
             }
             if (gpxVersion.equals("1.1") && gpxExtensions==GpxExtensions.studioblueplanet)
             {
-                Element gpxExtensions=doc.createElement("extensions");
-                gpxElement.appendChild(gpxExtensions);
+                Element gpxExt=doc.createElement("extensions");
+                gpxElement.appendChild(gpxExt);
                 Element extensions=doc.createElement("u-gotMe:trackExtension");
-                gpxExtensions.appendChild(extensions);
+                gpxExt.appendChild(extensions);
 
                 String activity=track.getSportDescription();
                 addChildElement(extensions, "u-gotMe:device"            , track.getDeviceName());

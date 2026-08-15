@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using test)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+  <metadata>
+    <name>trackname</name>
+    <author>appname</author>
+    <desription>Track (cycling - gravel_cycling) with 1 segments (2064 points) and 0 waypoints</desription>
+    <time>2025-05-14T14:39:24Z</time>
+    <bounds maxlat="53.0132216" maxlon="6.7810780" minlat="52.9317807" minlon="6.6830256"/>
+  </metadata>
   <trk>
     <name>trackname</name>
     <desc>Created by: appname. Logged by: test. Logged as: cycling - gravel_cycling. Original file: 2025-05-14-16-39-24_cycle_edge1040.fit (smoothed, compressed).</desc>

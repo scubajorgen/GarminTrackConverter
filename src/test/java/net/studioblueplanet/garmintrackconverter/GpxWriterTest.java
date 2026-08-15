@@ -90,11 +90,13 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile - gpx 1.1 and 1.0");
-        Track track=new Track(0.0, 0);
+        
+        ZonedDateTime startTime =ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime endTime   =ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC"));
+        Track track=new Track(startTime, 0.0, 0);
         
         List<TrackSegment> segments=track.getSegments();
-        segment=new TrackSegment(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ZoneId.of("UTC")),
-                                 ZonedDateTime.of(2022, 1, 1, 1, 0, 0, 0, ZoneId.of("UTC")));
+        segment=new TrackSegment(startTime, endTime);
         
         point=new TrackPoint.TrackPointBuilder(53.5, 6.5)
                             .dateTime(ZonedDateTime.of(2022, 1, 1, 0, 0,10, 0, ZoneId.of("UTC")))
@@ -210,10 +212,10 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile only waypoints");
-        Track track=new Track(0.0, 0.0);
         
         ZoneId zoneId = ZoneId.of("UTC+2");
         ZonedDateTime zdt = ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, zoneId);        
+        Track track=new Track(zdt, 0.0, 0.0);
         
         Location waypoint1=new Location("Waypoint 1", "description1", null, zdt, 5.0, 53.0, 0.0, 0);
         track.addWaypoint(waypoint1);
@@ -291,6 +293,7 @@ public class GpxWriterTest
         instance.setGpxVersion("1.1");
         track.setBehaviour(true, true);
         instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result6.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
@@ -312,6 +315,7 @@ public class GpxWriterTest
         instance.setGpxVersion("1.1");
         track.setBehaviour(true, true);
         instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result7.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();
@@ -333,6 +337,7 @@ public class GpxWriterTest
         instance.setGpxVersion("1.1");
         track.setBehaviour(true, true);
         instance.writeTrackToFile(writer, track, "trackname", "appname");
+        System.out.println(writer);
         result=new String(Files.readAllBytes((new File("src/test/resources/result8.txt")).toPath()));
         assertEquals(result, writer.toString());
         writer.close();

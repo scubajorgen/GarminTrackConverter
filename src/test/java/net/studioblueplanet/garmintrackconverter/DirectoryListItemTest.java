@@ -39,7 +39,7 @@ public class DirectoryListItemTest
     public static void setUpClass()
     {
         track   =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 500);
-        track2  =new Track(1.0, 2.0);
+        track2  =new Track(null, 1.0, 2.0);
     }
     
     @AfterClass

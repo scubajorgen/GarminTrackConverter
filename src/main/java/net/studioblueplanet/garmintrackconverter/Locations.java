@@ -49,7 +49,8 @@ public class Locations
         }
         else
         {
-            waypoints=new Track(0.0, 0.0); 
+            
+            waypoints=new Track(ZonedDateTime.now(), 0.0, 0.0); 
         }
     }
     
@@ -60,7 +61,7 @@ public class Locations
      */
     public Locations(List<String> waypointFiles)
     {
-        waypoints=new Track(0.0, 0.0);
+        waypoints=new Track(ZonedDateTime.now(), 0.0, 0.0);
         List<Location> waypointList=waypoints.getWaypoints();
         for(String waypointFile : waypointFiles)
         {
@@ -77,7 +78,7 @@ public class Locations
      */
     public Locations()
     {
-        waypoints=new Track(0.0, 0.0);
+        waypoints=new Track(ZonedDateTime.now(), 0.0, 0.0);
     }
     
     /**
@@ -102,7 +103,7 @@ public class Locations
         int                     i;
         int                     size;
 
-        Track wpts=new Track(0.0, 0.0);
+        Track wpts=new Track(ZonedDateTime.now(), 0.0, 0.0);
         reader=FitReader.getInstance();
         repository=reader.readFile(waypointFileName);
         record=repository.getFitMessage("location");

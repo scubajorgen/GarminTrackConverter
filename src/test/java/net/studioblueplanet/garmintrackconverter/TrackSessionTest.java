@@ -4,6 +4,8 @@
  */
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import net.studioblueplanet.fitreader.FitReader;
 import net.studioblueplanet.fitreader.FitMessage;
@@ -125,6 +127,19 @@ public class TrackSessionTest
     }
 
     /**
+     * Test of setStartTime method, of class TrackSession.
+     */
+    @Test
+    public void testSetStartTime()
+    {
+        System.out.println("setStartTime");
+        assertEquals("2021-05-08T08:18:29Z[UTC]", instance1.getStartTime().toString());
+        instance1.setStartTime(ZonedDateTime.of(2015, 11, 30, 23, 45, 59, 0, ZoneId.of("UTC")));
+        assertEquals("2015-11-30T23:45:59Z[UTC]", instance1.getStartTime().toString());
+
+    }
+
+    /**
      * Test of getEndTime method, of class TrackSession.
      */
     @Test
@@ -172,6 +187,46 @@ public class TrackSessionTest
     {
         System.out.println("getStartLon");
         assertEquals(6.724781217053533, instance1.getStartLon(), 0.0000001);
+    }
+
+    /**
+     * Test of getSwcLat method, of class TrackSession.
+     */
+    @Test
+    public void testGetSwcLat()
+    {
+        System.out.println("getSwcLat");
+        assertEquals(52.88565980270505, instance1.getSwcLat(), 0.0000001);
+    }
+
+    /**
+     * Test of getSwcLon method, of class TrackSession.
+     */
+    @Test
+    public void testGetSwcLon()
+    {
+        System.out.println("getSwcLon");
+        assertEquals(6.629676539450884, instance1.getSwcLon(), 0.0000001);
+    }
+
+    /**
+     * Test of getNecLat method, of class TrackSession.
+     */
+    @Test
+    public void testGetNecLat()
+    {
+        System.out.println("getNecLat");
+        assertEquals(53.01323689520359, instance1.getNecLat(), 0.0000001);
+    }
+
+    /**
+     * Test of getNecLon method, of class TrackSession.
+     */
+    @Test
+    public void testGetNecLon()
+    {
+        System.out.println("getNecLon");
+        assertEquals(6.769493222236633, instance1.getNecLon(), 0.0000001);
     }
 
     /**

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+  <metadata>
+    <name>trackname</name>
+    <author>appname</author>
+    <desription>Track with 1 segments (3 points) and 0 waypoints</desription>
+    <time>2015-11-30T22:45:59Z</time>
+  </metadata>
   <trk>
     <name>trackname</name>
     <desc>Created by: appname. Logged by: null. Original file: null (raw, compressed).</desc>

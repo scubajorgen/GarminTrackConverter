@@ -365,11 +365,12 @@ public class Track
      * @param smoothingAccuracy Assumed default value of GPS accuracy in m when 
      *        the GPS does not provide it; not used
      */
-    public Track(double compressionMaxError, double smoothingAccuracy)
+    public Track(ZonedDateTime startTime, double compressionMaxError, double smoothingAccuracy)
     {
         session                 =new TrackSession();
         segments                =new TrackSegmentList();
         waypoints               =new ArrayList<>();
+        this.session.setStartTime(startTime);
         this.compressionMaxError=compressionMaxError;
         this.smoothingAccuracy  =smoothingAccuracy;
         setBehaviour(false, false);
@@ -638,7 +639,11 @@ public class Track
             }
             info+=") ";
         }
-        info+="with "+this.segments.size()+" segments (";
+        info+="with "+this.segments.size()+" segments";
+        if (noOfSegments>0)
+        {
+            info+=" (";
+        }
         for (int i=0; i<noOfSegments; i++)
         {
             segment=segments.get(i);
@@ -648,7 +653,10 @@ public class Track
                 info+=", ";
             }
         }
-        info+=" points)";
+        if (noOfSegments>0)
+        {
+            info+=" points)";
+        }
         info+=" and "+waypoints.size()+" waypoints";
         return info;
     }
@@ -846,6 +854,26 @@ public class Track
     public Double getStartLon()
     {
         return session.getStartLon();
+    }
+
+    public Double getNorthEastCornerLat()
+    {
+        return session.getNecLat();
+    }
+
+    public Double getNorthEastCornerLon()
+    {
+        return session.getNecLon();
+    }
+
+    public Double getSouthWestCornerLat()
+    {
+        return session.getSwcLat();
+    }
+
+    public Double getSouthWestCornerLon()
+    {
+        return session.getSwcLon();
     }
 
     public Double getDistance()

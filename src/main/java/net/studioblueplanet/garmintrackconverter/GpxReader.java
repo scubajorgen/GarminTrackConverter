@@ -286,7 +286,7 @@ public class GpxReader
         Element                 element;
         Track                   route;
 
-        route=new Track(0.0, 0);
+        route=new Track(null, 0.0, 0);
         try
         {
             fXmlFile = new File(fileName);

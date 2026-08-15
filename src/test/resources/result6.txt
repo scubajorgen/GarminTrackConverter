@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using test)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+  <metadata>
+    <name>trackname</name>
+    <author>appname</author>
+    <desription>Track (swimming - open_water) with 1 segments (103 points) and 0 waypoints</desription>
+    <time>2025-05-09T10:17:00Z</time>
+    <bounds maxlat="53.2302019" maxlon="6.6703663" minlat="53.2235818" minlon="6.6536039"/>
+  </metadata>
   <trk>
     <name>trackname</name>
     <desc>Created by: appname. Logged by: test. Logged as: swimming - open_water. Original file: 2025-05-09-12-17-00_owswim_fenix7.fit (smoothed, compressed).</desc>

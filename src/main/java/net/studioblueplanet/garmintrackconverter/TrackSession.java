@@ -31,6 +31,10 @@ public class TrackSession
     private Long                            timedTime;      // s
     private Double                          startLat;       // degrees
     private Double                          startLon;       // degrees
+    private Double                          necLat;         // Bounds, north east corner, degrees
+    private Double                          necLon;
+    private Double                          swcLat;         // Bounds, south west corner, degrees
+    private Double                          swcLon;
     private Double                          distance;       // m
     private Double                          averageSpeed;   // km/h
     private Double                          maxSpeed;       // km/h
@@ -132,6 +136,11 @@ public class TrackSession
                 startLat            =message.getLatLonValue(i, "start_position_lat");
                 startLon            =message.getLatLonValue(i, "start_position_long");
                 
+                necLat              =message.getLatLonValue(i, "nec_lat");
+                necLon              =message.getLatLonValue(i, "nec_long");
+                swcLat              =message.getLatLonValue(i, "swc_lat");
+                swcLon              =message.getLatLonValue(i, "swc_long");
+
                 distance            =message.getScaledValue(i, "total_distance");
                 
                 // We've seen an anomaly on the GPSMAP 67 on a 12 hours recording
@@ -249,6 +258,11 @@ public class TrackSession
         return startTime;
     }
 
+    public void setStartTime(ZonedDateTime startTime)
+    {
+        this.startTime=startTime;
+    }
+
     public ZonedDateTime getEndTime()
     {
         return endTime;
@@ -272,6 +286,26 @@ public class TrackSession
     public Double getStartLon()
     {
         return startLon;
+    }
+
+    public Double getNecLat()
+    {
+        return necLat;
+    }
+
+    public Double getNecLon()
+    {
+        return necLon;
+    }
+
+    public Double getSwcLat()
+    {
+        return swcLat;
+    }
+
+    public Double getSwcLon()
+    {
+        return swcLon;
     }
 
     public Double getDistance()
