@@ -833,6 +833,29 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     }// </editor-fold>//GEN-END:initComponents
 
     /**
+     * Update the current track for smooth/compress changes
+     */
+    private void updateSelectedTrack(String report, boolean resetBounds, String reason)
+    {
+        if (currentTrack!=null)
+        {
+            boolean smooth      =jCheckBoxSmooth.isSelected();
+            boolean compress    =jCheckBoxCompress.isSelected();
+            currentTrack.setBehaviour(smooth, compress);
+            textAreaOutput.setText(report);
+            textAreaOutput.append("Smooting: "+smooth+", compression: "+compress+", ");
+            textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
+            trackToMap(currentTrack, resetBounds);
+            LOGGER.info("Track change ({}): smooth {} compress {}", reason, smooth, compress);
+        }
+        else
+        {
+            LOGGER.warn("No current track selected!");
+        }
+    }
+    
+    
+    /**
      * Shows the file chooser requesting a GPX file 
      * @param directory Initial directory
      * @param fileNameProposal Suggested file name
@@ -1148,10 +1171,11 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 readWaypoints();
             }
             track=getTrack(trackDirectoryList);
+            String report;
             if (track!=null)
             {
                 LOGGER.info("Retrieved track {} from cache", fileName);
-                textAreaOutput.setText("Track retrieved from cache\n");
+                report="Track retrieved from cache ("+fileName+")\n";
                 // Make sure the track got the latest waypoints
                 track.setTrackWaypoints(globalWaypoints.getWaypoints());
             }
@@ -1161,13 +1185,11 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 track=readTrack(fullFileName, true);
                 trackDirectoryList.addTrack(track);
 
-                textAreaOutput.setText("Track read from FIT file\n");
+                report="Track read from FIT file "+fileName+"\n";
 
             }
-            track.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
-            textAreaOutput.append(track.getTrackInfo2()+"\n");
-            trackToMap(track, true);
             currentTrack=track;
+            updateSelectedTrack(report, true, "selection change");
         }
     }//GEN-LAST:event_jTrackListValueChanged
 
@@ -1289,7 +1311,6 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             Track           points;
             String          fileName;
             String          fullFileName;
-            int             index;
 
             trackDirectoryList.clearSelection();
             routeDirectoryList.clearSelection();
@@ -1405,24 +1426,12 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
 
     private void jCheckBoxSmoothActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxSmoothActionPerformed
     {//GEN-HEADEREND:event_jCheckBoxSmoothActionPerformed
-        if (currentTrack!=null)
-        {
-            currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
-            textAreaOutput.setText("Track retrieved from cache\n");
-            textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
-            trackToMap(currentTrack, false);
-        }
+        updateSelectedTrack("Track retrieved from cache\n", false, "smooth change");
     }//GEN-LAST:event_jCheckBoxSmoothActionPerformed
 
     private void jCheckBoxCompressActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCheckBoxCompressActionPerformed
     {//GEN-HEADEREND:event_jCheckBoxCompressActionPerformed
-        if (currentTrack!=null)
-        {
-            currentTrack.setBehaviour(jCheckBoxSmooth.isSelected(), jCheckBoxCompress.isSelected());
-            textAreaOutput.setText("Track retrieved from cache\n");
-            textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
-            trackToMap(currentTrack, false);
-        }
+        updateSelectedTrack("Track retrieved from cache\n", false, "compress change");
     }//GEN-LAST:event_jCheckBoxCompressActionPerformed
     
 
