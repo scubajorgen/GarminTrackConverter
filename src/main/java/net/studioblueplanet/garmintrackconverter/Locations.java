@@ -9,6 +9,7 @@ package net.studioblueplanet.garmintrackconverter;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -230,10 +231,11 @@ public class Locations
         {
             // Create dateTime from the name assuming year is current year
             // We also assume default time zone
+            // Use Locale.US to assure sep is assumed for september and not sept.
             now=LocalDateTime.now();
             localDateTime=LocalDateTime.parse(String.valueOf(now.getYear())+" "+
                                               matcher.group(1)+" "+matcher.group(2)+" "+matcher.group(3)+":"+matcher.group(4), 
-                                              DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm"));
+                                              DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm").withLocale(Locale.US));
 
             // If it appears that now is before the dateTime, the assumption was not correct; 
             // best we can do is assume it was from previous year
