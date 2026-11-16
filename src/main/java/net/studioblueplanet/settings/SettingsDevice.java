@@ -5,6 +5,7 @@
  */
 package net.studioblueplanet.settings;
 
+import java.time.LocalDateTime;
 /**
  *
  * @author jorgen
@@ -46,7 +47,12 @@ public class SettingsDevice
 
     // External command to sync MTP device like Fenix 7 to a local directory structure
     private String               syncCommand;
-
+    
+    // Garmin Connect API Key
+    private String               apiKey;
+    
+    // Last date synchronized
+    LocalDateTime                lastDateSynced;
     
     public String getName()
     {
@@ -166,5 +172,23 @@ public class SettingsDevice
     public void setUsbProductId(Short usbProductId)
     {
         this.usbProductId = usbProductId;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public LocalDateTime getLastDateSynced()
+    {
+        return lastDateSynced;
+    }
+
+    public void setLastDateSynced(LocalDateTime lastDateSynced)
+    {
+        this.lastDateSynced = lastDateSynced;
     }
 }

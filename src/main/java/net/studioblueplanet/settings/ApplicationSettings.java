@@ -66,6 +66,25 @@ public class ApplicationSettings
     }
     
     /**
+     * Write the settings file
+     */
+    public void writeSettings()
+    {
+        File         configFile;
+        ObjectMapper mapper = new ObjectMapper();
+        
+        configFile=new File(settingsFile);
+        try
+        {
+            mapper.writeValue(configFile, settings);
+        }
+        catch (IOException e)
+        {
+            LOGGER.error("Error writing configuration {}: {}", configFile.getAbsolutePath(), e.getMessage());
+        }         
+    }
+    
+    /**
      * Returns the one and only instance of this class; singleton pattern.
      * @return The instance
      */

@@ -33,7 +33,7 @@ public class DeviceMonitor extends Thread
     {
         public MonitoringState              state;              // State of the monitoring process
         public SettingsDevice               deviceFound;        // Device to display
-        public boolean                      isAttached;         // Indicates if the device found is attached via USB
+        public boolean                      isAttached;         // Indicates if the device found is attached via USB; also true for GarminConnect
         public Map<SettingsDevice, Boolean> devicesAttached;    // Full list of devices and if they are attached
     }
     
@@ -148,7 +148,24 @@ public class DeviceMonitor extends Thread
         state.devicesAttached=new HashMap<>();
         for (SettingsDevice settingsDevice : devices)
         {
-            if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
+            // If the (virtual) device is GarminConnect, it is attached
+            if ("GarminConnect".equals(settingsDevice.getType()))
+            {
+                int prio=settingsDevice.getDevicePriority();
+                if (settingsDevice==preferred)
+                {
+                    prio=-1;
+                }
+                if (prio<minPrio)
+                {
+                    state.deviceFound   =settingsDevice;    // We found a device to display
+                    state.isAttached    =true;              // It is attached
+                    state.state         =MonitoringState.DEVICE;
+                    minPrio             =prio;
+                }
+                state.devicesAttached.put(settingsDevice, true);                
+            }
+            else if (usbInfo.isUsbDeviceConnected(settingsDevice.getUsbVendorId(), settingsDevice.getUsbProductId()))
             {
                 int prio=settingsDevice.getDevicePriority();
                 if (settingsDevice==preferred)

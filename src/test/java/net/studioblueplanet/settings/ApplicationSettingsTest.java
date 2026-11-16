@@ -58,6 +58,24 @@ public class ApplicationSettingsTest
         ApplicationSettings result = ApplicationSettings.getInstance();
         assertEquals(instance, result);
     }
+    
+    /**
+     * Test of rereadSettings method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetRereadSettings()
+    {
+        
+    }    
+
+    /**
+     * Test of writeSettings method, of class ApplicationSettings.
+     */
+    @Test
+    public void testGetWriteSettings()
+    {
+        
+    }    
 
     /**
      * Test of setSettingsFile method, of class ApplicationSettings.

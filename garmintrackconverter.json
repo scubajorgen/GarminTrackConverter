@@ -14,6 +14,22 @@
     "devices":
     [
       {
+        "name": "Garmin Connect",
+        "type": "GarminConnect",
+        "apiKey": "change_me",    
+        "usbVendorId": 0,
+        "usbProductId": 0,
+        "trackFilePath": "./development/garminconnect/Activities",
+        "routeFilePath": "./development/garminconnect/Courses",
+        "newFilePath": "./development/garminconnect/NewFiles",
+        "locationFilePath": "./development/garminconnect/Locations",
+        "waypointFile": "./development/garminconnect/Locations/Locations.fit",
+        "deviceFile": "./development/garminconnect/GarminDevice.xml",
+        "syncCommand": "",
+        "devicePriority": 1,
+        "lastDateTimeSynced": "2026-11-15"
+      },
+      {
         "name": "Edge 810",
         "type": "USBMassStorage",
         "usbVendorId": 2334,
@@ -95,7 +111,7 @@
         "waypointFile": "",
         "deviceFile": "./development/sync_gpsmap66sr/GARMIN/GarminDevice.xml",
         "syncCommand" : "\"c:\\Program Files\\FreeFileSync\\FreeFileSync.exe\" development\\SyncGpsmap66srDev.ffs_batch",
-        "devicePriority": 1
+        "devicePriority": 7
       }
     ]
 }
