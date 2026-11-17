@@ -5,6 +5,12 @@ mkdir routes
 
 mkdir localcache
 
+mkdir localcache\GarminConnect
+mkdir localcache\GarminConnect\Activity
+mkdir localcache\GarminConnect\Courses
+mkdir localcache\GarminConnect\Location
+mkdir localcache\GarminConnect\NewFiles
+
 mkdir localcache\fenix7
 mkdir localcache\fenix7\GARMIN
 mkdir localcache\fenix7\GARMIN\Activity

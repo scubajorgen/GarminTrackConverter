@@ -5,11 +5,17 @@
  */
 package net.studioblueplanet.settings;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
+import java.time.ZoneOffset;
+
 /**
  *
  * @author jorgen
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SettingsDevice
 {
     // Device name
@@ -42,18 +48,18 @@ public class SettingsDevice
     // The full path of the device XML file
     private String deviceFile;
     
-    // When multiple devices are connected the device with the lowest number is selected
-    private int devicePriority;
-
     // External command to sync MTP device like Fenix 7 to a local directory structure
     private String               syncCommand;
     
+    // When multiple devices are connected the device with the lowest number is selected
+    private int devicePriority;
+
     // Garmin Connect API Key
     private String               apiKey;
     
     // Last date synchronized
-    LocalDateTime                lastDateSynced;
-    
+    String                       lastDateTimeSynced;
+
     public String getName()
     {
         return name;
@@ -72,6 +78,26 @@ public class SettingsDevice
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public Short getUsbVendorId()
+    {
+        return usbVendorId;
+    }
+
+    public void setUsbVendorId(Short usbVendorId)
+    {
+        this.usbVendorId = usbVendorId;
+    }
+
+    public Short getUsbProductId()
+    {
+        return usbProductId;
+    }
+
+    public void setUsbProductId(Short usbProductId)
+    {
+        this.usbProductId = usbProductId;
     }
 
     public String getTrackFilePath()
@@ -134,16 +160,6 @@ public class SettingsDevice
         this.deviceFile = deviceFile;
     }
 
-    public int getDevicePriority()
-    {
-        return devicePriority;
-    }
-
-    public void setDevicePriority(int devicePriority)
-    {
-        this.devicePriority = devicePriority;
-    }
-
     public String getSyncCommand()
     {
         return syncCommand;
@@ -154,41 +170,51 @@ public class SettingsDevice
         this.syncCommand = syncCommand;
     }
 
-    public Short getUsbVendorId()
+    public int getDevicePriority()
     {
-        return usbVendorId;
+        return devicePriority;
     }
 
-    public void setUsbVendorId(Short usbVendorId)
+    public void setDevicePriority(int devicePriority)
     {
-        this.usbVendorId = usbVendorId;
+        this.devicePriority = devicePriority;
     }
 
-    public Short getUsbProductId()
+    public String getApiKey()
     {
-        return usbProductId;
-    }
-
-    public void setUsbProductId(Short usbProductId)
-    {
-        this.usbProductId = usbProductId;
-    }
-
-    public String getApiKey() {
         return apiKey;
     }
 
-    public void setApiKey(String apiKey) {
+    public void setApiKey(String apiKey)
+    {
         this.apiKey = apiKey;
     }
 
-    public LocalDateTime getLastDateSynced()
+    public String getLastDateTimeSynced()
     {
-        return lastDateSynced;
+        return lastDateTimeSynced;
     }
 
-    public void setLastDateSynced(LocalDateTime lastDateSynced)
+    public void setLastDateTimeSynced(String lastDateTimeSynced)
     {
-        this.lastDateSynced = lastDateSynced;
+        this.lastDateTimeSynced = lastDateTimeSynced;
     }
+
+    @JsonIgnore
+    public ZonedDateTime getLastDateTimeSyncedZoned()
+    {
+        ZonedDateTime dateTime=null;
+        if (lastDateTimeSynced!=null)
+        {
+            dateTime=ZonedDateTime.parse(lastDateTimeSynced).withZoneSameInstant(ZoneOffset.UTC);
+        }
+        return dateTime;
+    }
+
+    @JsonIgnore
+    public void setLastDateTimeSyncedZoned(ZonedDateTime lastDateTimeSynced)
+    {
+        this.lastDateTimeSynced = lastDateTimeSynced.withZoneSameInstant(ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE_TIME);
+    }
+
 }

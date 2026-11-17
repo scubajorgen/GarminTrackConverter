@@ -5,6 +5,10 @@
  */
 package net.studioblueplanet.settings;
 
+import java.io.File;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.file.Files;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -60,21 +64,16 @@ public class ApplicationSettingsTest
     }
     
     /**
-     * Test of rereadSettings method, of class ApplicationSettings.
-     */
-    @Test
-    public void testGetRereadSettings()
-    {
-        
-    }    
-
-    /**
      * Test of writeSettings method, of class ApplicationSettings.
      */
     @Test
-    public void testGetWriteSettings()
+    public void testGetWriteSettings() throws Exception
     {
-        
+        String result=new String(Files.readAllBytes((new File("src/test/resources/garmintrackconvertertestWritten.json")).toPath()));
+        Writer writer=new StringWriter();
+        instance.writeSettings(writer);
+        System.out.println(writer.toString());
+        assertEquals(result, writer.toString());
     }    
 
     /**
@@ -106,10 +105,12 @@ public class ApplicationSettingsTest
     {
         System.out.println("getDevices");
         List<SettingsDevice> result = instance.getDevices();
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
         assertEquals("fenix 7 Solar", result.get(0).getName());
         assertEquals("./development/device_fenix7_sync/GARMIN/GarminDevice.xml", result.get(0).getDeviceFile());
         assertEquals("./development/device_fenix7_sync/GARMIN/Location/Lctns.fit", result.get(0).getWaypointFile());
+        assertEquals("2026-11-15T12:34:56Z", result.get(2).getLastDateTimeSynced());
+        assertEquals("GCDC_APIKEY", result.get(2).getApiKey());
     }
 
     /**

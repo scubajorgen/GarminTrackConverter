@@ -6,37 +6,39 @@
 package net.studioblueplanet.settings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 /**
  *
  * @author jorgen
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Settings
 {
     @JsonProperty("debugLevel")
     private String               debugLevel;
+    @JsonProperty("debugSimulateUsb")
+    private boolean              debugSimulateUsb;
     @JsonProperty("gpxFileDownloadPath")
     private String               gpxFileDownloadPath;
     @JsonProperty("gpxFileUploadPath")
     private String               gpxFileUploadPath;
     @JsonProperty("gpxFileExtensions")
     private String               gpxFileExtensions;
-    @JsonProperty("trackSmoothing")
-    private boolean              trackSmoothing;
-    @JsonProperty("trackSmoothingAccuracy")
-    private double               trackSmoothingAccuracy;
     @JsonProperty("trackCompression")
     private boolean              trackCompression;
     @JsonProperty("trackCompressionMaxError")
     private double               trackCompressionMaxError;
+    @JsonProperty("trackSmoothing")
+    private boolean              trackSmoothing;
+    @JsonProperty("trackSmoothingAccuracy")
+    private double               trackSmoothingAccuracy;
     @JsonProperty("showSyncWhenNoDeviceAttached")
     private boolean              showSyncWhenNoDeviceAttached;
     @JsonProperty("usbConnectionStartVendorId")
     private int                  usbConnectionStartVendorId;
     @JsonProperty("usbConnectionStartProductId")
     private int                  usbConnectionStartProductId;          
-    @JsonProperty("debugSimulateUsb")
-    private boolean              debugSimulateUsb;
     @JsonProperty("devices")
     private List<SettingsDevice> devices;
 

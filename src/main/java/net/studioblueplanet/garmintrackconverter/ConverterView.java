@@ -68,6 +68,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
 
     private final DeviceMonitor             deviceMonitor;      // The device monitoring process
     
+    private GarminConnect                   garminConnect;      // The service that retrieves .fit files from Garmin Personal API
     
     /**
      * Creates new form ConverterView
@@ -231,11 +232,13 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         {
             if (showConfirmDialog("Are you sure to exit without syncing?"))
             {
+                settings.writeSettings(null);
                 System.exit(0);
             }
         }
         else
         {
+            settings.writeSettings(null);
             System.exit(0);
         }        
     }
@@ -483,6 +486,11 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 globalWaypoints =null;
                 uiUpdated       =false;
                 initializeUiForDevice();
+                if ("GarminConnect".equals(currentDevice.getType()) && garminConnect==null)
+                {
+                    garminConnect=new GarminConnect(currentDevice);
+                    garminConnect.startProcess();
+                }
                 break;
             case NONEWDEVICEFOUND:
                 // If the UI has been initialized, start caching the tracks

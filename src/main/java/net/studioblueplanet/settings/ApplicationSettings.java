@@ -7,8 +7,11 @@ package net.studioblueplanet.settings;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
+import java.io.FileWriter;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,20 +70,25 @@ public class ApplicationSettings
     
     /**
      * Write the settings file
+     * writer Writer to use; if null, the settings are written to the config file
      */
-    public void writeSettings()
+    public void writeSettings(Writer writer)
     {
         File         configFile;
         ObjectMapper mapper = new ObjectMapper();
         
-        configFile=new File(settingsFile);
         try
         {
-            mapper.writeValue(configFile, settings);
+            if (writer==null)
+            {
+                writer=new FileWriter(settingsFile);
+            }
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(writer, settings);
         }
         catch (IOException e)
         {
-            LOGGER.error("Error writing configuration {}: {}", configFile.getAbsolutePath(), e.getMessage());
+            LOGGER.error("Error writing configuration: {}", e.getMessage());
         }         
     }
     
