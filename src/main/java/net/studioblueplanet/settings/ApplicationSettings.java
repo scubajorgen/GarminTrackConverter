@@ -15,6 +15,9 @@ import java.io.FileWriter;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 
 /**
  *
@@ -22,6 +25,95 @@ import org.apache.logging.log4j.Logger;
  */
 public class ApplicationSettings
 {
+    private class NewLineBracePrettyPrinter extends DefaultPrettyPrinter
+    {
+        private boolean _inArray = false;
+
+        public NewLineBracePrettyPrinter()
+        {
+            super();
+            this._arrayIndenter = DefaultIndenter.SYSTEM_LINEFEED_INSTANCE;
+        }
+
+        public NewLineBracePrettyPrinter(DefaultPrettyPrinter base)
+        {
+            super(base);
+        }
+
+        @Override
+        public DefaultPrettyPrinter createInstance()
+        {
+            return new NewLineBracePrettyPrinter(this);
+        }
+
+        @Override
+        public void beforeArrayValues(JsonGenerator g) throws IOException
+        {
+            super.beforeArrayValues(g);
+            _inArray = true;
+        }
+
+        @Override
+        public void writeEndArray(JsonGenerator g, int nrOfValues) throws IOException
+        {
+            _inArray = false;
+            super.writeEndArray(g, nrOfValues);
+        }
+
+        @Override
+        public void writeStartObject(JsonGenerator g) throws IOException
+        {
+            if (!_objectIndenter.isInline())
+            {
+                // Skip newline if at root OR if the array indenter already indented this element
+                if (_nesting > 0 && !_inArray)
+                {
+                    _objectIndenter.writeIndentation(g, _nesting);
+                }
+            }
+            g.writeRaw('{');
+            if (!_objectIndenter.isInline())
+            {
+                ++_nesting;
+            }
+            // Reset so nested fields inside this object indent normally
+            _inArray = false;
+        }
+
+        @Override
+        public void writeObjectEntrySeparator(JsonGenerator g) throws IOException
+        {
+            super.writeObjectEntrySeparator(g);
+            _inArray = false;
+        }
+
+        @Override
+        public void writeArrayValueSeparator(JsonGenerator g) throws IOException
+        {
+            super.writeArrayValueSeparator(g);
+            _inArray = true;
+        }
+
+        @Override
+        public void writeStartArray(JsonGenerator g) throws IOException
+        {
+            if (!_arrayIndenter.isInline())
+            {
+                if (_nesting > 0 && !_inArray)
+                {
+                    _arrayIndenter.writeIndentation(g, _nesting);
+                }
+            }
+            g.writeRaw('[');
+            if (!_arrayIndenter.isInline())
+            {
+                ++_nesting;
+            }
+            _inArray = false;
+        }
+    }
+
+    
     private final static Logger         LOGGER = LogManager.getLogger(ApplicationSettings.class);
     private static final String         DEFAULTSETTINGSFILE="garmintrackconverter.json";
     private static ApplicationSettings  theInstance;
@@ -84,6 +176,7 @@ public class ApplicationSettings
                 writer=new FileWriter(settingsFile);
             }
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.setDefaultPrettyPrinter(new NewLineBracePrettyPrinter());
             mapper.writeValue(writer, settings);
         }
         catch (IOException e)

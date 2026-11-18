@@ -69,7 +69,8 @@ public class ApplicationSettingsTest
     @Test
     public void testGetWriteSettings() throws Exception
     {
-        String result=new String(Files.readAllBytes((new File("src/test/resources/garmintrackconvertertestWritten.json")).toPath()));
+        // Get the input file, check if read -> map -> map -> write results in exact the same file
+        String result=new String(Files.readAllBytes((new File("src/test/resources/garmintrackconvertertest.json")).toPath()));
         Writer writer=new StringWriter();
         instance.writeSettings(writer);
         System.out.println(writer.toString());
