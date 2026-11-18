@@ -168,12 +168,12 @@ public class ApplicationSettings
     {
         File         configFile;
         ObjectMapper mapper = new ObjectMapper();
-        
         try
         {
             if (writer==null)
             {
                 writer=new FileWriter(settingsFile);
+                LOGGER.info("Writing settings to {}", settingsFile);
             }
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             mapper.setDefaultPrettyPrinter(new NewLineBracePrettyPrinter());
