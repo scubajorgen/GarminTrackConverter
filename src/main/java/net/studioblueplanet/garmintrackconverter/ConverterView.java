@@ -228,19 +228,24 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
     private void exitProcedure()
     {
+        boolean exit=false;
         if (hasSync && isDirty)
         {
             if (showConfirmDialog("Are you sure to exit without syncing?"))
             {
-                settings.writeSettings(null);
-                System.exit(0);
+               exit=true;
             }
         }
         else
         {
+            exit=true;
+        }      
+        if (exit)
+        {
             settings.writeSettings(null);
-            System.exit(0);
-        }        
+            garminConnect.stopProcess();
+            System.exit(0);            
+        }
     }
     
     /**
