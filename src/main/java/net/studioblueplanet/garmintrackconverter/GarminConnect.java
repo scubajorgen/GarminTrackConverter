@@ -37,13 +37,20 @@ import java.util.zip.ZipInputStream;
 public class GarminConnect extends Thread
 {
     private final static Logger             LOGGER                  = LogManager.getLogger(GarminConnect.class);
-    private final static int                MAX_FILES               = 10; // Maximum files in list; up to 100 supported by API
-    private final static int                TIMEOUTSECONDS          = 10; // Time in seconds between subsequent calls for file list          
-    private final static String             TOKEN_ENDPOINT          ="https://personal.connectapi.garmin.com/personalapitoken-service/personal-api/personal-api-key/token";
-    private final static String             ACTIVITYLIST_ENDPOINT   ="https://personal.connectapi.garmin.com/activitylist-service/activities/search/activities";
-    private final static String             ACTIVITY_ENDPOINT       ="https://personal.connectapi.garmin.com/download-service/files/activity/";
+    
+    // Maximum files in list; up to 100 supported by API; it must be higher that the maximum expected .fit files per day (which are usually only a few)
+    private final static int                MAX_FILES               = 50;
+    
+    // Time in seconds between subsequent calls for file list, if no more files to download
+    private final static int                TIMEOUTSECONDS          = 60;           
+    
+    // Garmin Connect Personal API endpoints
+    private final static String             ENDPOINT_TOKEN          ="https://personal.connectapi.garmin.com/personalapitoken-service/personal-api/personal-api-key/token";
+    private final static String             ENDPOINT_ACTIVITYLIST   ="https://personal.connectapi.garmin.com/activitylist-service/activities/search/activities";
+    private final static String             ENDPOINT_ACTIVITYDOWNL  ="https://personal.connectapi.garmin.com/download-service/files/activity/";
+    private final static String             ENDPOINT_ACTIVITY       ="https://personal.connectapi.garmin.com/activity-service/activity/";
+
     private Thread                          thread;
-    private boolean                         threadExit;
     private final SettingsDevice            settings;
     private ZonedDateTime                   lastSyncDateTime;
     private final String                    apiKey;
@@ -68,7 +75,6 @@ public class GarminConnect extends Thread
      */
     public void startProcess()
    {
-        threadExit      =false;
         thread          =new Thread(this);
         thread.start();      
     }    
@@ -78,10 +84,22 @@ public class GarminConnect extends Thread
      */
     public void stopProcess()
     {
-        synchronized(this)
+        // 1. Signal the thread to stop
+        LOGGER.info("Signaling GarminConnect thread to finish!");
+        thread.interrupt();
+
+        // 2. Wait for the thread to finish
+        try 
         {
-            threadExit=true;
+            thread.join(5000); // Timeout 3 seconds
+        } 
+        catch (InterruptedException e) 
+        {
+            // Restore interrupt status of the calling thread
+            Thread.currentThread().interrupt();
+            LOGGER.error("GarminConnect Thread did not finish");
         }
+        LOGGER.info("GarminConnect Thread finished!");
     }    
     
     /**
@@ -96,7 +114,7 @@ public class GarminConnect extends Thread
         }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(TOKEN_ENDPOINT))
+                .uri(URI.create(ENDPOINT_TOKEN))
                 .header("Authorization", "ApiKey " + apiKey.trim())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -131,11 +149,11 @@ public class GarminConnect extends Thread
             LOGGER.error("JWT key must not be null or blank.");
         }
 
-        // Assumes YYYY-MM-DD
+        // Format: startDate=[YYYY]-[MM]-[DD]
         String formattedDate=lastSyncDateTime.toLocalDate().toString();
         LOGGER.info("Request Activity list from Garmin API, all activities from {}", formattedDate);
 
-        String url = String.format("%s?sortOrder=asc&sortBy=startLocal&startDate=%s&start=0&limit=%d", ACTIVITYLIST_ENDPOINT, formattedDate, MAX_FILES);
+        String url = String.format("%s?sortOrder=asc&sortBy=startLocal&startDate=%s&start=0&limit=%d", ENDPOINT_ACTIVITYLIST, formattedDate, MAX_FILES);
 
         try
         {
@@ -234,11 +252,16 @@ public class GarminConnect extends Thread
                 File file=new File(filename);
                 if (!file.exists())
                 {
+                    LOGGER.info("File {} does not exist, downloading...", filename);
                     boolean error=downloadActivity(filename, activity.getActivityId());
                     if (!error)
                     {
                         count++;
                     }
+                }
+                else
+                {
+                    LOGGER.info("File {} already exists, skipping...", filename);
                 }
                 
             }
@@ -269,7 +292,7 @@ public class GarminConnect extends Thread
             LOGGER.error("JWT key must not be null or blank.");
         }
 
-        String url = ACTIVITY_ENDPOINT+fileId;
+        String url = ENDPOINT_ACTIVITYDOWNL+fileId;
 
         try
         {
@@ -329,40 +352,55 @@ public class GarminConnect extends Thread
     }
     
     
-    
+    /**
+     * The thread function. The function requests the list of available files  
+     * from the personal GarminConnect API since previous query (up till now). 
+     * The list is processed: if any file has not been downloaded, it is 
+     * downloaded. If the list contains the maximum number of files (MAX_FILES), 
+     * it assumed that there may be more.
+     * Next loop (after 1 second) a next query is made for the remaining files.
+     * If less than the maximum number is returned, it is assumed that there
+     * are no more files to download. The thread sleeps longer for the next 
+     * query (up till TIMEOUTSECONDS)
+     */
     @Override
     public void run()
     {
-        LOGGER.info("Thread started");
-        boolean localThreadExit;
-        int     count=0;
-        do
+        LOGGER.info("GarminConnect Thread started");
+        int     secondCount         =0;
+        boolean downloadFinished    =false;
+        while (!Thread.currentThread().isInterrupted())
         {
-            if (count==0)
-            {
-                List<GarminConnectActivity> newActivities=getActivityList();
-                processActivities(newActivities);
-            }
-            count++;
-            if (count>=TIMEOUTSECONDS)
-            {
-                count=0;
-            }
-            
             try
             {
+                if ((secondCount==0) || !downloadFinished)
+                {
+                    List<GarminConnectActivity> newActivities=getActivityList();
+                    processActivities(newActivities);
+                    if (newActivities.size()<MAX_FILES)
+                    {
+                        // If the latest list did not contain the maximum number of files
+                        // we assume there are no more
+                        downloadFinished=true;
+                    }
+                }
+                // 1 second tick
                 Thread.sleep(1000);
+                
+                // count seconds
+                secondCount++;
+                if (secondCount>=TIMEOUTSECONDS)
+                {
+                    secondCount=0;
+                }
             }
             catch (InterruptedException e)
             {
-                LOGGER.error("Thread sleep interrupted");
-            }            
-
-            synchronized(this)
-            {
-                localThreadExit         =threadExit;
-            }
-        }        
-        while (!localThreadExit);
+                // Catching InterruptedException clears the interrupt flag!
+                // Restore it so the while-loop condition exits cleanly.
+                Thread.currentThread().interrupt();
+                LOGGER.info("Thread sleep interrupted");
+            }   
+        }
     }
 }
