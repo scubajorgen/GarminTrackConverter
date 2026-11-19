@@ -16,7 +16,6 @@
     {
       "name" : "Garmin Connect",
       "type" : "GarminConnect",
-      "apiKey" : "<<GARMIN CONNECT API KEY>>",
       "usbVendorId" : 0,
       "usbProductId" : 0,
       "trackFilePath" : "./development/garminconnect/Activities",
@@ -27,7 +26,8 @@
       "deviceFile" : "./development/garminconnect/GarminDevice.xml",
       "syncCommand" : "",
       "devicePriority" : 1,
-      "lastDateTimeSynced" : "2026-11-01T00:00:00Z"
+      "apiKey" : "<<GARMIN CONNECT API KEY>>",
+      "lastDateTimeSynced" : "2026-11-15T14:20:25Z"
     },
     {
       "name" : "Edge 810",
