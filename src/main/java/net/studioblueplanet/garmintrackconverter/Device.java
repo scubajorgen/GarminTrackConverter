@@ -72,7 +72,16 @@ public class Device
      */
     public String getDeviceDescription()
     {
-        return description+" - "+id;
+        String device;
+        if (id!=null)
+        {
+            device=description+" - "+id;
+        }
+        else
+        {
+            device=description;
+        }
+        return device;
     }
 
     /**

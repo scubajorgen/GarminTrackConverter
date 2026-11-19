@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using test)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using edge_1040 - 3483853872)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
   <metadata>
     <name>trackname</name>
     <author>appname</author>
@@ -9,7 +9,7 @@
   </metadata>
   <trk>
     <name>trackname</name>
-    <desc>Created by: appname. Logged by: test. Logged as: cycling - gravel_cycling. Original file: 2025-05-14-16-39-24_cycle_edge1040.fit (smoothed, compressed).</desc>
+    <desc>Created by: appname. Logged by: edge_1040 - 3483853872. Logged as: cycling - gravel_cycling. Original file: 2025-05-14-16-39-24_cycle_edge1040.fit (smoothed, compressed).</desc>
     <trkseg>
       <trkpt lat="53.0128670" lon="6.7247915">
         <time>2025-05-14T14:39:24Z</time>
@@ -30946,7 +30946,7 @@
   </trk>
   <extensions>
     <u-gotMe:trackExtension>
-      <u-gotMe:device>test</u-gotMe:device>
+      <u-gotMe:device>edge_1040 - 3483853872</u-gotMe:device>
       <u-gotMe:deviceFirmware>27.13</u-gotMe:deviceFirmware>
       <u-gotMe:deviceGps>garmin gnss, software version: 13.00</u-gotMe:deviceGps>
       <u-gotMe:deviceBarometer>garmin edge_1040, software version: 27.13</u-gotMe:deviceBarometer>

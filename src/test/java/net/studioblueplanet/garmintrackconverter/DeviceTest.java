@@ -20,6 +20,7 @@ public class DeviceTest
 {
     private static Device instance1;
     private static Device instance2;
+    private static Device instance3;
     
     public DeviceTest()
     {
@@ -30,6 +31,7 @@ public class DeviceTest
     {
         instance1=new Device("src/test/resources/GarminDevice.xml");
         instance2=new Device("Test model", "Test ID", "Test description");
+        instance3=new Device(null, null, "Garmin Connect API");
     }
     
     @AfterClass
@@ -58,6 +60,7 @@ public class DeviceTest
         Device device=new Device("src/test/resources/NonExistent.xml");
         assertEquals("unknown - unknown", device.getDeviceDescription());
         assertEquals("Test description - Test ID", instance2.getDeviceDescription());
+        assertEquals("Garmin Connect API", instance3.getDeviceDescription());
     }
 
     /**

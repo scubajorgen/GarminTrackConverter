@@ -36,10 +36,10 @@ public class TrackTest
     @BeforeClass
     public static void setUpClass()
     {
-        instanceTwoSegments     =new Track("src/test/resources/2022-03-20-11-57-12.fit", "TestDevice", 3.0, 0.5);
-        instanceExternalHr      =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "TestDevice", 3.0, 0.5);
-        instanceExternalHr2     =new Track("src/test/resources/2025-02-20-15-48-40-external.fit", "TestDevice", 3.0, 0.5);
-        instanceOtherTimezone   =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", "TestDevice", 3.0, 0.5);
+        instanceTwoSegments     =new Track("src/test/resources/2022-03-20-11-57-12.fit", 3.0, 0.5);
+        instanceExternalHr      =new Track("src/test/resources/2023-11-22-19-57-27-external.fit", 3.0, 0.5);
+        instanceExternalHr2     =new Track("src/test/resources/2025-02-20-15-48-40-external.fit", 3.0, 0.5);
+        instanceOtherTimezone   =new Track("src/test/resources/2024-09-25-09-32-00-greece.fit", 3.0, 0.5);
     }
     
     @AfterClass
@@ -54,7 +54,7 @@ public class TrackTest
         Location location=new Location("test", "", null, ZonedDateTime.parse("2021-05-08T08:20:00Z"), 5.0, 5.0, 0.0, 0);
         locations.add(location);
 
-        instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", "TestDevice", 3.0, 0.5);
+        instance=new Track("src/test/resources/2021-05-08-10-18-29.fit", 3.0, 0.5);
         instance.addTrackWaypoints(locations);
     }
     
@@ -175,7 +175,7 @@ public class TrackTest
     {
         System.out.println("getDeviceName");
 
-        assertEquals("TestDevice", instance.getDeviceName());
+        assertEquals("edge_830 - 3366957239", instance.getDeviceName());
     }
 
     /**
@@ -189,14 +189,14 @@ public class TrackTest
         assertEquals(2, instanceTwoSegments.getNumberOfSegments());
         assertEquals("Events", instance.getSegmentSource());
         
-        Track instance5=new Track("src/test/resources/test_gpsmap67_short_onesegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        Track instance5=new Track("src/test/resources/test_gpsmap67_short_onesegment.fit", 3.0, 0.5);
         assertEquals(1, instance5.getNumberOfSegments());
         assertEquals("2025-02-24T17:01:16Z[UTC]", instance5.getSegments().get(0).getStartTime().toString());
         assertEquals("2025-02-24T17:32:29Z[UTC]", instance5.getSegments().get(0).getEndTime().toString());
         assertEquals("Events", instance5.getSegmentSource());
 
         System.out.println("getNumberOfSegments - laps");
-        Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", "TestDevice", 3.0, 0.5);
+        Track instance2=new Track("src/test/resources/Gerolsteiner_Felsenpfad.fit", 3.0, 0.5);
         assertEquals(1, instance2.getNumberOfSegments());
         assertEquals("2022-11-08T19:00:39Z[UTC]", instance2.getSegments().get(0).getStartTime().toString());
         assertEquals("2022-11-08T21:52:54Z[UTC]", instance2.getSegments().get(0).getEndTime().toString());
@@ -204,13 +204,13 @@ public class TrackTest
 
         // The GPSMAP 66sr and 67 anomalies when segments are long (>~3h)
         System.out.println("getNumberOfSegments - TrackPoints");
-        Track instance4=new Track("src/test/resources/test_gpsmap67_long_onesegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        Track instance4=new Track("src/test/resources/test_gpsmap67_long_onesegment.fit",3.0, 0.5);
         assertEquals(1, instance4.getNumberOfSegments());
         assertEquals("2025-03-09T08:13:44Z[UTC]", instance4.getSegments().get(0).getStartTime().toString());
         assertEquals("2025-03-09T14:30:11Z[UTC]", instance4.getSegments().get(0).getEndTime().toString());
         assertEquals("TrackPoints", instance4.getSegmentSource());
 
-        Track instance3=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", "GPSMAP 67 test", 3.0, 0.5);
+        Track instance3=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", 3.0, 0.5);
         assertEquals(3, instance3.getNumberOfSegments());
         assertEquals("2025-03-10T06:43:10Z[UTC]", instance3.getSegments().get(0).getStartTime().toString());
         assertEquals("2025-03-10T09:45:29Z[UTC]", instance3.getSegments().get(0).getEndTime().toString());
@@ -388,23 +388,23 @@ public class TrackTest
         assertEquals("Activity: cycling - gravel_cycling\n" +
                      "Segments: 1 (based on Events), points: 5023, compressed: 666 (13%), waypoints: 1\n" +
                      "Valid points: 5023, invalid points: 0 (0%, omitted)\n" +
-                     "Device: TestDevice, sw: 7.10", instance.getTrackInfo2());
+                     "Device: edge_830 - 3366957239, sw: 7.10", instance.getTrackInfo2());
         instance.setBehaviour(true, false);
         assertEquals("Activity: cycling - gravel_cycling (smoothed)\n" +
                      "Segments: 1 (based on Events), points: 5023, compressed: 545 (10%), waypoints: 1\n" +
                      "Valid points: 5023, invalid points: 0 (0%, omitted)\n" +
-                     "Device: TestDevice, sw: 7.10", instance.getTrackInfo2());
+                     "Device: edge_830 - 3366957239, sw: 7.10", instance.getTrackInfo2());
         instance.setBehaviour(false, false);
         assertEquals("Activity: cycling - mountain\n" +
                      "Segments: 1 (based on Events), points: 123, compressed: 5 (4%), waypoints: 0\n" +
                      "Valid points: 123, invalid points: 0 (0%, omitted)\n" +
-                     "Device: TestDevice, sw: 14.68 "+
+                     "Device: fenix7 - 3408468714, sw: 14.68 "+
                      "with external HR sensor: serial: 2017225 battery: new 100% type: bluetooth_low_energy/antplus", 
                      instanceExternalHr.getTrackInfo2());
         assertEquals("Activity: cycling - gravel_cycling\n" +
                      "Segments: 1 (based on Events), points: 6657, compressed: 980 (14%), waypoints: 0\n" +
                      "Valid points: 6657, invalid points: 0 (0%, omitted)\n" +
-                     "Device: TestDevice, sw: 25.25 with external HR sensor: garmin hrm_dual serial: 3498347966 battery: ok 2.984 V "+
+                     "Device: edge_1040 - 3483853872, sw: 25.25 with external HR sensor: garmin hrm_dual serial: 3498347966 battery: ok 2.984 V "+
                      "operating time: 13h35'32\" type: antplus/antplus", 
                      instanceExternalHr2.getTrackInfo2());
     }
@@ -622,7 +622,7 @@ public class TrackTest
     {
         System.out.println("getInvalidCoordinates");
         assertEquals(0, instance.getInvalidCoordinates());
-        Track instanceInvalidPoints   =new Track("src/test/resources/2023-06-06-17-18-00.fit", "TestDevice", 3.0, 0.5);
+        Track instanceInvalidPoints   =new Track("src/test/resources/2023-06-06-17-18-00.fit", 3.0, 0.5);
         assertEquals(748, instanceInvalidPoints.getInvalidCoordinates());
     }
 
@@ -690,7 +690,7 @@ public class TrackTest
     @Test
     public void testGpsmapFitWithLongSegments()
     {
-        instance=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", "TestDevice", 3.0, 0.5);
+        instance=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", 3.0, 0.5);
     }
     
     /**
@@ -699,7 +699,7 @@ public class TrackTest
     @Test
     public void testEdge1040InvalidFirstHeightValue()
     {
-        instance=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", "TestDevice", 3.0, 0.5);
+        instance=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", 3.0, 0.5);
         List<TrackPoint> points=instance.getTrackPoints(0);
         assertNull(points.get(0).getElevation());
         assertEquals(15.8, points.get(1).getElevation(), 0.001);

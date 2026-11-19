@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using test)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using fenix7 - 3408468714)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
   <metadata>
     <name>trackname</name>
     <author>appname</author>
@@ -9,7 +9,7 @@
   </metadata>
   <trk>
     <name>trackname</name>
-    <desc>Created by: appname. Logged by: test. Logged as: cycling - mountain. Original file: 2023-11-22-19-57-27-external.fit (raw, uncompressed).</desc>
+    <desc>Created by: appname. Logged by: fenix7 - 3408468714. Logged as: cycling - mountain. Original file: 2023-11-22-19-57-27-external.fit (raw, uncompressed).</desc>
     <trkseg>
       <trkpt lat="53.0126797" lon="6.7247265">
         <ele>13.2</ele>
@@ -1731,7 +1731,7 @@
   </trk>
   <extensions>
     <u-gotMe:trackExtension>
-      <u-gotMe:device>test</u-gotMe:device>
+      <u-gotMe:device>fenix7 - 3408468714</u-gotMe:device>
       <u-gotMe:deviceFirmware>14.68</u-gotMe:deviceFirmware>
       <u-gotMe:deviceGps>garmin airoha, software version: 5.00</u-gotMe:deviceGps>
       <u-gotMe:deviceBarometer>garmin fenix7, software version: 14.68</u-gotMe:deviceBarometer>

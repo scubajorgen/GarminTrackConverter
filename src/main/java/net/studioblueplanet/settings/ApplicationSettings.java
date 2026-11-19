@@ -166,7 +166,6 @@ public class ApplicationSettings
      */
     public void writeSettings(Writer writer)
     {
-        File         configFile;
         ObjectMapper mapper = new ObjectMapper();
         try
         {

@@ -190,7 +190,7 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile - real file");
-        Track track=new Track("src/test/resources/2023-11-22-19-57-27-external.fit", "test", 1.0, 5.0);
+        Track track=new Track("src/test/resources/2023-11-22-19-57-27-external.fit", 1.0, 5.0);
         
         // Non compressed, non smoothed
         StringWriter writer=new StringWriter();
@@ -286,7 +286,7 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile - real file, Fenix 7 OW Swimming");
-        Track track=new Track("src/test/resources/2025-05-09-12-17-00_owswim_fenix7.fit", "test", 1.0, 5.0);
+        Track track=new Track("src/test/resources/2025-05-09-12-17-00_owswim_fenix7.fit", 1.0, 5.0);
         
         // Compressed, Smoothed
         StringWriter writer=new StringWriter();
@@ -308,7 +308,7 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile - real file, Fenix 7, Running");
-        Track track=new Track("src/test/resources/2024-10-13-10-58-18_run_fenix7.fit", "test", 1.0, 5.0);
+        Track track=new Track("src/test/resources/2024-10-13-10-58-18_run_fenix7.fit", 1.0, 5.0);
         
         // Compressed, Smoothed
         StringWriter writer=new StringWriter();
@@ -330,7 +330,7 @@ public class GpxWriterTest
         String          result;
         
         System.out.println("writeTrackToFile - real file, Edge1040, Cycling");
-        Track track=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", "test", 1.0, 5.0);
+        Track track=new Track("src/test/resources/2025-05-14-16-39-24_cycle_edge1040.fit", 1.0, 5.0);
         
         // Compressed, Smoothed
         StringWriter writer=new StringWriter();

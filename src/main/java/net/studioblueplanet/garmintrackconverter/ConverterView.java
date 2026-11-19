@@ -300,7 +300,6 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
      */
     private void initializeUiForDevice()
     {
-
         // Create new directory lists
         trackDirectoryList      =new DirectoryList(new File(currentDevice.getTrackFilePath())   , 
                                                     jTrackList   , new DefaultListModel<>(), false);
@@ -316,13 +315,13 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         newFileDirectoryList.updateDirectoryList("^.*\\.(gpx)$");
 
         // Read the device file
-        readDevice();
+        readDevice(currentDevice);
 
         // Update the UI
         SwingUtilities.invokeLater(() ->
         {                      
             this.textAreaOutput.setText("Initializing "+currentDevice.getName()+"...\n");
-            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
+            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Connected: "+isAttached);
 
             if (currentDevice.getSyncCommand()!=null && !currentDevice.getSyncCommand().equals("") && isAttached)
             {
@@ -361,7 +360,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 hasSync=false;
             }
             buttonSync.setEnabled(hasSync);
-            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Attached to USB: "+isAttached);
+            jTextFieldDevice.setText(deviceInfo.getDeviceDescription()+" - Connected: "+isAttached);
         });
     }
     
@@ -979,7 +978,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         Track theTrack;
         double  compressionMaxError =settings.getTrackCompressionMaxError();
         double  smoothingAccuracy   =settings.getTrackSmoothingAccuracy();
-        theTrack=new Track(fileName, deviceInfo.getDeviceDescription(), compressionMaxError, smoothingAccuracy);
+        theTrack=new Track(fileName, compressionMaxError, smoothingAccuracy);
         if(addWaypoints && globalWaypoints!=null)
         {
             theTrack.setTrackWaypoints(globalWaypoints.getWaypoints());
@@ -1026,22 +1025,28 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
     /**
      * Reads the Device from the device XML file
      */
-    private void readDevice()
+    private void readDevice(SettingsDevice device)
     {
-        String deviceFile;
-        deviceFile=currentDevice.getDeviceFile();
-        if (new File(deviceFile).exists())
+        if ("GarminConnect".equals(device.getType()))
         {
-            deviceInfo=new Device(deviceFile);
-            textAreaOutput.append("Device file "+deviceFile+" read\n");
-            LOGGER.info("Device file read from {}", deviceFile);
+            deviceInfo=new Device(null, null, "Garmin Connect API");
         }
         else
         {
-            deviceInfo=new Device(currentDevice.getName(), "unknown", currentDevice.getName()+", Please sync");
-            textAreaOutput.append("Device file "+deviceFile+" not found\n");
-            LOGGER.error("Device file {} not found", deviceFile);
-        }        
+            String deviceFile=currentDevice.getDeviceFile();
+            if (new File(deviceFile).exists())
+            {
+                deviceInfo=new Device(deviceFile);
+                textAreaOutput.append("Device file "+deviceFile+" read\n");
+                LOGGER.info("Device file read from {}", deviceFile);
+            }
+            else
+            {
+                deviceInfo=new Device(currentDevice.getName(), "unknown", currentDevice.getName()+", Please sync");
+                textAreaOutput.append("Device file "+deviceFile+" not found\n");
+                LOGGER.error("Device file {} not found", deviceFile);
+            }      
+        }
     }
 
     /**

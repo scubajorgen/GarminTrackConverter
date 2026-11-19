@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using test)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:u-gotMe="http://tracklog.studioblueplanet.net/gpxextensions/v4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname (using fenix7 - 3408468714)" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd">
   <metadata>
     <name>trackname</name>
     <author>appname</author>
@@ -9,7 +9,7 @@
   </metadata>
   <trk>
     <name>trackname</name>
-    <desc>Created by: appname. Logged by: test. Logged as: running - trail. Original file: 2024-10-13-10-58-18_run_fenix7.fit (smoothed, compressed).</desc>
+    <desc>Created by: appname. Logged by: fenix7 - 3408468714. Logged as: running - trail. Original file: 2024-10-13-10-58-18_run_fenix7.fit (smoothed, compressed).</desc>
     <trkseg>
       <trkpt lat="52.9740410" lon="6.7532454">
         <ele>18.4</ele>
@@ -5228,7 +5228,7 @@
   </trk>
   <extensions>
     <u-gotMe:trackExtension>
-      <u-gotMe:device>test</u-gotMe:device>
+      <u-gotMe:device>fenix7 - 3408468714</u-gotMe:device>
       <u-gotMe:deviceFirmware>18.16</u-gotMe:deviceFirmware>
       <u-gotMe:deviceGps>garmin airoha, software version: 10.01</u-gotMe:deviceGps>
       <u-gotMe:deviceBarometer>garmin fenix7, software version: 18.16</u-gotMe:deviceBarometer>

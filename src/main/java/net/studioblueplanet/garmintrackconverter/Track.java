@@ -49,7 +49,6 @@ public class Track
     private String                          fitFileName;
     
     // Info from device_info and file_id
-    private String                          deviceName;
     private String                          manufacturer;
     private String                          product;
     private Long                            serialNumber;
@@ -76,11 +75,10 @@ public class Track
     /**
      * Constructor
      * @param trackFileName Track file
-     * @param deviceName Description of the device that recorded the track
      * @param compressionMaxError Maximum allowed error in m when compressing track
      * @param smoothingAccuracy Assumed default value of GPS accuracy in m when the GPS does not provide it
      */
-    public Track(String trackFileName, String deviceName, double compressionMaxError, double smoothingAccuracy)
+    public Track(String trackFileName, double compressionMaxError, double smoothingAccuracy)
     {
         FitReader               reader;
         FitMessageRepository    repository;
@@ -282,8 +280,6 @@ public class Track
                 addTrackpointsToSegments(thePoints);                
             }                
 
-            this.deviceName=deviceName;
-           
             smoothTrack();
             
             compressTrack(compressionMaxError);
@@ -360,6 +356,7 @@ public class Track
     
     /**
      * Constructor for a simple track.
+     * @param startTime StartTime of the track
      * @param compressionMaxError Maximum allowed error in m when compressing 
      *        track; not used
      * @param smoothingAccuracy Assumed default value of GPS accuracy in m when 
@@ -374,6 +371,18 @@ public class Track
         this.compressionMaxError=compressionMaxError;
         this.smoothingAccuracy  =smoothingAccuracy;
         setBehaviour(false, false);
+    }
+    
+    /**
+     * Constructor for a simple track, used for testing
+     * @param compressionMaxError Maximum allowed error in m when compressing 
+     *        track; not used
+     * @param smoothingAccuracy Assumed default value of GPS accuracy in m when 
+     *        the GPS does not provide it; not used
+     */
+    public Track(double compressionMaxError, double smoothingAccuracy)
+    {
+        this((ZonedDateTime)null, compressionMaxError, smoothingAccuracy);
     }
     
     /**
@@ -715,7 +724,7 @@ public class Track
         
         info+="\nValid points: "+validCoordinates+", invalid points: "+invalidCoordinates+
               " ("+percentage+"%, omitted)";
-        info+="\nDevice: "+this.deviceName+", sw: "+this.softwareVersion;
+        info+="\nDevice: "+this.product+" - "+this.serialNumber+", sw: "+this.softwareVersion;
         if (deviceExternalHrBle!=null)
         {
             info+=" with external HR sensor: "+deviceExternalHrBle;
@@ -727,7 +736,6 @@ public class Track
 
         return info;
     }
-
     
     private void sortSegments()
     {
@@ -756,7 +764,12 @@ public class Track
      */
     public String getDeviceName()
     {
-        return this.deviceName;
+        String deviceName=null;
+        if (product!=null && serialNumber!=null)
+        {
+            deviceName=this.product+" - "+this.serialNumber;
+        }
+        return deviceName;
     }
     
     /**
