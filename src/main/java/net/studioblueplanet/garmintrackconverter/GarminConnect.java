@@ -253,6 +253,7 @@ public class GarminConnect extends Thread
                 {
                     LOGGER.info("File {} does not exist, downloading...", filename);
                     boolean error=downloadActivity(filename, activity.getActivityId());
+                    error|=downloadActivityInfo(filename.replace(".fit", ".json"), activity.getActivityId());
                     if (!error)
                     {
                         count++;
@@ -350,6 +351,49 @@ public class GarminConnect extends Thread
         return error;
     }
     
+    /**
+     * Retrieves the info from Garmin Connect API
+     */
+    public boolean downloadActivityInfo(String filename, long activityId)
+    {
+        boolean error=true;
+        if (jwtToken == null || jwtToken.isBlank()) 
+        {
+            LOGGER.error("JWT key must not be null or blank.");
+        }
+
+        String url = String.format("%s%d", ENDPOINT_ACTIVITY, activityId);
+
+        try
+        {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Authorization", "Bearer " + jwtToken.trim())
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200)
+            {
+                LOGGER.info("Activity Info {} downloaded", activityId);
+                response.body();
+                Path filePath = Path.of(filename);
+                Files.writeString(filePath, response.body());
+                error=false;
+            }
+            else
+            {
+                LOGGER.error("Failed to fetch activity info. HTTP status: {} - {}", response.statusCode(), response.body());
+            }
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("Error requesting Garmin Connect activity info: {}", e.getMessage());
+        }
+        return error;
+    }
     
     /**
      * The thread function. The function requests the list of available files  
