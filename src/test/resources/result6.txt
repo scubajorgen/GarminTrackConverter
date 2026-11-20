@@ -1161,6 +1161,7 @@
       <u-gotMe:distance_m>2985.7</u-gotMe:distance_m>
       <u-gotMe:duration_s>3886</u-gotMe:duration_s>
       <u-gotMe:timedDuration_s>3886</u-gotMe:timedDuration_s>
+      <u-gotMe:movingDuration_s>3858</u-gotMe:movingDuration_s>
       <u-gotMe:aveSpeed_kmh>2.76</u-gotMe:aveSpeed_kmh>
       <u-gotMe:maxSpeed_kmh>3.89</u-gotMe:maxSpeed_kmh>
       <u-gotMe:minTemperature_C>15</u-gotMe:minTemperature_C>

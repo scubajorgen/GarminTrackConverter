@@ -5241,6 +5241,7 @@
       <u-gotMe:distance_m>10006.8</u-gotMe:distance_m>
       <u-gotMe:duration_s>4332</u-gotMe:duration_s>
       <u-gotMe:timedDuration_s>4332</u-gotMe:timedDuration_s>
+      <u-gotMe:movingDuration_s>3978</u-gotMe:movingDuration_s>
       <u-gotMe:aveSpeed_kmh>8.32</u-gotMe:aveSpeed_kmh>
       <u-gotMe:maxSpeed_kmh>12.53</u-gotMe:maxSpeed_kmh>
       <u-gotMe:ascent_m>50</u-gotMe:ascent_m>

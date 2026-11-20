@@ -1204,7 +1204,6 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
                 trackDirectoryList.addTrack(track);
 
                 report="Track read from FIT file "+fileName+"\n";
-
             }
             currentTrack=track;
             updateSelectedTrack(report, true, "selection change");

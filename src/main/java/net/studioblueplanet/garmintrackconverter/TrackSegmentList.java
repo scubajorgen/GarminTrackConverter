@@ -340,4 +340,19 @@ public class TrackSegmentList
         }
         return timedTime;
     }
+    
+    /**
+     * Calulates the cumulative time in which there was movement
+     * @param minSpeed Minimum speed for moving, in m/s
+     * @return The moving time in ms
+     */
+    public long calculateMovingTime(double minSpeed)
+    {
+        long movingSpeedMs=0;
+        for (TrackSegment s : segments)
+        {
+            movingSpeedMs+=s.calculateMovingTime(minSpeed);
+        }
+        return movingSpeedMs;
+    }
 }

@@ -6,6 +6,7 @@
 
 package net.studioblueplanet.garmintrackconverter;
 
+import java.time.temporal.ChronoUnit;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -312,5 +313,29 @@ public class TrackSegment
             LOGGER.error("Compression maximum error value must be larger than 0.0");
         }
         return compressedPoints;
+    }
+    
+    /**
+     * Calculates the moving time for this segment
+     * @param minSpeed Minimum speed for moving, in m/s
+     * @return The duration of the movement in ms
+     */
+    public long calculateMovingTime(double minSpeed)
+    {
+        long movingTimeMs=0;
+        TrackPoint prevP=null;
+        for (TrackPoint p : trackPointsRaw)
+        {
+            if (prevP!=null)
+            {
+                Double speed=p.getSpeed();
+                if (speed!=null && speed>minSpeed)
+                {
+                    movingTimeMs+=ChronoUnit.MILLIS.between(prevP.getDateTime(), p.getDateTime());
+                }
+            }
+            prevP=p;
+        }
+        return movingTimeMs;
     }
 }

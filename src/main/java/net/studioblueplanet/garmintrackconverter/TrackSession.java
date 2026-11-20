@@ -29,6 +29,7 @@ public class TrackSession
     private ZonedDateTime                   endTime;
     private Long                            elapsedTime;    // s
     private Long                            timedTime;      // s
+    private Long                            movingTime;     // s, usually not filled in
     private Double                          startLat;       // degrees
     private Double                          startLon;       // degrees
     private Double                          necLat;         // Bounds, north east corner, degrees
@@ -132,6 +133,16 @@ public class TrackSession
                 startTime           =message.getTimeValue(i, "start_time");
                 elapsedTime         =message.getIntValue(i, "total_elapsed_time")/MS_PER_S;
                 timedTime           =message.getIntValue(i, "total_timer_time")/MS_PER_S;
+                
+                if (message.hasField("total_moving_time"))
+                {
+                    movingTime          =message.getIntValue(i, "total_moving_time")/MS_PER_S;
+                    // often it is not filled in
+                    if (movingTime>=4294967)
+                    {
+                        movingTime=null;
+                    }
+                }
 
                 startLat            =message.getLatLonValue(i, "start_position_lat");
                 startLon            =message.getLatLonValue(i, "start_position_long");
@@ -441,5 +452,15 @@ public class TrackSession
     public Double getExerciseLoad()
     {
         return exerciseLoad;
+    }
+
+    public Long getMovingTime()
+    {
+        return movingTime;
+    }
+
+    public void setMovingTime(Long movingTime)
+    {
+        this.movingTime = movingTime;
     }
 }

@@ -1745,6 +1745,7 @@
       <u-gotMe:distance_m>40.3</u-gotMe:distance_m>
       <u-gotMe:duration_s>121</u-gotMe:duration_s>
       <u-gotMe:timedDuration_s>121</u-gotMe:timedDuration_s>
+      <u-gotMe:movingDuration_s>37</u-gotMe:movingDuration_s>
       <u-gotMe:aveSpeed_kmh>1.19</u-gotMe:aveSpeed_kmh>
       <u-gotMe:maxSpeed_kmh>5.00</u-gotMe:maxSpeed_kmh>
       <u-gotMe:ascent_m>2</u-gotMe:ascent_m>

@@ -684,6 +684,24 @@ public class TrackTest
     }
 
     /**
+     * Test of getMovingTime method, of class Track.
+     */
+    @Test
+    public void testGetMovingTime()
+    {
+        System.out.println("getMovingTime");
+        assertEquals(8457, instance.getElapsedTime().longValue());
+        assertEquals(8332, instance.getMovingTime().longValue());
+        
+        assertEquals(61, instanceTwoSegments.getElapsedTime().longValue());
+        assertEquals(42, instanceTwoSegments.getMovingTime().longValue());
+        
+        Track instance67=new Track("src/test/resources/test_gpsmap67_long_multisegment.fit", 3.0, 0.5);
+        assertEquals(34700, instance67.getElapsedTime().longValue());
+        assertEquals(   85, instance67.getMovingTime().longValue());
+    }
+
+    /**
      * Test of file parsing of .fit files of the GPSMAP series with 
      * long segments, exhibiting an error of startTime of segment and session.
      */

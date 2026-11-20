@@ -708,6 +708,7 @@ public class GpxWriter
                 addChildElement(extensions, "u-gotMe:distance_m"                , track.getDistance(), 1);
                 addChildElement(extensions, "u-gotMe:duration_s"                , track.getElapsedTime());
                 addChildElement(extensions, "u-gotMe:timedDuration_s"           , track.getTimedTime());
+                addChildElement(extensions, "u-gotMe:movingDuration_s"          , track.getMovingTime());
                 addChildElement(extensions, "u-gotMe:aveSpeed_kmh"              , track.getAverageSpeed(), 2);
                 addChildElement(extensions, "u-gotMe:maxSpeed_kmh"              , track.getMaxSpeed(), 2);
                 addChildElement(extensions, "u-gotMe:ascent_m"                  , track.getAscent());

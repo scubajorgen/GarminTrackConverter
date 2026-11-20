@@ -30960,6 +30960,7 @@
       <u-gotMe:distance_m>51804.2</u-gotMe:distance_m>
       <u-gotMe:duration_s>9088</u-gotMe:duration_s>
       <u-gotMe:timedDuration_s>9088</u-gotMe:timedDuration_s>
+      <u-gotMe:movingDuration_s>9053</u-gotMe:movingDuration_s>
       <u-gotMe:aveSpeed_kmh>20.52</u-gotMe:aveSpeed_kmh>
       <u-gotMe:maxSpeed_kmh>35.04</u-gotMe:maxSpeed_kmh>
       <u-gotMe:ascent_m>265</u-gotMe:ascent_m>

@@ -32,11 +32,15 @@ import org.apache.logging.log4j.LogManager;
  */
 public class Track
 {
-    public static final int                 MS_PER_S                =1000;
-    public static final int                 CM_PER_M                =100;
-    public static final double              KMH_PER_MS              =3.6;
-    private static final long               MAX_TIMEDTIME_DEVIATION =5L;
-    private static final double             HEIGHT_MOUNT_EVEREST    =8849; // m
+    public static final int                 MS_PER_S                    =1000;
+    public static final int                 CM_PER_M                    =100;
+    public static final double              KMH_PER_MS                  =3.6;
+    private static final long               MAX_TIMEDTIME_DEVIATION     =5L;
+    private static final double             HEIGHT_MOUNT_EVEREST        =8849;  // m
+    private static final double             MIN_MOVING_SPEED_RUNNING    =0.28;  // m/s = 1.0 km/h
+    private static final double             MIN_MOVING_SPEED_CYCLING    =0.3;   // m/s = 1.0 km/h
+    private static final double             MIN_MOVING_SPEED_HIKING     =0.3;   // m/s = 1.0 km/h
+    private static final double             MIN_MOVING_SPEED_SWIMMING   =0.18;  // m/s = 1.0 km/h
 
     private final static Logger             LOGGER      = LogManager.getLogger(Track.class);
 
@@ -287,6 +291,36 @@ public class Track
         else 
         {
             compressionMaxError=0.0;
+        }
+        // If there is no moving time value, calculate it
+        correctMovingTime();
+    }
+    
+    /**
+     * This method calculates the moving time if it has not been retrieved
+     * from the .fit data
+     */
+    private void correctMovingTime()
+    {
+        if (session.getMovingTime()==null)
+        {
+            String sport=session.getSport();
+            if ("running".equals(sport))
+            {
+                session.setMovingTime(segments.calculateMovingTime(MIN_MOVING_SPEED_RUNNING)/MS_PER_S);
+            }
+            else if ("cycling".equals(sport))
+            {
+                session.setMovingTime(segments.calculateMovingTime(MIN_MOVING_SPEED_CYCLING)/MS_PER_S);
+            }
+            else if ("hiking".equals(sport))
+            {
+                session.setMovingTime(segments.calculateMovingTime(MIN_MOVING_SPEED_HIKING)/MS_PER_S);
+            }
+            else if ("swimming".equals(sport))
+            {
+                session.setMovingTime(segments.calculateMovingTime(MIN_MOVING_SPEED_SWIMMING)/MS_PER_S);
+            }
         }
     }
     
@@ -859,6 +893,11 @@ public class Track
         return session.getTimedTime();
     }
 
+    public Long getMovingTime()
+    {
+        return session.getMovingTime();
+    }
+    
     public Double getStartLat()
     {
         return session.getStartLat();
