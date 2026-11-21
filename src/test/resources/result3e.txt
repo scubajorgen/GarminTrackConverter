@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxtx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 https://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 https://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 https://www8.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxtx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="appname" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://tracklog.studioblueplanet.net/gpxextensions/v4 https://tracklog.studioblueplanet.net/gpxextensions/v4/gpxextensions.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 https://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 https://www8.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
   <metadata>
     <name>trackname</name>
-    <author>appname</author>
-    <desription>Track (cycling) with 1 segments (14 points) and 0 waypoints</desription>
+    <desc>Track (cycling) with 1 segments (14 points) and 0 waypoints</desc>
+    <author>
+      <name>studioblueplanet.net</name>
+    </author>
     <time>2015-11-30T22:45:59Z</time>
   </metadata>
   <trk>

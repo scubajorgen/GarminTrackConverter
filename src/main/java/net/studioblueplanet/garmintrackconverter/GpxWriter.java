@@ -296,7 +296,7 @@ public class GpxWriter
         addAttribute(gpxElement, "xmlns", "http://www.topografix.com/GPX/1/1");
         
         String schemaLocation="http://www.topografix.com/GPX/1/1 "+
-                              "https://www.topografix.com/GPX/1/1/gpx.xsd";
+                              "http://www.topografix.com/GPX/1/1/gpx.xsd";
         
         // u-gotMe namespace
         if (gpxExtensions==GpxExtensions.studioblueplanet)
@@ -353,14 +353,16 @@ public class GpxWriter
      * Add metadata element with start time of the track
      * @param track Track to use for the start time
      */
-    private void appendMetadata(Track track, String trackName, String appName)
+    private void appendMetadata(Track track, String trackName)
     {
         Element metadata        =doc.createElement("metadata");
         gpxElement.appendChild(metadata);        
         
         addChildElement(metadata, "name", trackName);
-        addChildElement(metadata, "author", appName);
-        addChildElement(metadata, "desription", track.getTrackInfo());
+        addChildElement(metadata, "desc", track.getTrackInfo());
+        Element author          =doc.createElement("author");
+        metadata.appendChild(author);
+        addChildElement(author, "name", "studioblueplanet.net");
         
         ZonedDateTime dateTime  =track.getStartTime();
         if (dateTime!=null)
@@ -611,7 +613,7 @@ public class GpxWriter
         }
         else if (gpxVersion.equals("1.1"))
         {
-            appendMetadata(track, trackName, appName);
+            appendMetadata(track, trackName);
             appendWaypointsGpx(doc, gpxElement, track.getWaypoints());
         }
 
