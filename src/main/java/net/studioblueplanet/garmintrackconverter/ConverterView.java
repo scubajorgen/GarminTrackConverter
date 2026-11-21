@@ -282,14 +282,19 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             readWaypoints();
         }
         // Cache tracks if needed
-        int index=trackDirectoryList.getNextNonCache();
-        if (index>=0)
+        // Synchronized to prevent conflicts with trackloading when selection
+        // in directory list is changed
+        synchronized (this)
         {
-            String fileName=trackDirectoryList.getFileName(index);
-            String fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
-            LOGGER.info("Reading track file {}", fileName);
-            Track track=readTrack(fullFileName, true);
-            trackDirectoryList.addTrack(track, index);   
+            int index=trackDirectoryList.getNextNonCache();
+            if (index>=0)
+            {
+                String fileName=trackDirectoryList.getFileName(index);
+                String fullFileName=currentDevice.getTrackFilePath()+File.separator+fileName;
+                LOGGER.info("Reading track file {} for cache", fileName);
+                Track track=readTrack(fullFileName, true);
+                trackDirectoryList.addTrack(track, index);   
+            }
         }
         // Check if any directory has been updated
         checkForDirectoryUpdates();
@@ -855,7 +860,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             boolean compress    =jCheckBoxCompress.isSelected();
             currentTrack.setBehaviour(smooth, compress);
             textAreaOutput.setText(report);
-            textAreaOutput.append("Smooting: "+smooth+", compression: "+compress+", ");
+            textAreaOutput.append("Smoothing: "+smooth+", compression: "+compress+", ");
             textAreaOutput.append(currentTrack.getTrackInfo2()+"\n");
             trackToMap(currentTrack, resetBounds);
             LOGGER.info("Track change ({}): smooth {} compress {}", reason, smooth, compress);
@@ -1187,23 +1192,26 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
             {
                 LOGGER.info("Reading waypoints for track");
                 readWaypoints();
-            }
-            track=getTrack(trackDirectoryList);
+           }
             String report;
-            if (track!=null)
+            // synchronized to prevent conflicts with caching
+            synchronized(this)
             {
-                LOGGER.info("Retrieved track {} from cache", fileName);
-                report="Track retrieved from cache ("+fileName+")\n";
-                // Make sure the track got the latest waypoints
-                track.setTrackWaypoints(globalWaypoints.getWaypoints());
-            }
-            else
-            {
-                LOGGER.info("Reading track file {}", fileName);
-                track=readTrack(fullFileName, true);
-                trackDirectoryList.addTrack(track);
-
-                report="Track read from FIT file "+fileName+"\n";
+                track=getTrack(trackDirectoryList);
+                if (track!=null)
+                {
+                    LOGGER.info("Retrieved track {} from cache", fileName);
+                    report="Track retrieved from cache ("+fileName+")\n";
+                    // Make sure the track got the latest waypoints
+                    track.setTrackWaypoints(globalWaypoints.getWaypoints());
+                }
+                else
+                {
+                    LOGGER.info("Reading track file {}", fileName);
+                    track=readTrack(fullFileName, true);
+                    trackDirectoryList.addTrack(track);
+                    report="Track read from FIT file "+fileName+"\n";
+                }
             }
             currentTrack=track;
             updateSelectedTrack(report, true, "selection change");
