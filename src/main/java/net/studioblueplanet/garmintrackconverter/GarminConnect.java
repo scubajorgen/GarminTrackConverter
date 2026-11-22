@@ -20,6 +20,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -38,10 +39,14 @@ public class GarminConnect extends Thread
     private final static Logger             LOGGER                  = LogManager.getLogger(GarminConnect.class);
     
     // Maximum files in list; up to 100 supported by API; it must be higher that the maximum expected .fit files per day (which are usually only a few)
-    private final static int                MAX_FILES               = 50;
+    // Note the ratelimit of the API is 100 files in 30 seconds; we download the list plus 2x 40 files in shortest period 30 seeconds
+    private final static int                MAX_FILES               = 40;
     
     // Time in seconds between subsequent calls for file list, if no more files to download
-    private final static int                TIMEOUTSECONDS          = 60;           
+    private final static int                TIMEOUTSECONDSSTART     = 30;       // Recheck API timeout at start     
+    private final static int                TIMEOUTSECONDSMAX       = 300;      // Recheck API timeout max, for backoff
+    private final static int                TIMEOUTBACKOFFINCREASE  = 30;       // Back off: timeout increase when no new files    
+    private final static int                TIMEROVERFLOW           = 3600;     // token is refreshed at this frequency      
     
     // Garmin Connect Personal API endpoints
     private final static String             ENDPOINT_TOKEN          ="https://personal.connectapi.garmin.com/personalapitoken-service/personal-api/personal-api-key/token";
@@ -66,7 +71,6 @@ public class GarminConnect extends Thread
         this.httpClient = HttpClient.newBuilder()
                                     .connectTimeout(Duration.ofSeconds(15))
                                     .build();
-        getJwtToken();
     }
 
     /**
@@ -90,7 +94,7 @@ public class GarminConnect extends Thread
         // 2. Wait for the thread to finish
         try 
         {
-            thread.join(5000); // Timeout 3 seconds
+            thread.join(5000); // Timeout 5 seconds
         } 
         catch (InterruptedException e) 
         {
@@ -233,44 +237,56 @@ public class GarminConnect extends Thread
                     ZoneId zone                 = ZoneId.of("UTC");
                     ZonedDateTime startTime     = LocalDateTime.parse(timeString, formatter).atZone(zone);
                     
-                    if (dateTimeLastFile==null)
+                    if (dateTimeLastFile==null || startTime.isAfter(dateTimeLastFile))
                     {
                         dateTimeLastFile        =startTime;
-                        durationLastFile=activity.getElapsedDuration();
+                        durationLastFile        =activity.getElapsedDuration();
+                    }
+                    String filename             =fileDirectory+"/"+getAssumedFilename(activity);
+                    File file=new File(filename);
+                    if (!file.exists())
+                    {
+                        LOGGER.info("File {} does not exist, downloading...", filename);
+                        boolean error=downloadActivity(filename, activity.getActivityId());
+                        error|=downloadActivityInfo(filename.replace(".fit", ".json"), activity.getActivityId());
+                        if (!error)
+                        {
+                            count++;
+                        }
                     }
                     else
                     {
-                        if (startTime.isAfter(dateTimeLastFile))
-                        {
-                            dateTimeLastFile    =startTime;
-                            durationLastFile    =activity.getElapsedDuration();
-                        }
-                    }
-                }
-                String filename             =fileDirectory+"/"+getAssumedFilename(activity);
-                File file=new File(filename);
-                if (!file.exists())
-                {
-                    LOGGER.info("File {} does not exist, downloading...", filename);
-                    boolean error=downloadActivity(filename, activity.getActivityId());
-                    error|=downloadActivityInfo(filename.replace(".fit", ".json"), activity.getActivityId());
-                    if (!error)
-                    {
-                        count++;
+                        LOGGER.info("File {} already exists, skipping...", filename);
                     }
                 }
                 else
                 {
-                    LOGGER.info("File {} already exists, skipping...", filename);
+                    LOGGER.error("Activity is not timestamped, skipping");
                 }
-                
             }
 
-            // We synced up and to the end time of the latest file
-            lastSyncDateTime=dateTimeLastFile.plusSeconds(durationLastFile.longValue());
+            // If the maximum number of files is downloaded, there may be more.
+            // If less than the maximum number is downloaded, there are no more till now
+            if (newActivities.size()>=MAX_FILES)
+            {
+                // We check next time since last know file. We always find this file though
+                lastSyncDateTime=dateTimeLastFile.plusSeconds(durationLastFile.longValue());                
+            }
+            else
+            {
+                // We synced up till now. It is more efficient.
+                // However, files that arrive at Garmin Connect *before* today after this check
+                // will not be seen next check
+                lastSyncDateTime=ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS);                
+            }
+
             
             settings.setLastDateTimeSyncedZoned(lastSyncDateTime);
             LOGGER.info("Downloaded all files with starttime till {}", lastSyncDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
+        }
+        else
+        {
+            LOGGER.error("Activity list passed for processing is NULL...");
         }
         LOGGER.info("Checked {} activities; activities downloaded: {}", newActivities.size(), count);
         return count;
@@ -411,28 +427,53 @@ public class GarminConnect extends Thread
     {
         LOGGER.info("GarminConnect Thread started");
         int     secondCount         =0;
-        boolean downloadFinished    =false;
+        int     downloadTimeout     =TIMEOUTSECONDSSTART;
         while (!Thread.currentThread().isInterrupted())
         {
             try
             {
-                if ((secondCount==0) || !downloadFinished)
+                // At start and each TIMEROVERFLOW seconds (refresh)
+                if (secondCount==0)
                 {
-                    List<GarminConnectActivity> newActivities=getActivityList();
-                    processActivities(newActivities);
-                    if (newActivities.size()<MAX_FILES)
+                    getJwtToken();
+                }
+                
+                // Always use the timeout when downloading many files
+                // to prevent running into the rate limit of the API
+                if (secondCount%downloadTimeout==0)
+                {
+                    // Request the activities since (and including) the day of 
+                    // last known activity; this means at least the last known
+                    // activity is returned and maybe more
+                    List<GarminConnectActivity> activities=getActivityList();
+                    
+                    int newActivitiesAdded=0;
+                    if (activities!=null && activities.size()>0)
                     {
-                        // If the latest list did not contain the maximum number of files
-                        // we assume there are no more
-                        downloadFinished=true;
+                        // Process the list of activities and store non known activities
+                        newActivitiesAdded  =processActivities(activities);
                     }
+                        
+                    // If no new activities were found, increase back off
+                    if (newActivitiesAdded==0)
+                    {
+                        // No new activities: 
+                        downloadTimeout+=TIMEOUTBACKOFFINCREASE;
+                        downloadTimeout=Math.min(downloadTimeout, TIMEOUTSECONDSMAX);
+                    }
+                    else
+                    {
+                        // Reset backoff
+                        downloadTimeout=TIMEOUTSECONDSSTART;
+                    }
+                    LOGGER.info("Time {} Timeout {}", secondCount, downloadTimeout);
                 }
                 // 1 second tick
                 Thread.sleep(1000);
                 
                 // count seconds
                 secondCount++;
-                if (secondCount>=TIMEOUTSECONDS)
+                if (secondCount>=TIMEROVERFLOW)
                 {
                     secondCount=0;
                 }
@@ -442,7 +483,7 @@ public class GarminConnect extends Thread
                 // Catching InterruptedException clears the interrupt flag!
                 // Restore it so the while-loop condition exits cleanly.
                 Thread.currentThread().interrupt();
-                LOGGER.info("Thread sleep interrupted");
+                LOGGER.info("GarminConnect Thread interrupted");
             }   
         }
     }

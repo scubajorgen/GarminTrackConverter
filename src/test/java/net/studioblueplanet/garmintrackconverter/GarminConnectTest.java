@@ -5,7 +5,6 @@
 package net.studioblueplanet.garmintrackconverter;
 
 import java.io.File;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import net.studioblueplanet.settings.SettingsDevice;
@@ -45,10 +44,11 @@ public class GarminConnectTest
     public void setUp()
     {
         SettingsDevice settings=new SettingsDevice();
-        settings.setApiKey("<<ENTER API KEY>>");
+        settings.setApiKey("<< ENTER API KEY HERE >>");
         settings.setLastDateTimeSynced("2026-11-14T00:00:00Z");
         settings.setTrackFilePath("./test");
         instance = new GarminConnect(settings);
+        instance.getJwtToken();
     }
     
     @After
@@ -77,7 +77,7 @@ public class GarminConnectTest
     {
         System.out.println("getActivityList");
         List<GarminConnectActivity> activities=instance.getActivityList();
-        assertEquals(25087810221L, activities.get(0).getActivityId().longValue());
+        assertEquals(25076649769L, activities.get(0).getActivityId().longValue());
     }
     
     /**
@@ -124,14 +124,17 @@ public class GarminConnectTest
         GarminConnectActivity activity=new GarminConnectActivity();
         activity.setActivityId(24995821587L);
         activity.setStartTimeLocal("2026-11-07 11:21:17");
+        activity.setStartTimeGmt("2026-11-07 10:21:17");
         list.add(activity);
         activity=new GarminConnectActivity();
         activity.setActivityId(24998315322L);
         activity.setStartTimeLocal("2026-11-07 13:47:58");
+        activity.setStartTimeGmt("2026-11-07 12:47:58");
         list.add(activity);
         activity=new GarminConnectActivity();
         activity.setActivityId(25087810221L);
         activity.setStartTimeLocal("2026-11-15 14:20:00");
+        activity.setStartTimeGmt("2026-11-15 13:20:00");
         list.add(activity);
         
         // Download the files
