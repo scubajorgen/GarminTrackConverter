@@ -45,8 +45,7 @@ public class DeviceMonitor extends Thread
 
     private DeviceFoundListener             listener;
 
-    private final Thread                    thread;             // Thread monitoring attached devices
-    private boolean                         threadExit;         // Thread exit flag
+    private Thread                          thread;             // Thread monitoring attached devices
     
     private SettingsDevice                  preferredDevice;    // Device chosen by the user
     
@@ -58,20 +57,38 @@ public class DeviceMonitor extends Thread
         preferredDevice =null;
         settings        =ApplicationSettings.getInstance();
         devices         =settings.getDevices();
-        threadExit      =false;
-        thread          =new Thread(this);
-        thread.start();
     }
+    
+    /**
+     * Stops the process
+     */
+    public void startProcess()
+   {
+        thread          =new Thread(this);
+        thread.start();      
+    }   
     
     /**
      * Stops the process
      */
     public void stopProcess()
     {
-        synchronized(this)
+        // 1. Signal the thread to stop
+        LOGGER.info("Signaling Device Monitoring Thread to finish!");
+        thread.interrupt();
+
+        // 2. Wait for the thread to finish
+        try 
         {
-            threadExit=true;
+            thread.join(5000); // Timeout 5 seconds
+        } 
+        catch (InterruptedException e) 
+        {
+            // Restore interrupt status of the calling thread
+            Thread.currentThread().interrupt();
+            LOGGER.error("GarminConnect Thread did not finish");
         }
+        LOGGER.info("GarminConnect Thread finished!");
     }
     
     /**
@@ -306,10 +323,9 @@ public class DeviceMonitor extends Thread
     public void run()
     {
         SettingsDevice                  preferred=null;
-        boolean                         localThreadExit;
         DeviceState                     previousState=new DeviceState();
         
-        LOGGER.info("Thread started");
+        LOGGER.info("Device Monitoring Thread started");
         UsbInfo usbInfo; 
         if (settings.isDebugSimulateUsb())
         {
@@ -322,7 +338,7 @@ public class DeviceMonitor extends Thread
             usbInfo=new UsbInfoImpl();
         }
 
-        do
+        while (!Thread.currentThread().isInterrupted())
         {
             // Ugly work-around: start with a wait to give the UI thread a chance 
             // to start the UI so it runs before this trhead continues
@@ -332,7 +348,10 @@ public class DeviceMonitor extends Thread
             }
             catch (InterruptedException e)
             {
-                LOGGER.error("Thread sleep interrupted");
+                // Catching InterruptedException clears the interrupt flag!
+                // Restore it so the while-loop condition exits cleanly.
+                Thread.currentThread().interrupt();
+                LOGGER.info("Device Monitoring Thread interrupted");
             }
             
             // Find the current device. This may be (in this order):
@@ -349,10 +368,8 @@ public class DeviceMonitor extends Thread
             
             synchronized(this)
             {
-                preferred               =preferredDevice;
-                localThreadExit         =threadExit;
+                preferred=preferredDevice;
             }
         }        
-        while (!localThreadExit);
     }
 }

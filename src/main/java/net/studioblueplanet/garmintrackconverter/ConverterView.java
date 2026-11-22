@@ -110,6 +110,7 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         // no changes occur in the device connection
         deviceMonitor=DeviceMonitor.getInstance();
         deviceMonitor.setDeviceFoundListener(this);
+        deviceMonitor.startProcess();
     }
 
     /**
@@ -242,8 +243,9 @@ public class ConverterView extends javax.swing.JFrame implements DeviceFoundList
         }      
         if (exit)
         {
-            settings.writeSettings(null);
+            deviceMonitor.stopProcess();
             garminConnect.stopProcess();
+            settings.writeSettings(null);
             System.exit(0);            
         }
     }
